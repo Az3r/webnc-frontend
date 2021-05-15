@@ -5,7 +5,7 @@ import { CssBaseline } from '@material-ui/core'
 import { light } from '@/app.theme'
 import '@/app.css'
 
-function MainApp({ Component, pageProps }) {
+export default function MainApp({ Component, pageProps }) {
   return (
     <ThemeProvider theme={light}>
       <CssBaseline />
@@ -13,8 +13,6 @@ function MainApp({ Component, pageProps }) {
     </ThemeProvider>
   )
 }
-
-export default MainApp
 
 MainApp.propTypes = {
   Component: PropTypes.func.isRequired,

@@ -1,10 +1,39 @@
 [
   {
-    "thumbnail": "https://picsum.photos/400/100",
+    "thumbnail": "https://picsum.photos/400/150",
+    "title": "turpis egestas pretium aenean pharetra magna ac placerat vestibulum lectus mauris ultrices eros in cursus turpis massa tincidunt dui ut",
+    "category": "mobile",
+    "lecturer": {
+      "name": "John Wilson",
+      "avatar": "https://picsum.photos/64"
+    },
+    "rating": 3,
+    "reviewers": 100,
+    "price": 0,
+    "discount": 0
+  },
+  {
+    "thumbnail": "https://picsum.photos/400/150",
+    "title": "elit ut aliquam purus sit amet luctus venenatis lectus magna",
+    "category": "mobile",
+    "lecturer": {
+      "name": "John Wilson",
+      "avatar": "https://picsum.photos/64"
+    },
+    "rating": 3,
+    "reviewers": 100,
+    "price": 0,
+    "discount": 0
+  },
+  {
+    "thumbnail": "https://picsum.photos/400/150",
     "title": "tellus cras adipiscing enim eu",
     "category": "mobile",
-    "lecturer": "John Wilson",
-    "rating": 5,
+    "lecturer": {
+      "name": "John Wilson",
+      "avatar": "https://picsum.photos/64"
+    },
+    "rating": 3,
     "reviewers": 100,
     "price": 0,
     "discount": 0
