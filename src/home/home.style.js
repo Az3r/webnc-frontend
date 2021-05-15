@@ -2,16 +2,14 @@ import 'typeface-dancing-script'
 import { makeStyles } from '@material-ui/core'
 
 export default makeStyles((theme) => ({
-  background: {
-    position: 'fixed',
+  banner: {
     backgroundImage: 'linear-gradient(45deg, #039be5 , #002171)',
-    width: '100vw',
-    height: '100vh'
-  },
-  root: {
+    width: '100%',
+    height: '100vh',
     color: 'white',
-    paddingTop: theme.spacing(2)
+    paddingTop: theme.spacing(4)
   },
-  title: { fontFamily: "'Dancing Script'" },
-  message: { marginTop: '8px', fontStyle: 'italic', fontWeight: 300 }
+  'banner-title': { fontFamily: 'Dancing Script' },
+  'banner-message': { fontStyle: 'italic', fontWeight: 300 },
+  body: {}
 }))
