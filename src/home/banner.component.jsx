@@ -50,7 +50,7 @@ export default function Banner() {
           alignItems="center"
           justifyContent="center"
         >
-          <img src="/images/logo_icon.png" width="100" height="100" />
+          <img src="/images/logo_icon.webp" width="100" height="100" />
           <Typography
             align="center"
             variant="h1"
@@ -93,7 +93,7 @@ export default function Banner() {
             </Box>
           </Box>
           <Box>
-            <img src="images/banner-recruitment.png" width="500px" />
+            <img src="images/banner.webp" width="500px" />
           </Box>
         </AnimatedBox>
       </Container>

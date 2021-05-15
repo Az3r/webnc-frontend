@@ -1,0 +1,12 @@
+[
+  {
+    "thumbnail": "https://picsum.photos/400/100",
+    "title": "tellus cras adipiscing enim eu",
+    "category": "mobile",
+    "lecturer": "John Wilson",
+    "rating": 5,
+    "reviewers": 100,
+    "price": 0,
+    "discount": 0
+  }
+]

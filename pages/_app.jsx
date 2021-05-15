@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import '@/app.css'
 import { ThemeProvider } from '@material-ui/styles'
 import { CssBaseline } from '@material-ui/core'
 import { light } from '@/app.theme'
+import '@/app.css'
 
 function MainApp({ Component, pageProps }) {
   return (
