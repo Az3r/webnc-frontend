@@ -20,18 +20,38 @@ export default function Course({
   const styles = useStyles()
   return (
     <Box width="400px" height="300px">
-      <img
-        src={thumbnail}
-        height="150px"
-        width="400px"
-        style={{
-          borderRadius: '4px',
-          border: '1px solid #ddd',
-          padding: '4px'
-        }}
-      />
+      <Box position="relative">
+        <img
+          src={thumbnail}
+          height="150px"
+          width="400px"
+          style={{
+            borderRadius: '4px'
+          }}
+        />
+        <Box position="absolute" bottom="4px" right="4px">
+          {category === 'mobile' && (
+            <img
+              src="images/category_mobile.webp"
+              width="36px"
+              height="36px"
+              style={{ borderRadius: '50%' }}
+            />
+          )}
+          {category === 'web' && (
+            <img
+              src="images/category_web.webp"
+              width="36px"
+              height="36px"
+              style={{ borderRadius: '50%' }}
+            />
+          )}
+        </Box>
+      </Box>
       <Box display="flex">
-        <Avatar src={lecturer.avatar} />
+        <Box>
+          <Avatar src={lecturer.avatar} />
+        </Box>
         <Box paddingLeft={2}>
           <Typography variant="h5">
             <LinesEllipsis maxLine={2} trimRight text={title} />
