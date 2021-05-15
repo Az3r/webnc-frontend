@@ -1,41 +1,197 @@
 [
   {
     "thumbnail": "https://picsum.photos/400/150",
-    "title": "turpis egestas pretium aenean pharetra magna ac placerat vestibulum lectus mauris ultrices eros in cursus turpis massa tincidunt dui ut",
-    "category": "mobile",
+    "title": "Amet cillum qui id quis deserunt eiusmod tempor.",
+    "category": "web",
     "lecturer": {
-      "name": "John Wilson",
+      "name": "Pansy Wise",
       "avatar": "https://picsum.photos/64"
     },
-    "rating": 3,
-    "reviewers": 100,
-    "price": 0,
-    "discount": 0
+    "rating": "3.33",
+    "reviewers": 224,
+    "price": "99.45",
+    "discount": "0.04"
   },
   {
     "thumbnail": "https://picsum.photos/400/150",
-    "title": "elit ut aliquam purus sit amet luctus venenatis lectus magna",
-    "category": "mobile",
+    "title": "Aliqua labore ad eu incididunt voluptate.",
+    "category": "web",
     "lecturer": {
-      "name": "John Wilson",
+      "name": "Theresa Carr",
       "avatar": "https://picsum.photos/64"
     },
-    "rating": 3,
-    "reviewers": 100,
-    "price": 0,
-    "discount": 0
+    "rating": "2.52",
+    "reviewers": 239,
+    "price": "986.37",
+    "discount": "0.47"
   },
   {
     "thumbnail": "https://picsum.photos/400/150",
-    "title": "tellus cras adipiscing enim eu",
+    "title": "Irure et eiusmod duis labore veniam cillum adipisicing proident esse do voluptate commodo id.",
+    "category": "web",
+    "lecturer": {
+      "name": "Dorsey Greene",
+      "avatar": "https://picsum.photos/64"
+    },
+    "rating": "0.83",
+    "reviewers": 174,
+    "price": "501.89",
+    "discount": "0.88"
+  },
+  {
+    "thumbnail": "https://picsum.photos/400/150",
+    "title": "Et nulla adipisicing veniam fugiat enim culpa officia excepteur elit.",
+    "category": "web",
+    "lecturer": {
+      "name": "Sampson Gibson",
+      "avatar": "https://picsum.photos/64"
+    },
+    "rating": "3.7",
+    "reviewers": 392,
+    "price": "287.96",
+    "discount": "0.68"
+  },
+  {
+    "thumbnail": "https://picsum.photos/400/150",
+    "title": "Est anim quis adipisicing ullamco cupidatat est.",
     "category": "mobile",
     "lecturer": {
-      "name": "John Wilson",
+      "name": "Karin Fletcher",
+      "avatar": "https://picsum.photos/64"
+    },
+    "rating": "2.72",
+    "reviewers": 454,
+    "price": "299.18",
+    "discount": "0.33"
+  },
+  {
+    "thumbnail": "https://picsum.photos/400/150",
+    "title": "Et consequat qui labore aute exercitation ad tempor velit ullamco adipisicing.",
+    "category": "mobile",
+    "lecturer": {
+      "name": "Short Pittman",
+      "avatar": "https://picsum.photos/64"
+    },
+    "rating": "4.81",
+    "reviewers": 4976719,
+    "price": "712.42",
+    "discount": "0.9"
+  },
+  {
+    "thumbnail": "https://picsum.photos/400/150",
+    "title": "Do proident veniam nulla irure et elit elit magna consequat sunt.",
+    "category": "web",
+    "lecturer": {
+      "name": "Perry Baker",
+      "avatar": "https://picsum.photos/64"
+    },
+    "rating": "1.51",
+    "reviewers": 3385108,
+    "price": "802.59",
+    "discount": "0.35"
+  },
+  {
+    "thumbnail": "https://picsum.photos/400/150",
+    "title": "Velit exercitation cupidatat laboris aute dolore duis eiusmod culpa proident commodo consectetur ullamco.",
+    "category": "web",
+    "lecturer": {
+      "name": "Angel Contreras",
+      "avatar": "https://picsum.photos/64"
+    },
+    "rating": "1.09",
+    "reviewers": 3465283,
+    "price": "995.19",
+    "discount": "0.73"
+  },
+  {
+    "thumbnail": "https://picsum.photos/400/150",
+    "title": "Aute velit eiusmod elit sunt irure exercitation qui occaecat occaecat dolore occaecat ad voluptate exercitation.",
+    "category": "mobile",
+    "lecturer": {
+      "name": "Sharon Tucker",
       "avatar": "https://picsum.photos/64"
     },
     "rating": 3,
-    "reviewers": 100,
-    "price": 0,
-    "discount": 0
+    "reviewers": 659946,
+    "price": "916.84",
+    "discount": "0.35"
+  },
+  {
+    "thumbnail": "https://picsum.photos/400/150",
+    "title": "Esse veniam et aute id non et anim labore adipisicing eu velit fugiat cupidatat.",
+    "category": "web",
+    "lecturer": {
+      "name": "Hart Evans",
+      "avatar": "https://picsum.photos/64"
+    },
+    "rating": "2.93",
+    "reviewers": 4113611,
+    "price": "943.15",
+    "discount": "0.8"
+  },
+  {
+    "thumbnail": "https://picsum.photos/400/150",
+    "title": "Ipsum do commodo reprehenderit aliquip incididunt ea adipisicing nisi incididunt occaecat velit sint veniam.",
+    "category": "web",
+    "lecturer": {
+      "name": "Elise Wallace",
+      "avatar": "https://picsum.photos/64"
+    },
+    "rating": "2.38",
+    "reviewers": 3846436,
+    "price": "301.02",
+    "discount": "0.64"
+  },
+  {
+    "thumbnail": "https://picsum.photos/400/150",
+    "title": "Excepteur Lorem laborum adipisicing ipsum magna nulla nisi nulla non.",
+    "category": "web",
+    "lecturer": {
+      "name": "Marguerite Bryant",
+      "avatar": "https://picsum.photos/64"
+    },
+    "rating": "4.86",
+    "reviewers": 269653,
+    "price": "293.73",
+    "discount": "0.15"
+  },
+  {
+    "thumbnail": "https://picsum.photos/400/150",
+    "title": "Proident incididunt pariatur fugiat eu adipisicing exercitation.",
+    "category": "mobile",
+    "lecturer": {
+      "name": "Frances Gomez",
+      "avatar": "https://picsum.photos/64"
+    },
+    "rating": "1.48",
+    "reviewers": 1234345,
+    "price": "125.56",
+    "discount": "0.57"
+  },
+  {
+    "thumbnail": "https://picsum.photos/400/150",
+    "title": "Nulla aliquip ipsum dolore et.",
+    "category": "mobile",
+    "lecturer": {
+      "name": "Wyatt Acevedo",
+      "avatar": "https://picsum.photos/64"
+    },
+    "rating": "2.23",
+    "reviewers": 3620227,
+    "price": "364.53",
+    "discount": "0.18"
+  },
+  {
+    "thumbnail": "https://picsum.photos/400/150",
+    "title": "Aliquip ad exercitation aute fugiat nostrud pariatur amet elit aliquip reprehenderit.",
+    "category": "mobile",
+    "lecturer": {
+      "name": "Evans Moss",
+      "avatar": "https://picsum.photos/64"
+    },
+    "rating": "4.16",
+    "reviewers": 1556807,
+    "price": "891.33",
+    "discount": "0.35"
   }
 ]
