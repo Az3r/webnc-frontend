@@ -10,6 +10,11 @@ import {
 } from '@material-ui/core'
 import { FiberManualRecord } from '@material-ui/icons'
 import useStyles from './home.style'
+import {
+  PrimaryButton,
+  ExploreButton,
+  SignUpButton
+} from '@/home/home.component'
 
 const goals = [
   'Watch and learn at your own speed',
@@ -20,8 +25,21 @@ const goals = [
 export default function HomePage() {
   const styles = useStyles()
   return (
-    <Box className={styles.root}>
-      <Container>
+    <>
+      <Box className={styles.background} zIndex="-1" />
+      <Container className={styles.root}>
+        <Box display="flex" flexDirection="row-reverse">
+          <Box width="160px">
+            <PrimaryButton variant="outlined" fullWidth>
+              Sign up
+            </PrimaryButton>
+          </Box>
+          <Box width="160px">
+            <PrimaryButton variant="text" fullWidth>
+              Login
+            </PrimaryButton>
+          </Box>
+        </Box>
         <Box
           display="flex"
           flexDirection="column"
@@ -33,12 +51,7 @@ export default function HomePage() {
             Urskyll
           </Typography>
         </Box>
-        <Box
-          paddingTop={2}
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-        >
+        <Box paddingTop={8} display="flex" justifyContent="space-between">
           <Box>
             <Box width="500px">
               <Typography variant="h4">
@@ -56,6 +69,14 @@ export default function HomePage() {
                   </ListItem>
                 ))}
               </List>
+              <Box display="flex">
+                <Box width="160px">
+                  <ExploreButton fullWidth>Explore</ExploreButton>
+                </Box>
+                <Box width="160px" marginLeft={2}>
+                  <SignUpButton fullWidth>Sign up</SignUpButton>
+                </Box>
+              </Box>
             </Box>
           </Box>
           <Box>
@@ -63,6 +84,6 @@ export default function HomePage() {
           </Box>
         </Box>
       </Container>
-    </Box>
+    </>
   )
 }
