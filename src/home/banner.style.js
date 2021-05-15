@@ -10,6 +10,5 @@ export default makeStyles((theme) => ({
     paddingTop: theme.spacing(4)
   },
   'banner-title': { fontFamily: 'Dancing Script' },
-  'banner-message': { fontStyle: 'italic', fontWeight: 300 },
-  body: {}
+  'banner-message': { fontStyle: 'italic', fontWeight: 300 }
 }))
