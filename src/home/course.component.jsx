@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Avatar, Box, Tooltip, Typography } from '@material-ui/core'
+import { Avatar, Box, Paper, Tooltip, Typography } from '@material-ui/core'
 import { Star, StarHalf, StarOutline } from '@material-ui/icons'
 import useStyles from './course.style'
 import LinesEllipsis from 'react-lines-ellipsis'
@@ -19,82 +19,130 @@ export default function Course({
 }) {
   const styles = useStyles()
   return (
-    <Box width="350px" height="300px">
-      <Box position="relative">
-        <img
-          src={thumbnail}
-          height="150px"
-          width="350px"
-          style={{
-            borderRadius: '4px'
-          }}
-        />
-        <Box position="absolute" bottom="4px" right="4px">
-          {category === 'mobile' && (
-            <img
-              src="images/category_mobile.webp"
-              width="36px"
-              height="36px"
-              style={{ borderRadius: '50%' }}
-            />
-          )}
-          {category === 'web' && (
-            <img
-              src="images/category_web.webp"
-              width="36px"
-              height="36px"
-              style={{ borderRadius: '50%' }}
-            />
-          )}
-        </Box>
-      </Box>
-      <Box display="flex">
-        <Box>
+    <Box width="369px" height="336px">
+      <Paper
+        elevation={3}
+        style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+      >
+        <div style={{ position: 'relative' }}>
+          <img
+            src={thumbnail}
+            height="150px"
+            width="100%"
+            style={{
+              borderRadius: '4px'
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '4px',
+              right: '4px'
+            }}
+          >
+            {category === 'mobile' && (
+              <img
+                src="images/category_mobile.webp"
+                width="36px"
+                height="36px"
+                style={{ borderRadius: '50%' }}
+              />
+            )}
+            {category === 'web' && (
+              <img
+                src="images/category_web.webp"
+                width="36px"
+                height="36px"
+                style={{ borderRadius: '50%' }}
+              />
+            )}
+          </div>
+        </div>
+        <Box display="flex" padding={1} flexGrow={1}>
           <Avatar src={lecturer.avatar} />
-        </Box>
-        <Box paddingLeft={2}>
-          <Typography variant="h6">
-            <LinesEllipsis maxLine={2} trimRight text={title} />
-          </Typography>
-          <Box display="flex" color="rgb(0,0,0,0.5)">
-            <Typography variant="subtitle1">{lecturer.name}</Typography>
-            <Box paddingLeft={1} paddingRight={1}>
-              <Typography variant="subtitle1">-</Typography>
-            </Box>
-            <Tooltip title={rating} placement="bottom" arrow>
-              <Box>
-                {stars(rating).map((value, index) => {
-                  if (value === 1)
-                    return <Star key={index} className={styles.star} />
-                  if (value === -1)
-                    return <StarOutline key={index} className={styles.star} />
-                  if (value === 0)
-                    return <StarHalf key={index} className={styles.star} />
-                })}
-              </Box>
-            </Tooltip>
-            <Box paddingLeft={0.1}>
-              <Typography variant="subtitle1">({reviewers})</Typography>
-            </Box>
-          </Box>
-          <Box display="flex" alignItems="baseline">
-            <Typography variant="h5">
-              {currency(price * (1 - discount))}
+          <Box
+            paddingLeft={1}
+            flexGrow={1}
+            display="flex"
+            flexDirection="column"
+          >
+            <Typography variant="h6">
+              <LinesEllipsis maxLine={2} trimRight text={title} />
             </Typography>
-            <Box paddingLeft={1}>
-              <Typography
-                variant="subtitle1"
-                style={{ textDecoration: 'line-through' }}
-              >
-                {currency(price)}
+            <Box color="rgb(0,0,0,0.5)" alignItems="center">
+              <Typography variant="subtitle2">
+                <LinesEllipsis trimRight text={lecturer.name} />
               </Typography>
+              <Box display="flex" alignItems="center">
+                <Tooltip title={rating} placement="bottom" arrow>
+                  <Box>
+                    {stars(rating).map((value, index) => {
+                      if (value === 1)
+                        return (
+                          <Star
+                            fontSize="small"
+                            key={index}
+                            className={styles.star}
+                          />
+                        )
+                      if (value === -1)
+                        return (
+                          <StarOutline
+                            fontSize="small"
+                            key={index}
+                            className={styles.star}
+                          />
+                        )
+                      if (value === 0)
+                        return (
+                          <StarHalf
+                            fontSize="small"
+                            key={index}
+                            className={styles.star}
+                          />
+                        )
+                    })}
+                  </Box>
+                </Tooltip>
+                <Box padding={1}>
+                  <Typography>({reviewers})</Typography>
+                </Box>
+              </Box>
             </Box>
-            <Box paddingLeft={0.5} color="red">
-              <Typography variant="subtitle1">(-{discount * 100}%)</Typography>
-            </Box>
+            <div
+              style={{
+                display: 'flex',
+                flexGrow: '1',
+                flexDirection: 'column'
+              }}
+            >
+              <div style={{ flexGrow: '1' }} />
+              <div style={{ display: 'flex', alignItems: 'baseline' }}>
+                <Typography variant="h5">
+                  {currency(price * (1 - discount))}
+                </Typography>
+                {discount > 0 && (
+                  <>
+                    <Box paddingLeft={1}>
+                      <Typography
+                        variant="subtitle1"
+                        style={{ textDecoration: 'line-through' }}
+                      >
+                        {currency(price)}
+                      </Typography>
+                    </Box>
+                    <Box paddingLeft={0.5} color="red">
+                      <Typography variant="subtitle1">
+                        (-{Math.round(discount * 100)}%)
+                      </Typography>
+                    </Box>
+                  </>
+                )}
+              </div>
+            </div>
           </Box>
         </Box>
-      </Box>
+      </Paper>
     </Box>
   )
 }

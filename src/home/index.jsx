@@ -3,13 +3,14 @@ import { Box } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import Banner from './banner.component'
 import Course from './course.component'
+import CourseList from '@/home/courses-list.component'
 
 export default function HomePage({ courses }) {
   return (
     <>
       <Banner scrollElementId="123" />
       <Box height="100vh">
-        <Course {...courses[0]} />
+        <CourseList courses={courses.slice(0, 5)} />
       </Box>
     </>
   )
