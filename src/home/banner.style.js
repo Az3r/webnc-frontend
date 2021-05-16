@@ -1,5 +1,5 @@
-import 'typeface-dancing-script'
 import { makeStyles, withStyles, Button } from '@material-ui/core'
+import 'typeface-dancing-script'
 
 export default makeStyles((theme) => ({
   banner: {

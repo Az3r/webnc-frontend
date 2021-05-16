@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Course from '@/home/course.component'
-import { Box, Container, Grid, IconButton } from '@material-ui/core'
+import { Box, IconButton } from '@material-ui/core'
 import { NavigateNext, NavigateBefore } from '@material-ui/icons'
 import { config, useSpring } from '@react-spring/core'
 import { animated } from '@react-spring/web'
@@ -15,16 +15,24 @@ export default function CourseList({ courses }) {
   const MAX_SLIDE_COUNT = Math.floor(courses.length / ITEM_PER_PAGE)
   const MOVE = COURSE_WIDTH * ITEM_PER_PAGE
 
+  //
+  // STATES
+  //
   const [slide, animateSlide] = useState({
     current: 0,
     destination: 0,
     count: 0
   })
+
   const spring = useSpring({
-    from: { translateX: slide.current },
-    translateX: slide.destination,
+    from: { translate3d: `${slide.current}px,0,0` },
+    translate3d: `${slide.destination}px,0,0`,
     config: config.slow
   })
+
+  //
+  // EVENT HANDLERS
+  //
   function next() {
     if (slide.count < MAX_SLIDE_COUNT)
       animateSlide({
@@ -65,26 +73,24 @@ export default function CourseList({ courses }) {
           position: 'relative'
         }}
       >
-        <animated.div style={spring}>
-          <div style={{ display: 'flex' }}>
-            {courses.map((item, index) => (
-              <Box
-                paddingTop={1}
-                paddingBottom={1}
-                paddingLeft={index > 0 ? `${ITEM_PADDING}px` : 0}
-                paddingRight={
-                  index < courses.length - 1 ? `${ITEM_PADDING}px` : 0
-                }
-                key={item.id}
-                flexShrink={0}
-                width={`${COURSE_WIDTH}px`}
-                height={`${COURSE_HEIGHT}px`}
-                zIndex="-1"
-              >
-                <Course {...item} />
-              </Box>
-            ))}
-          </div>
+        <animated.div style={{ ...spring, display: 'flex' }}>
+          {courses.map((item, index) => (
+            <Box
+              paddingTop={1}
+              paddingBottom={1}
+              paddingLeft={index > 0 ? `${ITEM_PADDING}px` : 0}
+              paddingRight={
+                index < courses.length - 1 ? `${ITEM_PADDING}px` : 0
+              }
+              key={item.id}
+              flexShrink={0}
+              width={`${COURSE_WIDTH}px`}
+              height={`${COURSE_HEIGHT}px`}
+              zIndex="-1"
+            >
+              <Course {...item} />
+            </Box>
+          ))}
         </animated.div>
         <div
           style={{

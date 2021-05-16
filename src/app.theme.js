@@ -1,4 +1,4 @@
-const { createMuiTheme, responsiveFontSizes } = require('@material-ui/core')
+import { createMuiTheme, responsiveFontSizes } from '@material-ui/core'
 
 const light = responsiveFontSizes(
   createMuiTheme({
