@@ -10,7 +10,7 @@ export default function HomePage({ courses }) {
     <>
       <Banner scrollElementId="123" />
       <Box height="100vh">
-        <CourseList courses={courses.slice(0, 5)} />
+        <CourseList courses={courses} />
       </Box>
     </>
   )
