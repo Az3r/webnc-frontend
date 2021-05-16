@@ -19,12 +19,12 @@ export default function Course({
 }) {
   const styles = useStyles()
   return (
-    <Box width="400px" height="300px">
+    <Box width="350px" height="300px">
       <Box position="relative">
         <img
           src={thumbnail}
           height="150px"
-          width="400px"
+          width="350px"
           style={{
             borderRadius: '4px'
           }}
@@ -53,7 +53,7 @@ export default function Course({
           <Avatar src={lecturer.avatar} />
         </Box>
         <Box paddingLeft={2}>
-          <Typography variant="h5">
+          <Typography variant="h6">
             <LinesEllipsis maxLine={2} trimRight text={title} />
           </Typography>
           <Box display="flex" color="rgb(0,0,0,0.5)">
@@ -77,8 +77,8 @@ export default function Course({
               <Typography variant="subtitle1">({reviewers})</Typography>
             </Box>
           </Box>
-          <Box display="flex" alignItems="center">
-            <Typography variant="h6">
+          <Box display="flex" alignItems="baseline">
+            <Typography variant="h5">
               {currency(price * (1 - discount))}
             </Typography>
             <Box paddingLeft={1}>
