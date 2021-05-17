@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import Course from '@/home/course.component'
 import { Box, IconButton } from '@material-ui/core'
 import { NavigateNext, NavigateBefore } from '@material-ui/icons'
 import { config, useSpring } from '@react-spring/core'
 import { animated } from '@react-spring/web'
+import { useDrag } from 'react-use-gesture'
 
 export default function CourseList({ courses }) {
   const MAX_WIDTH = 1440
@@ -12,42 +13,58 @@ export default function CourseList({ courses }) {
   const COURSE_WIDTH = 369
   const ITEM_PADDING = 8
   const ITEM_PER_PAGE = Math.floor(MAX_WIDTH / COURSE_WIDTH)
-  const MAX_SLIDE_COUNT = Math.floor(courses.length / ITEM_PER_PAGE)
+  const LAST_PAGE = Math.floor(courses.length / ITEM_PER_PAGE) * ITEM_PER_PAGE
   const MOVE = COURSE_WIDTH * ITEM_PER_PAGE
 
   //
   // STATES
   //
-  const [slide, animateSlide] = useState({
-    current: 0,
-    destination: 0,
-    count: 0
+  const { current: offset } = useRef({
+    x: 0,
+    count: -1
   })
 
-  const spring = useSpring({
-    from: { translate3d: `${slide.current}px,0,0` },
-    translate3d: `${slide.destination}px,0,0`,
-    config: config.slow
+  const [visible, setVisible] = useState({
+    next: 'hidden',
+    previous: 'visible'
+  })
+
+  const [spring, api] = useSpring(() => ({ x: offset.x, config: config.slow }))
+
+  // Set the drag hook and define component movement based on gesture data
+  const bind = useDrag(({ down, offset: [x] }) => {
+    if (down) {
+      api.start({ x })
+      offset.x = x
+      const item = x / COURSE_WIDTH
+      console.log(item)
+      if (item <= -LAST_PAGE && offset.count < 1) {
+        console.log('1')
+        setVisible({ next: 'visible', previous: 'hidden' })
+        offset.count = 1
+      } else if (item < -1 && item > -LAST_PAGE && offset.count != 0) {
+        setVisible({ next: 'visible', previous: 'visible' })
+        offset.count = 0
+        console.log(0)
+      } else if (item >= -1 && offset.count > -1) {
+        console.log({ count: offset.count })
+        setVisible({ next: 'hidden', previous: 'visible' })
+        offset.count = -1
+      }
+    }
   })
 
   //
   // EVENT HANDLERS
   //
   function next() {
-    if (slide.count < MAX_SLIDE_COUNT)
-      animateSlide({
-        current: slide.destination,
-        destination: slide.destination - MOVE,
-        count: slide.count + 1
-      })
+    if (offset.count < MAX_PAGES) api.start({ x: offset.x - MOVE })
   }
 
   function previous() {
-    if (slide.count > 0)
-      animateSlide({
-        current: slide.destination,
-        destination: slide.destination + MOVE,
-        count: slide.count - 1
+    if (offset.count > 0)
+      api.start({
+        x: offset.x + MOVE
       })
   }
 
@@ -59,10 +76,7 @@ export default function CourseList({ courses }) {
         display: 'flex'
       }}
     >
-      <IconButton
-        onClick={previous}
-        style={{ visibility: slide.count > 0 ? 'visible' : 'hidden' }}
-      >
+      <IconButton onClick={previous} style={{ visibility: visible.next }}>
         <NavigateBefore fontSize="large" />
       </IconButton>
       <div
@@ -73,7 +87,7 @@ export default function CourseList({ courses }) {
           position: 'relative'
         }}
       >
-        <animated.div style={{ ...spring, display: 'flex' }}>
+        <animated.div {...bind()} style={{ ...spring, display: 'flex' }}>
           {courses.map((item, index) => (
             <Box
               paddingTop={1}
@@ -101,14 +115,14 @@ export default function CourseList({ courses }) {
             top: '0',
             right: '0',
             position: 'absolute',
-            visibility: slide.count < MAX_SLIDE_COUNT ? 'visible' : 'hidden'
+            visibility: 'visible'
           }}
         />
       </div>
       <IconButton
         onClick={next}
         style={{
-          visibility: slide.count < MAX_SLIDE_COUNT ? 'visible' : 'hidden'
+          visibility: visible.previous
         }}
       >
         <NavigateNext fontSize="large" />
