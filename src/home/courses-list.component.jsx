@@ -14,7 +14,6 @@ export default function CourseList({ courses }) {
   const ITEM_PADDING = 8
   const ITEM_PER_PAGE = Math.floor(MAX_WIDTH / COURSE_WIDTH)
   const LAST_PAGE = Math.floor(courses.length / ITEM_PER_PAGE) * ITEM_PER_PAGE
-  const MOVE = COURSE_WIDTH * ITEM_PER_PAGE
 
   //
   // STATES
@@ -54,26 +53,6 @@ export default function CourseList({ courses }) {
     api.start({ x: offset.x })
   }
 
-  //
-  // FUNCTION COMPONENTS
-  //
-  function ListItem({ item, index }) {
-    return (
-      <Box
-        paddingTop={1}
-        paddingBottom={1}
-        paddingLeft={index > 0 ? `${ITEM_PADDING}px` : 0}
-        paddingRight={index < courses.length - 1 ? `${ITEM_PADDING}px` : 0}
-        flexShrink={0}
-        width={`${COURSE_WIDTH}px`}
-        height={`${COURSE_HEIGHT}px`}
-        zIndex="-1"
-      >
-        <Course {...item} />
-      </Box>
-    )
-  }
-
   return (
     <div
       style={{
@@ -95,7 +74,21 @@ export default function CourseList({ courses }) {
       >
         <animated.div {...bind()} style={{ ...spring, display: 'flex' }}>
           {courses.map((item, index) => (
-            <ListItem key={item.id} item={item} index={index} />
+            <Box
+              key={item.id}
+              paddingTop={1}
+              paddingBottom={1}
+              paddingLeft={index > 0 ? `${ITEM_PADDING}px` : 0}
+              paddingRight={
+                index < courses.length - 1 ? `${ITEM_PADDING}px` : 0
+              }
+              flexShrink={0}
+              width={`${COURSE_WIDTH}px`}
+              height={`${COURSE_HEIGHT}px`}
+              zIndex="-1"
+            >
+              <Course {...item} />
+            </Box>
           ))}
         </animated.div>
         <div
@@ -118,6 +111,7 @@ export default function CourseList({ courses }) {
   )
 }
 
+// move the list component
 function move(x, dx, min, max) {
   const value = Math.min(max, Math.max(dx + x, min))
   return value
