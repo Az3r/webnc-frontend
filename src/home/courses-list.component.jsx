@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import Course from '@/home/course.component'
 import { Box, IconButton } from '@material-ui/core'
@@ -24,13 +24,35 @@ export default function CourseList({ courses }) {
   // Set the drag hook and define component movement based on gesture data
   const { current: offset } = useRef({ cached: 0, x: 0 })
   const bind = useDrag(({ delta: [dx] }) => {
-    const value = Math.min(
-      0,
-      Math.max(dx + offset.x, -LAST_PAGE * COURSE_WIDTH)
-    )
+    const value = move(offset.x, dx, -LAST_PAGE * COURSE_WIDTH, 0)
     offset.x = value
     api.start({ x: offset.x })
   })
+
+  //
+  // EVENT HANDLERS
+  //
+  function next() {
+    const value = move(
+      offset.x,
+      -ITEM_PER_PAGE * COURSE_WIDTH,
+      -LAST_PAGE * COURSE_WIDTH,
+      0
+    )
+    offset.x = value
+    api.start({ x: offset.x })
+  }
+
+  function previous() {
+    const value = move(
+      offset.x,
+      ITEM_PER_PAGE * COURSE_WIDTH,
+      -LAST_PAGE * COURSE_WIDTH,
+      0
+    )
+    offset.x = value
+    api.start({ x: offset.x })
+  }
 
   //
   // FUNCTION COMPONENTS
@@ -50,20 +72,6 @@ export default function CourseList({ courses }) {
         <Course {...item} />
       </Box>
     )
-  }
-
-  //
-  // EVENT HANDLERS
-  //
-  function next() {
-    if (offset.count < MAX_PAGES) api.start({ x: offset.x - MOVE })
-  }
-
-  function previous() {
-    if (offset.count > 0)
-      api.start({
-        x: offset.x + MOVE
-      })
   }
 
   return (
@@ -108,6 +116,11 @@ export default function CourseList({ courses }) {
       </IconButton>
     </div>
   )
+}
+
+function move(x, dx, min, max) {
+  const value = Math.min(max, Math.max(dx + x, min))
+  return value
 }
 
 CourseList.propTypes = {
