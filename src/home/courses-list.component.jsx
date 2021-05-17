@@ -19,40 +19,38 @@ export default function CourseList({ courses }) {
   //
   // STATES
   //
-  const { current: offset } = useRef({
-    x: 0,
-    count: -1
-  })
-
-  const [visible, setVisible] = useState({
-    next: 'hidden',
-    previous: 'visible'
-  })
-
-  const [spring, api] = useSpring(() => ({ x: offset.x, config: config.slow }))
+  const [spring, api] = useSpring(() => ({ x: 0, config: config.slow }))
 
   // Set the drag hook and define component movement based on gesture data
-  const bind = useDrag(({ down, offset: [x] }) => {
-    if (down) {
-      api.start({ x })
-      offset.x = x
-      const item = x / COURSE_WIDTH
-      console.log(item)
-      if (item <= -LAST_PAGE && offset.count < 1) {
-        console.log('1')
-        setVisible({ next: 'visible', previous: 'hidden' })
-        offset.count = 1
-      } else if (item < -1 && item > -LAST_PAGE && offset.count != 0) {
-        setVisible({ next: 'visible', previous: 'visible' })
-        offset.count = 0
-        console.log(0)
-      } else if (item >= -1 && offset.count > -1) {
-        console.log({ count: offset.count })
-        setVisible({ next: 'hidden', previous: 'visible' })
-        offset.count = -1
-      }
-    }
+  const { current: offset } = useRef({ cached: 0, x: 0 })
+  const bind = useDrag(({ delta: [dx] }) => {
+    const value = Math.min(
+      0,
+      Math.max(dx + offset.x, -LAST_PAGE * COURSE_WIDTH)
+    )
+    offset.x = value
+    api.start({ x: offset.x })
   })
+
+  //
+  // FUNCTION COMPONENTS
+  //
+  function ListItem({ item, index }) {
+    return (
+      <Box
+        paddingTop={1}
+        paddingBottom={1}
+        paddingLeft={index > 0 ? `${ITEM_PADDING}px` : 0}
+        paddingRight={index < courses.length - 1 ? `${ITEM_PADDING}px` : 0}
+        flexShrink={0}
+        width={`${COURSE_WIDTH}px`}
+        height={`${COURSE_HEIGHT}px`}
+        zIndex="-1"
+      >
+        <Course {...item} />
+      </Box>
+    )
+  }
 
   //
   // EVENT HANDLERS
@@ -76,7 +74,7 @@ export default function CourseList({ courses }) {
         display: 'flex'
       }}
     >
-      <IconButton onClick={previous} style={{ visibility: visible.next }}>
+      <IconButton onClick={previous}>
         <NavigateBefore fontSize="large" />
       </IconButton>
       <div
@@ -89,21 +87,7 @@ export default function CourseList({ courses }) {
       >
         <animated.div {...bind()} style={{ ...spring, display: 'flex' }}>
           {courses.map((item, index) => (
-            <Box
-              paddingTop={1}
-              paddingBottom={1}
-              paddingLeft={index > 0 ? `${ITEM_PADDING}px` : 0}
-              paddingRight={
-                index < courses.length - 1 ? `${ITEM_PADDING}px` : 0
-              }
-              key={item.id}
-              flexShrink={0}
-              width={`${COURSE_WIDTH}px`}
-              height={`${COURSE_HEIGHT}px`}
-              zIndex="-1"
-            >
-              <Course {...item} />
-            </Box>
+            <ListItem key={item.id} item={item} index={index} />
           ))}
         </animated.div>
         <div
@@ -119,12 +103,7 @@ export default function CourseList({ courses }) {
           }}
         />
       </div>
-      <IconButton
-        onClick={next}
-        style={{
-          visibility: visible.previous
-        }}
-      >
+      <IconButton onClick={next}>
         <NavigateNext fontSize="large" />
       </IconButton>
     </div>
