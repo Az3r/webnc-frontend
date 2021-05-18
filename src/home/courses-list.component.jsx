@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Course from '@/home/course.component'
 import { Box, IconButton, useMediaQuery, useTheme } from '@material-ui/core'
@@ -12,7 +12,7 @@ export default function CourseList({ courses }) {
 
   const uplg = useMediaQuery(theme.breakpoints.up('lg'))
   const course = {
-    height: uplg ? 280 : 240,
+    height: uplg ? 280 : 248,
     width: uplg ? 369 : 369 * 0.8
   }
 
@@ -22,10 +22,15 @@ export default function CourseList({ courses }) {
   const listRef = useRef({ offsetWidth: 0 })
 
   // Set the drag hook and define component movement based on gesture data
-  const { current: scroll } = useRef({ cached: 0, x: 0 })
+  const { current: scroll } = useRef({ cached: 0, x: 0, item: 0 })
   const bind = useDrag(({ delta: [dx] }) => {
     drag(dx)
   })
+
+  useEffect(() => {
+    scroll.x = scroll.item * course.width
+    api.start({ x: scroll.x })
+  }, [uplg])
 
   //
   // EVENT HANDLERS
@@ -48,6 +53,7 @@ export default function CourseList({ courses }) {
 
     // perform animation
     scroll.x = value
+    scroll.item = value / course.width
     api.start({ x: scroll.x })
   }
 
@@ -73,6 +79,7 @@ export default function CourseList({ courses }) {
 
     // perform animation
     scroll.x = value
+    scroll.item = value / course.width
     api.start({ x: scroll.x })
   }
 
@@ -82,8 +89,6 @@ export default function CourseList({ courses }) {
         <NavigateBefore fontSize="large" />
       </IconButton>
       <Box
-        paddingTop={1}
-        paddingBottom={1}
         flexGrow="1"
         overflow="hidden"
         position="relative"
@@ -91,12 +96,13 @@ export default function CourseList({ courses }) {
         ref={listRef}
         {...bind()}
       >
-        <animated.div style={{ ...spring, width: '6000px' }}>
+        <animated.div style={{ ...spring, display: 'flex', width: '6000px' }}>
           {courses.map((item, index) => (
             <Box
               key={item.id}
-              display="inline-block"
               style={{ userSelect: 'none' }}
+              paddingTop={1}
+              paddingBottom={1}
               paddingLeft={index > 0 ? 1 : 0}
               paddingRight={index < courses.length - 1 ? 1 : 0}
               flexShrink={0}

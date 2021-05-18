@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Avatar, Box, Paper, Typography } from '@material-ui/core'
+import { Avatar, Box, Paper, Tooltip, Typography } from '@material-ui/core'
 import { Star, StarHalf, StarOutline } from '@material-ui/icons'
 import { currency } from '@/utils/intl'
 import { stars } from '@/utils/course'
@@ -82,30 +82,32 @@ export default function Course({
   function Rating() {
     return (
       <div style={{ display: 'flex' }}>
-        <div>
-          {stars(rating).map((value, index) => {
-            if (value === 1)
-              return (
-                <Star fontSize="small" key={index} className={styles.star} />
-              )
-            if (value === -1)
-              return (
-                <StarOutline
-                  fontSize="small"
-                  key={index}
-                  className={styles.star}
-                />
-              )
-            if (value === 0)
-              return (
-                <StarHalf
-                  fontSize="small"
-                  key={index}
-                  className={styles.star}
-                />
-              )
-          })}
-        </div>
+        <Tooltip title={rating} placement="bottom" arrow>
+          <div>
+            {stars(rating).map((value, index) => {
+              if (value === 1)
+                return (
+                  <Star fontSize="small" key={index} className={styles.star} />
+                )
+              if (value === -1)
+                return (
+                  <StarOutline
+                    fontSize="small"
+                    key={index}
+                    className={styles.star}
+                  />
+                )
+              if (value === 0)
+                return (
+                  <StarHalf
+                    fontSize="small"
+                    key={index}
+                    className={styles.star}
+                  />
+                )
+            })}
+          </div>
+        </Tooltip>
         <Box paddingLeft={1}>
           <Typography>({reviewers})</Typography>
         </Box>
@@ -149,12 +151,7 @@ export default function Course({
   return (
     <Paper
       elevation={3}
-      style={{
-        height: '100%',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column'
-      }}
+      style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
     >
       <Thumbnail />
       <Box display="flex" padding={1} flexGrow={1}>

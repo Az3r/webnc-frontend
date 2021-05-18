@@ -8,13 +8,11 @@ import CourseList from '@/home/courses-list.component'
 
 export default function TopTrending({ courses }) {
   const [animation, setAnimation] = useState({
-    opacity: 1,
-    x: 20
+    opacity: 1
   })
 
   const spring = useSpring({
     opacity: animation.opacity,
-    x: animation.x,
     config: config.slow
   })
 
