@@ -65,7 +65,11 @@ export default function Course({
 
   function Title() {
     return (
-      <Typography style={{ fontWeight: '600' }} className={styles.title}>
+      <Typography
+        variant="subtitle1"
+        style={{ fontWeight: '600' }}
+        className={styles.title}
+      >
         {title}
       </Typography>
     )

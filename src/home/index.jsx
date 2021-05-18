@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import Banner from './banner.component'
 import TopTrending from '@/home/trending.component'
 import { Box } from '@material-ui/core'
-import { Element } from 'react-scroll'
 
 export default function HomePage({ courses }) {
   return (

@@ -1,7 +1,13 @@
 import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Course from '@/home/course.component'
-import { Box, IconButton, useMediaQuery, useTheme } from '@material-ui/core'
+import {
+  Box,
+  Hidden,
+  IconButton,
+  useMediaQuery,
+  useTheme
+} from '@material-ui/core'
 import { NavigateNext, NavigateBefore } from '@material-ui/icons'
 import { config, useSpring } from '@react-spring/core'
 import { animated } from '@react-spring/web'
@@ -10,19 +16,25 @@ import { useDrag } from 'react-use-gesture'
 export default function CourseList({ courses }) {
   const theme = useTheme()
 
-  const uplg = useMediaQuery(theme.breakpoints.up('lg'))
+  const lgup = useMediaQuery(theme.breakpoints.up('lg'))
+  const xsdown = useMediaQuery(theme.breakpoints.down('xs'))
+
   const course = {
-    height: uplg ? 280 : 248,
-    width: uplg ? 369 : 369 * 0.8
+    height: lgup ? 280 : 248,
+    width: lgup ? 369 : 369 * 0.8
   }
 
-  const [spring, api] = useSpring(() => ({ x: 0, config: config.slow }))
+  const { current: scroll } = useRef({ cached: 0, x: 0, item: 0 })
 
   // store list's width for scrolling calculation
   const listRef = useRef({ offsetWidth: 0 })
 
+  const [spring, api] = useSpring(() => ({
+    x: scroll.item * course.width,
+    config: config.slow
+  }))
+
   // Set the drag hook and define component movement based on gesture data
-  const { current: scroll } = useRef({ cached: 0, x: 0, item: 0 })
   const bind = useDrag(({ delta: [dx] }) => {
     drag(dx)
   })
@@ -30,7 +42,7 @@ export default function CourseList({ courses }) {
   useEffect(() => {
     scroll.x = scroll.item * course.width
     api.start({ x: scroll.x })
-  }, [uplg])
+  }, [lgup, xsdown])
 
   //
   // EVENT HANDLERS
@@ -41,6 +53,7 @@ export default function CourseList({ courses }) {
     const {
       current: { offsetWidth: width }
     } = listRef
+    if (width < course.width) return
 
     // given current width, get number of item per scroll
     const items = Math.floor(width / course.width)
@@ -63,11 +76,13 @@ export default function CourseList({ courses }) {
       current: { offsetWidth: width }
     } = listRef
 
+    if (!xsdown && width < course.width) return
+
     // number of item per scroll
-    const items = Math.floor(width / course.width)
+    const items = xsdown ? 1 : Math.floor(width / course.width)
 
     // given current width, find the first item of the last page
-    const last = Math.floor(courses.length / items) * items
+    const last = Math.floor((courses.length - 0.00001) / items) * items
 
     // calculate how many pixel to move
     const value = move(
@@ -84,15 +99,24 @@ export default function CourseList({ courses }) {
   }
 
   return (
-    <Box display="flex" alignItems="center">
-      <IconButton onClick={() => slide(1)}>
-        <NavigateBefore fontSize="large" />
-      </IconButton>
+    <Box
+      display="flex"
+      alignItems="center"
+      flexDirection={xsdown ? 'column' : 'row'}
+    >
+      <Hidden xsDown>
+        <IconButton onClick={() => slide(1)}>
+          <NavigateBefore fontSize="large" />
+        </IconButton>
+      </Hidden>
       <Box
-        flexGrow="1"
+        flexGrow={xsdown ? undefined : 1}
         overflow="hidden"
         position="relative"
         cursor="pointer"
+        width={xsdown ? course.width : undefined}
+        height={course.height + 4}
+        margin={xsdown ? 'auto' : undefined}
         ref={listRef}
         {...bind()}
       >
@@ -100,34 +124,46 @@ export default function CourseList({ courses }) {
           {courses.map((item, index) => (
             <Box
               key={item.id}
-              style={{ userSelect: 'none' }}
-              paddingTop={1}
-              paddingBottom={1}
               paddingLeft={index > 0 ? 1 : 0}
               paddingRight={index < courses.length - 1 ? 1 : 0}
               flexShrink={0}
-              width={`${course.width}px`}
-              height={`${course.height}px`}
+              width={course.width}
+              height={course.height}
             >
               <Course {...item} />
             </Box>
           ))}
         </animated.div>
-        <div
-          style={{
-            backgroundImage:
-              'linear-gradient(90deg, rgba(225,225,225,0), rgba(225,225,225,1))',
-            width: '120px',
-            height: '100%',
-            top: '0',
-            right: '0',
-            position: 'absolute'
-          }}
-        />
+        <Hidden xsDown>
+          <div
+            style={{
+              backgroundImage:
+                'linear-gradient(90deg, rgba(225,225,225,0), rgba(225,225,225,1))',
+              width: '120px',
+              height: '100%',
+              top: '0',
+              right: '0',
+              position: 'absolute'
+            }}
+          />
+        </Hidden>
       </Box>
-      <IconButton onClick={() => slide(-1)}>
-        <NavigateNext fontSize="large" />
-      </IconButton>
+      <Hidden xsDown>
+        <IconButton onClick={() => slide(-1)}>
+          <NavigateNext fontSize="large" />
+        </IconButton>
+      </Hidden>
+      <Hidden smUp>
+        <Box display="flex" width={course.width}>
+          <IconButton onClick={() => slide(1)}>
+            <NavigateBefore fontSize="large" />
+          </IconButton>
+          <Box flexGrow={1} />
+          <IconButton onClick={() => slide(-1)}>
+            <NavigateNext fontSize="large" />
+          </IconButton>
+        </Box>
+      </Hidden>
     </Box>
   )
 }
