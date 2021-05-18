@@ -1,17 +1,13 @@
 import React from 'react'
-import { Box } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import Banner from './banner.component'
-import Course from './course.component'
-import CourseList from '@/home/courses-list.component'
+import TopTrending from '@/home/trending.component'
 
 export default function HomePage({ courses }) {
   return (
     <>
       <Banner scrollElementId="123" />
-      <Box height="100vh">
-        <CourseList courses={courses} />
-      </Box>
+      <TopTrending courses={courses} />
     </>
   )
 }
