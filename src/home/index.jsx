@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Banner from './banner.component'
-import TopTrending from '@/home/trending.component'
 import { Box } from '@material-ui/core'
+import Banner from './banner.component'
+import TopTrending from './trending.component'
 
 export default function HomePage({ courses }) {
   return (

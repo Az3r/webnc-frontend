@@ -17,9 +17,9 @@ import { useDrag } from 'react-use-gesture'
 export default function CourseList({ courses }) {
   const theme = useTheme()
 
-  const lgup = useMediaQuery(theme.breakpoints.up('lg'))
   const xsdown = useMediaQuery(theme.breakpoints.down('xs'))
 
+  const lgup = useMediaQuery(theme.breakpoints.up('lg'))
   const course = {
     height: lgup ? 280 : 248,
     width: lgup ? 369 : 369 * 0.8

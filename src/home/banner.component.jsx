@@ -4,6 +4,7 @@ import {
   Box,
   Container,
   Drawer,
+  Hidden,
   IconButton,
   List,
   ListItem,
@@ -54,95 +55,29 @@ export default function Banner({ target }) {
   }
 
   return (
-    <Container className={styles.banner}>
-      <Drawer anchor="right" open={drawerOpen} onClose={() => open(false)}>
-        <Typography>Hello</Typography>
-      </Drawer>
-      <Box display="flex" justifyContent="flex-end">
-        <IconButton onClick={() => open(true)}>
-          <Menu style={{ color: 'white' }} />
-        </IconButton>
-      </Box>
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <img src="/images/logo_icon.webp" width="100" height="100" />
-        <Typography
-          align="center"
-          variant="h1"
-          className={styles['banner-title']}
-        >
-          Urskyll
-        </Typography>
-      </Box>
-      <AnimatedBox style={spring} paddingTop={4} display="flex">
-        <Box width="500px">
-          <Typography variant="h4">
-            A platform where you can learn and grow with technologies
-          </Typography>
-          <List component="ul" aria-label="contacts">
-            {goals.map((item, index) => (
-              <ListItem key={index}>
-                <ListItemIcon>
-                  <FiberManualRecord style={{ color: 'white' }} />
-                </ListItemIcon>
-                <ListItemText
-                  primary={
-                    <Typography variant="h6" style={{ fontWeight: '400' }}>
-                      {item}
-                    </Typography>
-                  }
-                />
-              </ListItem>
-            ))}
-          </List>
-          <Box display="flex">
-            <Box width="120px">
-              <ExploreButton fullWidth onClick={explore}>
-                Explore
-              </ExploreButton>
+    <div className={styles.background}>
+      <Container className={styles.banner}>
+        <Drawer anchor="right" open={drawerOpen} onClose={() => open(false)}>
+          <Typography>Hello</Typography>
+        </Drawer>
+        <Box display="flex" justifyContent="flex-end">
+          <Hidden xsDown>
+            <Box width="160px">
+              <PrimaryButton variant="text" fullWidth>
+                Sign up
+              </PrimaryButton>
             </Box>
-            <Box width="120px" marginLeft={2}>
-              <SignUpButton fullWidth>Sign up</SignUpButton>
+            <Box width="160px">
+              <PrimaryButton variant="outlined" fullWidth>
+                Login
+              </PrimaryButton>
             </Box>
-          </Box>
-        </Box>
-      </AnimatedBox>
-    </Container>
-  )
-}
-
-export function BannerDesktop({ scrollElementId }) {
-  const spring = useSpring({
-    to: { opacity: 1, translateY: 0 },
-    from: { opacity: 0, translateY: 64 },
-    delay: 300,
-    config: config.molasses
-  })
-  const styles = useStyles()
-
-  function explore() {
-    console.log('scroll')
-    if (scrollElementId) scroller.scrollTo(scrollElementId)
-  }
-
-  return (
-    <Box className={styles.banner}>
-      <Container>
-        <Box display="flex" flexDirection="row-reverse">
-          <Box width="160px">
-            <PrimaryButton variant="outlined" fullWidth>
-              Sign up
-            </PrimaryButton>
-          </Box>
-          <Box width="160px">
-            <PrimaryButton variant="text" fullWidth>
-              Login
-            </PrimaryButton>
-          </Box>
+          </Hidden>
+          <Hidden smUp>
+            <IconButton onClick={() => open(true)}>
+              <Menu style={{ color: 'white' }} />
+            </IconButton>
+          </Hidden>
         </Box>
         <Box
           display="flex"
@@ -161,45 +96,47 @@ export function BannerDesktop({ scrollElementId }) {
         </Box>
         <AnimatedBox
           style={spring}
-          paddingTop={6}
+          paddingTop={4}
           display="flex"
           justifyContent="space-around"
         >
-          <Box>
-            <Box width="500px">
-              <Typography variant="h4" className={styles['banner-message']}>
-                A platform where you can learn and grow with technologies
-              </Typography>
-              <List component="ul" aria-label="contacts">
-                {goals.map((item, index) => (
-                  <ListItem key={index}>
-                    <ListItemIcon>
-                      <FiberManualRecord style={{ color: 'white' }} />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={<Typography variant="h6">{item}</Typography>}
-                    />
-                  </ListItem>
-                ))}
-              </List>
-              <Box display="flex">
-                <Box width="160px">
-                  <ExploreButton fullWidth onClick={explore}>
-                    Explore
-                  </ExploreButton>
-                </Box>
-                <Box width="160px" marginLeft={2}>
-                  <SignUpButton fullWidth>Sign up</SignUpButton>
-                </Box>
+          <Box width="500px">
+            <Typography variant="h4">
+              A platform where you can learn and grow with technologies
+            </Typography>
+            <List component="ul" aria-label="contacts">
+              {goals.map((item, index) => (
+                <ListItem key={index}>
+                  <ListItemIcon>
+                    <FiberManualRecord style={{ color: 'white' }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={
+                      <Typography variant="h6" style={{ fontWeight: '400' }}>
+                        {item}
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+              ))}
+            </List>
+            <Box display="flex">
+              <Box width="120px">
+                <ExploreButton fullWidth onClick={explore}>
+                  Explore
+                </ExploreButton>
+              </Box>
+              <Box width="120px" marginLeft={2}>
+                <SignUpButton fullWidth>Sign up</SignUpButton>
               </Box>
             </Box>
           </Box>
-          <Box>
+          <Hidden smDown>
             <img src="images/banner.webp" width="500px" />
-          </Box>
+          </Hidden>
         </AnimatedBox>
       </Container>
-    </Box>
+    </div>
   )
 }
 

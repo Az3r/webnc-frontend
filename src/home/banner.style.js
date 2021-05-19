@@ -2,10 +2,12 @@ import { makeStyles, withStyles, Button } from '@material-ui/core'
 import 'typeface-dancing-script'
 
 export default makeStyles((theme) => ({
-  banner: {
+  background: {
     backgroundImage: 'linear-gradient(45deg, #039be5 , #002171)',
     width: '100%',
-    height: '100vh',
+    height: '100vh'
+  },
+  banner: {
     color: 'white',
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1)
