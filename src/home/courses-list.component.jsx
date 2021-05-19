@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, memo } from 'react'
 import PropTypes from 'prop-types'
 import Course from '@/home/course.component'
 import {
@@ -39,8 +39,10 @@ export default function CourseList({ courses }) {
     drag(dx)
   })
 
+  const [status, setStatus] = useState({ next: true, before: false, item: 0 })
+
   useEffect(() => {
-    scroll.x = scroll.item * course.width
+    scroll.x = Math.floor(scroll.item) * course.width
     api.start({ x: scroll.x })
   }, [lgup, xsdown])
 
@@ -93,9 +95,36 @@ export default function CourseList({ courses }) {
     )
 
     // perform animation
+    animate(value, last)
+  }
+
+  function animate(value, last) {
     scroll.x = value
     scroll.item = value / course.width
+    scroll.last = last
+    const next = Math.floor(value) < last
+    const before = Math.floor(value) < 0
     api.start({ x: scroll.x })
+    setStatus({ item: Math.floor(scroll.item), next, before })
+  }
+
+  //
+  // COMPONENTS
+  //
+  function BeforeButton() {
+    return (
+      <IconButton disabled={!status.before} onClick={() => slide(1)}>
+        <NavigateBefore fontSize="large" />
+      </IconButton>
+    )
+  }
+
+  function NextButton() {
+    return (
+      <IconButton disabled={!status.next} onClick={() => slide(-1)}>
+        <NavigateNext fontSize="large" />
+      </IconButton>
+    )
   }
 
   return (
@@ -105,9 +134,7 @@ export default function CourseList({ courses }) {
       flexDirection={xsdown ? 'column' : 'row'}
     >
       <Hidden xsDown>
-        <IconButton onClick={() => slide(1)}>
-          <NavigateBefore fontSize="large" />
-        </IconButton>
+        <BeforeButton />
       </Hidden>
       <Box
         flexGrow={xsdown ? undefined : 1}
@@ -121,18 +148,11 @@ export default function CourseList({ courses }) {
         {...bind()}
       >
         <animated.div style={{ ...spring, display: 'flex', width: '6000px' }}>
-          {courses.map((item, index) => (
-            <Box
-              key={item.id}
-              paddingLeft={index > 0 ? 1 : 0}
-              paddingRight={index < courses.length - 1 ? 1 : 0}
-              flexShrink={0}
-              width={course.width}
-              height={course.height}
-            >
-              <Course {...item} />
-            </Box>
-          ))}
+          <MemoizedList
+            courses={courses}
+            width={course.width}
+            height={course.height}
+          />
         </animated.div>
         <Hidden xsDown>
           <div
@@ -149,24 +169,42 @@ export default function CourseList({ courses }) {
         </Hidden>
       </Box>
       <Hidden xsDown>
-        <IconButton onClick={() => slide(-1)}>
-          <NavigateNext fontSize="large" />
-        </IconButton>
+        <NextButton />
       </Hidden>
       <Hidden smUp>
         <Box display="flex" width={course.width}>
-          <IconButton onClick={() => slide(1)}>
-            <NavigateBefore fontSize="large" />
-          </IconButton>
+          <BeforeButton />
           <Box flexGrow={1} />
-          <IconButton onClick={() => slide(-1)}>
-            <NavigateNext fontSize="large" />
-          </IconButton>
+          <NextButton />
         </Box>
       </Hidden>
     </Box>
   )
 }
+
+function List({ courses, width, height }) {
+  return (
+    <>
+      {courses.map((item, index) => (
+        <Box
+          key={item.id}
+          paddingLeft={index > 0 ? 1 : 0}
+          paddingRight={index < courses.length - 1 ? 1 : 0}
+          flexShrink={0}
+          width={width}
+          height={height}
+        >
+          <Course {...item} />
+        </Box>
+      ))}
+    </>
+  )
+}
+
+const MemoizedList = memo(
+  List,
+  (prev, next) => prev.width === next.width && prev.height === next.height
+)
 
 // move the list component
 function move(x, dx, min, max) {
