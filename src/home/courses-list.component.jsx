@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, memo } from 'react'
+import React, { useState, useRef, useEffect, memo, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import Course from '@/home/course.component'
 import {
@@ -25,7 +25,7 @@ export default function CourseList({ courses }) {
     width: lgup ? 369 : 369 * 0.8
   }
 
-  const { current: scroll } = useRef({ cached: 0, x: 0, item: 0 })
+  const { current: scroll } = useRef({ x: 0, item: 0 })
 
   // store list's width for scrolling calculation
   const listRef = useRef({ offsetWidth: 0 })
@@ -36,8 +36,8 @@ export default function CourseList({ courses }) {
   }))
 
   // Set the drag hook and define component movement based on gesture data
-  const bind = useDrag(({ delta: [dx] }) => {
-    drag(dx)
+  const bind = useDrag(({ last: up, delta: [dx] }) => {
+    drag(dx, up)
   })
 
   const [status, setStatus] = useState({ next: true, before: false, item: 0 })
@@ -52,65 +52,81 @@ export default function CourseList({ courses }) {
   //
 
   /** scroll the list */
-  function drag(dx) {
-    const {
-      current: { offsetWidth: width }
-    } = listRef
-    if (width < course.width) return
+  const drag = useCallback(
+    (dx, up) => {
+      const {
+        current: { offsetWidth: width }
+      } = listRef
 
-    // given current width, get number of item per scroll
-    const items = Math.floor(width / course.width)
+      if (!xsdown && width < course.width) return
 
-    // find the first item of the last page
-    const last = Math.floor(courses.length / items) * items
+      // given current width, get number of item per scroll
+      const items = xsdown ? 1 : Math.floor(width / course.width)
 
-    // clamp so not shooting
-    const value = move(scroll.x, dx, -last * course.width, 0)
+      // find the first item of the last page
+      const last = Math.floor((courses.length - 0.00001) / items) * items
 
-    // perform animation
-    scroll.x = value
-    scroll.item = value / course.width
-    api.start({ x: scroll.x })
-  }
+      // clamp so not shooting
+      const value = move(scroll.x, dx, -last * course.width, 0)
+
+      // perform animation
+      if (up) {
+        // mouse up event, when user has finished dragging, snap to nearest item
+        scroll.item = Math.round(value / course.width)
+        scroll.x = scroll.item * course.width
+        api.start({ x: scroll.x })
+      } else {
+        scroll.item = value / course.width
+        scroll.x = value
+        api.start({ x: scroll.x })
+      }
+
+      // update stepper
+      const item = -Math.round(scroll.item)
+      const next = item < last
+      const before = Math.floor(scroll.x) < 0
+      setStatus({ item, next, before })
+    },
+    [course]
+  )
 
   /** slide the list to next or previous page */
-  function slide(direction) {
-    const {
-      current: { offsetWidth: width }
-    } = listRef
+  const slide = useCallback(
+    (direction) => {
+      const {
+        current: { offsetWidth: width }
+      } = listRef
 
-    if (!xsdown && width < course.width) return
+      if (!xsdown && width < course.width) return
 
-    // number of item per scroll
-    const items = xsdown ? 1 : Math.floor(width / course.width)
+      // number of item per scroll
+      const items = xsdown ? 1 : Math.floor(width / course.width)
 
-    // given current width, find the first item of the last page
-    const last = Math.floor((courses.length - 0.00001) / items) * items
+      // given current width, find the first item of the last page
+      const last = Math.floor((courses.length - 0.00001) / items) * items
 
-    // calculate how many pixel to move
-    const value = move(
-      Math.round(scroll.x / course.width) * course.width,
-      direction * items * course.width,
-      -last * course.width,
-      0
-    )
+      // calculate how many pixel to move
+      const value = move(
+        Math.round(scroll.x / course.width) * course.width,
+        direction * items * course.width,
+        -last * course.width,
+        0
+      )
 
-    // perform animation
-    animate(value, last)
-  }
+      // perform animation
+      scroll.x = value
+      scroll.item = value / course.width
+      scroll.last = last
 
-  function animate(value, last) {
-    scroll.x = value
-    scroll.item = value / course.width
-    scroll.last = last
+      const item = -Math.floor(scroll.item)
+      const next = item < last
+      const before = Math.floor(value) < 0
 
-    const item = -Math.floor(scroll.item)
-    const next = item < last
-    const before = Math.floor(value) < 0
-
-    api.start({ x: scroll.x })
-    setStatus({ item, next, before })
-  }
+      api.start({ x: scroll.x })
+      setStatus({ item, next, before })
+    },
+    [course]
+  )
 
   //
   // COMPONENTS
@@ -144,14 +160,21 @@ export default function CourseList({ courses }) {
         flexGrow={xsdown ? undefined : 1}
         overflow="hidden"
         position="relative"
-        cursor="pointer"
         width={xsdown ? course.width : undefined}
         height={course.height + 4}
         margin={xsdown ? 'auto' : undefined}
         ref={listRef}
         {...bind()}
       >
-        <animated.div style={{ ...spring, display: 'flex', width: '6000px' }}>
+        <animated.div
+          style={{
+            ...spring,
+            display: 'flex',
+            width: '6000px',
+            userSelect: 'none',
+            cursor: 'pointer'
+          }}
+        >
           <MemoizedList
             courses={courses}
             width={course.width}
