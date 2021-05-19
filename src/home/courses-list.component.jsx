@@ -5,6 +5,7 @@ import {
   Box,
   Hidden,
   IconButton,
+  MobileStepper,
   useMediaQuery,
   useTheme
 } from '@material-ui/core'
@@ -102,10 +103,13 @@ export default function CourseList({ courses }) {
     scroll.x = value
     scroll.item = value / course.width
     scroll.last = last
-    const next = Math.floor(value) < last
+
+    const item = -Math.floor(scroll.item)
+    const next = item < last
     const before = Math.floor(value) < 0
+
     api.start({ x: scroll.x })
-    setStatus({ item: Math.floor(scroll.item), next, before })
+    setStatus({ item, next, before })
   }
 
   //
@@ -172,11 +176,14 @@ export default function CourseList({ courses }) {
         <NextButton />
       </Hidden>
       <Hidden smUp>
-        <Box display="flex" width={course.width}>
-          <BeforeButton />
-          <Box flexGrow={1} />
-          <NextButton />
-        </Box>
+        <MobileStepper
+          variant="dots"
+          steps={courses.length}
+          position="static"
+          activeStep={status.item}
+          nextButton={<NextButton />}
+          backButton={<BeforeButton />}
+        />
       </Hidden>
     </Box>
   )
@@ -217,5 +224,15 @@ CourseList.propTypes = {
 }
 
 CourseList.defaultProps = {
+  courses: []
+}
+
+List.propTypes = {
+  courses: PropTypes.array,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired
+}
+
+List.defaultProps = {
   courses: []
 }
