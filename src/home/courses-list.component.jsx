@@ -44,6 +44,7 @@ export default function CourseList({ courses }) {
   )
 
   const [status, setStatus] = useState({ next: true, before: false, item: 0 })
+  const [mouse, setMouse] = useState({ down: false })
 
   useEffect(() => {
     scroll.x = Math.floor(scroll.item) * course.width
@@ -168,7 +169,13 @@ export default function CourseList({ courses }) {
         margin={xsdown ? 'auto' : undefined}
         ref={listRef}
         {...bind()}
-        style={{ touchAction: 'pan-x', cursor: 'grab', userSelect: 'none' }}
+        onMouseDown={() => setMouse({ down: true })}
+        onMouseUp={() => setMouse({ down: false })}
+        style={{
+          touchAction: 'pan-x',
+          cursor: mouse.down ? 'grab' : 'auto',
+          userSelect: mouse.down ? 'none' : 'auto'
+        }}
       >
         <animated.div
           style={{

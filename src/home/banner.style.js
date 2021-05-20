@@ -1,5 +1,4 @@
 import { makeStyles, withStyles, Button } from '@material-ui/core'
-import 'typeface-dancing-script'
 
 export default makeStyles((theme) => ({
   background: {

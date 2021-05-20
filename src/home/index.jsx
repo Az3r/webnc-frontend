@@ -1,21 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  AppBar,
-  Box,
-  Button,
-  Fab,
-  IconButton,
-  Slide,
-  Toolbar,
-  Typography,
-  useScrollTrigger,
-  Zoom
-} from '@material-ui/core'
-import { Menu } from '@material-ui/icons'
+import { Box, Fab, Slide, useScrollTrigger, Zoom } from '@material-ui/core'
+import { Search } from '@material-ui/icons'
 import Banner from './banner.component'
 import TopTrending from './trending.component'
 import Head from 'next/head'
+import AppBarHome from '@/home/appbar.component'
+import 'typeface-dancing-script'
 
 export default function HomePage({ courses }) {
   return (
@@ -34,7 +25,7 @@ export default function HomePage({ courses }) {
 function ShowFabOnScrollDown() {
   const [height, setHeight] = React.useState(300)
   React.useEffect(() => {
-    setHeight((2 * window.innerHeight) / 3)
+    setHeight((3 * window.innerHeight) / 5)
   }, [])
   const trigger = useScrollTrigger({
     threshold: height,
@@ -42,9 +33,9 @@ function ShowFabOnScrollDown() {
   })
   return (
     <Zoom in={trigger}>
-      <Box position="fixed" bottom="0" right="0" margin={1}>
+      <Box position="fixed" bottom="0" right="0" margin={2}>
         <Fab>
-          <Menu />
+          <Search />
         </Fab>
       </Box>
     </Zoom>
@@ -54,7 +45,7 @@ function ShowFabOnScrollDown() {
 function ShowAppBarOnSrollDown() {
   const [height, setHeight] = React.useState(300)
   React.useEffect(() => {
-    setHeight((2 * window.innerHeight) / 3)
+    setHeight((3 * window.innerHeight) / 5)
   }, [])
   const trigger = useScrollTrigger({
     threshold: height,
@@ -62,15 +53,7 @@ function ShowAppBarOnSrollDown() {
   })
   return (
     <Slide in={trigger}>
-      <AppBar position="fixed">
-        <Toolbar>
-          <IconButton>
-            <Menu />
-          </IconButton>
-          <Typography variant="h6">News</Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
+      <AppBarHome />
     </Slide>
   )
 }
