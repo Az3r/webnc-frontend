@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   Box,
   Container,
-  Drawer,
   Hidden,
   IconButton,
   List,
@@ -20,6 +19,7 @@ import useStyles, {
   ExploreButton
 } from './banner.style'
 import { animated } from '@react-spring/web'
+import { useDrawer } from './drawer.component'
 
 const goals = [
   'Watch and learn at your own speed',
@@ -39,24 +39,13 @@ export default function Banner({ target }) {
     config: config.molasses
   })
 
-  const [drawerOpen, setDrawerOpen] = useState(false)
-
-  //
-  // EVENT HANDLERS
-  //
+  const { toggle } = useDrawer()
 
   function explore() {}
 
-  function open(value) {
-    setDrawerOpen(value)
-  }
-
   return (
-    <div className={styles.background}>
-      <Container className={styles.banner}>
-        <Drawer anchor="right" open={drawerOpen} onClose={() => open(false)}>
-          <Typography>Hello</Typography>
-        </Drawer>
+    <Box className={styles.root} paddingTop={1}>
+      <Container>
         <Box display="flex" justifyContent="flex-end">
           <Hidden xsDown>
             <Box width="160px">
@@ -71,7 +60,9 @@ export default function Banner({ target }) {
             </Box>
           </Hidden>
           <Hidden smUp>
-            <IconButton onClick={() => open(true)}>
+            <img src="/images/logo_icon.webp" width="64px" height="64px" />
+            <Box flexGrow={1} />
+            <IconButton onClick={() => toggle(true)}>
               <Menu style={{ color: 'white' }} />
             </IconButton>
           </Hidden>
@@ -82,7 +73,9 @@ export default function Banner({ target }) {
           alignItems="center"
           justifyContent="center"
         >
-          <img src="/images/logo_icon.webp" width="100" height="100" />
+          <Hidden xsDown>
+            <img src="/images/logo_icon.webp" width="100px" height="100px" />
+          </Hidden>
           <Typography
             align="center"
             variant="h1"
@@ -133,7 +126,7 @@ export default function Banner({ target }) {
           </Hidden>
         </AnimatedBox>
       </Container>
-    </div>
+    </Box>
   )
 }
 

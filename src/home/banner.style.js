@@ -1,14 +1,11 @@
 import { makeStyles, withStyles, Button } from '@material-ui/core'
 
 export default makeStyles((theme) => ({
-  background: {
+  root: {
     backgroundImage: 'linear-gradient(45deg, #039be5 , #002171)',
     width: '100%',
-    height: '100vh'
-  },
-  banner: {
+    height: '100vh',
     color: 'white',
-    paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2)
   },
   'banner-title': { fontFamily: 'Dancing Script' },
