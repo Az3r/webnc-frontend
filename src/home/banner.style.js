@@ -9,8 +9,8 @@ export default makeStyles((theme) => ({
   },
   banner: {
     color: 'white',
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1)
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2)
   },
   'banner-title': { fontFamily: 'Dancing Script' },
   'banner-message': { fontStyle: 'italic', fontWeight: 300 }

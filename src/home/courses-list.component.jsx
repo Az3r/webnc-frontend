@@ -36,9 +36,12 @@ export default function CourseList({ courses }) {
   }))
 
   // Set the drag hook and define component movement based on gesture data
-  const bind = useDrag(({ last: up, delta: [dx] }) => {
-    drag(dx, up)
-  })
+  const bind = useDrag(
+    ({ last: up, delta: [dx] }) => {
+      drag(dx, up)
+    },
+    { axis: 'x' }
+  )
 
   const [status, setStatus] = useState({ next: true, before: false, item: 0 })
 
@@ -74,13 +77,12 @@ export default function CourseList({ courses }) {
         // mouse up event, when user has finished dragging, snap to nearest item
         scroll.item = Math.round(value / course.width)
         scroll.x = scroll.item * course.width
-        api.start({ x: scroll.x })
       } else {
         scroll.item = value / course.width
         scroll.x = value
-        api.start({ x: scroll.x })
       }
 
+      api.start({ x: scroll.x })
       // update stepper
       const item = -Math.round(scroll.item)
       const next = item < last
@@ -151,6 +153,7 @@ export default function CourseList({ courses }) {
     <Box
       display="flex"
       alignItems="center"
+      justifyContent="center"
       flexDirection={xsdown ? 'column' : 'row'}
     >
       <Hidden xsDown>
@@ -165,14 +168,13 @@ export default function CourseList({ courses }) {
         margin={xsdown ? 'auto' : undefined}
         ref={listRef}
         {...bind()}
+        style={{ touchAction: 'pan-x', cursor: 'grab', userSelect: 'none' }}
       >
         <animated.div
           style={{
             ...spring,
             display: 'flex',
-            width: '6000px',
-            userSelect: 'none',
-            cursor: 'pointer'
+            width: '6000px'
           }}
         >
           <MemoizedList
@@ -231,10 +233,7 @@ function List({ courses, width, height }) {
   )
 }
 
-const MemoizedList = memo(
-  List,
-  (prev, next) => prev.width === next.width && prev.height === next.height
-)
+const MemoizedList = memo(List)
 
 // move the list component
 function move(x, dx, min, max) {

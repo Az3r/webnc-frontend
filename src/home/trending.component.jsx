@@ -23,7 +23,8 @@ export default function TopTrending({ courses }) {
       style={{
         ...spring,
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        height: '100vh'
       }}
     >
       <Typography variant="h4">Top trending</Typography>

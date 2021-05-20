@@ -19,7 +19,6 @@ import useStyles, {
   SignUpButton,
   ExploreButton
 } from './banner.style'
-import { animateScroll as scroller } from 'react-scroll'
 import { animated } from '@react-spring/web'
 
 const goals = [
@@ -36,7 +35,7 @@ export default function Banner({ target }) {
   const spring = useSpring({
     to: { opacity: 1, translateY: 0 },
     from: { opacity: 0, translateY: 64 },
-    delay: 300,
+    delay: 600,
     config: config.molasses
   })
 
@@ -46,9 +45,7 @@ export default function Banner({ target }) {
   // EVENT HANDLERS
   //
 
-  function explore() {
-    scroller.scrollTo(window.innerHeight)
-  }
+  function explore() {}
 
   function open(value) {
     setDrawerOpen(value)
@@ -121,12 +118,12 @@ export default function Banner({ target }) {
               ))}
             </List>
             <Box display="flex">
-              <Box width="120px">
+              <Box width="140px">
                 <ExploreButton fullWidth onClick={explore}>
                   Explore
                 </ExploreButton>
               </Box>
-              <Box width="120px" marginLeft={2}>
+              <Box width="140px" marginLeft={2}>
                 <SignUpButton fullWidth>Sign up</SignUpButton>
               </Box>
             </Box>
