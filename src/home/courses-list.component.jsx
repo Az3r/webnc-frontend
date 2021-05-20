@@ -172,7 +172,6 @@ export default function CourseList({ courses }) {
         onMouseDown={() => setMouse({ down: true })}
         onMouseUp={() => setMouse({ down: false })}
         style={{
-          touchAction: 'pan-x',
           cursor: mouse.down ? 'grab' : 'auto',
           userSelect: mouse.down ? 'none' : 'auto'
         }}
