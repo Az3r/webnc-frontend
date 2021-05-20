@@ -8,7 +8,8 @@ import {
   TextField,
   Menu,
   Toolbar,
-  Typography
+  Typography,
+  Badge
 } from '@material-ui/core'
 import { Search, Shop } from '@material-ui/icons'
 import React from 'react'
@@ -37,8 +38,10 @@ function AppBarHome(props, ref) {
             />
           </Box>
         </Box>
-        <IconButton color="inherit">
-          <Shop />
+        <IconButton color="inherit" max={99}>
+          <Badge color="error" badgeContent={1}>
+            <Shop />
+          </Badge>
         </IconButton>
         <Button color="inherit" style={{ width: '120px' }}>
           Sign up
@@ -70,6 +73,7 @@ function CategoryMenu() {
       <Menu
         anchorEl={anchorEl}
         keepMounted
+        getContentAnchorEl={undefined}
         open={Boolean(anchorEl)}
         onClose={close}
         anchorOrigin={{
