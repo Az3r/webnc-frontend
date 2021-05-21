@@ -23,6 +23,8 @@ import React, { useContext } from 'react'
 import { Menu as MenuIcon } from '@material-ui/icons'
 import useStyles from './appbar.style'
 import { useDrawer } from '@/home/drawer.component'
+import Link from 'next/link'
+import { routes } from '../utils/app'
 
 const AppBarContext = React.createContext({
   search: () => {},
@@ -210,12 +212,16 @@ function MoreActionMenu() {
   return (
     <Box display="flex">
       <Hidden smDown>
-        <Button color="inherit" style={{ width: '100px' }}>
-          Sign up
-        </Button>
-        <Button color="inherit" style={{ width: '100px' }}>
-          Login
-        </Button>
+        <Link href={routes.register}>
+          <Button color="inherit" style={{ width: '100px' }}>
+            Sign up
+          </Button>
+        </Link>
+        <Link href={routes.login}>
+          <Button color="inherit" style={{ width: '100px' }}>
+            Login
+          </Button>
+        </Link>
       </Hidden>
       <Hidden mdUp>
         <IconButton color="inherit" onClick={() => toggle(true)}>

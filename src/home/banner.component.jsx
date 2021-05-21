@@ -11,6 +11,7 @@ import {
   ListItemText,
   Typography
 } from '@material-ui/core'
+import Link from 'next/link'
 import { FiberManualRecord, Menu } from '@material-ui/icons'
 import { config, useSpring } from '@react-spring/core'
 import useStyles, {
@@ -20,6 +21,7 @@ import useStyles, {
 } from './banner.style'
 import { animated } from '@react-spring/web'
 import { useDrawer } from './drawer.component'
+import { routes } from '@/utils/app'
 
 const goals = [
   'Watch and learn at your own speed',
@@ -49,14 +51,18 @@ export default function Banner({ target }) {
         <Box display="flex" justifyContent="flex-end">
           <Hidden xsDown>
             <Box width="160px">
-              <PrimaryButton variant="text" fullWidth>
-                Sign up
-              </PrimaryButton>
+              <Link href={routes.register}>
+                <PrimaryButton variant="text" fullWidth>
+                  Sign up
+                </PrimaryButton>
+              </Link>
             </Box>
             <Box width="160px">
-              <PrimaryButton variant="outlined" fullWidth>
-                Login
-              </PrimaryButton>
+              <Link href={routes.login}>
+                <PrimaryButton variant="outlined" fullWidth>
+                  Login
+                </PrimaryButton>
+              </Link>
             </Box>
           </Hidden>
           <Hidden smUp>
@@ -117,7 +123,9 @@ export default function Banner({ target }) {
                 </ExploreButton>
               </Box>
               <Box width="140px" marginLeft={2}>
-                <SignUpButton fullWidth>Sign up</SignUpButton>
+                <Link href={routes.register}>
+                  <SignUpButton fullWidth>Sign up</SignUpButton>
+                </Link>
               </Box>
             </Box>
           </Box>

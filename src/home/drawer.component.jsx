@@ -20,10 +20,10 @@ import {
   ExitToApp,
   ExpandLess,
   ExpandMore,
-  GroupAdd,
-  Star,
-  VideoLibrary
+  GroupAdd
 } from '@material-ui/icons'
+import Link from 'next/link'
+import { routes } from '../utils/app'
 
 const DrawerContext = React.createContext({
   open: false,
@@ -45,18 +45,22 @@ export default function DrawerHome({ children }) {
           <List>
             <CategoryListItem />
             <Divider />
-            <ListItem button>
-              <ListItemIcon>
-                <ExitToApp />
-              </ListItemIcon>
-              <ListItemText>Login</ListItemText>
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon>
-                <GroupAdd />
-              </ListItemIcon>
-              <ListItemText>Sign up</ListItemText>
-            </ListItem>
+            <Link href={routes.login}>
+              <ListItem button>
+                <ListItemIcon>
+                  <ExitToApp />
+                </ListItemIcon>
+                <ListItemText>Login</ListItemText>
+              </ListItem>
+            </Link>
+            <Link href={routes.register}>
+              <ListItem button>
+                <ListItemIcon>
+                  <GroupAdd />
+                </ListItemIcon>
+                <ListItemText>Sign up</ListItemText>
+              </ListItem>
+            </Link>
           </List>
         </div>
       </Drawer>
