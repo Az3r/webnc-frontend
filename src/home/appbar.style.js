@@ -2,6 +2,7 @@ import { makeStyles } from '@material-ui/core'
 
 export default makeStyles((theme) => ({
   search: {
+    height: '40px',
     paddingLeft: theme.spacing(2),
     color: 'white',
     backgroundColor: 'rgba(0,0,0,0.1)',

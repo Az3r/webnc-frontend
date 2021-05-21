@@ -4,7 +4,7 @@ export default makeStyles((theme) => ({
   root: {
     backgroundImage: 'linear-gradient(45deg, #039be5 , #002171)',
     width: '100%',
-    height: '100vh',
+    minHeight: '100vh',
     color: 'white',
     paddingBottom: theme.spacing(2)
   },
