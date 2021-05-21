@@ -13,7 +13,8 @@ import {
   Slide,
   Zoom,
   Fab,
-  Drawer
+  Drawer,
+  Hidden
 } from '@material-ui/core'
 import { Search, Shop } from '@material-ui/icons'
 import React from 'react'
@@ -22,20 +23,14 @@ import useStyles from './appbar.style'
 import { useDrawer } from '@/home/drawer.component'
 
 function AppBarHome(props, ref) {
-  const [height, setHeight] = React.useState(300)
-
   const trigger = useScrollTrigger({
-    threshold: height,
+    threshold: 480,
     disableHysteresis: true
   })
 
   const { toggle } = useDrawer()
 
   const inputEl = React.useRef(null)
-
-  React.useEffect(() => {
-    setHeight((3 * window.innerHeight) / 5)
-  }, [])
 
   function focusInputEl() {
     inputEl.current?.focus()
@@ -125,7 +120,12 @@ function AppBarHome(props, ref) {
       <Slide in={trigger}>
         <AppBar position="fixed" ref={ref} {...props}>
           <Toolbar>
-            <MobileAppBar />
+            <Hidden smUp>
+              <MobileAppBar />
+            </Hidden>
+            <Hidden xsDown>
+              <DesktopAppBar />
+            </Hidden>
           </Toolbar>
         </AppBar>
       </Slide>
