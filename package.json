@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "jest",
+    "test": "jest __tests__",
     "cypress": "cypress open",
     "test:cypress": "cypress run --record --key 267e7a73-e13a-44c6-96f5-d17735222c77"
   },

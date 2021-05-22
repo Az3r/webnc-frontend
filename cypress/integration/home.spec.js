@@ -1,6 +1,6 @@
 describe('Home', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000')
+    cy.visit('/')
   })
   it('should go to register page', () => {
     cy.findAllByText('Sign up').filter(':visible').first().click()
