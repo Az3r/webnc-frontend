@@ -25,6 +25,7 @@ export default function Register() {
         className={styles.input}
         required
         label="Username"
+        aria-label="username"
         name="username"
         type="text"
         onChange={(e) =>
@@ -36,6 +37,7 @@ export default function Register() {
         className={styles.input}
         required
         label="Email"
+        aria-label="email"
         name="email"
         type="email"
         onChange={(e) => update((prev) => ({ ...prev, email: e.target.value }))}
@@ -45,6 +47,7 @@ export default function Register() {
         className={styles.input}
         required
         label="Password"
+        aria-label="password"
         name="password"
         type={password ? 'password' : 'text'}
         value={form.password}

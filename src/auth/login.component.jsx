@@ -25,6 +25,7 @@ export default function Login() {
         className={styles.input}
         required
         label="Username"
+        aria-label="username"
         name="username"
         type="text"
         onChange={(e) =>
@@ -36,6 +37,7 @@ export default function Login() {
         className={styles.input}
         required
         label="Password"
+        aria-label="password"
         name="password"
         type={password ? 'password' : 'text'}
         value={form.password}
