@@ -1,12 +1,10 @@
 {
   "compilerOptions": {
-    "sourceMap": false,
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@/public/*": ["./public/*"]
     }
-  },
-  "include": ["node_modules/cypress", "./cypress/**/*.js"]
+  }
 }
