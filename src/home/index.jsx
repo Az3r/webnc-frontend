@@ -3,20 +3,21 @@ import PropTypes from 'prop-types'
 import Banner from './banner.component'
 import TopTrending from './trending.component'
 import Head from 'next/head'
-import AppBarHome from './appbar.component'
 import 'typeface-dancing-script'
-import DrawerHome from './drawer.component'
+import dynamic from 'next/dynamic'
 
+const DynamicAppBar = dynamic(() => import('./appbar.component'))
+const DynamicDrawer = dynamic(() => import('./drawer.component'))
 export default function HomePage({ courses }) {
   return (
-    <DrawerHome>
+    <DynamicDrawer>
       <Head>
         <title>Urskyll - Sample Text</title>
       </Head>
-      <AppBarHome />
+      <DynamicAppBar />
       <Banner target="target" />
       <TopTrending courses={courses} />
-    </DrawerHome>
+    </DynamicDrawer>
   )
 }
 
