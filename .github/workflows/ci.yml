@@ -1,0 +1,25 @@
+name: Cypress Tests
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  component-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: install dependencies and test
+        run: npm ci && npm test
+
+  cypress-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          build: npm run build
+          start: npm start

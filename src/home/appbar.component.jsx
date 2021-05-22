@@ -71,7 +71,7 @@ function AppBarHome(props, ref) {
         </Box>
       </Zoom>
       <Slide in={trigger}>
-        <AppBar position="fixed" ref={ref} {...props}>
+        <AppBar position="fixed" ref={ref} {...props} data-cy="appbar">
           <Toolbar>
             {!min450 && searching ? (
               <IconButton
@@ -224,7 +224,11 @@ function MoreActionMenu() {
         </Link>
       </Hidden>
       <Hidden mdUp>
-        <IconButton color="inherit" onClick={() => toggle(true)}>
+        <IconButton
+          data-cy="drawer-icon"
+          color="inherit"
+          onClick={() => toggle(true)}
+        >
           <MenuIcon />
         </IconButton>
       </Hidden>

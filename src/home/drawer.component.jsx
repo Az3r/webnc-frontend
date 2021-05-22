@@ -35,7 +35,12 @@ export default function DrawerHome({ children }) {
   const [open, toggle] = React.useState(false)
   return (
     <DrawerContext.Provider value={{ open, toggle }}>
-      <Drawer anchor="right" open={open} onClose={() => toggle(false)}>
+      <Drawer
+        data-cy="drawer"
+        anchor="right"
+        open={open}
+        onClose={() => toggle(false)}
+      >
         <Box>
           <IconButton onClick={() => toggle(false)}>
             <Close />
