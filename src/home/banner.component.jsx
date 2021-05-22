@@ -68,7 +68,7 @@ export default function Banner({ target }) {
           <Hidden smUp>
             <img src="/images/logo_icon.webp" width="64px" height="64px" />
             <Box flexGrow={1} />
-            <IconButton onClick={() => toggle(true)}>
+            <IconButton data-cy="drawer-icon" onClick={() => toggle(true)}>
               <Menu style={{ color: 'white' }} />
             </IconButton>
           </Hidden>
@@ -130,7 +130,11 @@ export default function Banner({ target }) {
             </Box>
           </Box>
           <Hidden smDown>
-            <img src="images/banner.webp" width="500px" />
+            <img
+              data-cy="banner-image"
+              src="images/banner.webp"
+              width="500px"
+            />
           </Hidden>
         </AnimatedBox>
       </Container>
