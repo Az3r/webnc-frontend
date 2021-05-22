@@ -44,7 +44,8 @@
       "^@/(.*)$": "<rootDir>/src/$1"
     },
     "modulePathIgnorePatterns": [
-      "babel"
+      "babel",
+      "cypress"
     ],
     "transform": {
       "\\.[jt]sx?$": [
