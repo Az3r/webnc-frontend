@@ -3,9 +3,11 @@ import { Box, Button, CircularProgress, Typography } from '@material-ui/core'
 import AuthContext from './auth.context'
 import useStyles from './auth.style'
 import { PasswordField, UserField } from '@/components/inputs'
+import { useSnackBar } from '@/components/snackbar'
 
 export default function Login() {
   const styles = useStyles()
+  const { show } = useSnackBar()
   const { form, update, next } = useContext(AuthContext)
   const [processing, process] = useState(false)
 
@@ -14,6 +16,7 @@ export default function Login() {
     process(true)
     await login(form)
 
+    show({ open: true, severity: 'success', message: 'Login successfully' })
     process(false)
   }
 
