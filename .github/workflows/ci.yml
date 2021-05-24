@@ -13,13 +13,37 @@ jobs:
       - name: install dependencies and test
         run: npm ci && npm test
 
-  cypress-test:
+  cypress-firefox:
+    runs-on: ubuntu-latest
+    container:
+      image: cypress/browsers:node12.16.1-chrome80-ff73
+      options: --user 1001
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: E2E on Firefox
+        uses: cypress-io/github-action@v2
+        with:
+          browser: firefox
+          record: true
+          build: npm run build
+          start: npm start
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  cypress-chrome:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Cypress run
+      - name: E2E on Chrome
         uses: cypress-io/github-action@v2
         with:
+          browser: chrome
+          record: true
           build: npm run build
           start: npm start
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
