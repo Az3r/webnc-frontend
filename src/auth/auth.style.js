@@ -26,6 +26,7 @@ export default makeStyles((theme) => ({
     margin: theme.spacing(2, 0)
   },
   button: {
-    margin: theme.spacing(2, 0, 4, 0)
+    margin: theme.spacing(2, 0, 4, 0),
+    height: 40
   }
 }))

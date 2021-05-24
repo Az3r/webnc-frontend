@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { Box, Button, Typography } from '@material-ui/core'
+import React, { useContext, useState } from 'react'
+import { Box, Button, CircularProgress, Typography } from '@material-ui/core'
 import AuthContext from './auth.context'
 import useStyles from './auth.style'
 import { PasswordField, UserField } from '@/components/inputs'
@@ -7,9 +7,18 @@ import { PasswordField, UserField } from '@/components/inputs'
 export default function Login() {
   const styles = useStyles()
   const { form, update, next } = useContext(AuthContext)
+  const [processing, process] = useState(false)
+
+  async function onSubmit(e) {
+    e.preventDefault()
+    process(true)
+    await login(form)
+
+    process(false)
+  }
 
   return (
-    <form onSubmit={(e) => login(e, form)} className={styles.form}>
+    <form onSubmit={onSubmit} className={styles.form}>
       <Typography align="center" variant="h4">
         Sign in
       </Typography>
@@ -28,16 +37,21 @@ export default function Login() {
         }
       />
       <Button
+        disabled={processing}
         fullWidth
         className={styles.button}
         type="submit"
         variant="contained"
         color="primary"
       >
-        Sign in
+        {processing ? (
+          <CircularProgress style={{ width: 30, height: 30 }} />
+        ) : (
+          'Sign in'
+        )}
       </Button>
-      <Typography align="center">Does not have an account?</Typography>
-      <Box margin="auto">
+      <Typography align="center">Does not have an account?/</Typography>
+      <Box margin="auto" marginTop={1}>
         <Button
           variant="outlined"
           color="secondary"
@@ -51,7 +65,7 @@ export default function Login() {
   )
 }
 
-async function login(e, form) {
-  e.preventDefault()
+async function login(form) {
   console.log(form)
+  await new Promise((resolve) => setTimeout(resolve, 1000))
 }
