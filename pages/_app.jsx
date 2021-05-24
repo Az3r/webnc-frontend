@@ -6,7 +6,7 @@ import { light } from '@/app.theme'
 import dynamic from 'next/dynamic'
 import '@/app.css'
 
-const DynamicPageLoading = dynamic(() => import('@/utils/page-loading'))
+const DynamicPageLoading = dynamic(() => import('@/components/page-loading'))
 export default function MainApp({ Component, pageProps }) {
   return (
     <ThemeProvider theme={light}>

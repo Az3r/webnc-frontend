@@ -1,62 +1,31 @@
-import React, { useState, useContext } from 'react'
-import {
-  Box,
-  Button,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography
-} from '@material-ui/core'
+import React, { useContext } from 'react'
+import { Box, Button, Typography } from '@material-ui/core'
 import AuthContext from './auth.context'
 import useStyles from './auth.style'
-import { Visibility, VisibilityOff } from '@material-ui/icons'
+import { PasswordField, UserField } from '@/components/inputs'
 
 export default function Login() {
   const styles = useStyles()
   const { form, update, next } = useContext(AuthContext)
-  const [password, toggle] = useState(true)
 
   return (
     <form onSubmit={(e) => login(e, form)} className={styles.form}>
       <Typography align="center" variant="h4">
         Sign in
       </Typography>
-      <TextField
+      <UserField
         className={styles.input}
-        required
-        label="Username"
-        aria-label="username"
-        name="username"
-        type="text"
         onChange={(e) =>
           update((prev) => ({ ...prev, username: e.target.value }))
         }
         value={form.username}
       />
-      <TextField
+      <PasswordField
         className={styles.input}
-        required
-        label="Password"
-        aria-label="password"
-        name="password"
-        type={password ? 'password' : 'text'}
         value={form.password}
         onChange={(e) =>
           update((prev) => ({ ...prev, password: e.target.value }))
         }
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="show-password-button"
-                edge="end"
-                onClick={() => toggle((prev) => !prev)}
-              >
-                {password ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          )
-        }}
       />
       <Button
         fullWidth
