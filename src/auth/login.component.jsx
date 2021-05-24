@@ -53,7 +53,7 @@ export default function Login() {
           'Sign in'
         )}
       </Button>
-      <Typography align="center">Does not have an account?/</Typography>
+      <Typography align="center">Does not have an account?</Typography>
       <Box margin="auto" marginTop={1}>
         <Button
           variant="outlined"
