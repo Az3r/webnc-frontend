@@ -212,12 +212,12 @@ function MoreActionMenu() {
   return (
     <Box display="flex">
       <Hidden smDown>
-        <Link href={routes.register}>
+        <Link passHref href={routes.register}>
           <Button color="inherit" style={{ width: '100px' }}>
             Sign up
           </Button>
         </Link>
-        <Link href={routes.login}>
+        <Link passHref href={routes.login}>
           <Button color="inherit" style={{ width: '100px' }}>
             Login
           </Button>
