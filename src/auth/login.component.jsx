@@ -21,7 +21,7 @@ export default function Login() {
   }
 
   return (
-    <form onSubmit={onSubmit} className={styles.form}>
+    <form onSubmit={onSubmit} className={styles.form} aria-busy={processing}>
       <Typography align="center" variant="h4">
         Sign in
       </Typography>
@@ -43,6 +43,7 @@ export default function Login() {
         disabled={processing}
         fullWidth
         className={styles.button}
+        aria-label="submit"
         type="submit"
         variant="contained"
         color="primary"
@@ -56,6 +57,7 @@ export default function Login() {
       <Typography align="center">Does not have an account?</Typography>
       <Box margin="auto" marginTop={1}>
         <Button
+          aria-label="register"
           variant="outlined"
           color="secondary"
           style={{ width: 120 }}

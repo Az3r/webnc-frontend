@@ -1,7 +1,6 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import '@testing-library/jest-dom/extend-expect'
 import Login from '@/auth/login.component'
 import AuthContext from '@/auth/auth.context'
 
@@ -26,6 +25,42 @@ describe('<Login/>', () => {
     const button = getByRole('button', { name: 'show-password-button' })
     userEvent.click(button)
     expect(password.type).toBe('text')
+  })
+
+  test('should update ui to form processing state', () => {
+    const { getByLabelText, getByRole, queryByRole } = render(<TestComponent />)
+    expect(queryByRole('progressbar')).toBeFalsy()
+    const username = getByLabelText('username').querySelector('input')
+    const password = getByLabelText('password').querySelector('input')
+    const submit = getByRole('button', { name: 'submit' })
+    userEvent.type(username, 'test username')
+    userEvent.type(password, '123')
+    userEvent.click(submit)
+    expect(submit).toBeDisabled()
+    expect(getByRole('progressbar')).toBeVisible()
+  })
+
+  test('should change focus when press Tab', () => {
+    const { getByLabelText, getByRole } = render(<TestComponent />)
+    const username = getByLabelText('username').querySelector('input')
+    const password = getByLabelText('password').querySelector('input')
+    const submit = getByRole('button', { name: 'submit' })
+    const register = getByRole('button', { name: 'register' })
+
+    // test initial states
+    expect(username).not.toHaveFocus()
+    expect(password).not.toHaveFocus()
+    expect(submit).not.toHaveFocus()
+    expect(register).not.toHaveFocus()
+
+    userEvent.tab()
+    expect(username).toHaveFocus()
+    userEvent.tab()
+    expect(password).toHaveFocus()
+    userEvent.tab()
+    expect(submit).toHaveFocus()
+    userEvent.tab()
+    expect(register).toHaveFocus()
   })
 })
 

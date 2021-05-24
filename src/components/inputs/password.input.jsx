@@ -19,6 +19,7 @@ export default function PasswordField({ className, onChange, value }) {
         endAdornment: (
           <InputAdornment position="end">
             <IconButton
+              tabIndex="-1"
               aria-label="show-password-button"
               edge="end"
               onClick={() => toggle((prev) => !prev)}
