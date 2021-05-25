@@ -9,13 +9,6 @@ import '@/app.css'
 
 const DynamicPageLoading = dynamic(() => import('@/components/page-loading'))
 export default function MainApp({ Component, pageProps }) {
-  // install mock service worker
-  React.useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      import('@/mocks/browser').then((worker) => worker.default.start())
-    }
-  }, [])
-
   return (
     <ThemeProvider theme={light}>
       <CssBaseline />
