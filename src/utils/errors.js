@@ -5,7 +5,10 @@
  * @typedef {'unknown' |
  * 'invalid-email' |
  * 'weak-password' |
- * 'account-existed'
+ * 'account-existed' |
+ * 'username-not-found' |
+ * 'password-not-match' |
+ * 'email-not-found'
  * } ErrorType
  * @typedef {Object} ErrorCode
  * @property {ErrorScope} ErrorCode.scope

@@ -21,14 +21,16 @@ export default function Login() {
     return login(form)
       .then((user) => {
         show({ open: true, severity: 'success', message: 'Login successfully' })
-        router.push({
-          pathname: routes.dashboard,
-          query: user
-        })
+        router.push(
+          {
+            pathname: routes.dashboard,
+            query: user
+          },
+          routes.dashboard
+        )
       })
       .catch((e) => {
         const error = parse(e)
-        console.log(error)
         show({ open: true, severity: 'error', message: error.code })
       })
       .finally(() => {
