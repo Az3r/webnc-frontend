@@ -11,7 +11,6 @@ export async function login({ username = '', password = '' }) {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
   })
-  console.log(response.status)
   if (response.status >= 400)
     throw create('auth', 'unknown', JSON.stringify({ username, password }))
   return response.json()
