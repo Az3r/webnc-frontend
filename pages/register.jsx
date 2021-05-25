@@ -1,5 +1,5 @@
 import React from 'react'
-import AuthPage from '@/auth'
+import AuthPage from '@/features/auth'
 import Head from 'next/head'
 import { name } from '@/utils/app'
 

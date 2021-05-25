@@ -1,8 +1,8 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import Login from '@/auth/login.component'
-import AuthContext from '@/auth/auth.context'
+import Login from '@/features/auth/login.component'
+import AuthContext from '@/features/auth/auth.context'
 
 describe('<Login/>', () => {
   test('should update value', () => {
@@ -35,6 +35,7 @@ describe('<Login/>', () => {
     const submit = getByRole('button', { name: 'submit' })
     userEvent.type(username, 'test username')
     userEvent.type(password, '123')
+
     userEvent.click(submit)
     expect(submit).toBeDisabled()
     expect(getByRole('progressbar')).toBeVisible()

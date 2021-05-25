@@ -2,5 +2,6 @@ export const name = 'Urskyll'
 
 export const routes = {
   login: '/login',
-  register: '/register'
+  register: '/register',
+  dashboard: '/dashboard'
 }

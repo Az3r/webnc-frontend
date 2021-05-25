@@ -1,0 +1,16 @@
+[
+  {
+    "id": "60ac6302359fbe04777ac7f8",
+    "thumbnail": "https://picsum.photos/400/150.webp?random=540",
+    "title": "Esse ullamco mollit minim eiusmod qui labore ipsum nostrud in magna cupidatat qui eiusmod.",
+    "category": "mobile",
+    "lecturer": {
+      "name": "Mendez Rosario",
+      "avatar": "https://picsum.photos/64.webp?random=166"
+    },
+    "rating": "4.43",
+    "reviewers": 1,
+    "price": "910.72",
+    "discount": "0.53"
+  }
+]

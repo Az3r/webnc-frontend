@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect, memo, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import Course from '@/home/course.component'
 import {
   Box,
   Hidden,
@@ -13,6 +12,7 @@ import { NavigateNext, NavigateBefore } from '@material-ui/icons'
 import { config, useSpring } from '@react-spring/core'
 import { animated } from '@react-spring/web'
 import { useDrag } from 'react-use-gesture'
+import Course from './course.component'
 
 export default function CourseList({ courses }) {
   const theme = useTheme()

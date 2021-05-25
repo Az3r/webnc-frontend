@@ -22,9 +22,9 @@ import { Close, Search, Shop } from '@material-ui/icons'
 import React, { useContext } from 'react'
 import { Menu as MenuIcon } from '@material-ui/icons'
 import useStyles from './appbar.style'
-import { useDrawer } from '@/home/drawer.component'
+import { useDrawer } from './drawer.component'
 import Link from 'next/link'
-import { routes } from '../utils/app'
+import { routes } from '@/utils/app'
 
 const AppBarContext = React.createContext({
   search: () => {},
