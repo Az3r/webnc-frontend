@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Alert } from '@material-ui/lab'
 import { Slide, Snackbar } from '@material-ui/core'
-import { cypress } from '@/utils/testing'
 
 const SnackBarContext = React.createContext({
   snackbar: {
