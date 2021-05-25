@@ -1,6 +1,7 @@
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import {
   Avatar,
-  Box,
   Collapse,
   Divider,
   Drawer,
@@ -11,9 +12,6 @@ import {
   ListItemIcon,
   ListItemText
 } from '@material-ui/core'
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import useStyles from './drawer.style'
 import {
   Category,
   Close,
@@ -24,13 +22,11 @@ import {
 } from '@material-ui/icons'
 import Link from 'next/link'
 import { routes } from '@/utils/app'
+import DrawerContext from './drawer.context'
+import useStyles from './drawer.style'
+import { cypress } from '@/utils/testing'
 
-const DrawerContext = React.createContext({
-  open: false,
-  toggle: () => {}
-})
-
-export default function DrawerHome({ children }) {
+export default function DrawerProvider({ children }) {
   const styles = useStyles()
   const [open, toggle] = React.useState(false)
   return (
@@ -41,11 +37,11 @@ export default function DrawerHome({ children }) {
         open={open}
         onClose={() => toggle(false)}
       >
-        <Box>
-          <IconButton onClick={() => toggle(false)}>
+        <div>
+          <IconButton onClick={() => toggle(false)} data-cy={cypress.close}>
             <Close />
           </IconButton>
-        </Box>
+        </div>
         <div className={styles.drawer}>
           <List>
             <CategoryListItem />
@@ -109,12 +105,6 @@ function CategoryListItem() {
   )
 }
 
-function useDrawer() {
-  return React.useContext(DrawerContext)
-}
-
-export { useDrawer }
-
-DrawerHome.propTypes = {
+DrawerProvider.propTypes = {
   children: PropTypes.node.isRequired
 }

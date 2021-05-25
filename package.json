@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "e2e": "next build && NODE_ENV=test next start",
     "test": "jest __tests__",
     "cypress": "cypress open"
   },
