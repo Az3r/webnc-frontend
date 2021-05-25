@@ -23,7 +23,7 @@ import {
   GroupAdd
 } from '@material-ui/icons'
 import Link from 'next/link'
-import { routes } from '../utils/app'
+import { routes } from '@/utils/app'
 
 const DrawerContext = React.createContext({
   open: false,

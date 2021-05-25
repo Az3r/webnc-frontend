@@ -1,10 +1,10 @@
-import { api } from '@/utils/app'
+import { resources } from '@/utils/api'
 import qs from 'qs'
 import { create } from '@/utils/errors'
 import { parse } from '@/utils/api'
 
 export async function login({ username = '', password = '' }) {
-  const response = await fetch(api.login, {
+  const response = await fetch(resources.login, {
     method: 'POST',
     body: qs.stringify({ username, password }),
     headers: {
