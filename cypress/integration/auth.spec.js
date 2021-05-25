@@ -91,7 +91,7 @@ describe('<Login/>', () => {
     cy.get('button')
       .contains('Register')
       .click()
-      .get('header')
+      .get('h4')
       .contains('Register')
       .should('be.visible')
   })
