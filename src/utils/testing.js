@@ -1,2 +1,2 @@
 export const cypress = {}
-export const rtl = {}
+export const testid = {}

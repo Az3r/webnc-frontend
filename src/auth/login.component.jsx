@@ -4,9 +4,13 @@ import AuthContext from './auth.context'
 import useStyles from './auth.style'
 import { PasswordField, UserField } from '@/components/inputs'
 import { useSnackBar } from '@/components/snackbar'
+import { useRouter } from 'next/router'
+import { routes } from '@/utils/app'
+import { parse } from '@/utils/errors'
 
 export default function Login() {
   const styles = useStyles()
+  const router = useRouter()
   const { show } = useSnackBar()
   const { form, update, next } = useContext(AuthContext)
   const [processing, process] = useState(false)
@@ -14,10 +18,22 @@ export default function Login() {
   async function onSubmit(e) {
     e.preventDefault()
     process(true)
-    await login(form)
-
-    show({ open: true, severity: 'success', message: 'Login successfully' })
-    process(false)
+    return login(form)
+      .then((user) => {
+        show({ open: true, severity: 'success', message: 'Login successfully' })
+        router.push({
+          pathname: routes.dashboard,
+          query: user
+        })
+      })
+      .catch((e) => {
+        const error = parse(e)
+        console.log(error)
+        show({ open: true, severity: 'error', message: error.code })
+      })
+      .finally(() => {
+        process(false)
+      })
   }
 
   return (
@@ -72,5 +88,7 @@ export default function Login() {
 
 async function login(form) {
   console.log(form)
-  await new Promise((resolve) => setTimeout(resolve, 1000))
+  const api = await import('./auth.api')
+  return api.login(form)
+  // await new Promise((resolve) => setTimeout(resolve, 1000))
 }
