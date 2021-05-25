@@ -67,7 +67,7 @@ export default function Login() {
         color="primary"
       >
         {processing ? (
-          <CircularProgress style={{ width: 30, height: 30 }} />
+          <CircularProgress role="progress" style={{ width: 30, height: 30 }} />
         ) : (
           'Sign in'
         )}

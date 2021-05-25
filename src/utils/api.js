@@ -13,7 +13,7 @@ export function parse(error = {}) {
   }
 }
 
-const production = process.env.MOCK_API === 'disabled'
+const production = !process.env.MOCK_API
 const map = {
   login: production ? '/Auth/Login' : '/login',
   courses: production ? '/Courses' : '/courses'
