@@ -1,5 +1,4 @@
 import users from '@/mocks/users.json'
-import { create } from '@/utils/errors'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST')
@@ -11,14 +10,14 @@ export default async function handler(req, res) {
   if (!found)
     return res
       .status(404)
-      .json({ error: create('auth', 'username-not-found', username).message })
+      .json({ error: `auth/username-not-found:${username}` })
 
   // compare user's password with submitted password
   const valid = found.password === password
   if (!valid)
     return res
       .status(404)
-      .json({ error: create('auth', 'password-not-match', password).message })
+      .json({ error: `auth/password-not-match:${password}` })
 
   return res.status(200).json(found)
 }
