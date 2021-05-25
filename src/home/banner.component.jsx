@@ -12,7 +12,7 @@ import {
   Typography
 } from '@material-ui/core'
 import Link from 'next/link'
-import { FiberManualRecord, Menu } from '@material-ui/icons'
+import { ArrowDownward, FiberManualRecord, Menu } from '@material-ui/icons'
 import { config, useSpring } from '@react-spring/core'
 import useStyles, {
   PrimaryButton,
@@ -51,14 +51,14 @@ export default function Banner({ target }) {
         <Box display="flex" justifyContent="flex-end">
           <Hidden xsDown>
             <Box width="160px">
-              <Link href={routes.register}>
+              <Link href={routes.register} passHref>
                 <PrimaryButton variant="text" fullWidth>
                   Sign up
                 </PrimaryButton>
               </Link>
             </Box>
             <Box width="160px">
-              <Link href={routes.login}>
+              <Link href={routes.login} passHref>
                 <PrimaryButton variant="outlined" fullWidth>
                   Login
                 </PrimaryButton>
@@ -117,15 +117,14 @@ export default function Banner({ target }) {
               ))}
             </List>
             <Box display="flex">
-              <Box width="140px">
-                <ExploreButton fullWidth onClick={explore}>
+              <Box width="160px">
+                <ExploreButton
+                  fullWidth
+                  onClick={explore}
+                  endIcon={<ArrowDownward />}
+                >
                   Explore
                 </ExploreButton>
-              </Box>
-              <Box width="140px" marginLeft={2}>
-                <Link href={routes.register}>
-                  <SignUpButton fullWidth>Sign up</SignUpButton>
-                </Link>
               </Box>
             </Box>
           </Box>

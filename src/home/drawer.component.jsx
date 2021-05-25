@@ -50,7 +50,7 @@ export default function DrawerHome({ children }) {
           <List>
             <CategoryListItem />
             <Divider />
-            <Link href={routes.login}>
+            <Link passHref href={routes.login}>
               <ListItem button>
                 <ListItemIcon>
                   <ExitToApp />
@@ -58,7 +58,7 @@ export default function DrawerHome({ children }) {
                 <ListItemText>Login</ListItemText>
               </ListItem>
             </Link>
-            <Link href={routes.register}>
+            <Link passHref href={routes.register}>
               <ListItem button>
                 <ListItemIcon>
                   <GroupAdd />

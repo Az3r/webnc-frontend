@@ -13,9 +13,10 @@ import useStyles from './auth.style'
 import { ArrowBack, Send } from '@material-ui/icons'
 import { useSpring } from '@react-spring/core'
 import { animated } from '@react-spring/web'
-import RegisterContext from './auth.context'
+import AuthContext from './auth.context'
 import Login from './login.component'
 import Register from './register.component'
+import Link from 'next/link'
 
 const AnimatedBox = animated(Box)
 const AnimatedIconButton = animated(IconButton)
@@ -31,7 +32,7 @@ export default function AuthPage({ type }) {
   }, [])
 
   return (
-    <RegisterContext.Provider
+    <AuthContext.Provider
       value={{
         next: () => setStep(1),
         previous: () => setStep(0),
@@ -50,9 +51,18 @@ export default function AuthPage({ type }) {
           >
             <ArrowBack />
           </AnimatedIconButton>
-          <div style={{ width: '144px', height: '144px', margin: 'auto' }}>
-            <img src="images/logo.webp" width="144px" height="144px" />
-          </div>
+          <Link href="/">
+            <div
+              style={{
+                width: '144px',
+                height: '144px',
+                margin: 'auto',
+                cursor: 'pointer'
+              }}
+            >
+              <img src="images/logo.webp" width="144px" height="144px" />
+            </div>
+          </Link>
           <Box flexGrow={1} display="flex" overflow="hidden">
             <AnimatedBox
               className={styles.step}
@@ -73,14 +83,14 @@ export default function AuthPage({ type }) {
           </Box>
         </Card>
       </div>
-    </RegisterContext.Provider>
+    </AuthContext.Provider>
   )
 }
 
 function VerifyStep() {
   const {
     form: { email }
-  } = useContext(RegisterContext)
+  } = useContext(AuthContext)
 
   const styles = useStyles()
   const [cooldown, setCooldown] = useState(0)

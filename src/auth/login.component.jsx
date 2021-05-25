@@ -1,69 +1,63 @@
-import React, { useState, useContext } from 'react'
-import {
-  Box,
-  Button,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography
-} from '@material-ui/core'
+import React, { useContext, useState } from 'react'
+import { Box, Button, CircularProgress, Typography } from '@material-ui/core'
 import AuthContext from './auth.context'
 import useStyles from './auth.style'
-import { Visibility, VisibilityOff } from '@material-ui/icons'
+import { PasswordField, UserField } from '@/components/inputs'
+import { useSnackBar } from '@/components/snackbar'
 
 export default function Login() {
   const styles = useStyles()
+  const { show } = useSnackBar()
   const { form, update, next } = useContext(AuthContext)
-  const [password, toggle] = useState(true)
+  const [processing, process] = useState(false)
+
+  async function onSubmit(e) {
+    e.preventDefault()
+    process(true)
+    await login(form)
+
+    show({ open: true, severity: 'success', message: 'Login successfully' })
+    process(false)
+  }
 
   return (
-    <form onSubmit={(e) => login(e, form)} className={styles.form}>
+    <form onSubmit={onSubmit} className={styles.form} aria-busy={processing}>
       <Typography align="center" variant="h4">
         Sign in
       </Typography>
-      <TextField
+      <UserField
         className={styles.input}
-        required
-        label="Username"
-        name="username"
-        type="text"
         onChange={(e) =>
           update((prev) => ({ ...prev, username: e.target.value }))
         }
         value={form.username}
       />
-      <TextField
+      <PasswordField
         className={styles.input}
-        required
-        label="Password"
-        name="password"
-        type={password ? 'password' : 'text'}
         value={form.password}
         onChange={(e) =>
           update((prev) => ({ ...prev, password: e.target.value }))
         }
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton edge="end" onClick={() => toggle((prev) => !prev)}>
-                {password ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          )
-        }}
       />
       <Button
+        disabled={processing}
         fullWidth
         className={styles.button}
+        aria-label="submit"
         type="submit"
         variant="contained"
         color="primary"
       >
-        Sign in
+        {processing ? (
+          <CircularProgress style={{ width: 30, height: 30 }} />
+        ) : (
+          'Sign in'
+        )}
       </Button>
       <Typography align="center">Does not have an account?</Typography>
-      <Box margin="auto">
+      <Box margin="auto" marginTop={1}>
         <Button
+          aria-label="register"
           variant="outlined"
           color="secondary"
           style={{ width: 120 }}
@@ -76,7 +70,7 @@ export default function Login() {
   )
 }
 
-async function login(e, form) {
-  e.preventDefault()
+async function login(form) {
   console.log(form)
+  await new Promise((resolve) => setTimeout(resolve, 1000))
 }
