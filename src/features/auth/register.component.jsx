@@ -81,3 +81,7 @@ export default function Register({ classes }) {
 Register.propTypes = {
   classes: PropTypes.object.isRequired
 }
+
+Register.defaultProps = {
+  classes: {}
+}

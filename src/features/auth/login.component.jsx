@@ -98,5 +98,9 @@ export default function Login({ classes }) {
 }
 
 Login.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object
+}
+
+Login.defaultProps = {
+  classes: {}
 }

@@ -164,3 +164,7 @@ export default function VerifyEmail({ classes }) {
 VerifyEmail.propTypes = {
   classes: PropTypes.object.isRequired
 }
+
+VerifyEmail.defaultProps = {
+  classes: {}
+}

@@ -85,7 +85,7 @@ function TestComponent() {
           update
         }}
       >
-        <Login />
+        <Login classes={{}} />
       </AuthContext.Provider>
     </ThemeProvider>
   )
