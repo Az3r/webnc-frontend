@@ -18,22 +18,12 @@ test('should update value', () => {
   expect(password).toHaveValue('123')
 })
 
-test('should change password visibility', () => {
-  const { getByLabelText, getByRole } = render(<TestComponent />)
-  const password = getByLabelText('password').querySelector('input')
-  expect(password.type).toBe('password')
-
-  const button = getByRole('button', { name: 'show-password-button' })
-  userEvent.click(button)
-  expect(password.type).toBe('text')
-})
-
-test.only('should update ui to form processing state', async () => {
+test('should update ui to form processing state', async () => {
   const { getByLabelText, getByRole, queryByRole } = render(<TestComponent />)
   expect(queryByRole('progress')).toBeFalsy()
   const username = getByLabelText('username').querySelector('input')
   const password = getByLabelText('password').querySelector('input')
-  const submit = getByRole('button', { name: 'submit' })
+  const submit = getByRole('button', { name: 'login' })
   userEvent.type(username, 'test username')
   userEvent.type(password, '123')
 
@@ -52,7 +42,7 @@ test('should change focus when press Tab', () => {
   const { getByLabelText, getByRole } = render(<TestComponent />)
   const username = getByLabelText('username').querySelector('input')
   const password = getByLabelText('password').querySelector('input')
-  const submit = getByRole('button', { name: 'submit' })
+  const submit = getByRole('button', { name: 'login' })
   const register = getByRole('button', { name: 'register' })
 
   // test initial states

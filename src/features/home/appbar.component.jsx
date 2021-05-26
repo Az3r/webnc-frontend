@@ -23,7 +23,7 @@ import Link from 'next/link'
 import useStyles from './appbar.style'
 import { useDrawer } from './drawer.context'
 import { routes } from '@/utils/app'
-import { cypress } from '@/utils/testing'
+import { testids } from '@/utils/testing'
 
 const AppBarContext = React.createContext({
   search: () => {},
@@ -63,7 +63,7 @@ function AppBarProvider(props, ref) {
     <AppBarContext.Provider value={{ search, focus, inputEl, keywords }}>
       <Zoom in={trigger}>
         <Box position="fixed" bottom="0" right="0" margin={2}>
-          <Fab onClick={focus} color="primary" data-cy={cypress.fab}>
+          <Fab onClick={focus} color="primary" data-cy={testids.fab}>
             <Search />
           </Fab>
         </Box>

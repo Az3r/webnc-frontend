@@ -10,7 +10,7 @@ export default function VerifyPage() {
   return (
     <>
       <Head>
-        <title>{name} | Verify Your Account</title>
+        <title>Verify Your Account | {name}</title>
       </Head>
       <AuthPage type="verify" email={email} />
     </>

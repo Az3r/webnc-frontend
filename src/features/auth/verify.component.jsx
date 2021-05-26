@@ -107,6 +107,9 @@ export default function VerifyEmail({ classes }) {
       <TextField
         style={{ height: 128 }}
         tabIndex="-1"
+        name="email"
+        type="email"
+        aria-label="email"
         helperText={first ? WELCOME : wait}
         error={!ready}
         InputLabelProps={{ shrink: true }}
@@ -131,7 +134,7 @@ export default function VerifyEmail({ classes }) {
           )
         }}
         label="Email"
-        value={form.email}
+        value={form.email || ''}
       />
       <div className={classes.opt_section}>
         {INPUTS.map((start) => (
@@ -139,6 +142,8 @@ export default function VerifyEmail({ classes }) {
             onFocus={(e) => e.target.select()}
             inputRef={inputs[start]}
             type="number"
+            name={`otp-${start}`}
+            aria-label={`otp-${start}`}
             key={start}
             InputProps={{ className: classes.opt }}
             inputProps={{ className: classes.opt_input }}
@@ -148,6 +153,8 @@ export default function VerifyEmail({ classes }) {
         ))}
       </div>
       <Button
+        name="verify"
+        aria-label="verify"
         ref={submitEl}
         variant="contained"
         color="primary"

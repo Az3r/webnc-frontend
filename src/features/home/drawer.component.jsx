@@ -24,7 +24,7 @@ import Link from 'next/link'
 import { routes } from '@/utils/app'
 import DrawerContext from './drawer.context'
 import useStyles from './drawer.style'
-import { cypress } from '@/utils/testing'
+import { testids } from '@/utils/testing'
 
 export default function DrawerProvider({ children }) {
   const styles = useStyles()
@@ -38,7 +38,7 @@ export default function DrawerProvider({ children }) {
         onClose={() => toggle(false)}
       >
         <div>
-          <IconButton onClick={() => toggle(false)} data-cy={cypress.close}>
+          <IconButton onClick={() => toggle(false)} data-cy={testids.close}>
             <Close />
           </IconButton>
         </div>

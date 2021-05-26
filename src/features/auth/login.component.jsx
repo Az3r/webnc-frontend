@@ -88,7 +88,7 @@ export default function Login({ classes }) {
           variant="outlined"
           color="secondary"
           style={{ width: 120 }}
-          onClick={next}
+          onClick={() => next()}
         >
           Register
         </Button>

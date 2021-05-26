@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { IconButton, InputAdornment, TextField } from '@material-ui/core'
 import { Visibility, VisibilityOff } from '@material-ui/icons'
-import { cypress } from '@/utils/testing'
+import { testids } from '@/utils/testing'
 
 export default function PasswordField({ className, onChange, value }) {
   const [visible, toggle] = React.useState(false)
@@ -22,8 +22,8 @@ export default function PasswordField({ className, onChange, value }) {
           <InputAdornment position="end">
             <IconButton
               tabIndex="-1"
-              data-cy={cypress.toggle_password}
-              aria-label="show-password-button"
+              data-cy={testids.toggle_password}
+              aria-label={testids.toggle_password}
               edge="end"
               onClick={() => toggle((prev) => !prev)}
             >

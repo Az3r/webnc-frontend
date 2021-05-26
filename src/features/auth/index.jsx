@@ -10,6 +10,7 @@ import Login from './login.component'
 import Register from './register.component'
 import Link from 'next/link'
 import VerifyEmail from './verify.component'
+import { testids } from '@/utils/testing'
 
 const AnimatedBox = animated(Box)
 const AnimatedIconButton = animated(IconButton)
@@ -49,6 +50,7 @@ function AuthPage({ type, classes, email }) {
       <div className={classes.root}>
         <Card ref={card} className={classes.card}>
           <AnimatedIconButton
+            data-cy={testids.back}
             onClick={() => setStep((prev) => prev - 1)}
             style={{
               visibility: step > 0 ? 'visible' : 'hidden',
