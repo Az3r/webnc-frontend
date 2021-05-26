@@ -10,6 +10,10 @@ export function login({ username, password }) {
   const valid = found.password === password
   if (!valid) throw new Error(`auth/password-not-match:${password}`)
 
+  // check if user is verified
+  if (found.verified === false)
+    throw new Error(`auth/account-not-verified:${found.email}`)
+
   return found
 }
 

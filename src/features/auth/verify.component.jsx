@@ -76,13 +76,14 @@ export default function VerifyEmail({ classes }) {
         code: otp.join('')
       })
 
-      router.push(
-        {
-          pathname: routes.dashboard,
-          query: form
-        },
-        routes.dashboard
-      )
+      if (success)
+        router.push(
+          {
+            pathname: routes.dashboard,
+            query: form
+          },
+          routes.dashboard
+        )
       show({
         open: true,
         severity: success ? 'success' : 'error',

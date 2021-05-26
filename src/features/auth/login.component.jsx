@@ -18,24 +18,28 @@ export default function Login({ classes }) {
   async function onSubmit(e) {
     e.preventDefault()
     process(true)
-    return login(form)
-      .then((user) => {
-        show({ open: true, severity: 'success', message: 'Login successfully' })
-        router.push(
-          {
-            pathname: routes.dashboard,
-            query: user
-          },
-          routes.dashboard
-        )
-      })
-      .catch((e) => {
-        const error = parse(e)
-        show({ open: true, severity: 'error', message: error.code })
-      })
-      .finally(() => {
-        process(false)
-      })
+    const api = await import('./auth.api')
+    try {
+      const user = await api.login(form)
+      show({ open: true, severity: 'success', message: 'Login successfully' })
+      router.push(
+        {
+          pathname: routes.dashboard,
+          query: user
+        },
+        routes.dashboard
+      )
+    } catch (e) {
+      const error = parse(e)
+      if (error.code === 'auth/account-not-verified') {
+        api.send(form.email)
+        update((prev) => ({ ...prev, email: error.value }))
+        next(2)
+      }
+      show({ open: true, severity: 'error', message: error.code })
+    } finally {
+      process(false)
+    }
   }
 
   return (
@@ -91,13 +95,6 @@ export default function Login({ classes }) {
       </Box>
     </form>
   )
-}
-
-async function login(form) {
-  console.log(form)
-  const api = await import('./auth.api')
-  return api.login(form)
-  // await new Promise((resolve) => setTimeout(resolve, 1000))
 }
 
 Login.propTypes = {

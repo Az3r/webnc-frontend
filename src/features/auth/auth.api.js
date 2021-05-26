@@ -53,3 +53,8 @@ export async function verify({ email = '', code = -1 }) {
   }
   return response.json()
 }
+
+/** send an otp code to specific email */
+export async function send(email) {
+  return true
+}

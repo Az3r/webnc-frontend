@@ -2,6 +2,15 @@
   {
     "id": "60ac8abc819b651e2d8acf69",
     "avatar": "https://picsum.photos/64.webp?random=2820",
+    "username": "notverified",
+    "role": "Student",
+    "password": "ManhTuan@1999",
+    "email": "proplaydota12345@gmail.com",
+    "verified": false
+  },
+  {
+    "id": "60ac8abc819b651e2d8acf69",
+    "avatar": "https://picsum.photos/64.webp?random=2820",
     "username": "TuanNguyen",
     "role": "Student",
     "password": "ManhTuan@1999",

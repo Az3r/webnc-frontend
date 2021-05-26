@@ -57,4 +57,6 @@ function styles(theme) {
   }
 }
 
-export default (Component) => withStyles(styles)(Component)
+export default function StyledComponent(Component) {
+  return withStyles(styles)(Component)
+}

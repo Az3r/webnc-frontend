@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { useState, useRef, useEffect } from 'react'
 import { Box, Card, IconButton } from '@material-ui/core'
-import style from './auth.style'
+import StyledComponent from './auth.style'
 import { ArrowBack } from '@material-ui/icons'
 import { useSpring } from '@react-spring/core'
 import { animated } from '@react-spring/web'
@@ -19,8 +19,8 @@ const TYPES = {
   verify: 2
 }
 
-function AuthPage({ type, classes }) {
-  const [form, update] = useState({ email: '', username: '', password: '' })
+function AuthPage({ type, classes, email }) {
+  const [form, update] = useState({ email, username: '', password: '' })
   const [step, setStep] = useState(TYPES[type])
   const card = useRef(null)
   const [width, setWidth] = useState(400)
@@ -40,8 +40,8 @@ function AuthPage({ type, classes }) {
   return (
     <AuthContext.Provider
       value={{
-        next: () => setStep((prev) => prev + 1),
-        previous: () => setStep((prev) => prev - 1),
+        next: (i = 1) => setStep((prev) => prev + i),
+        previous: (i = 1) => setStep((prev) => prev - i),
         form,
         update
       }}
@@ -51,6 +51,7 @@ function AuthPage({ type, classes }) {
           <AnimatedIconButton
             onClick={() => setStep((prev) => prev - 1)}
             style={{
+              visibility: step > 0 ? 'visible' : 'hidden',
               rotate: spring.step.to((value) => Math.min(value * 360, 360)),
               scale: spring.step.to((value) => Math.min(value, 1))
             }}
@@ -94,12 +95,14 @@ function AuthPage({ type, classes }) {
   )
 }
 
-export default style(AuthPage)
+export default StyledComponent(AuthPage)
 
 AuthPage.propTypes = {
   type: PropTypes.string,
+  email: PropTypes.string,
   classes: PropTypes.object.isRequired
 }
 AuthPage.defaultProps = {
+  email: '',
   type: 'login'
 }

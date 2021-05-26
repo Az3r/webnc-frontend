@@ -12,7 +12,7 @@ export default function HomePage({ courses }) {
   return (
     <DrawerProvider>
       <Head>
-        <title>Urskyll - Sample Text</title>
+        <title>Urskyll - Online Courses, Catch Up To Modern Technology</title>
       </Head>
       <AppBarProvider />
       <Banner target="target" />
