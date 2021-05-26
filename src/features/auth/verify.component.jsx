@@ -1,5 +1,5 @@
 import React, { useContext, useState, useRef } from 'react'
-import useStyles from './auth.style'
+import PropTypes from 'prop-types'
 import AuthContext from './auth.context'
 import {
   Button,
@@ -18,11 +18,10 @@ import { routes } from '@/utils/app'
 const WELCOME =
   "An OPT code has been sent to your email address, if you don't recieve one, you can click on the send button to the right"
 const INPUTS = [0, 1, 2, 3, 4, 5]
-export default function VerifyEmail() {
+export default function VerifyEmail({ classes }) {
   const { form } = useContext(AuthContext)
   const { show } = useSnackBar()
 
-  const styles = useStyles()
   const router = useRouter()
   const [cooldown, setCooldown] = useState(0)
   const [ready, resend] = useState(true)
@@ -103,7 +102,7 @@ export default function VerifyEmail() {
       : undefined
 
   return (
-    <div className={styles.form}>
+    <div className={classes.form}>
       <TextField
         style={{ height: 128 }}
         tabIndex="-1"
@@ -133,15 +132,15 @@ export default function VerifyEmail() {
         label="Email"
         value={form.email}
       />
-      <div className={styles.opt_section}>
+      <div className={classes.opt_section}>
         {INPUTS.map((start) => (
           <TextField
             onFocus={(e) => e.target.select()}
             inputRef={inputs[start]}
             type="number"
             key={start}
-            InputProps={{ className: styles.opt }}
-            inputProps={{ className: styles.opt_input }}
+            InputProps={{ className: classes.opt }}
+            inputProps={{ className: classes.opt_input }}
             onKeyPress={(e) => onType(e.key, start)}
             value={otp[start]}
           />
@@ -153,10 +152,14 @@ export default function VerifyEmail() {
         color="primary"
         onClick={verify}
         disabled={processing}
-        className={styles.submit}
+        className={classes.submit}
       >
         {processing ? <CircularProgress /> : 'Verify'}
       </Button>
     </div>
   )
+}
+
+VerifyEmail.propTypes = {
+  classes: PropTypes.object.isRequired
 }

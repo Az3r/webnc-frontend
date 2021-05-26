@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { useState, useRef, useEffect } from 'react'
 import { Box, Card, IconButton } from '@material-ui/core'
-import useStyles from './auth.style'
+import style from './auth.style'
 import { ArrowBack } from '@material-ui/icons'
 import { useSpring } from '@react-spring/core'
 import { animated } from '@react-spring/web'
@@ -18,8 +18,8 @@ const TYPES = {
   register: 1,
   verify: 2
 }
-export default function AuthPage({ type }) {
-  const styles = useStyles()
+
+function AuthPage({ type, classes }) {
   const [form, update] = useState({ email: '', username: '', password: '' })
   const [step, setStep] = useState(TYPES[type])
   const card = useRef(null)
@@ -46,8 +46,8 @@ export default function AuthPage({ type }) {
         update
       }}
     >
-      <div className={styles.root}>
-        <Card ref={card} className={styles.card}>
+      <div className={classes.root}>
+        <Card ref={card} className={classes.card}>
           <AnimatedIconButton
             onClick={() => setStep((prev) => prev - 1)}
             style={{
@@ -78,14 +78,14 @@ export default function AuthPage({ type }) {
               x: spring.step.to((x) => x * -width)
             }}
           >
-            <div className={styles.step} style={{ width }}>
-              <Login />
+            <div className={classes.step} style={{ width }}>
+              <Login classes={classes} />
             </div>
-            <div className={styles.step} style={{ width }}>
-              <Register />
+            <div className={classes.step} style={{ width }}>
+              <Register classes={classes} />
             </div>
-            <div className={styles.step} style={{ width }}>
-              <VerifyEmail />
+            <div className={classes.step} style={{ width }}>
+              <VerifyEmail classes={classes} />
             </div>
           </AnimatedBox>
         </Card>
@@ -94,8 +94,11 @@ export default function AuthPage({ type }) {
   )
 }
 
+export default style(AuthPage)
+
 AuthPage.propTypes = {
-  type: PropTypes.string
+  type: PropTypes.string,
+  classes: PropTypes.object.isRequired
 }
 AuthPage.defaultProps = {
   type: 'login'

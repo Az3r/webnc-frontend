@@ -1,15 +1,15 @@
 import React, { useContext, useState } from 'react'
+import PropTypes from 'prop-types'
+
 import { Box, Button, CircularProgress, Typography } from '@material-ui/core'
 import AuthContext from './auth.context'
-import useStyles from './auth.style'
 import { PasswordField, UserField } from '@/components/inputs'
 import { useSnackBar } from '@/components/snackbar'
 import { useRouter } from 'next/router'
 import { routes } from '@/utils/app'
 import { parse } from '@/utils/errors'
 
-export default function Login() {
-  const styles = useStyles()
+export default function Login({ classes }) {
   const router = useRouter()
   const { show } = useSnackBar()
   const { form, update, next } = useContext(AuthContext)
@@ -41,7 +41,7 @@ export default function Login() {
   return (
     <form
       onSubmit={onSubmit}
-      className={styles.form}
+      className={classes.form}
       aria-busy={processing}
       method="POST"
     >
@@ -49,14 +49,14 @@ export default function Login() {
         Sign in
       </Typography>
       <UserField
-        className={styles.field}
+        className={classes.field}
         onChange={(e) =>
           update((prev) => ({ ...prev, username: e.target.value }))
         }
         value={form.username}
       />
       <PasswordField
-        className={styles.field}
+        className={classes.field}
         value={form.password}
         onChange={(e) =>
           update((prev) => ({ ...prev, password: e.target.value }))
@@ -65,7 +65,7 @@ export default function Login() {
       <Button
         disabled={processing}
         fullWidth
-        className={styles.submit}
+        className={classes.submit}
         aria-label="login"
         type="submit"
         variant="contained"
@@ -98,4 +98,8 @@ async function login(form) {
   const api = await import('./auth.api')
   return api.login(form)
   // await new Promise((resolve) => setTimeout(resolve, 1000))
+}
+
+Login.propTypes = {
+  classes: PropTypes.object.isRequired
 }

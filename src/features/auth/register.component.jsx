@@ -1,13 +1,12 @@
 import React, { useContext, useState } from 'react'
+import PropTypes from 'prop-types'
 import { Button, CircularProgress, Typography } from '@material-ui/core'
 import AuthContext from './auth.context'
-import useStyles from './auth.style'
 import { EmailField, PasswordField, UserField } from '@/components/inputs'
 import { useSnackBar } from '@/components/snackbar'
 import { parse } from '@/utils/errors'
 
-export default function Register() {
-  const styles = useStyles()
+export default function Register({ classes }) {
   const { show } = useSnackBar()
   const { form, update, next } = useContext(AuthContext)
   const [processing, process] = useState(false)
@@ -38,24 +37,24 @@ export default function Register() {
   }
 
   return (
-    <form onSubmit={onSubmit} className={styles.form} aria-busy={processing}>
+    <form onSubmit={onSubmit} className={classes.form} aria-busy={processing}>
       <Typography align="center" variant="h4">
         Register
       </Typography>
       <UserField
-        className={styles.field}
+        className={classes.field}
         onChange={(e) =>
           update((prev) => ({ ...prev, username: e.target.value }))
         }
         value={form.username}
       />
       <EmailField
-        className={styles.field}
+        className={classes.field}
         onChange={(e) => update((prev) => ({ ...prev, email: e.target.value }))}
         value={form.email}
       />
       <PasswordField
-        className={styles.field}
+        className={classes.field}
         value={form.password}
         onChange={(e) =>
           update((prev) => ({ ...prev, password: e.target.value }))
@@ -64,7 +63,7 @@ export default function Register() {
       <Button
         aria-label="register"
         disabled={processing}
-        className={styles.submit}
+        className={classes.submit}
         type="submit"
         variant="contained"
         color="secondary"
@@ -77,4 +76,8 @@ export default function Register() {
       </Button>
     </form>
   )
+}
+
+Register.propTypes = {
+  classes: PropTypes.object.isRequired
 }
