@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles } from '@material-ui/core'
 
 export default makeStyles((theme) => ({
   root: {
@@ -28,5 +28,29 @@ export default makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(4, 0),
     height: 40
+  },
+  opt_section: {
+    display: 'flex',
+    flexGrow: 1,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    margin: theme.spacing(4, 2)
+  },
+  opt: {
+    width: 36,
+    textAlign: 'center',
+    fontSize: theme.typography.h3.fontSize
+  },
+  opt_input: {
+    textAlign: 'center',
+    MozAppearance: 'textfield',
+    '&::-webkit-outer-spin-button': {
+      WebkitAppearance: 'none',
+      margin: 0
+    },
+    '&::-webkit-inner-spin-button': {
+      WebkitAppearance: 'none',
+      margin: 0
+    }
   }
 }))

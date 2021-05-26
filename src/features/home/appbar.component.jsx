@@ -47,7 +47,6 @@ function AppBarProvider(props, ref) {
   function focus() {
     toggleSearchAppBar(true)
     inputEl.current?.focus()
-    inputEl.current?.select()
   }
 
   function search(e) {
@@ -178,6 +177,7 @@ const SearchField = React.memo(
     return (
       <form onSubmit={search}>
         <InputBase
+          onFocus={(e) => e.target.select()}
           autoFocus={autoFocus}
           name="keywords"
           value={s}

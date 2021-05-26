@@ -8,6 +8,7 @@ export default function UserField({ className, onChange, value }) {
       className={className}
       required
       label="Username"
+      id="username"
       aria-label="username"
       name="username"
       type="text"

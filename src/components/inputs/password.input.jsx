@@ -11,6 +11,7 @@ export default function PasswordField({ className, onChange, value }) {
       className={className}
       required
       label="Password"
+      id="password"
       aria-label="password"
       name="password"
       type={visible ? 'text' : 'password'}

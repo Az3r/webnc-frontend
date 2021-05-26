@@ -39,7 +39,12 @@ export default function Login() {
   }
 
   return (
-    <form onSubmit={onSubmit} className={styles.form} aria-busy={processing}>
+    <form
+      onSubmit={onSubmit}
+      className={styles.form}
+      aria-busy={processing}
+      method="POST"
+    >
       <Typography align="center" variant="h4">
         Sign in
       </Typography>
@@ -61,7 +66,7 @@ export default function Login() {
         disabled={processing}
         fullWidth
         className={styles.submit}
-        aria-label="submit"
+        aria-label="login"
         type="submit"
         variant="contained"
         color="primary"
