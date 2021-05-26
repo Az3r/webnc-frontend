@@ -13,16 +13,29 @@ import VerifyEmail from './verify.component'
 
 const AnimatedBox = animated(Box)
 const AnimatedIconButton = animated(IconButton)
+const TYPES = {
+  login: 0,
+  register: 1,
+  verify: 2
+}
 export default function AuthPage({ type }) {
   const styles = useStyles()
   const [form, update] = useState({ email: '', username: '', password: '' })
-  const [step, setStep] = useState(type === 'register' ? 1 : 0)
-  const card = useRef({ offsetWidth: 400 })
+  const [step, setStep] = useState(TYPES[type])
+  const card = useRef(null)
+  const [width, setWidth] = useState(400)
   const spring = useSpring({ step })
 
   useEffect(() => {
-    update({ email: '', username: '', password: '' })
+    setWidth(card.current.offsetWidth)
+    window.addEventListener('resize', onScreenOrientationChanged)
+    return () =>
+      window.removeEventListener('resize', onScreenOrientationChanged)
   }, [])
+
+  function onScreenOrientationChanged() {
+    if (width !== card.current.offsetWidth) setWidth(card.current.offsetWidth)
+  }
 
   return (
     <AuthContext.Provider
@@ -56,32 +69,25 @@ export default function AuthPage({ type }) {
               <img src="images/logo.webp" width="144px" height="144px" />
             </div>
           </Link>
-          <Box flexGrow={1} display="flex" overflow="hidden">
-            <AnimatedBox
-              className={styles.step}
-              style={{
-                x: spring.step.to((value) => -value * card.current.offsetWidth)
-              }}
-            >
+          <AnimatedBox
+            flexGrow={1}
+            display="flex"
+            overflow="hidden"
+            width="6000px"
+            style={{
+              x: spring.step.to((x) => x * -width)
+            }}
+          >
+            <div className={styles.step} style={{ width }}>
               <Login />
-            </AnimatedBox>
-            <AnimatedBox
-              className={styles.step}
-              style={{
-                x: spring.step.to((value) => -value * card.current.offsetWidth)
-              }}
-            >
+            </div>
+            <div className={styles.step} style={{ width }}>
               <Register />
-            </AnimatedBox>
-            <AnimatedBox
-              className={styles.step}
-              style={{
-                x: spring.step.to((value) => -value * card.current.offsetWidth)
-              }}
-            >
+            </div>
+            <div className={styles.step} style={{ width }}>
               <VerifyEmail />
-            </AnimatedBox>
-          </Box>
+            </div>
+          </AnimatedBox>
         </Card>
       </div>
     </AuthContext.Provider>

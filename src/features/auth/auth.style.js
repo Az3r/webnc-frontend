@@ -18,7 +18,7 @@ export default makeStyles((theme) => ({
     paddingBottom: theme.spacing(1)
   },
   step: {
-    width: '100%',
+    maxWidth: 400,
     flexShrink: 0,
     padding: theme.spacing(0, 4)
   },
