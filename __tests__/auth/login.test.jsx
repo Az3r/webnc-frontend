@@ -1,8 +1,10 @@
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, act, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Login from '@/features/auth/login.component'
 import AuthContext from '@/features/auth/auth.context'
+import { ThemeProvider } from '@material-ui/styles'
+import { createMuiTheme } from '@material-ui/core'
 
 test('should update value', () => {
   const { getByLabelText } = render(<TestComponent />)
@@ -26,18 +28,24 @@ test('should change password visibility', () => {
   expect(password.type).toBe('text')
 })
 
-test('should update ui to form processing state', () => {
+test.only('should update ui to form processing state', async () => {
   const { getByLabelText, getByRole, queryByRole } = render(<TestComponent />)
-  expect(queryByRole('progressbar')).toBeFalsy()
+  expect(queryByRole('progress')).toBeFalsy()
   const username = getByLabelText('username').querySelector('input')
   const password = getByLabelText('password').querySelector('input')
   const submit = getByRole('button', { name: 'submit' })
   userEvent.type(username, 'test username')
   userEvent.type(password, '123')
 
-  userEvent.click(submit)
+  act(() => {
+    userEvent.click(submit)
+  })
+  // submit should be disable and has a progress element inside
   expect(submit).toBeDisabled()
-  expect(getByRole('progressbar')).toBeVisible()
+  expect(getByRole('progress')).toBeVisible()
+
+  // after an amount of time, progress element should disappear
+  await waitFor(() => expect(queryByRole('progress')).toBeFalsy())
 })
 
 test('should change focus when press Tab', () => {
@@ -70,13 +78,15 @@ function TestComponent() {
     email: ''
   })
   return (
-    <AuthContext.Provider
-      value={{
-        form,
-        update
-      }}
-    >
-      <Login />
-    </AuthContext.Provider>
+    <ThemeProvider theme={createMuiTheme()}>
+      <AuthContext.Provider
+        value={{
+          form,
+          update
+        }}
+      >
+        <Login />
+      </AuthContext.Provider>
+    </ThemeProvider>
   )
 }
