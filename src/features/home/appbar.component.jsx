@@ -1,5 +1,5 @@
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
-
 import {
   AppBar,
   Box,
@@ -18,13 +18,12 @@ import {
   Hidden,
   useMediaQuery
 } from '@material-ui/core'
-import { Close, Search, Shop } from '@material-ui/icons'
-import React, { useContext } from 'react'
-import { Menu as MenuIcon } from '@material-ui/icons'
-import useStyles from './appbar.style'
-import { useDrawer } from './drawer.component'
+import { Close, Search, Shop, Menu as MenuIcon } from '@material-ui/icons'
 import Link from 'next/link'
+import useStyles from './appbar.style'
+import { useDrawer } from './drawer.context'
 import { routes } from '@/utils/app'
+import { cypress } from '@/utils/testing'
 
 const AppBarContext = React.createContext({
   search: () => {},
@@ -33,7 +32,7 @@ const AppBarContext = React.createContext({
   keywords: ''
 })
 
-function AppBarHome(props, ref) {
+function AppBarProvider(props, ref) {
   const trigger = useScrollTrigger({
     threshold: 480,
     disableHysteresis: true
@@ -65,7 +64,7 @@ function AppBarHome(props, ref) {
     <AppBarContext.Provider value={{ search, focus, inputEl, keywords }}>
       <Zoom in={trigger}>
         <Box position="fixed" bottom="0" right="0" margin={2}>
-          <Fab onClick={focus} color="primary">
+          <Fab onClick={focus} color="primary" data-cy={cypress.fab}>
             <Search />
           </Fab>
         </Box>
@@ -248,4 +247,4 @@ function Actions() {
   )
 }
 
-export default React.forwardRef(AppBarHome)
+export default React.forwardRef(AppBarProvider)

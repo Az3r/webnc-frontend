@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 
 export default makeStyles((theme) => ({
   root: {
@@ -20,13 +20,13 @@ export default makeStyles((theme) => ({
   step: {
     width: '100%',
     flexShrink: 0,
-    padding: theme.spacing(0, 4, 0, 4)
+    padding: theme.spacing(0, 4)
   },
-  input: {
+  field: {
     margin: theme.spacing(2, 0)
   },
-  button: {
-    margin: theme.spacing(2, 0, 4, 0),
+  submit: {
+    margin: theme.spacing(4, 0),
     height: 40
   }
 }))

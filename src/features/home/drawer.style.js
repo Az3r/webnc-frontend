@@ -1,8 +1,8 @@
-import { makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 
 export default makeStyles((theme) => ({
   drawer: {
-    width: '360px'
+    width: 360
   },
   subitems: {
     paddingLeft: theme.spacing(2)

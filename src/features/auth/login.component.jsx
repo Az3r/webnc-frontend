@@ -44,14 +44,14 @@ export default function Login() {
         Sign in
       </Typography>
       <UserField
-        className={styles.input}
+        className={styles.field}
         onChange={(e) =>
           update((prev) => ({ ...prev, username: e.target.value }))
         }
         value={form.username}
       />
       <PasswordField
-        className={styles.input}
+        className={styles.field}
         value={form.password}
         onChange={(e) =>
           update((prev) => ({ ...prev, password: e.target.value }))
@@ -60,14 +60,14 @@ export default function Login() {
       <Button
         disabled={processing}
         fullWidth
-        className={styles.button}
+        className={styles.submit}
         aria-label="submit"
         type="submit"
         variant="contained"
         color="primary"
       >
         {processing ? (
-          <CircularProgress style={{ width: 30, height: 30 }} />
+          <CircularProgress role="progress" style={{ width: 30, height: 30 }} />
         ) : (
           'Sign in'
         )}

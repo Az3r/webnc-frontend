@@ -13,21 +13,20 @@ export function parse(error = {}) {
   }
 }
 
+const production = !process.env.MOCK_API
+const map = {
+  login: production ? '/Auth/Login' : '/login',
+  courses: production ? '/Courses' : '/courses'
+}
+
 function endpoint(name) {
-  const url =
-    process.env.NODE_ENV === 'production'
-      ? 'https://programmingcourse.herokuapp.com/api'
-      : 'http://localhost:3000/api'
+  const url = production
+    ? 'https://programmingcourse.herokuapp.com/api'
+    : 'http://localhost:3000/api'
   return url + name
 }
 
-export const resources =
-  process.env.NODE_ENV === 'production'
-    ? {
-        login: endpoint('/Auth/Login'),
-        courses: endpoint('/Courses')
-      }
-    : {
-        login: endpoint('/login'),
-        courses: endpoint('/courses')
-      }
+export const resources = {
+  login: endpoint(map.login),
+  courses: endpoint(map.courses)
+}

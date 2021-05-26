@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { Button, Typography } from '@material-ui/core'
-import clsx from 'clsx'
 import AuthContext from './auth.context'
 import useStyles from './auth.style'
 import { EmailField, PasswordField, UserField } from '@/components/inputs'
@@ -15,26 +14,26 @@ export default function Register() {
         Register
       </Typography>
       <UserField
-        className={styles.input}
+        className={styles.field}
         onChange={(e) =>
           update((prev) => ({ ...prev, username: e.target.value }))
         }
         value={form.username}
       />
       <EmailField
-        className={styles.input}
+        className={styles.field}
         onChange={(e) => update((prev) => ({ ...prev, email: e.target.value }))}
         value={form.email}
       />
       <PasswordField
-        className={styles.input}
+        className={styles.field}
         value={form.password}
         onChange={(e) =>
           update((prev) => ({ ...prev, password: e.target.value }))
         }
       />
       <Button
-        className={clsx(styles.input, styles.button)}
+        className={styles.submit}
         type="submit"
         variant="contained"
         color="primary"

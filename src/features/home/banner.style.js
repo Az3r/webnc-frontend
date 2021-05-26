@@ -1,4 +1,5 @@
-import { makeStyles, withStyles, Button } from '@material-ui/core'
+import { Button } from '@material-ui/core'
+import { makeStyles, withStyles } from '@material-ui/styles'
 
 export default makeStyles((theme) => ({
   root: {
@@ -8,23 +9,14 @@ export default makeStyles((theme) => ({
     color: 'white',
     paddingBottom: theme.spacing(2)
   },
+  button: {
+    width: 160,
+    color: 'white',
+    borderColor: 'white'
+  },
   'banner-title': { fontFamily: 'Dancing Script' },
   'banner-message': { fontStyle: 'italic', fontWeight: 300 }
 }))
-
-export const PrimaryButton = withStyles({
-  root: {
-    color: 'white',
-    background: 'transparent',
-    letterSpacing: 1.25,
-    '&:hover': {
-      background: 'rgb(255,255,255,0.1)'
-    }
-  },
-  outlined: {
-    border: '1px solid rgb(255,255,255,0.5)'
-  }
-})(Button)
 
 export const ExploreButton = withStyles({
   root: {
@@ -33,10 +25,4 @@ export const ExploreButton = withStyles({
       background: 'linear-gradient(45deg, #F0AD00, #FA7334)'
     }
   }
-})(PrimaryButton)
-
-export const SignUpButton = withStyles({
-  root: {
-    background: '#005cb2'
-  }
-})(PrimaryButton)
+})(Button)
