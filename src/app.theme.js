@@ -1,4 +1,8 @@
-import { createMuiTheme, responsiveFontSizes } from '@material-ui/core'
+import {
+  createGenerateClassName,
+  createMuiTheme,
+  responsiveFontSizes
+} from '@material-ui/core'
 
 const light = responsiveFontSizes(
   createMuiTheme({
@@ -14,5 +18,10 @@ const dark = responsiveFontSizes(
     }
   })
 )
+
+export const generateClassName = createGenerateClassName({
+  productionPrefix: 'c',
+  disableGlobal: true
+})
 
 export { dark, light }
