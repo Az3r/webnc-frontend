@@ -8,9 +8,11 @@ describe('<Login/>', () => {
     cy.visit('/login')
   })
   it('should all required fields must be filled', () => {
-    cy.intercept('POST', /login/i, (req) => {
+    cy.intercept(/login/i, (req) => {
       req.reply({
-        delay: 100
+        statusCode: 400,
+        delay: 100,
+        body: { error: 'auth/username-not-found' }
       })
     })
       .get('button[type=submit]:visible')
@@ -28,10 +30,9 @@ describe('<Login/>', () => {
   })
 
   it('should display error snackbar if login failed', () => {
-    cy.intercept('POST', /login/i, (req) => {
+    cy.intercept(/login/i, (req) => {
       req.reply({
         statusCode: 400,
-        delay: 100,
         body: { error: 'auth/username-not-found' }
       })
     })
@@ -43,7 +44,7 @@ describe('<Login/>', () => {
       .should('be.visible')
       .should('have.text', 'auth/username-not-found')
       .should('have.class', 'MuiAlert-filledError')
-      .intercept('POST', /login/i, (req) => {
+      .intercept(/login/i, (req) => {
         req.reply({
           statusCode: 400,
           delay: 100,
@@ -59,7 +60,7 @@ describe('<Login/>', () => {
   })
 
   it('should navigate to dashboard if login success', () => {
-    cy.intercept('POST', /login/i, (req) => {
+    cy.intercept(/login/i, (req) => {
       req.reply({
         statusCode: 200,
         delay: 100,
