@@ -1,7 +1,7 @@
-export const cypress = {
+export const testids = {
   fab: 'fab',
   close: 'close',
   toggle_password: 'toggle-password',
-  snackbar: 'snackbar'
+  snackbar: 'snackbar',
+  back: 'back'
 }
-export const testid = {}

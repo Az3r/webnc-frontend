@@ -13,9 +13,11 @@ export function parse(error = {}) {
   }
 }
 
-const production = !process.env.MOCK_API
+const production = process.env.NEXT_PUBLIC_MOCK_API == undefined
 const map = {
   login: production ? '/Auth/Login' : '/login',
+  verify: production ? '/Auth/VerifyTwoStepVerification' : '/verify',
+  register: production ? '/Auth/Register' : '/register',
   courses: production ? '/Courses' : '/courses'
 }
 
@@ -28,5 +30,7 @@ function endpoint(name) {
 
 export const resources = {
   login: endpoint(map.login),
+  verify: endpoint(map.verify),
+  register: endpoint(map.register),
   courses: endpoint(map.courses)
 }

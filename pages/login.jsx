@@ -7,7 +7,7 @@ export default function LoginPage() {
   return (
     <>
       <Head>
-        <title>{name} | Login</title>
+        <title>Login | {name}</title>
       </Head>
       <AuthPage />
     </>

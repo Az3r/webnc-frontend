@@ -1,15 +1,15 @@
 import React, { useContext, useState } from 'react'
+import PropTypes from 'prop-types'
+
 import { Box, Button, CircularProgress, Typography } from '@material-ui/core'
 import AuthContext from './auth.context'
-import useStyles from './auth.style'
 import { PasswordField, UserField } from '@/components/inputs'
 import { useSnackBar } from '@/components/snackbar'
 import { useRouter } from 'next/router'
 import { routes } from '@/utils/app'
 import { parse } from '@/utils/errors'
 
-export default function Login() {
-  const styles = useStyles()
+export default function Login({ classes }) {
   const router = useRouter()
   const { show } = useSnackBar()
   const { form, update, next } = useContext(AuthContext)
@@ -18,40 +18,49 @@ export default function Login() {
   async function onSubmit(e) {
     e.preventDefault()
     process(true)
-    return login(form)
-      .then((user) => {
-        show({ open: true, severity: 'success', message: 'Login successfully' })
-        router.push(
-          {
-            pathname: routes.dashboard,
-            query: user
-          },
-          routes.dashboard
-        )
-      })
-      .catch((e) => {
-        const error = parse(e)
-        show({ open: true, severity: 'error', message: error.code })
-      })
-      .finally(() => {
-        process(false)
-      })
+    const api = await import('./auth.api')
+    try {
+      const user = await api.login(form)
+      show({ open: true, severity: 'success', message: 'Login successfully' })
+      router.push(
+        {
+          pathname: routes.dashboard,
+          query: user
+        },
+        routes.dashboard
+      )
+    } catch (e) {
+      const error = parse(e)
+      if (error.code === 'auth/account-not-verified') {
+        api.send(form.email)
+        update((prev) => ({ ...prev, email: error.value }))
+        next(2)
+      }
+      show({ open: true, severity: 'error', message: error.code })
+    } finally {
+      process(false)
+    }
   }
 
   return (
-    <form onSubmit={onSubmit} className={styles.form} aria-busy={processing}>
+    <form
+      onSubmit={onSubmit}
+      className={classes.form}
+      aria-busy={processing}
+      method="POST"
+    >
       <Typography align="center" variant="h4">
         Sign in
       </Typography>
       <UserField
-        className={styles.field}
+        className={classes.field}
         onChange={(e) =>
           update((prev) => ({ ...prev, username: e.target.value }))
         }
         value={form.username}
       />
       <PasswordField
-        className={styles.field}
+        className={classes.field}
         value={form.password}
         onChange={(e) =>
           update((prev) => ({ ...prev, password: e.target.value }))
@@ -60,8 +69,8 @@ export default function Login() {
       <Button
         disabled={processing}
         fullWidth
-        className={styles.submit}
-        aria-label="submit"
+        className={classes.submit}
+        aria-label="login"
         type="submit"
         variant="contained"
         color="primary"
@@ -79,7 +88,7 @@ export default function Login() {
           variant="outlined"
           color="secondary"
           style={{ width: 120 }}
-          onClick={next}
+          onClick={() => next()}
         >
           Register
         </Button>
@@ -88,9 +97,10 @@ export default function Login() {
   )
 }
 
-async function login(form) {
-  console.log(form)
-  const api = await import('./auth.api')
-  return api.login(form)
-  // await new Promise((resolve) => setTimeout(resolve, 1000))
+Login.propTypes = {
+  classes: PropTypes.object
+}
+
+Login.defaultProps = {
+  classes: {}
 }

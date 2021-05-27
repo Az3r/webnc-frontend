@@ -21,6 +21,7 @@ jobs:
       - name: E2E on Firefox
         uses: cypress-io/github-action@v2
         with:
+          install-command: npm ci
           group: firefox
           browser: firefox
           record: true
@@ -38,6 +39,7 @@ jobs:
       - name: E2E on Chrome
         uses: cypress-io/github-action@v2
         with:
+          install-command: npm ci
           group: chrome
           browser: chrome
           record: true

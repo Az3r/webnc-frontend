@@ -18,5 +18,11 @@ import './commands'
 import 'cypress-jest-adapter'
 import '@testing-library/cypress/add-commands'
 
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // returning false here prevents Cypress from
+  // failing the test
+  if (err.name === 'ChunkLoadError') return false
+  return true
+})
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
