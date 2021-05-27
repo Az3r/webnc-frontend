@@ -1,52 +1,61 @@
 import PropTypes from 'prop-types'
-import React, { useState, useContext, useRef, useEffect } from 'react'
-import {
-  Box,
-  Button,
-  Card,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography
-} from '@material-ui/core'
-import useStyles from './auth.style'
-import { ArrowBack, Send } from '@material-ui/icons'
+import React, { useState, useRef, useEffect } from 'react'
+import { Box, Card, IconButton } from '@material-ui/core'
+import StyledComponent from './auth.style'
+import { ArrowBack } from '@material-ui/icons'
 import { useSpring } from '@react-spring/core'
 import { animated } from '@react-spring/web'
 import AuthContext from './auth.context'
 import Login from './login.component'
 import Register from './register.component'
 import Link from 'next/link'
+import VerifyEmail from './verify.component'
+import { testids } from '@/utils/testing'
 
 const AnimatedBox = animated(Box)
 const AnimatedIconButton = animated(IconButton)
-export default function AuthPage({ type }) {
-  const styles = useStyles()
-  const [form, update] = useState({ email: '', username: '', password: '' })
-  const [step, setStep] = useState(0)
-  const card = useRef({ offsetWidth: 0 })
+const TYPES = {
+  login: 0,
+  register: 1,
+  verify: 2
+}
+
+function AuthPage({ type, classes, email }) {
+  const [form, update] = useState({ email, username: '', password: '' })
+  const [step, setStep] = useState(TYPES[type])
+  const card = useRef(null)
+  const [width, setWidth] = useState(400)
   const spring = useSpring({ step })
 
   useEffect(() => {
-    setStep(type === 'register' ? 1 : 0)
+    setWidth(card.current.offsetWidth)
+    window.addEventListener('resize', onScreenOrientationChanged)
+    return () =>
+      window.removeEventListener('resize', onScreenOrientationChanged)
   }, [])
+
+  function onScreenOrientationChanged() {
+    if (width !== card.current.offsetWidth) setWidth(card.current.offsetWidth)
+  }
 
   return (
     <AuthContext.Provider
       value={{
-        next: () => setStep(1),
-        previous: () => setStep(0),
+        next: (i = 1) => setStep((prev) => prev + i),
+        previous: (i = 1) => setStep((prev) => prev - i),
         form,
         update
       }}
     >
-      <div className={styles.root}>
-        <Card ref={card} className={styles.card}>
+      <div className={classes.root}>
+        <Card ref={card} className={classes.card}>
           <AnimatedIconButton
-            onClick={() => setStep(0)}
+            data-cy={testids.back}
+            onClick={() => setStep((prev) => prev - 1)}
             style={{
-              rotate: spring.step.to((value) => value * 360),
-              scale: spring.step
+              visibility: step > 0 ? 'visible' : 'hidden',
+              rotate: spring.step.to((value) => Math.min(value * 360, 360)),
+              scale: spring.step.to((value) => Math.min(value, 1))
             }}
           >
             <ArrowBack />
@@ -63,92 +72,39 @@ export default function AuthPage({ type }) {
               <img src="images/logo.webp" width="144px" height="144px" />
             </div>
           </Link>
-          <Box flexGrow={1} display="flex" overflow="hidden">
-            <AnimatedBox
-              className={styles.step}
-              style={{
-                x: spring.step.to((value) => -value * card.current.offsetWidth)
-              }}
-            >
-              <Login />
-            </AnimatedBox>
-            <AnimatedBox
-              className={styles.step}
-              style={{
-                x: spring.step.to((value) => -value * card.current.offsetWidth)
-              }}
-            >
-              <Register />
-            </AnimatedBox>
-          </Box>
+          <AnimatedBox
+            flexGrow={1}
+            display="flex"
+            overflow="hidden"
+            width="6000px"
+            style={{
+              x: spring.step.to((x) => x * -width)
+            }}
+          >
+            <div className={classes.step} style={{ width }}>
+              <Login classes={classes} />
+            </div>
+            <div className={classes.step} style={{ width }}>
+              <Register classes={classes} />
+            </div>
+            <div className={classes.step} style={{ width }}>
+              <VerifyEmail classes={classes} />
+            </div>
+          </AnimatedBox>
         </Card>
       </div>
     </AuthContext.Provider>
   )
 }
 
-function VerifyStep() {
-  const {
-    form: { email }
-  } = useContext(AuthContext)
-
-  const styles = useStyles()
-  const [cooldown, setCooldown] = useState(0)
-  const [ready, resend] = useState(true)
-
-  React.useEffect(() => {
-    if (ready) return () => {}
-    const timer = setInterval(() => {
-      return setCooldown((prev) => {
-        if (prev - 1 <= 0) resend(true)
-        return prev - 1
-      })
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [ready])
-
-  function send() {
-    setCooldown(60)
-    resend(false)
-  }
-
-  return (
-    <>
-      <Typography align="center" variant="h4">
-        Verify
-      </Typography>
-      <TextField
-        className={styles.input}
-        helperText={cooldown > 0 && `Please wait for ${cooldown} seconds...`}
-        InputProps={{
-          readOnly: true,
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton edge="end" onClick={send} disabled={!ready}>
-                <Send />
-              </IconButton>
-            </InputAdornment>
-          )
-        }}
-        label="Email"
-        value={email}
-        type="email"
-      />
-      <Button
-        className={styles.input}
-        type="submit"
-        variant="contained"
-        color="primary"
-      >
-        Register
-      </Button>
-    </>
-  )
-}
+export default StyledComponent(AuthPage)
 
 AuthPage.propTypes = {
-  type: PropTypes.string
+  type: PropTypes.string,
+  email: PropTypes.string,
+  classes: PropTypes.object.isRequired
 }
 AuthPage.defaultProps = {
+  email: '',
   type: 'login'
 }

@@ -8,6 +8,7 @@ export default function EmailField({ className, onChange, value }) {
       className={className}
       required
       label="Email"
+      id="email"
       aria-label="email"
       name="email"
       type="email"

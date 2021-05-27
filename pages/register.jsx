@@ -7,7 +7,7 @@ export default function RegisterPage() {
   return (
     <>
       <Head>
-        <title>{name} | Register</title>
+        <title>Register | {name}</title>
       </Head>
       <AuthPage type="register" />
     </>
