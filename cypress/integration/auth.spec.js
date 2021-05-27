@@ -8,7 +8,7 @@ describe('<Login/>', () => {
     cy.visit('/login')
   })
   it('should all required fields must be filled', () => {
-    cy.intercept('POST', /auth/i, (req) => {
+    cy.intercept('POST', /login/i, (req) => {
       req.reply({
         delay: 100
       })
@@ -28,7 +28,7 @@ describe('<Login/>', () => {
   })
 
   it('should display error snackbar if login failed', () => {
-    cy.intercept('POST', /auth/i, (req) => {
+    cy.intercept('POST', /login/i, (req) => {
       req.reply({
         statusCode: 400,
         delay: 100,
@@ -43,7 +43,7 @@ describe('<Login/>', () => {
       .should('be.visible')
       .should('have.text', 'auth/username-not-found')
       .should('have.class', 'MuiAlert-filledError')
-      .intercept('POST', /auth/i, (req) => {
+      .intercept('POST', /login/i, (req) => {
         req.reply({
           statusCode: 400,
           delay: 100,
@@ -59,7 +59,7 @@ describe('<Login/>', () => {
   })
 
   it('should navigate to dashboard if login success', () => {
-    cy.intercept('POST', /auth/i, (req) => {
+    cy.intercept('POST', /login/i, (req) => {
       req.reply({
         statusCode: 200,
         delay: 100,
@@ -191,7 +191,7 @@ describe('<Register/>', () => {
   })
 
   it('should browser focus all required fields', () => {
-    cy.intercept(/auth/i, (req) => {
+    cy.intercept(/register/i, (req) => {
       req.reply({
         delay: 100
       })
