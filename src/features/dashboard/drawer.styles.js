@@ -1,9 +1,8 @@
-import { fade, makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 
 export default makeStyles((theme) => ({
-  root: {
-    width: 280,
-    backgroundColor: theme.palette.background.paper
+  drawer: {
+    zIndex: 999
   },
   number: {
     color: theme.palette.grey['500'],

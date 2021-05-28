@@ -4,7 +4,6 @@ import Banner from './banner.component'
 import TopTrending from './trending.component'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
-import 'typeface-dancing-script'
 import DrawerProvider from '@/features/home/drawer.component'
 
 const AppBarProvider = dynamic(() => import('./appbar.component'))
@@ -15,8 +14,8 @@ export default function HomePage({ courses }) {
         <Head>
           <title>Urskyll - Online Courses, Catch Up To Modern Technology</title>
         </Head>
-        <AppBarProvider />
         <Banner target="target" />
+        <AppBarProvider />
         <TopTrending courses={courses} />
       </DrawerProvider>
     </main>
