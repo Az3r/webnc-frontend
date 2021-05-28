@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ThemeProvider } from '@material-ui/core'
-import { light } from '@/app.theme'
+import { dark, light } from '@/app.theme'
 import dynamic from 'next/dynamic'
 import SnackBarProvider from '@/components/snackbar'
 import '@/app.css'
@@ -9,7 +9,7 @@ import '@/app.css'
 const DynamicPageLoading = dynamic(() => import('@/components/page-loading'))
 export default function MainApp({ Component, pageProps }) {
   return (
-    <ThemeProvider theme={light}>
+    <ThemeProvider theme={dark}>
       <DynamicPageLoading />
       <SnackBarProvider>
         <Component {...pageProps} />

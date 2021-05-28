@@ -10,14 +10,16 @@ import DrawerProvider from '@/features/home/drawer.component'
 const AppBarProvider = dynamic(() => import('./appbar.component'))
 export default function HomePage({ courses }) {
   return (
-    <DrawerProvider>
-      <Head>
-        <title>Urskyll - Online Courses, Catch Up To Modern Technology</title>
-      </Head>
-      <AppBarProvider />
-      <Banner target="target" />
-      <TopTrending courses={courses} />
-    </DrawerProvider>
+    <main>
+      <DrawerProvider>
+        <Head>
+          <title>Urskyll - Online Courses, Catch Up To Modern Technology</title>
+        </Head>
+        <AppBarProvider />
+        <Banner target="target" />
+        <TopTrending courses={courses} />
+      </DrawerProvider>
+    </main>
   )
 }
 
