@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core'
 
 export default makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(1),
+    padding: theme.spacing(2, 0, 0, 2),
     marginLeft: 0,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
@@ -17,7 +17,7 @@ export default makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen
     }),
     [theme.breakpoints.up('md')]: {
-      marginLeft: 281.4
+      marginLeft: 283.4
     }
   }
 }))
