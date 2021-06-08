@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import MenuIcon from '@material-ui/icons/Menu'
 import useStyles from './appbar.style'
-import { name } from '@/utils/app'
+import { appname } from '@/utils/app'
 import { useDashboard } from './dashboard.context'
 import { useSpring } from '@react-spring/core'
 import { animated } from '@react-spring/web'
@@ -30,8 +30,8 @@ export default function DashboardAppBar() {
         >
           {drawer ? <Close /> : <MenuIcon />}
         </AnimatedIconButton>
-        <Typography className={styles.title} variant="h5">
-          {name}
+        <Typography className={styles.title} variant="h4">
+          {appname}
         </Typography>
       </Toolbar>
     </AppBar>

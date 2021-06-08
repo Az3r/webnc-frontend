@@ -1,4 +1,4 @@
-export const name = 'Urskyll'
+export const appname = 'Urskyll'
 
 export const routes = {
   login: '/login',

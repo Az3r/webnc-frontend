@@ -9,14 +9,9 @@ export default makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2)
   },
-  toolbar: {
-    alignItems: 'flex-start',
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(2)
-  },
+  toolbar: {},
   title: {
     flexGrow: 1,
-    alignSelf: 'flex-end',
     fontFamily: 'Dancing Script'
   }
 }))

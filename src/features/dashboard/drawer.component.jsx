@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Avatar,
-  Box,
   Divider,
   Drawer,
   IconButton,
@@ -13,7 +12,8 @@ import {
   ListItemText,
   ListSubheader,
   Switch,
-  Typography
+  Typography,
+  useMediaQuery
 } from '@material-ui/core'
 import {
   Brightness4,
@@ -26,31 +26,41 @@ import {
   WatchLater
 } from '@material-ui/icons'
 import useStyles from './drawer.styles'
-import { name } from '@/utils/app'
+import { appname } from '@/utils/app'
 import { useApp } from '@/app.theme'
 import { useDashboard } from './dashboard.context'
-import { useSpring } from '@react-spring/core'
-import { animated } from '@react-spring/web'
 
 const DrawerContext = React.createContext({})
 export default function DashboardDrawer() {
-  const { drawer } = useDashboard()
+  const { drawer, toggle } = useDashboard()
   const { theme, setTheme } = useApp()
   const styles = useStyles()
-  const spring = useSpring({ width: drawer ? 283.4 : 0 })
+  const upMD = useMediaQuery((theme) => theme.breakpoints.up('md'))
+
+  useEffect(() => {}, [upMD])
 
   return (
-    <animated.nav className={styles.drawer} style={spring}>
-      <Drawer open={drawer} variant="persistent" anchor="left">
-        <Box display="flex" alignItems="center" paddingLeft={2}>
-          <Typography style={{ fontFamily: 'Dancing Script' }} variant="h4">
-            {name}
-          </Typography>
-          <Box flexGrow="1" />
-          <IconButton>
-            <Close />
-          </IconButton>
-        </Box>
+    <nav>
+      <Drawer
+        open={drawer}
+        onClose={() => toggle(false)}
+        variant={upMD ? 'persistent' : 'temporary'}
+        anchor="left"
+      >
+        <ListItem>
+          <ListItemText
+            primary={appname}
+            primaryTypographyProps={{
+              variant: 'h4',
+              style: { fontFamily: 'Dancing Script' }
+            }}
+          />
+          <ListItemSecondaryAction>
+            <IconButton>
+              <Close onClick={() => toggle(false)} />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
         <List subheader={<ListSubheader>Personal</ListSubheader>}>
           <ListItem>
             <ListItemAvatar>
@@ -131,7 +141,7 @@ export default function DashboardDrawer() {
           </ListItem>
         </List>
       </Drawer>
-    </animated.nav>
+    </nav>
   )
 }
 

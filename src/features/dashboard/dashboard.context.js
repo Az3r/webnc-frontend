@@ -6,7 +6,7 @@ const DashboardContext = React.createContext({
 })
 
 export default function DashboardProvider({ children }) {
-  const [drawer, toggle] = useState(true)
+  const [drawer, toggle] = useState(false)
   return (
     <DashboardContext.Provider value={{ drawer, toggle }}>
       {children}
