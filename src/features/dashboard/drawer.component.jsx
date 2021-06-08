@@ -29,20 +29,19 @@ import useStyles from './drawer.styles'
 import { name } from '@/utils/app'
 import { useApp } from '@/app.theme'
 import { useDashboard } from './dashboard.context'
+import { useSpring } from '@react-spring/core'
+import { animated } from '@react-spring/web'
 
 const DrawerContext = React.createContext({})
 export default function DashboardDrawer() {
-  const styles = useStyles()
   const { drawer } = useDashboard()
   const { theme, setTheme } = useApp()
+  const styles = useStyles()
+  const spring = useSpring({ width: drawer ? 283.4 : 0 })
 
   return (
-    <nav>
-      <Drawer
-        open={drawer}
-        variant="persistent"
-        classes={{ paper: styles.drawer }}
-      >
+    <animated.nav className={styles.drawer} style={spring}>
+      <Drawer open={drawer} variant="persistent" anchor="left">
         <Box display="flex" alignItems="center" paddingLeft={2}>
           <Typography style={{ fontFamily: 'Dancing Script' }} variant="h4">
             {name}
@@ -132,7 +131,7 @@ export default function DashboardDrawer() {
           </ListItem>
         </List>
       </Drawer>
-    </nav>
+    </animated.nav>
   )
 }
 

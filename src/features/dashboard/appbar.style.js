@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core'
 
 export default makeStyles((theme) => ({
   appbar: {
-    zIndex: 1000,
+    zIndex: theme.zIndex.drawer + 1,
     boxShadow: 'none',
     height: 64
   },
