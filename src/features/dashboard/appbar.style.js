@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core'
+import { fade, makeStyles } from '@material-ui/core'
 
 export default makeStyles((theme) => ({
   appbar: {
@@ -22,7 +22,7 @@ export default makeStyles((theme) => ({
   search: {
     padding: theme.spacing(0, 1),
     maxWidth: 512,
-    backgroundColor: theme.palette.grey[100],
+    backgroundColor: fade(theme.palette.text.primary, 0.1),
     borderRadius: theme.shape.borderRadius
   }
 }))
