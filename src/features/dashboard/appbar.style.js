@@ -9,9 +9,20 @@ export default makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2)
   },
-  toolbar: {},
   title: {
-    flexGrow: 1,
     fontFamily: 'Dancing Script'
+  },
+  form: {
+    padding: theme.spacing(1, 0),
+    marginLeft: theme.spacing(4),
+    flexGrow: 1,
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  search: {
+    padding: theme.spacing(0, 1),
+    maxWidth: 512,
+    backgroundColor: theme.palette.grey[100],
+    borderRadius: theme.shape.borderRadius
   }
 }))

@@ -9,7 +9,8 @@ import { appname } from '@/utils/app'
 import { useDashboard } from './dashboard.context'
 import { useSpring } from '@react-spring/core'
 import { animated } from '@react-spring/web'
-import { Close } from '@material-ui/icons'
+import { Close, Search } from '@material-ui/icons'
+import { Box, Button, InputBase } from '@material-ui/core'
 
 const AnimatedIconButton = animated(IconButton)
 export default function DashboardAppBar() {
@@ -19,7 +20,7 @@ export default function DashboardAppBar() {
 
   return (
     <AppBar position="fixed" color="inherit" classes={{ root: styles.appbar }}>
-      <Toolbar className={styles.toolbar}>
+      <Toolbar>
         <AnimatedIconButton
           edge="start"
           className={styles.menuButton}
@@ -33,6 +34,19 @@ export default function DashboardAppBar() {
         <Typography className={styles.title} variant="h4">
           {appname}
         </Typography>
+        <form className={styles.form}>
+          <InputBase
+            className={styles.search}
+            name="search"
+            fullWidth
+            placeholder="Search anything"
+            endAdornment={
+              <IconButton type="submit" color="inherit">
+                <Search />
+              </IconButton>
+            }
+          />
+        </form>
       </Toolbar>
     </AppBar>
   )
