@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const DashboardContext = React.createContext({})
+const DashboardContext = React.createContext({
+  drawer: true,
+  toggle: () => {}
+})
 
 export default function DashboardProvider({ children }) {
+  const [drawer, toggle] = useState(true)
   return (
-    <DashboardContext.Provider value={{}}>{children}</DashboardContext.Provider>
+    <DashboardContext.Provider value={{ drawer, toggle }}>
+      {children}
+    </DashboardContext.Provider>
   )
 }
 

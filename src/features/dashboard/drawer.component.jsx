@@ -28,16 +28,18 @@ import {
 import useStyles from './drawer.styles'
 import { name } from '@/utils/app'
 import { useApp } from '@/app.theme'
+import { useDashboard } from './dashboard.context'
 
 const DrawerContext = React.createContext({})
 export default function DashboardDrawer() {
   const styles = useStyles()
+  const { drawer } = useDashboard()
   const { theme, setTheme } = useApp()
 
   return (
     <nav>
       <Drawer
-        open={true}
+        open={drawer}
         variant="persistent"
         classes={{ paper: styles.drawer }}
       >
@@ -52,10 +54,7 @@ export default function DashboardDrawer() {
         </Box>
         <List subheader={<ListSubheader>Personal</ListSubheader>}>
           <ListItem>
-            <ListItemAvatar
-              title="User's Name"
-              subheader="proplaydota12345@gmail.com"
-            >
+            <ListItemAvatar>
               <Avatar src="https://picsum.photos/64" />
             </ListItemAvatar>
             <ListItemText
