@@ -27,10 +27,13 @@ import {
 } from '@material-ui/icons'
 import useStyles from './drawer.styles'
 import { name } from '@/utils/app'
+import { useApp } from '@/app.theme'
 
 const DrawerContext = React.createContext({})
 export default function DashboardDrawer() {
   const styles = useStyles()
+  const { theme, setTheme } = useApp()
+
   return (
     <nav>
       <Drawer
@@ -72,7 +75,11 @@ export default function DashboardDrawer() {
             </ListItemIcon>
             <ListItemText primary="Dark Theme" />
             <ListItemSecondaryAction>
-              <Switch edge="end" />
+              <Switch
+                edge="end"
+                checked={theme === 'dark'}
+                onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
+              />
             </ListItemSecondaryAction>
           </ListItem>
         </List>
