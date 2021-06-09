@@ -1,6 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Avatar, Box, Paper, Typography } from '@material-ui/core'
+import {
+  Avatar,
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Typography
+} from '@material-ui/core'
 import { currency } from '@/utils/intl'
 import useStyles from './course.style'
 import { Rating } from '@material-ui/lab'
@@ -20,48 +28,12 @@ export default function Course({
 }) {
   const styles = useStyles()
 
-  function Category({ category }) {
-    let src = ''
-    switch (category) {
-      case 'mobile':
-        src = 'images/category_mobile.webp'
-        break
-      case 'web':
-        src = 'images/category_web.webp'
-        break
-      default:
-        throw new Error('unknown category ' + category)
-    }
-    return <Avatar src={src} className={styles.category} />
-  }
-
-  function Thumbnail() {
-    return (
-      <Box flexShrink={0} position="relative" height={120} overflow="hidden">
-        <img src={thumbnail} alt={title} className={styles.thumbnail} />
-        <Category category={category} />
-      </Box>
-    )
-  }
-
-  function Title() {
-    return <Typography className={styles.title}>{title}</Typography>
-  }
-
-  function Lecturer() {
-    return (
-      <Typography variant="subtitle2" className={styles.lecturer}>
-        {lecturer.name}
-      </Typography>
-    )
-  }
-
   function CourseRating() {
     return (
-      <Box display="flex" color="text.secondary">
-        <Rating value={rating} size="small" readOnly precision={0.5} />
+      <Box display="flex" color="text.secondary" alignItems="center">
+        <Rating value={rating} size="medium" readOnly precision={0.5} />
         <Box paddingX={0.5} />
-        <Typography variant="subtitle2">
+        <Typography variant="subtitle1">
           ({rating} / {reviewers})
         </Typography>
       </Box>
@@ -74,9 +46,9 @@ export default function Course({
         <Typography variant="h6">{currency(price * (1 - discount))}</Typography>
         {discount > 0 && (
           <>
-            <Box paddingLeft={1}>
+            <Box paddingLeft={1} color="text.secondary">
               <Typography
-                variant="subtitle2"
+                variant="caption"
                 style={{ textDecoration: 'line-through' }}
               >
                 {currency(price)}
@@ -92,25 +64,23 @@ export default function Course({
   }
 
   return (
-    <Paper elevation={3}>
-      <Box width={COURSE_WIDTH} display="flex" flexDirection="column">
-        <Thumbnail />
-        <Box display="flex" padding={1} flexGrow={1}>
-          <Avatar src={lecturer.avatar} />
-          <Box
-            paddingLeft={1}
-            flexGrow={1}
-            display="flex"
-            flexDirection="column"
-          >
-            <Title />
-            <Lecturer />
-            <CourseRating />
-            <Price />
-          </Box>
-        </Box>
-      </Box>
-    </Paper>
+    <Card className={styles.root}>
+      <CardMedia
+        image={thumbnail}
+        className={styles.thumbnail}
+        component="img"
+      />
+      <CardHeader
+        avatar={<Avatar src={lecturer.avatar} />}
+        title={title}
+        subheader={lecturer.name}
+        classes={{ title: styles.title, subheader: styles.lecturer }}
+      />
+      <CardContent classes={{ root: styles.content }}>
+        <CourseRating />
+        <Price />
+      </CardContent>
+    </Card>
   )
 }
 

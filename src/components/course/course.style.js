@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core'
 
 export default makeStyles((theme) => ({
   title: {
-    height: 48,
+    height: 120.4 / 3,
     display: '-webkit-box',
     boxOrient: 'vertical',
     textOverflow: 'ellipsis',
@@ -20,11 +20,15 @@ export default makeStyles((theme) => ({
     lineClamp: 1
   },
   thumbnail: {
-    height: '100%'
+    height: 120
   },
-  category: {
-    position: 'absolute',
-    bottom: theme.spacing(0.5),
-    right: theme.spacing(0.5)
+  root: {
+    width: 320
+  },
+  content: {
+    padding: theme.spacing(0, 2),
+    '&:last-child': {
+      paddingBottom: theme.spacing(1)
+    }
   }
 }))
