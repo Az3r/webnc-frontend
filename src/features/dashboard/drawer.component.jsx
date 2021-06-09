@@ -23,6 +23,7 @@ import {
   Favorite,
   History,
   Shop,
+  VideoLibrary,
   WatchLater
 } from '@material-ui/icons'
 import useStyles from './drawer.styles'
@@ -95,9 +96,9 @@ export default function DashboardDrawer() {
         <List subheader={<ListSubheader>Workspace</ListSubheader>}>
           <ListItem button>
             <ListItemIcon>
-              <WatchLater />
+              <VideoLibrary />
             </ListItemIcon>
-            <ListItemText primary="Watchlist" />
+            <ListItemText primary="My Courses" />
             <Typography className={styles.number} variant="caption">
               99+
             </Typography>

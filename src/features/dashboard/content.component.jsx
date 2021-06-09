@@ -13,11 +13,12 @@ import {
   Typography
 } from '@material-ui/core'
 import { Sort, FilterList } from '@material-ui/icons'
-import { Skeleton, ToggleButton } from '@material-ui/lab'
+import { ToggleButton } from '@material-ui/lab'
 import clsx from 'clsx'
 import useStyles from './content.style'
 import { useDashboard } from './dashboard.context'
 import { currency } from '@/utils/intl'
+import { CourseSkeleton } from '@/components/course'
 
 export default function DashboardContent() {
   const { drawer } = useDashboard()
@@ -118,47 +119,24 @@ export default function DashboardContent() {
       </Collapse>
       <Grid container spacing={2}>
         <Grid item>
-          <SkeletonCourse />
+          <CourseSkeleton />
         </Grid>
         <Grid item>
-          <SkeletonCourse />
+          <CourseSkeleton />
         </Grid>
         <Grid item>
-          <SkeletonCourse />
+          <CourseSkeleton />
         </Grid>
         <Grid item>
-          <SkeletonCourse />
+          <CourseSkeleton />
         </Grid>
         <Grid item>
-          <SkeletonCourse />
+          <CourseSkeleton />
         </Grid>
         <Grid item>
-          <SkeletonCourse />
+          <CourseSkeleton />
         </Grid>
       </Grid>
     </main>
-  )
-}
-
-function SkeletonCourse() {
-  return (
-    <Box width={384} display="flex" flexDirection="column">
-      <Skeleton variant="rect" width={384} height={216} />
-      <Box paddingY={1} display="flex">
-        <Skeleton variant="circle" width={48} height={48}></Skeleton>
-        <Box flexGrow={1} paddingLeft={1} display="flex" flexDirection="column">
-          <Skeleton width="100%" variant="text">
-            <Typography variant="subtitle1">.</Typography>
-            <Typography variant="subtitle1">.</Typography>
-          </Skeleton>
-          <Skeleton width="100%" variant="text">
-            <Typography variant="subtitle2">.</Typography>
-          </Skeleton>
-          <Skeleton width="100%" variant="text">
-            <Typography variant="h6">.</Typography>
-          </Skeleton>
-        </Box>
-      </Box>
-    </Box>
   )
 }
