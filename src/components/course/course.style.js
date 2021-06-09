@@ -34,3 +34,4 @@ export default makeStyles((theme) => ({
 }))
 
 export const COURSE_WIDTH = 320
+export const THUMBNAIL_WIDTH = 120
