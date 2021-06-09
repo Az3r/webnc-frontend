@@ -13,13 +13,9 @@ import { currency } from '@/utils/intl'
 import useStyles from './course.style'
 import { Rating } from '@material-ui/lab'
 
-export const COURSE_WIDTH = 320
-export const COURSE_RATIO = 16 / 9
-
 export default function Course({
   thumbnail,
   title,
-  category,
   lecturer,
   rating,
   reviewers,
@@ -87,7 +83,6 @@ export default function Course({
 Course.propTypes = {
   thumbnail: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired,
   lecturer: PropTypes.shape({
     name: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired

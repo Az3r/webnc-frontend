@@ -23,7 +23,7 @@ export default makeStyles((theme) => ({
     height: 120
   },
   root: {
-    width: 320
+    width: COURSE_WIDTH
   },
   content: {
     padding: theme.spacing(0, 2),
@@ -32,3 +32,5 @@ export default makeStyles((theme) => ({
     }
   }
 }))
+
+export const COURSE_WIDTH = 320

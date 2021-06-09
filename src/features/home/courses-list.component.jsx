@@ -2,19 +2,23 @@ import React, { useState, useRef, useEffect, memo } from 'react'
 import PropTypes from 'prop-types'
 import {
   Box,
+  Grid,
   Hidden,
   IconButton,
   MobileStepper,
   useMediaQuery
 } from '@material-ui/core'
 import { NavigateNext, NavigateBefore } from '@material-ui/icons'
-import { config, useSpring } from '@react-spring/core'
+import { useSpring } from '@react-spring/core'
 import { animated } from '@react-spring/web'
 import { useDrag } from 'react-use-gesture'
 import { Course } from '@/components/course'
-import { COURSE_WIDTH } from '@/components/course/course'
+import { COURSE_WIDTH } from '@/components/course/course.style'
 
+const AnimatedBox = animated(Box)
+const ITEM_PADDING = 1
 export default function CourseList({ courses }) {
+  const ITEM_WIDTH = COURSE_WIDTH + ITEM_PADDING * 8
   const xsdown = useMediaQuery((theme) => theme.breakpoints.down('xs'))
 
   const { current: scroll } = useRef({ x: 0, item: 0 })
@@ -23,8 +27,7 @@ export default function CourseList({ courses }) {
   const listRef = useRef({ offsetWidth: 0 })
 
   const [spring, api] = useSpring(() => ({
-    x: scroll.item * COURSE_WIDTH,
-    config: config.slow
+    x: scroll.item * ITEM_WIDTH
   }))
 
   // Set the drag hook and define component movement based on gesture data
@@ -39,7 +42,7 @@ export default function CourseList({ courses }) {
   const [mouse, setMouse] = useState({ down: false })
 
   useEffect(() => {
-    scroll.x = Math.floor(scroll.item) * COURSE_WIDTH
+    scroll.x = Math.floor(scroll.item) * ITEM_WIDTH
     api.start({ x: scroll.x })
   }, [xsdown])
 
@@ -50,27 +53,28 @@ export default function CourseList({ courses }) {
   /** scroll the list */
   function drag(dx, up) {
     const {
-      current: { offsetWidth: width }
+      current: { offsetWidth: listWidth }
     } = listRef
 
-    if (!xsdown && width < COURSE_WIDTH) return
+    // do not scroll when screen size is below xs
+    if (!xsdown && listWidth < ITEM_WIDTH) return
 
-    // given current width, get number of item per scroll
-    const items = xsdown ? 1 : Math.floor(width / COURSE_WIDTH)
+    // given current width, get number of item per 'slide'
+    const items = xsdown ? 1 : Math.floor(listWidth / ITEM_WIDTH)
 
     // find the first item of the last page
     const last = Math.floor((courses.length - 0.00001) / items) * items
 
-    // clamp so not shooting
-    const value = move(scroll.x, dx, -last * COURSE_WIDTH, 0)
+    // clamp so not over shooting
+    const value = move(scroll.x, dx, -last * ITEM_WIDTH, 0)
 
     // perform animation
     if (up) {
       // mouse up event, when user has finished dragging, snap to nearest item
-      scroll.item = Math.round(value / COURSE_WIDTH)
-      scroll.x = scroll.item * COURSE_WIDTH
+      scroll.item = Math.round(value / ITEM_WIDTH)
+      scroll.x = scroll.item * ITEM_WIDTH
     } else {
-      scroll.item = value / COURSE_WIDTH
+      scroll.item = value / ITEM_WIDTH
       scroll.x = value
     }
 
@@ -88,25 +92,25 @@ export default function CourseList({ courses }) {
       current: { offsetWidth: width }
     } = listRef
 
-    if (!xsdown && width < COURSE_WIDTH) return
+    if (!xsdown && width < ITEM_WIDTH) return
 
     // number of item per scroll
-    const items = xsdown ? 1 : Math.floor(width / COURSE_WIDTH)
+    const items = xsdown ? 1 : Math.floor(width / ITEM_WIDTH)
 
     // given current width, find the first item of the last page
     const last = Math.floor((courses.length - 0.00001) / items) * items
 
     // calculate how many pixel to move
     const value = move(
-      Math.round(scroll.x / COURSE_WIDTH) * COURSE_WIDTH,
-      direction * items * COURSE_WIDTH,
-      -last * COURSE_WIDTH,
+      Math.round(scroll.x / ITEM_WIDTH) * ITEM_WIDTH,
+      direction * items * ITEM_WIDTH,
+      -last * ITEM_WIDTH,
       0
     )
 
     // perform animation
     scroll.x = value
-    scroll.item = value / COURSE_WIDTH
+    scroll.item = value / ITEM_WIDTH
     scroll.last = last
 
     const item = -Math.floor(scroll.item)
@@ -143,7 +147,7 @@ export default function CourseList({ courses }) {
       justifyContent="center"
       flexDirection={xsdown ? 'column' : 'row'}
     >
-      <Hidden xsDown>
+      <Hidden xsDown implementation="css">
         <BeforeButton />
       </Hidden>
       <Box
@@ -161,15 +165,9 @@ export default function CourseList({ courses }) {
           userSelect: mouse.down ? 'none' : 'auto'
         }}
       >
-        <animated.div
-          style={{
-            ...spring,
-            display: 'flex',
-            width: '6000px'
-          }}
-        >
+        <AnimatedBox style={spring} width={6000} display="flex">
           <MemoizedList courses={courses} />
-        </animated.div>
+        </AnimatedBox>
         <Hidden xsDown>
           <div
             style={{
@@ -184,10 +182,10 @@ export default function CourseList({ courses }) {
           />
         </Hidden>
       </Box>
-      <Hidden xsDown>
+      <Hidden xsDown implementation="css">
         <NextButton />
       </Hidden>
-      <Hidden smUp>
+      <Hidden smUp implementation="css">
         <MobileStepper
           variant="dots"
           steps={courses.length}
@@ -203,23 +201,17 @@ export default function CourseList({ courses }) {
 
 function List({ courses }) {
   return (
-    <>
-      {courses.map((item, index) => (
-        <Box
-          component="li"
-          key={item.id}
-          paddingLeft={index > 0 ? 1 : 0}
-          paddingRight={index < courses.length - 1 ? 1 : 0}
-          flexShrink={0}
-        >
+    <Grid container spacing={1} component="ul">
+      {courses.map((item) => (
+        <Grid item component="li" key={item.id}>
           <Course {...item} />
-        </Box>
+        </Grid>
       ))}
-    </>
+    </Grid>
   )
 }
 
-const MemoizedList = memo(List)
+const MemoizedList = memo(List, () => true)
 
 // move the list component
 function move(x, dx, min, max) {
@@ -236,9 +228,7 @@ CourseList.defaultProps = {
 }
 
 List.propTypes = {
-  courses: PropTypes.array,
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired
+  courses: PropTypes.array
 }
 
 List.defaultProps = {
