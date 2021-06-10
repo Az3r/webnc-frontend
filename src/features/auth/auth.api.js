@@ -6,7 +6,7 @@ import { parse } from '@/utils/api'
 export async function login({ username = '', password = '' }) {
   const response = await fetch(resources.login, {
     method: 'POST',
-    body: qs.stringify({ username, password }),
+    body: qs.stringify({ username, password, email: username }),
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -51,7 +51,7 @@ export async function verify({ email = '', code = -1 }) {
     const error = parse(data.error)
     throw create(error.scope, error.type, error.value)
   }
-  return response.json()
+  return true
 }
 
 /** send an otp code to specific email */

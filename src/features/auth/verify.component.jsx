@@ -71,23 +71,22 @@ export default function VerifyEmail({ classes }) {
     process(true)
     try {
       const api = await import('./auth.api')
-      const { success } = await api.verify({
+      await api.verify({
         email: form.email,
         code: otp.join('')
       })
 
-      if (success)
-        router.push(
-          {
-            pathname: routes.dashboard,
-            query: form
-          },
-          routes.dashboard
-        )
+      router.push(
+        {
+          pathname: routes.dashboard,
+          query: form
+        },
+        routes.dashboard
+      )
       show({
         open: true,
-        severity: success ? 'success' : 'error',
-        message: success ? 'Account verified' : 'Invalid OTP code'
+        severity: 'success',
+        message: 'Account verified'
       })
     } catch (e) {
       const error = parse(e)
