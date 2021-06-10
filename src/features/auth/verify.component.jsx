@@ -44,11 +44,14 @@ export default function VerifyEmail({ classes }) {
     return () => clearInterval(timer)
   }, [ready])
 
-  function send() {
+  async function send() {
     if (ready) {
       if (first) setFirst(false)
       setCooldown(5)
       resend(false)
+
+      const api = await import('./auth.api')
+      api.resend(form.email)
     }
   }
 

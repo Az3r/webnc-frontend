@@ -76,20 +76,18 @@ export default function Course({
 }
 
 Course.propTypes = {
-  thumbnail: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  lecturer: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    avatar: PropTypes.string.isRequired
-  }),
-  rating: PropTypes.number,
-  reviewers: PropTypes.number,
-  price: PropTypes.number.isRequired,
-  discount: PropTypes.number
+  course: PropTypes.shape({
+    thumbnail: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    lecturer: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      avatar: PropTypes.string.isRequired
+    }),
+    rating: PropTypes.number,
+    reviewers: PropTypes.number,
+    price: PropTypes.number.isRequired,
+    discount: PropTypes.number
+  })
 }
 
-Course.defaultProps = {
-  rating: 0,
-  reviewers: 0,
-  discount: 0
-}
+Course.defaultProps = {}

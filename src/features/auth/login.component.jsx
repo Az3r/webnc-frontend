@@ -32,7 +32,7 @@ export default function Login({ classes }) {
     } catch (e) {
       const error = parse(e)
       if (error.code === 'auth/account-not-verified') {
-        api.send(form.email)
+        api.resend(form.email)
         update((prev) => ({ ...prev, email: error.value }))
         next(2)
       }

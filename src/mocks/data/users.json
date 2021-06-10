@@ -1,259 +1,28 @@
+
+
+
+
+
+{
+  "foo": 1,
+  "bar": "bndkgkjdrg"
+}
+
 [
-  {
-    "id": "60ac8abc819b651e2d8acf69",
-    "avatar": "https://picsum.photos/64.webp?random=2820",
-    "username": "notverified",
-    "role": "Student",
-    "password": "ManhTuan@1999",
-    "email": "proplaydota12345@gmail.com",
-    "verified": false
-  },
-  {
-    "id": "60ac8abc819b651e2d8acf69",
-    "avatar": "https://picsum.photos/64.webp?random=2820",
-    "username": "TuanNguyen",
-    "role": "Student",
-    "password": "ManhTuan@1999",
-    "email": "proplaydota12345@gmail.com"
-  },
-  {
-    "id": "60ac8abc54f2e2d99ab8133a",
-    "avatar": "https://picsum.photos/64.webp?random=2654",
-    "username": "MasseyDavid",
-    "role": "Lecturer",
-    "password": "amet labore",
-    "email": "masseydavid@tersanki.co.uk"
-  },
-  {
-    "id": "60ac8abd05eb784c7725ed84",
-    "avatar": "https://picsum.photos/64.webp?random=372",
-    "username": "EarnestineLowery",
-    "role": "Student",
-    "password": "voluptate adipisicing",
-    "email": "earnestinelowery@bizmatic.info"
-  },
-  {
-    "id": "60ac8abd8a0fae8cdfacee0d",
-    "avatar": "https://picsum.photos/64.webp?random=15",
-    "username": "LittleHoover",
-    "role": "Lecturer",
-    "password": "proident sit",
-    "email": "littlehoover@kidgrease.name"
-  },
-  {
-    "id": "60ac8abd3ecb24364c40b5fd",
-    "avatar": "https://picsum.photos/64.webp?random=2008",
-    "username": "DukeBarnes",
-    "role": "Lecturer",
-    "password": "qui incididunt",
-    "email": "dukebarnes@tingles.biz"
-  },
-  {
-    "id": "60ac8abd3059bb2bf52c421b",
-    "avatar": "https://picsum.photos/64.webp?random=431",
-    "username": "GatesLevy",
-    "role": "Lecturer",
-    "password": "laboris qui",
-    "email": "gateslevy@waterbaby.org"
-  },
-  {
-    "id": "60ac8abd7219ba5d213f487d",
-    "avatar": "https://picsum.photos/64.webp?random=678",
-    "username": "ValdezCardenas",
-    "role": "Admin",
-    "password": "minim sit",
-    "email": "valdezcardenas@prowaste.biz"
-  },
-  {
-    "id": "60ac8abd6e799aa0fdd22921",
-    "avatar": "https://picsum.photos/64.webp?random=1434",
-    "username": "JanisMccormick",
-    "role": "Student",
-    "password": "do cillum",
-    "email": "janismccormick@snips.io"
-  },
-  {
-    "id": "60ac8abd871bd55841dd087a",
-    "avatar": "https://picsum.photos/64.webp?random=2441",
-    "username": "GreenTaylor",
-    "role": "Lecturer",
-    "password": "proident mollit",
-    "email": "greentaylor@bovis.ca"
-  },
-  {
-    "id": "60ac8abd8f0e7a80ff2fba57",
-    "avatar": "https://picsum.photos/64.webp?random=431",
-    "username": "RatliffDoyle",
-    "role": "Student",
-    "password": "id eiusmod",
-    "email": "ratliffdoyle@enersave.net"
-  },
-  {
-    "id": "60ac8abdafac5f59a5e25981",
-    "avatar": "https://picsum.photos/64.webp?random=2765",
-    "username": "MaudeMorin",
-    "role": "Lecturer",
-    "password": "exercitation culpa",
-    "email": "maudemorin@straloy.com"
-  },
-  {
-    "id": "60ac8abd1954ceb9500fe1dd",
-    "avatar": "https://picsum.photos/64.webp?random=2732",
-    "username": "HunterGibson",
-    "role": "Admin",
-    "password": "non in",
-    "email": "huntergibson@digique.me"
-  },
-  {
-    "id": "60ac8abdf50ba466d1ab246d",
-    "avatar": "https://picsum.photos/64.webp?random=1789",
-    "username": "CombsChandler",
-    "role": "Lecturer",
-    "password": "aute elit",
-    "email": "combschandler@isbol.us"
-  },
-  {
-    "id": "60ac8abd62a4cecd90760fbf",
-    "avatar": "https://picsum.photos/64.webp?random=2918",
-    "username": "BrennanBlevins",
-    "role": "Lecturer",
-    "password": "incididunt deserunt",
-    "email": "brennanblevins@poochies.co.uk"
-  },
-  {
-    "id": "60ac8abd4efcd6d99ac191d8",
-    "avatar": "https://picsum.photos/64.webp?random=928",
-    "username": "VernaGray",
-    "role": "Lecturer",
-    "password": "Lorem et",
-    "email": "vernagray@glasstep.info"
-  },
-  {
-    "id": "60ac8abd20a0f17d863d497a",
-    "avatar": "https://picsum.photos/64.webp?random=589",
-    "username": "VelmaCarlson",
-    "role": "Admin",
-    "password": "ad proident",
-    "email": "velmacarlson@panzent.name"
-  },
-  {
-    "id": "60ac8abdb3635f51016eeb85",
-    "avatar": "https://picsum.photos/64.webp?random=1346",
-    "username": "JanelleFranks",
-    "role": "Student",
-    "password": "quis labore",
-    "email": "janellefranks@polarium.biz"
-  },
-  {
-    "id": "60ac8abd1eb8705147e88fd9",
-    "avatar": "https://picsum.photos/64.webp?random=125",
-    "username": "JoyceCasey",
-    "role": "Student",
-    "password": "id ut",
-    "email": "joycecasey@bolax.org"
-  },
-  {
-    "id": "60ac8abdd4bd4e5d97f5bd83",
-    "avatar": "https://picsum.photos/64.webp?random=2306",
-    "username": "MaddoxWilkerson",
-    "role": "Student",
-    "password": "aute voluptate",
-    "email": "maddoxwilkerson@nipaz.biz"
-  },
-  {
-    "id": "60ac8abd6e299e2d400aed43",
-    "avatar": "https://picsum.photos/64.webp?random=86",
-    "username": "ClaraVillarreal",
-    "role": "Student",
-    "password": "velit qui",
-    "email": "claravillarreal@zanymax.io"
-  },
-  {
-    "id": "60ac8abdd7e94d87f5dddbfe",
-    "avatar": "https://picsum.photos/64.webp?random=1000",
-    "username": "BallWhite",
-    "role": "Lecturer",
-    "password": "consequat cupidatat",
-    "email": "ballwhite@quiltigen.ca"
-  },
-  {
-    "id": "60ac8abd48f0a8bf4a4c8083",
-    "avatar": "https://picsum.photos/64.webp?random=343",
-    "username": "CaldwellGarcia",
-    "role": "Student",
-    "password": "sit occaecat",
-    "email": "caldwellgarcia@stralum.net"
-  },
-  {
-    "id": "60ac8abd45ec6757e1802e37",
-    "avatar": "https://picsum.photos/64.webp?random=600",
-    "username": "YangArmstrong",
-    "role": "Student",
-    "password": "labore aliquip",
-    "email": "yangarmstrong@ginkle.com"
-  },
-  {
-    "id": "60ac8abd9d832beb6f7e3361",
-    "avatar": "https://picsum.photos/64.webp?random=1056",
-    "username": "PottsFowler",
-    "role": "Student",
-    "password": "esse excepteur",
-    "email": "pottsfowler@zensus.me"
-  },
-  {
-    "id": "60ac8abdc42ad56a860e14d3",
-    "avatar": "https://picsum.photos/64.webp?random=1393",
-    "username": "HaynesDickson",
-    "role": "Lecturer",
-    "password": "do nostrud",
-    "email": "haynesdickson@gogol.us"
-  },
-  {
-    "id": "60ac8abd0643df7c5c77d7d3",
-    "avatar": "https://picsum.photos/64.webp?random=1143",
-    "username": "McgowanReilly",
-    "role": "Admin",
-    "password": "duis exercitation",
-    "email": "mcgowanreilly@voratak.co.uk"
-  },
-  {
-    "id": "60ac8abd52b92787022a9662",
-    "avatar": "https://picsum.photos/64.webp?random=1236",
-    "username": "AnitaPratt",
-    "role": "Lecturer",
-    "password": "qui ea",
-    "email": "anitapratt@noralex.info"
-  },
-  {
-    "id": "60ac8abdf3c75c48f79f76a1",
-    "avatar": "https://picsum.photos/64.webp?random=1092",
-    "username": "BergOwens",
-    "role": "Admin",
-    "password": "ad Lorem",
-    "email": "bergowens@gallaxia.name"
-  },
-  {
-    "id": "60ac8abd65989d70a821cb82",
-    "avatar": "https://picsum.photos/64.webp?random=2667",
-    "username": "AnnaHatfield",
-    "role": "Student",
-    "password": "eu occaecat",
-    "email": "annahatfield@musanpoly.biz"
-  },
-  {
-    "id": "60ac8abd9c21f1ab9dac0f36",
-    "avatar": "https://picsum.photos/64.webp?random=802",
-    "username": "SantiagoBartlett",
-    "role": "Admin",
-    "password": "irure ullamco",
-    "email": "santiagobartlett@cipromox.org"
-  },
-  {
-    "id": "60ac8abd3d42f3d9cedfca94",
-    "avatar": "https://picsum.photos/64.webp?random=1971",
-    "username": "LarsonParks",
-    "role": "Student",
-    "password": "adipisicing irure",
-    "email": "larsonparks@gushkool.biz"
-  }
+{
+  "foo": 1,
+  "bar": "bndkgkjdrg"
+},
+{
+  "foo": 1,
+  "bar": "bndkgkjdrg"
+}
 ]
+
+{
+  "result": {
+    "foo": 1,
+    "bar": "vdgndgk"
+  }
+}
+
