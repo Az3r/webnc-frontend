@@ -21,24 +21,21 @@ import {
   Create,
   ExitToApp,
   Favorite,
-  History,
+  Home,
   Shop,
-  VideoLibrary,
-  WatchLater
+  VideoLibrary
 } from '@material-ui/icons'
 import useStyles from './drawer.styles'
 import { appname } from '@/utils/app'
 import { useApp } from '@/app.theme'
-import { useDashboard } from './dashboard.context'
+import { sections, useDashboard } from './dashboard.context'
 
 const DrawerContext = React.createContext({})
 export default function DashboardDrawer() {
-  const { drawer, toggle } = useDashboard()
+  const { drawer, toggle, go } = useDashboard()
   const { theme, setTheme } = useApp()
   const styles = useStyles()
   const upMD = useMediaQuery((theme) => theme.breakpoints.up('md'))
-
-  useEffect(() => {}, [upMD])
 
   return (
     <nav>
@@ -94,7 +91,13 @@ export default function DashboardDrawer() {
         </List>
         <Divider />
         <List subheader={<ListSubheader>Workspace</ListSubheader>}>
-          <ListItem button>
+          <ListItem button onClick={() => go(sections.home)}>
+            <ListItemIcon>
+              <Home />
+            </ListItemIcon>
+            <ListItemText primary="Dashboard" />
+          </ListItem>
+          <ListItem button onClick={() => go(sections.search)}>
             <ListItemIcon>
               <VideoLibrary />
             </ListItemIcon>
@@ -124,12 +127,6 @@ export default function DashboardDrawer() {
                 1
               </Typography>
             </ListItemSecondaryAction>
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <History />
-            </ListItemIcon>
-            <ListItemText primary="History" />
           </ListItem>
         </List>
         <Divider />
