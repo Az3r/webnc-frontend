@@ -1,5 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import {
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  Button,
   Avatar,
   Divider,
   Drawer,
@@ -12,7 +16,6 @@ import {
   ListItemText,
   ListSubheader,
   Switch,
-  Typography,
   useMediaQuery
 } from '@material-ui/core'
 import {
@@ -22,20 +25,33 @@ import {
   ExitToApp,
   Favorite,
   Home,
+  Search,
   Shop,
   VideoLibrary
 } from '@material-ui/icons'
-import useStyles from './drawer.styles'
-import { appname } from '@/utils/app'
+import { appname, routes } from '@/utils/app'
 import { useApp } from '@/app.theme'
 import { sections, useDashboard } from './dashboard.context'
+import { useRouter } from 'next/router'
 
-const DrawerContext = React.createContext({})
+const destinations = [
+  { section: sections.home, icon: <Home />, label: 'Dashboard' },
+  { section: sections.search, icon: <Search />, label: 'Search' },
+  { section: sections.courses, icon: <VideoLibrary />, label: 'My Courses' },
+  { section: sections.favorites, icon: <Favorite />, label: 'Favorites' },
+  { section: sections.cart, icon: <Shop />, label: 'Shopping Cart' }
+]
+
 export default function DashboardDrawer() {
-  const { drawer, toggle, go } = useDashboard()
+  const router = useRouter()
+  const { drawer, toggle, go, section } = useDashboard()
   const { theme, setTheme } = useApp()
-  const styles = useStyles()
+  const [showSignOutDialog, alertSignOut] = useState(false)
   const upMD = useMediaQuery((theme) => theme.breakpoints.up('md'))
+
+  function signout() {
+    router.push(routes.login)
+  }
 
   return (
     <nav>
@@ -54,8 +70,8 @@ export default function DashboardDrawer() {
             }}
           />
           <ListItemSecondaryAction>
-            <IconButton>
-              <Close onClick={() => toggle(false)} />
+            <IconButton onClick={() => toggle(false)}>
+              <Close />
             </IconButton>
           </ListItemSecondaryAction>
         </ListItem>
@@ -91,47 +107,21 @@ export default function DashboardDrawer() {
         </List>
         <Divider />
         <List subheader={<ListSubheader>Workspace</ListSubheader>}>
-          <ListItem button onClick={() => go(sections.home)}>
-            <ListItemIcon>
-              <Home />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItem>
-          <ListItem button onClick={() => go(sections.search)}>
-            <ListItemIcon>
-              <VideoLibrary />
-            </ListItemIcon>
-            <ListItemText primary="My Courses" />
-            <Typography className={styles.number} variant="caption">
-              99+
-            </Typography>
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <Favorite />
-            </ListItemIcon>
-            <ListItemText primary="Favorites" />
-            <ListItemSecondaryAction>
-              <Typography className={styles.number} variant="caption">
-                1
-              </Typography>
-            </ListItemSecondaryAction>
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <Shop />
-            </ListItemIcon>
-            <ListItemText primary="Shopping Cart" />
-            <ListItemSecondaryAction>
-              <Typography className={styles.number} variant="caption">
-                1
-              </Typography>
-            </ListItemSecondaryAction>
-          </ListItem>
+          {destinations.map((item) => (
+            <ListItem
+              key={item.section}
+              selected={item.section === section}
+              button
+              onClick={() => go(item.section)}
+            >
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.label} />
+            </ListItem>
+          ))}
         </List>
         <Divider />
         <List>
-          <ListItem button>
+          <ListItem button onClick={() => alertSignOut(true)}>
             <ListItemIcon>
               <ExitToApp />
             </ListItemIcon>
@@ -139,10 +129,24 @@ export default function DashboardDrawer() {
           </ListItem>
         </List>
       </Drawer>
+      <Dialog
+        open={showSignOutDialog}
+        onClose={() => alertSignOut(false)}
+        aria-labelledby="alert-dialog-signout"
+        aria-describedby="sign user out"
+      >
+        <DialogTitle id="alert-dialog-signout">
+          {'You are about to sign out?'}
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={() => alertSignOut(false)} color="primary">
+            Dismiss
+          </Button>
+          <Button onClick={signout} color="primary" autoFocus>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
     </nav>
   )
-}
-
-export function useDrawer() {
-  return React.useContext(DrawerContext)
 }

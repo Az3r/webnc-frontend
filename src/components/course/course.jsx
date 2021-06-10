@@ -14,13 +14,8 @@ import useStyles from './course.style'
 import { Rating } from '@material-ui/lab'
 
 export default function Course({
-  thumbnail,
-  title,
-  lecturer,
-  rating,
-  reviewers,
-  price,
-  discount
+  course: { thumbnail, title, lecturer, rating, reviewers, price, discount },
+  disableContent
 }) {
   const styles = useStyles()
 

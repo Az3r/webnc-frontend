@@ -10,20 +10,28 @@ import { useDashboard } from './dashboard.context'
 import { useSpring } from '@react-spring/core'
 import { animated } from '@react-spring/web'
 import { Close, Search } from '@material-ui/icons'
-import { Box, Button, InputBase } from '@material-ui/core'
+import { Hidden, InputBase } from '@material-ui/core'
 
 const AnimatedIconButton = animated(IconButton)
 export default function DashboardAppBar() {
   const styles = useStyles()
-  const { drawer, toggle } = useDashboard()
+  const { drawer, toggle, search } = useDashboard()
   const spring = useSpring({ rotate: drawer ? 360 : 0 })
+
+  function submit(e) {
+    e.preventDefault()
+
+    const form = new FormData(e.target)
+    const keyword = form.get('search')
+    console.log(keyword)
+    if (keyword) search(keyword)
+  }
 
   return (
     <AppBar position="fixed" color="inherit" classes={{ root: styles.appbar }}>
       <Toolbar>
         <AnimatedIconButton
           edge="start"
-          className={styles.menuButton}
           style={spring}
           color="inherit"
           aria-label="open drawer"
@@ -31,10 +39,12 @@ export default function DashboardAppBar() {
         >
           {drawer ? <Close /> : <MenuIcon />}
         </AnimatedIconButton>
-        <Typography className={styles.title} variant="h4">
-          {appname}
-        </Typography>
-        <form className={styles.form}>
+        <Hidden xsDown implementation="css">
+          <Typography className={styles.title} variant="h4">
+            {appname}
+          </Typography>
+        </Hidden>
+        <form className={styles.form} onSubmit={submit}>
           <InputBase
             className={styles.search}
             name="search"

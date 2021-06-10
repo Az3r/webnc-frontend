@@ -204,7 +204,7 @@ function List({ courses }) {
     <Grid container spacing={1} component="ul">
       {courses.map((item) => (
         <Grid item component="li" key={item.id}>
-          <Course {...item} />
+          <Course course={item} />
         </Grid>
       ))}
     </Grid>

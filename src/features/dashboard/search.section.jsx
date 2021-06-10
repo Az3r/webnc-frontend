@@ -85,7 +85,10 @@ export default function DashboardSearch() {
 function FilterGroup({ toggled, onToggled, title, options, selected }) {
   return (
     <FormControl component="fieldset" disabled={!toggled}>
-      <FilterButton onClick={(e) => onToggled(e.target.checked)}>
+      <FilterButton
+        selected={toggled}
+        onClick={(e) => onToggled(e.target.checked)}
+      >
         {title}
       </FilterButton>
       <RadioGroup
@@ -112,7 +115,7 @@ FilterGroup.propTypes = {
   title: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
-      value: PropTypes.string.isRequired,
+      value: PropTypes.any.isRequired,
       label: PropTypes.string.isRequired
     })
   ),

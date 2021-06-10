@@ -6,15 +6,13 @@ export default makeStyles((theme) => ({
     boxShadow: 'none',
     height: 64
   },
-  menuButton: {
-    marginRight: theme.spacing(2)
-  },
   title: {
-    fontFamily: 'Dancing Script'
+    fontFamily: 'Dancing Script',
+    margin: theme.spacing(0, 2)
   },
   form: {
+    marginLeft: theme.spacing(2),
     padding: theme.spacing(1, 0),
-    marginLeft: theme.spacing(4),
     flexGrow: 1,
     display: 'flex',
     justifyContent: 'center'
