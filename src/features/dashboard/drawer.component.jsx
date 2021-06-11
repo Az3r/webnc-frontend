@@ -16,15 +16,18 @@ import {
   ListItemText,
   ListSubheader,
   Switch,
-  useMediaQuery
+  useMediaQuery,
+  Hidden
 } from '@material-ui/core'
 import {
   Brightness4,
+  Category,
   Close,
   Create,
   ExitToApp,
   Favorite,
   Home,
+  NavigateNext,
   Search,
   Shop,
   VideoLibrary
@@ -35,11 +38,11 @@ import { sections, useDashboard } from './dashboard.context'
 import { useRouter } from 'next/router'
 
 const destinations = [
-  { section: sections.home, icon: <Home />, label: 'Dashboard' },
-  { section: sections.search, icon: <Search />, label: 'Search' },
+  { section: sections.home, icon: <Home />, label: 'Explore' },
   { section: sections.courses, icon: <VideoLibrary />, label: 'My Courses' },
   { section: sections.favorites, icon: <Favorite />, label: 'Favorites' },
-  { section: sections.cart, icon: <Shop />, label: 'Shopping Cart' }
+  { section: sections.cart, icon: <Shop />, label: 'Shopping Cart' },
+  { section: sections.search, icon: <Search />, label: 'Search' }
 ]
 
 export default function DashboardDrawer() {
@@ -59,7 +62,6 @@ export default function DashboardDrawer() {
         open={drawer}
         onClose={() => toggle(false)}
         variant={upMD ? 'persistent' : 'temporary'}
-        anchor="left"
       >
         <ListItem>
           <ListItemText
@@ -107,6 +109,14 @@ export default function DashboardDrawer() {
         </List>
         <Divider />
         <List subheader={<ListSubheader>Workspace</ListSubheader>}>
+          <Hidden implementation="css" mdUp>
+            <ListItem button key="category">
+              <ListItemIcon>
+                <Category />
+              </ListItemIcon>
+              <ListItemText primary="Categories" />
+            </ListItem>
+          </Hidden>
           {destinations.map((item) => (
             <ListItem
               key={item.section}

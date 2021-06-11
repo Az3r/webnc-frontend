@@ -29,6 +29,6 @@ function navigate(section = '') {
     case sections.search:
       return <MemoizedSearch />
     default:
-      throw new Error('unknown section ' + section)
+      break
   }
 }

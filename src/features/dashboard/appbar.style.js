@@ -8,7 +8,7 @@ export default makeStyles((theme) => ({
   },
   title: {
     fontFamily: 'Dancing Script',
-    margin: theme.spacing(0, 2)
+    margin: theme.spacing(0, 4, 0, 2)
   },
   form: {
     marginLeft: theme.spacing(2),
@@ -21,6 +21,11 @@ export default makeStyles((theme) => ({
     padding: theme.spacing(0, 1),
     maxWidth: 512,
     backgroundColor: fade(theme.palette.text.primary, 0.1),
+    borderRadius: theme.shape.borderRadius
+  },
+  listitem: {
+    flexGrow: 0,
+    width: 'auto',
     borderRadius: theme.shape.borderRadius
   }
 }))

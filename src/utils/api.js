@@ -29,6 +29,12 @@ const map = {
     bestseller: production
       ? '/Courses/BestSellerCourses'
       : '/courses/bestseller'
+  },
+  student: {
+    courses: production ? '/StudentCourses/GetAllByStudentId/' : '/student/'
+  },
+  watchlist: {
+    get: production ? '/WatchLists/GetAllByStudentId/' : '/favorites/'
   }
 }
 

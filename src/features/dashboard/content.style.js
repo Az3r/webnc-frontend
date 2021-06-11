@@ -1,9 +1,8 @@
-import { makeStyles, styled, withStyles } from '@material-ui/core'
-import { ToggleButton } from '@material-ui/lab'
+import { makeStyles } from '@material-ui/core'
 
 export default makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(0, 2),
+    padding: theme.spacing(2),
     marginLeft: 0,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
