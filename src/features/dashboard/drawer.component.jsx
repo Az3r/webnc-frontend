@@ -109,14 +109,6 @@ export default function DashboardDrawer() {
         </List>
         <Divider />
         <List subheader={<ListSubheader>Workspace</ListSubheader>}>
-          <Hidden implementation="css" mdUp>
-            <ListItem button key="category">
-              <ListItemIcon>
-                <Category />
-              </ListItemIcon>
-              <ListItemText primary="Categories" />
-            </ListItem>
-          </Hidden>
           {destinations.map((item) => (
             <ListItem
               key={item.section}
