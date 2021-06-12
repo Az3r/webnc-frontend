@@ -25,10 +25,10 @@ import {
   ExitToApp,
   Favorite,
   Home,
-  Search,
   Shop,
   VideoLibrary
 } from '@material-ui/icons'
+import Link from 'next/link'
 import { appname, routes } from '@/utils/app'
 import { useApp } from '@/app.theme'
 import { useStudent } from './student.context'
@@ -38,13 +38,12 @@ const destinations = [
   { section: routes.u.explore, icon: <Home />, label: 'Explore' },
   { section: routes.u.course, icon: <VideoLibrary />, label: 'My Courses' },
   { section: '/', icon: <Favorite />, label: 'Favorites' },
-  { section: '/', icon: <Shop />, label: 'Shopping Cart' },
-  { section: '/', icon: <Search />, label: 'Search' }
+  { section: '/', icon: <Shop />, label: 'Shopping Cart' }
 ]
 
 export default function StudentDrawer() {
   const router = useRouter()
-  const { drawer, toggle, go, section } = useStudent()
+  const { drawer, toggle } = useStudent()
   const { theme, setTheme } = useApp()
   const [showSignOutDialog, alertSignOut] = useState(false)
   const upMD = useMediaQuery((theme) => theme.breakpoints.up('md'))
@@ -107,15 +106,12 @@ export default function StudentDrawer() {
         <Divider />
         <List subheader={<ListSubheader>Workspace</ListSubheader>}>
           {destinations.map((item) => (
-            <ListItem
-              key={item.section}
-              selected={item.section === section}
-              button
-              onClick={() => go(item.section)}
-            >
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.label} />
-            </ListItem>
+            <Link href={item.section} key={item.section}>
+              <ListItem button>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItem>
+            </Link>
           ))}
         </List>
         <Divider />

@@ -3,7 +3,7 @@ export const appname = 'Urskyll'
 export const routes = {
   login: '/login',
   register: '/register',
-  dashboard: '/dashboard',
+  dashboard: '/u/',
   verify: '/verify',
   search: '/search',
   u: {

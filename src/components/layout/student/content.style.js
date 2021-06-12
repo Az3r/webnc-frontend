@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core'
 
 export default makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(2),
+    flexGrow: 1,
     marginLeft: 0,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
