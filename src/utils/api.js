@@ -13,7 +13,7 @@ export function parse(error = {}) {
   }
 }
 
-const production = mock.env.NEXT_PUBLIC_MOCK_API == undefined
+const production = process.env.NEXT_PUBLIC_MOCK_API == undefined
 const map = {
   auth: {
     login: production ? '/Auth/Login' : '/auth/login',
