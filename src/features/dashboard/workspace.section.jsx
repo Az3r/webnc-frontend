@@ -1,5 +1,5 @@
 import React from 'react'
-import GridCourses from '@/components/list/grid-course'
+import GridCourses from '@/components/list/course.grid'
 import { Box, Divider, Typography } from '@material-ui/core'
 import useStyles from './workspace.style'
 

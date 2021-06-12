@@ -4,5 +4,10 @@ export const routes = {
   login: '/login',
   register: '/register',
   dashboard: '/dashboard',
-  verify: '/verify'
+  verify: '/verify',
+  search: '/search',
+  u: {
+    explore: '/u/explore',
+    course: '/u/course'
+  }
 }

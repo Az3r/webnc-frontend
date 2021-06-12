@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core'
 import { FilterList } from '@material-ui/icons'
 import { FilterButton } from './search.style'
-import GridCourses from '@/components/list/grid-course'
+import GridCourses from '@/components/list/course.grid'
 
 const filters = [
   {

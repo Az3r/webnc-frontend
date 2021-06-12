@@ -21,8 +21,12 @@ export default function DashboardProvider({ children }) {
   const [section, go] = useState(sections.home)
 
   useEffect(() => {
-    const path = document.URL.split('#', 2)[1]?.split('?', 2)
-    if (path) console.log(path)
+    const path = document.URL.split('#', 2)
+    if (path && path[1])
+      Object.keys(sections).forEach((key) => {
+        const value = sections[key]
+        if (value === `#${path[1]}`) go(value)
+      })
   }, [])
 
   useEffect(() => {

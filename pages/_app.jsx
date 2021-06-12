@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import AppProvider from '@/app.theme'
 import dynamic from 'next/dynamic'
-import SnackBarProvider from '@/components/snackbar'
+import SnackBarProvider from '@/components/snackbar.provider'
+import SearchProvider from '@/components/search.provider'
 import 'typeface-dancing-script'
 import '@/app.css'
 
@@ -12,7 +13,9 @@ export default function MainApp({ Component, pageProps }) {
     <AppProvider>
       <DynamicPageLoading />
       <SnackBarProvider>
-        <Component {...pageProps} />
+        <SearchProvider>
+          <Component {...pageProps} />
+        </SearchProvider>
       </SnackBarProvider>
     </AppProvider>
   )
