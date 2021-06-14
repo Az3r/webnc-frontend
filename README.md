@@ -3,6 +3,8 @@
 
 # Advance Mobile Development Semester Project
 
-| MSSV          | Student                 |
-| -----------   | -----------             |
-| 1712875       | Nguyễn Mạnh Tuấn       |
+| MSSV    | Student          |
+| ------- | ---------------- |
+| 1712875 | Nguyễn Mạnh Tuấn |
+
+`const a = 'hello, World!'`

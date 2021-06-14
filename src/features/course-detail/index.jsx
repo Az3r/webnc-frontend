@@ -196,6 +196,8 @@ export default function CourseDetail({ course }) {
           </List>
         </Paper>
         <Box paddingTop={1} />
+        <Typography className={styles.header}>What you will learn</Typography>
+        <Box paddingTop={1} />
         <Typography className={styles.header}>Related Topics</Typography>
         <Box paddingTop={1} />
         <Typography className={styles.header}>Instructor</Typography>
@@ -317,7 +319,7 @@ CourseDetail.propTypes = {
   course: PropTypes.shape({}).isRequired
 }
 
-function LongParagraph({ children }) {
+function LongParagraph({ children = <></> }) {
   const styles = useStyles()
   const [more, expand] = useState(false)
 
@@ -344,4 +346,8 @@ function LongParagraph({ children }) {
       </Box>
     </>
   )
+}
+
+LongParagraph.propTypes = {
+  children: PropTypes.node
 }
