@@ -6,15 +6,12 @@ export default makeStyles((theme) => ({
     fontWeight: 'bold'
   },
   em: theme.typography.body1,
-  code: {
-    ...theme.typography.body1,
-    padding: theme.spacing(0.5),
-    backgroundColor: fade(theme.palette.text.primary, 0.1)
-  },
+  pre: theme.typography.body1,
   hr: {
     height: 1,
     margin: theme.spacing(1, 0)
   },
+  icon: { fontSize: 20 },
   list_icon: {
     minWidth: 36
   },
@@ -36,5 +33,8 @@ export default makeStyles((theme) => ({
     padding: theme.spacing(2),
     color: theme.palette.text.secondary,
     backgroundColor: fade(theme.palette.text.primary, 0.1)
+  },
+  table: {
+    margin: theme.spacing(2, 0)
   }
 }))

@@ -1,51 +1,66 @@
-import React from 'react'
-import Markdown from '@/components/markdown'
+import React, { useState, useRef, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { Box, useTheme } from '@material-ui/core'
+import SyntaxHighlighter from 'react-syntax-highlighter/dist/cjs/prism-async-light'
+import light from 'react-syntax-highlighter/dist/cjs/styles/prism/prism'
+import dark from 'react-syntax-highlighter/dist/cjs/styles/prism/tomorrow'
+import markdown from 'react-syntax-highlighter/dist/cjs/languages/prism/markdown'
+import clsx from 'clsx'
+import useStyles from './create-course.style'
 
-const markdown = `
-# H1
+SyntaxHighlighter.registerLanguage('markdown', markdown)
+export default function MarkdownEditor({ id = 'markdown-editor' }) {
+  const [text, update] = useState('')
+  const [offset, scroll] = useState(0)
+  const outputEl = useRef(null)
+  const theme = useTheme()
+  const styles = useStyles()
 
-## H2
+  useEffect(() => {
+    if (!outputEl.current) outputEl.current = document.getElementById(id)
+    outputEl.current.scrollTop = offset
+  }, [offset])
 
-### h3
+  return (
+    <Box className={styles.root}>
+      <textarea
+        value={text}
+        onChange={(e) => update(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.code === 'Tab') {
+            e.preventDefault()
+            var s = e.target.selectionStart
+            e.target.value =
+              e.target.value.substring(0, e.target.selectionStart) +
+              '\t' +
+              e.target.value.substring(e.target.selectionEnd)
+            e.target.selectionEnd = s + 1
+          }
+        }}
+        onScroll={(e) => scroll(e.target.scrollTop)}
+        className={clsx(styles.editor, styles.input, styles.text)}
+      />
+      <SyntaxHighlighter
+        id={id}
+        showLineNumbers
+        className={clsx(styles.editor, styles.output)}
+        customStyle={{ padding: theme.spacing(2), margin: 0, borderRadius: 0 }}
+        language="markdown"
+        codeTagProps={{
+          className: styles.text
+        }}
+        style={theme.palette.type === 'dark' ? dark : light}
+      >
+        {text}
+      </SyntaxHighlighter>
+    </Box>
+  )
+}
 
-normal text
+MarkdownEditor.propTypes = {
+  id: PropTypes.string.isRequired
+}
 
-> quote
-
-*like so*
-***stonk***
-
-1. **this** is really ***strong***
-1. is
-* **this** is really ***strong***
-* is
-> #### The quarterly results look great!
-> A block quote with ~strikethrough~ and a URL: https://reactjs.org.
-
-> Dorothy followed her through many of the beautiful rooms in her castle.
->> The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.
->>> The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.
-
-* [ ] todo
-* [x] **done**
-
-A table:
-
-<img src='https://picsum.photos/200'></img>
-Some *emphasis* and <strong>strong</strong>!
-***
-
-
-| Syntax      | Description |
-| :--- | :---: |
-| *Header*      | Title       |
-| Paragraph   | Text        |
-
-At the command prompt, type 
-
-\`const nano = hello\`
-`
-
-export default function CreateCourse() {
-  return <Markdown>{markdown}</Markdown>
+MarkdownEditor.defaultProps = {
+  id: 'markdown-editor'
 }

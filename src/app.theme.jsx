@@ -28,7 +28,7 @@ const AppContext = createContext({
 })
 
 export default function AppProvider({ children }) {
-  const [theme, setTheme] = useState('light')
+  const [theme, setTheme] = useState('dark')
   return (
     <AppContext.Provider
       value={{
