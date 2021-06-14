@@ -1,1 +1,1 @@
-export { default } from './presenter'
+export { Presenter, Editor }

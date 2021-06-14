@@ -1,6 +1,9 @@
 import { fade, makeStyles } from '@material-ui/core'
 
 export default makeStyles((theme) => ({
+  root: {
+    flexGrow: 1
+  },
   strong: {
     ...theme.typography.body1,
     fontWeight: 'bold'
