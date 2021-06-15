@@ -37,13 +37,19 @@ export default function Markdown({ children = <></> }) {
         skipHtml
         components={{
           h1: ({ children }) => (
-            <Typography variant="h1">{children}</Typography>
+            <Typography align="center" variant="h1">
+              {children}
+            </Typography>
           ),
           h2: ({ children }) => (
-            <Typography variant="h2">{children}</Typography>
+            <Typography align="center" variant="h2">
+              {children}
+            </Typography>
           ),
           h3: ({ children }) => (
-            <Typography variant="h3">{children}</Typography>
+            <Typography align="center" variant="h3">
+              {children}
+            </Typography>
           ),
           h4: ({ children }) => (
             <Typography variant="h4">{children}</Typography>
@@ -136,6 +142,13 @@ export default function Markdown({ children = <></> }) {
               >
                 {String(children).replace(/\n$/, '')}
               </SyntaxHighlighter>
+            )
+          },
+          img: ({ src, title }) => {
+            return (
+              <Typography align="center">
+                <img src={src} alt={title} />
+              </Typography>
             )
           }
         }}

@@ -25,6 +25,7 @@ export default function MarkdownEditor({ id = '', value = '', onChange }) {
   return (
     <Box width="100%" height="100%" position="relative" overflow="hidden">
       <textarea
+        spellCheck={false}
         className={clsx(styles.editor, styles.input, styles.text)}
         value={text}
         onChange={(e) => {
@@ -55,6 +56,7 @@ export default function MarkdownEditor({ id = '', value = '', onChange }) {
         }}
         className={styles.editor}
         customStyle={{
+          ...theme.typography.body1,
           padding: theme.spacing(1, 2),
           margin: 0,
           borderRadius: 0,
