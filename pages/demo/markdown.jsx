@@ -1,7 +1,7 @@
 import React from 'react'
 import { Editor, Presenter } from '@/components/markdown'
 import StudentLayout from '@/components/layout/student'
-import { Box, Divider } from '@material-ui/core'
+import { Box } from '@material-ui/core'
 import { useState } from 'react'
 
 export default function MarkdownDemo() {
