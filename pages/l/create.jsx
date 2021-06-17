@@ -1,1 +1,1 @@
-export { default } from '@/features/lecturer-create'
+export { default } from '@/features/lecturer/create-course'

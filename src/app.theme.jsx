@@ -10,14 +10,26 @@ import {
 const light = responsiveFontSizes(
   createMuiTheme({
     palette: {
-      type: 'light'
+      type: 'light',
+      primary: {
+        main: '#673ab7'
+      },
+      secondary: {
+        main: '#0277bd'
+      }
     }
   })
 )
 const dark = responsiveFontSizes(
   createMuiTheme({
     palette: {
-      type: 'dark'
+      type: 'dark',
+      primary: {
+        main: '#757575'
+      },
+      secondary: {
+        main: '#37474f'
+      }
     }
   })
 )
@@ -28,7 +40,7 @@ const AppContext = createContext({
 })
 
 export default function AppProvider({ children }) {
-  const [theme, setTheme] = useState('dark')
+  const [theme, setTheme] = useState('light')
   return (
     <AppContext.Provider
       value={{
