@@ -9,7 +9,12 @@ import clsx from 'clsx'
 import useStyles from './editor.style'
 
 SyntaxHighlighter.registerLanguage('markdown', markdown)
-export default function MarkdownEditor({ id = '', value = '', onChange }) {
+export default function MarkdownEditor({
+  id = '',
+  value = '',
+  onChange,
+  autoFocus
+}) {
   const [text, update] = useState(value)
   const [offset, scroll] = useState({ top: 0, left: 0 })
   const outputEl = useRef(null)
@@ -25,6 +30,7 @@ export default function MarkdownEditor({ id = '', value = '', onChange }) {
   return (
     <Box width="100%" height="100%" position="relative" overflow="hidden">
       <textarea
+        autoFocus={autoFocus}
         spellCheck={false}
         className={clsx(styles.editor, styles.input, styles.text)}
         value={text}
@@ -78,11 +84,13 @@ export default function MarkdownEditor({ id = '', value = '', onChange }) {
 MarkdownEditor.propTypes = {
   id: PropTypes.string.isRequired,
   value: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  autoFocus: PropTypes.bool
 }
 
 MarkdownEditor.defaultProps = {
   id: 'markdown-editor',
   value: '',
-  onChange: () => {}
+  onChange: () => {},
+  autoFocus: false
 }

@@ -22,11 +22,13 @@ import {
   DialogActions,
   InputAdornment,
   FormGroup,
-  Grid
+  Grid,
+  Divider
 } from '@material-ui/core'
 import {
   AccessTime,
   AddCircle,
+  DeleteForever,
   KeyboardArrowDown,
   VideoCall
 } from '@material-ui/icons'
@@ -36,6 +38,7 @@ export default function UpdateVideo() {
   const styles = useStyles()
 
   const [dialog, show] = useState(false)
+  const [lectures, setLectures] = useState([])
 
   return (
     <Box>
@@ -48,59 +51,74 @@ export default function UpdateVideo() {
             <AddCircle />
           </IconButton>
         </Tooltip>
+        {lectures.length > 0 && (
+          <Tooltip title="Add new lecture" placement="right">
+            <Box color="error.main">
+              <IconButton color="inherit" onClick={() => setLectures([])}>
+                <DeleteForever />
+              </IconButton>
+            </Box>
+          </Tooltip>
+        )}
       </Box>
       <Paper>
-        <List className={styles.preview_list}>
-          <ListItem>
-            <ListItemIcon>
-              <Tooltip title="Enable preview" placement="top">
-                <Checkbox
-                  checkedIcon={<VideoCall className={styles.preview} />}
-                  icon={<VideoCall />}
+        <List>
+          {lectures.map((item) => (
+            <>
+              <ListItem>
+                <ListItemIcon className={styles.list_icon}>
+                  {item.preview && <VideoCall className={styles.preview} />}
+                </ListItemIcon>
+                <ListItemText
+                  classes={{ primary: styles.list_primary }}
+                  primary={item.title}
+                  secondary={
+                    `${
+                      item.hour && item.hour.toString().padStart(2, '0') + ':'
+                    }` +
+                    `${
+                      item.minute
+                        ? item.minute.toString().padStart(2, '0')
+                        : '00'
+                    }:` +
+                    `${
+                      item.second
+                        ? item.second.toString().padStart(2, '0')
+                        : '00'
+                    }:`
+                  }
                 />
-              </Tooltip>
-            </ListItemIcon>
-            <ListItemText
-              disableTypography
-              primary={
-                <InputBase
-                  inputProps={{ className: styles.placeholder }}
-                  placeholder="enter the title of this lecture..."
-                  fullWidth
-                />
-              }
-            />
-            <ListItemSecondaryAction>
-              <Box
-                display="flex"
-                flexDirection="row-reverse"
-                alignItems="center"
-              >
-                <IconButton>
-                  <KeyboardArrowDown />
-                </IconButton>
-                <Typography>3:21</Typography>
-              </Box>
-            </ListItemSecondaryAction>
-          </ListItem>
-          <Collapse in={true}>
-            <ListItem>
-              <ListItemText>
-                <TextField
-                  fullWidth
-                  variant="outlined"
-                  rows={2}
-                  rowsMax={2}
-                  multiline
-                  placeholder="What is this lecture about?"
-                />
-              </ListItemText>
-            </ListItem>
-          </Collapse>
+                {item.desc && (
+                  <IconButton>
+                    <KeyboardArrowDown />
+                  </IconButton>
+                )}
+              </ListItem>
+              {item.desc && (
+                <Collapse in={true}>
+                  <ListItem dense>
+                    <ListItemText
+                      primaryTypographyProps={{ variant: 'body1' }}
+                      primary={item.desc}
+                    />
+                  </ListItem>
+                </Collapse>
+              )}
+            </>
+          ))}
         </List>
       </Paper>
       <Dialog open={dialog} maxWidth="md" fullWidth onClose={() => show(false)}>
-        <VideoDialog onDone={() => show(false)} />
+        <VideoDialog
+          onDone={(lecture) => {
+            setLectures((prev) => {
+              prev.push(lecture)
+              return prev
+            })
+            show(false)
+          }}
+          onCancel={() => show(false)}
+        />
       </Dialog>
     </Box>
   )
@@ -123,7 +141,7 @@ function VideoDialog({ onDone, onCancel }) {
   }
 
   return (
-    <form onSubmit={submit}>
+    <form onSubmit={submit} noValidate>
       <DialogTitle>Add New Lecture</DialogTitle>
       <DialogContent>
         <Grid container spacing={2}>
@@ -152,6 +170,8 @@ function VideoDialog({ onDone, onCancel }) {
                   <Tooltip title="Enable preview" placement="top">
                     <InputAdornment position="end">
                       <Checkbox
+                        value={preview}
+                        onChange={(e) => setPreview(e.target.checked)}
                         icon={<VideoCall />}
                         checkedIcon={<VideoCall className={styles.preview} />}
                       />
@@ -224,6 +244,8 @@ function VideoDialog({ onDone, onCancel }) {
               variant="outlined"
               placeholder="What is this lecture about?"
               fullWidth
+              onChange={(e) => setDesc(e.target.value)}
+              value={desc}
               multiline
               rows={2}
               rowsMax={5}
