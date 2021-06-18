@@ -21,6 +21,7 @@ import LongParagraph from '@/components/paragraph'
 import CreateCourseProvider from './create-course.context'
 import UploadThumbnail from './thumbnail.component'
 import UpdateInfo from './info.component'
+import UpdateVideo from './video.component'
 
 export default function CourseDetail() {
   const styles = useStyles()
@@ -37,32 +38,7 @@ export default function CourseDetail() {
         </Box>
         <Divider />
         <Box paddingTop={1} />
-        <Typography className={styles.header}>Course Content</Typography>
-        <Paper>
-          <List className={styles.preview_list}>
-            <ListItem button divider>
-              <ListItemIcon>
-                <VideoCall />
-              </ListItemIcon>
-              <ListItemText
-                primary="setup"
-                primaryTypographyProps={{ className: styles.preview_title }}
-              />
-              <ListItemSecondaryAction>
-                <Typography>3:21</Typography>
-              </ListItemSecondaryAction>
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <VideoCall />
-              </ListItemIcon>
-              <ListItemText primary="Hello, World!" />
-              <ListItemSecondaryAction>
-                <Typography>3:21</Typography>
-              </ListItemSecondaryAction>
-            </ListItem>
-          </List>
-        </Paper>
+        <UpdateVideo />
         <Box paddingTop={1} />
         <Typography className={styles.header}>What you will learn</Typography>
         <Box paddingTop={1} />
