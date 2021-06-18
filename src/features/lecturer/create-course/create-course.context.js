@@ -6,7 +6,8 @@ const CreateCourseContext = React.createContext({
     thumbnail: '',
     price: 0,
     discount: 0,
-    title: ''
+    title: '',
+    shortdesc: ''
   },
   update: () => {}
 })
@@ -16,7 +17,8 @@ export default function CreateCourseProvider({ children }) {
     thumbnail: '',
     price: 0,
     discount: 0,
-    title: ''
+    title: '',
+    shortdesc: ''
   })
   return (
     <CreateCourseContext.Provider

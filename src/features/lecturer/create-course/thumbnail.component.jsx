@@ -73,9 +73,7 @@ export default function UploadThumbnail() {
           >
             Upload image
           </Button>
-          <Box paddingY={1}>
-            <Typography variant="subtitle1">OR</Typography>
-          </Box>
+          <Box paddingY={1} />
           <TextField
             fullWidth
             InputProps={{

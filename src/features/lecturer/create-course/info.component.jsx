@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import {
   Box,
   Typography,
@@ -10,7 +11,9 @@ import {
   Tooltip,
   InputAdornment,
   Grid,
-  Button
+  Button,
+  ListItemAvatar,
+  Avatar
 } from '@material-ui/core'
 import useStyles from './info.style'
 import { currency } from '@/utils/intl'
@@ -25,6 +28,7 @@ import {
   LocalOffer
 } from '@material-ui/icons'
 import { useCreateCourse } from './create-course.context'
+import LongParagraph from '@/components/paragraph'
 
 const formatter = new Intl.NumberFormat()
 const date = new Intl.DateTimeFormat()
@@ -35,10 +39,12 @@ export default function UpdateInfo() {
   const [title, setTitle] = useState(course.title)
   const [rating, setRating] = useState(0)
   const [price, setPrice] = useState(course.price)
+  const [shortdesc, setShortdesc] = useState(course.shortdesc)
   const [discount, setDiscount] = useState(course.discount)
   const [favorited, setFavorited] = useState(false)
   const [editTitle, setEditTitle] = useState(false)
   const [editPrice, setEditPrice] = useState(false)
+  const [editShortdesc, setEditShortdesc] = useState(false)
 
   return (
     <Box>
@@ -57,32 +63,16 @@ export default function UpdateInfo() {
               }}
             />
           </Grid>
-          <Grid item xs={12} container spacing={1}>
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                  update({ title })
-                  setEditTitle(false)
-                }}
-              >
-                Done
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="text"
-                color="primary"
-                onClick={() => {
-                  setTitle(course.title)
-                  setEditTitle(false)
-                }}
-              >
-                Cancel
-              </Button>
-            </Grid>
-          </Grid>
+          <EdittingGroup
+            onCancel={() => {
+              setTitle(course.title)
+              setEditTitle(false)
+            }}
+            onDone={() => {
+              update({ title })
+              setEditTitle(false)
+            }}
+          />
         </Grid>
       ) : (
         <Box display="flex" alignItems="center">
@@ -193,33 +183,17 @@ export default function UpdateInfo() {
                   }}
                 />
               </Grid>
-              <Grid item xs={12} container spacing={1}>
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => {
-                      update({ price, discount: discount / 100 })
-                      setEditPrice(false)
-                    }}
-                  >
-                    Done
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    variant="text"
-                    color="primary"
-                    onClick={() => {
-                      setPrice(course.price)
-                      setDiscount(course.discount * 100)
-                      setEditPrice(false)
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                </Grid>
-              </Grid>
+              <EdittingGroup
+                onDone={() => {
+                  update({ price, discount: discount / 100 })
+                  setEditPrice(false)
+                }}
+                onCancel={() => {
+                  setPrice(course.price)
+                  setDiscount(course.discount * 100)
+                  setEditPrice(false)
+                }}
+              />
             </Grid>
           ) : (
             <Box display="flex" alignItems="center">
@@ -249,18 +223,103 @@ export default function UpdateInfo() {
               >
                 {favorited ? <Favorite /> : <FavoriteBorder />}
               </IconButton>
-              <Tooltip title="Change price" placement="right">
-                <IconButton
-                  onClick={() => setEditPrice(true)}
-                  className={styles.edit}
-                >
-                  <Create />
-                </IconButton>
-              </Tooltip>
+              <EditButton
+                tooltip="Change price"
+                onClick={() => setEditPrice(true)}
+              />
             </Box>
           )}
         </ListItemText>
       </ListItem>
+      <ListItem disableGutters>
+        <ListItemAvatar>
+          <Avatar src="https://picsum.photos/64" />
+        </ListItemAvatar>
+        <ListItemText
+          disableTypography
+          primary={
+            <Box display="flex" alignItems="center">
+              <Typography>Author name</Typography>
+              <EditButton
+                onClick={() => setEditShortdesc(true)}
+                tooltip="Change description"
+              />
+            </Box>
+          }
+        />
+      </ListItem>
+      <ListItem disableGutters>
+        {editShortdesc ? (
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                autoFocus
+                name="course-shortdesc"
+                variant="outlined"
+                placeholder="Explain what this course is about, should be less then 5 lines..."
+                rows={5}
+                onChange={(e) => setShortdesc(e.target.value)}
+                rowsMax={5}
+                multiline
+                fullWidth
+              />
+            </Grid>
+            <EdittingGroup
+              onDone={() => {
+                update({ shortdesc })
+                setEditShortdesc(false)
+              }}
+              onCancel={() => {
+                setShortdesc(course.shortdesc)
+                setEditShortdesc(false)
+              }}
+            />
+          </Grid>
+        ) : (
+          <LongParagraph line={5}>
+            {shortdesc ||
+              'Explain what this course is about, should be less then 5 lines...'}
+          </LongParagraph>
+        )}
+      </ListItem>
     </Box>
   )
+}
+
+function EditButton({ onClick, tooltip }) {
+  const styles = useStyles()
+  return (
+    <Tooltip title={tooltip} placement="right">
+      <IconButton onClick={onClick} className={styles.edit}>
+        <Create />
+      </IconButton>
+    </Tooltip>
+  )
+}
+
+EditButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  tooltip: PropTypes.string.isRequired
+}
+
+function EdittingGroup({ onDone, onCancel }) {
+  return (
+    <Grid item xs={12} container spacing={1}>
+      <Grid item>
+        <Button variant="contained" color="primary" onClick={onDone}>
+          Done
+        </Button>
+      </Grid>
+      <Grid item>
+        <Button variant="text" color="primary" onClick={onCancel}>
+          Cancel
+        </Button>
+      </Grid>
+    </Grid>
+  )
+}
+
+EdittingGroup.propTypes = {
+  onDone: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired
 }

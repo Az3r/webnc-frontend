@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import {
   Paper,
   Typography,
@@ -17,17 +16,8 @@ import {
 } from '@material-ui/core'
 import useStyles from './create-course.style'
 import { Rating } from '@material-ui/lab'
-import {
-  ArrowDownward,
-  ArrowUpward,
-  Create,
-  Favorite,
-  FavoriteBorder,
-  RateReview,
-  Shop,
-  VideoCall
-} from '@material-ui/icons'
-import clsx from 'clsx'
+import { VideoCall } from '@material-ui/icons'
+import LongParagraph from '@/components/paragraph'
 import CreateCourseProvider from './create-course.context'
 import UploadThumbnail from './thumbnail.component'
 import UpdateInfo from './info.component'
@@ -41,27 +31,9 @@ export default function CourseDetail() {
         <UploadThumbnail />
         <Box paddingY={2}>
           <UpdateInfo />
-          <Box paddingTop={1} />
-          <ListItem disableGutters>
-            <ListItemAvatar>
-              <Avatar src="https://picsum.photos/64" />
-            </ListItemAvatar>
-            <ListItemText primary="Author name" />
-          </ListItem>
-          <LongParagraph>
-            Contrary to popular belief, Lorem Ipsum is not simply random text.
-            It has roots in a piece of classical Latin literature from 45 BC,
-            making it over 2000 years old. Richard McClintock, a Latin professor
-            at Hampden-Sydney College in Virginia, looked up one of the more
-            obscure Latin words, consectetur, from a Lorem Ipsum passage, and
-            going through the cites of the word in classical literature,
-            discovered the undoubtable source. Lorem Ipsum comes from sections
-            1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes
-            of Good and Evil) by Cicero, written in 45 BC. This book is a
-            treatise on the theory of ethics, very popular during the
-            Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit
-            amet..", comes from a line in section 1.10.32.
-          </LongParagraph>
+          <Button fullWidth variant="contained" color="primary">
+            add to cart
+          </Button>
         </Box>
         <Divider />
         <Box paddingTop={1} />
@@ -209,37 +181,4 @@ export default function CourseDetail() {
       </Container>
     </CreateCourseProvider>
   )
-}
-
-function LongParagraph({ children = <></> }) {
-  const styles = useStyles()
-  const [more, expand] = useState(false)
-
-  return (
-    <>
-      <Typography
-        className={clsx(styles.shortdesc, {
-          [styles.expand]: more
-        })}
-      >
-        {children}
-      </Typography>
-      <Box width="100%" display="flex">
-        <Box flexGrow={1} />
-        <Button
-          size="small"
-          className={styles.expand_button}
-          variant="text"
-          onClick={() => expand((prev) => !prev)}
-          endIcon={more ? <ArrowUpward /> : <ArrowDownward />}
-        >
-          {more ? 'Shrink' : 'Expand'}
-        </Button>
-      </Box>
-    </>
-  )
-}
-
-LongParagraph.propTypes = {
-  children: PropTypes.node
 }
