@@ -32,7 +32,7 @@ import LongParagraph from '@/components/paragraph'
 
 const formatter = new Intl.NumberFormat()
 const date = new Intl.DateTimeFormat()
-export default function UpdateInfo() {
+export default function UpdateInfo(_, ref) {
   const styles = useStyles()
   const { course, update } = useCreateCourse()
 
@@ -47,7 +47,7 @@ export default function UpdateInfo() {
   const [editShortdesc, setEditShortdesc] = useState(false)
 
   return (
-    <Box>
+    <div ref={ref}>
       {editTitle ? (
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -232,23 +232,6 @@ export default function UpdateInfo() {
         </ListItemText>
       </ListItem>
       <ListItem disableGutters>
-        <ListItemAvatar>
-          <Avatar src="https://picsum.photos/64" />
-        </ListItemAvatar>
-        <ListItemText
-          disableTypography
-          primary={
-            <Box display="flex" alignItems="center">
-              <Typography>Author name</Typography>
-              <EditButton
-                onClick={() => setEditShortdesc(true)}
-                tooltip="Change description"
-              />
-            </Box>
-          }
-        />
-      </ListItem>
-      <ListItem disableGutters>
         {editShortdesc ? (
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -282,7 +265,7 @@ export default function UpdateInfo() {
           </LongParagraph>
         )}
       </ListItem>
-    </Box>
+    </div>
   )
 }
 

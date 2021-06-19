@@ -3,7 +3,11 @@ import { makeStyles } from '@material-ui/core'
 export default makeStyles((theme) => ({
   root: {
     border: `1px dashed ${theme.palette.text.hint}`,
-    borderRadius: theme.shape.borderRadius
+    borderRadius: theme.shape.borderRadius,
+    width: '100%',
+    paddingTop: '56.25%',
+    position: 'relative',
+    color: 'white'
   },
   fill: {
     position: 'absolute',

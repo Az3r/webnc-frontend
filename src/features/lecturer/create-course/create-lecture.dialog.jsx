@@ -4,136 +4,30 @@ import {
   Button,
   Box,
   Typography,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  ListItemSecondaryAction,
-  Paper,
   Checkbox,
   Tooltip,
   TextField,
   InputBase,
-  IconButton,
-  Collapse,
-  Dialog,
   DialogContent,
   DialogTitle,
   DialogActions,
   InputAdornment,
   FormGroup,
-  Grid,
-  Divider
+  Grid
 } from '@material-ui/core'
-import {
-  AccessTime,
-  AddCircle,
-  DeleteForever,
-  KeyboardArrowDown,
-  VideoCall
-} from '@material-ui/icons'
-import useStyles from './video.style'
+import { AccessTime, VideoCall } from '@material-ui/icons'
+import useStyles from './create-lecture.style'
 
-export default function UpdateVideo() {
+export default function LectureDialog({ lecture, onDone, onCancel }) {
   const styles = useStyles()
 
-  const [dialog, show] = useState(false)
-  const [lectures, setLectures] = useState([])
-
-  return (
-    <Box>
-      <Box display="flex" alignItems="center" color="info.main">
-        <Typography color="textPrimary" className={styles.header}>
-          This Course Contains
-        </Typography>
-        <Tooltip title="Add new lecture" placement="right">
-          <IconButton color="inherit" onClick={() => show(true)}>
-            <AddCircle />
-          </IconButton>
-        </Tooltip>
-        {lectures.length > 0 && (
-          <Tooltip title="Add new lecture" placement="right">
-            <Box color="error.main">
-              <IconButton color="inherit" onClick={() => setLectures([])}>
-                <DeleteForever />
-              </IconButton>
-            </Box>
-          </Tooltip>
-        )}
-      </Box>
-      <Paper>
-        <List>
-          {lectures.map((item) => (
-            <>
-              <ListItem>
-                <ListItemIcon className={styles.list_icon}>
-                  {item.preview && <VideoCall className={styles.preview} />}
-                </ListItemIcon>
-                <ListItemText
-                  classes={{ primary: styles.list_primary }}
-                  primary={item.title}
-                  secondary={
-                    `${
-                      item.hour && item.hour.toString().padStart(2, '0') + ':'
-                    }` +
-                    `${
-                      item.minute
-                        ? item.minute.toString().padStart(2, '0')
-                        : '00'
-                    }:` +
-                    `${
-                      item.second
-                        ? item.second.toString().padStart(2, '0')
-                        : '00'
-                    }:`
-                  }
-                />
-                {item.desc && (
-                  <IconButton>
-                    <KeyboardArrowDown />
-                  </IconButton>
-                )}
-              </ListItem>
-              {item.desc && (
-                <Collapse in={true}>
-                  <ListItem dense>
-                    <ListItemText
-                      primaryTypographyProps={{ variant: 'body1' }}
-                      primary={item.desc}
-                    />
-                  </ListItem>
-                </Collapse>
-              )}
-            </>
-          ))}
-        </List>
-      </Paper>
-      <Dialog open={dialog} maxWidth="md" fullWidth onClose={() => show(false)}>
-        <VideoDialog
-          onDone={(lecture) => {
-            setLectures((prev) => {
-              prev.push(lecture)
-              return prev
-            })
-            show(false)
-          }}
-          onCancel={() => show(false)}
-        />
-      </Dialog>
-    </Box>
-  )
-}
-
-function VideoDialog({ onDone, onCancel }) {
-  const styles = useStyles()
-
-  const [title, setTitle] = useState('')
-  const [url, setUrl] = useState('')
-  const [desc, setDesc] = useState('')
-  const [preview, setPreview] = useState(false)
-  const [hour, setHour] = useState(null)
-  const [minute, setMinute] = useState(null)
-  const [second, setSecond] = useState(null)
+  const [title, setTitle] = useState(lecture.title)
+  const [url, setUrl] = useState(lecture.url)
+  const [desc, setDesc] = useState(lecture.desc)
+  const [preview, setPreview] = useState(lecture.preview)
+  const [hour, setHour] = useState(lecture.hour)
+  const [minute, setMinute] = useState(lecture.minute)
+  const [second, setSecond] = useState(lecture.second)
 
   function submit(e) {
     e.preventDefault()
@@ -264,14 +158,35 @@ function VideoDialog({ onDone, onCancel }) {
           color="primary"
           style={{ width: 120 }}
         >
-          Add
+          {lecture ? 'Edit' : 'Add'}
         </Button>
       </DialogActions>
     </form>
   )
 }
 
-VideoDialog.propTypes = {
+LectureDialog.propTypes = {
+  lecture: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    preview: PropTypes.bool,
+    desc: PropTypes.string,
+    hour: PropTypes.number.isRequired,
+    minute: PropTypes.number.isRequired,
+    second: PropTypes.number.isRequired
+  }),
   onDone: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired
+}
+
+LectureDialog.defaultProps = {
+  lecture: {
+    url: '',
+    title: '',
+    preview: false,
+    desc: '',
+    hour: 0,
+    minute: 0,
+    second: 0
+  }
 }

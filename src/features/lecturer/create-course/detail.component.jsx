@@ -4,12 +4,12 @@ import { Create } from '@material-ui/icons'
 import React, { useState } from 'react'
 import useStyles from './detail.style'
 
-export default function UpdateDetail() {
+export default function UpdateDetail(_, ref) {
   const styles = useStyles()
   const [text, setText] = useState('')
   const [editText, setEditText] = useState(false)
   return (
-    <Box>
+    <div>
       <Box display="flex" alignItems="center">
         <Typography className={styles.header}>What you will learn</Typography>
         <IconButton onClick={() => setEditText(true)}>
@@ -36,6 +36,6 @@ export default function UpdateDetail() {
       ) : (
         <Presenter>{text}</Presenter>
       )}
-    </Box>
+    </div>
   )
 }

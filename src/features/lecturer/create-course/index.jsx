@@ -1,46 +1,87 @@
-import React from 'react'
+import React, { useRef, forwardRef } from 'react'
 import {
-  Paper,
-  Typography,
   Container,
   Box,
   Button,
-  ListItem,
-  ListItemAvatar,
-  Avatar,
-  ListItemText,
   Divider,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  List
+  Stepper,
+  Step,
+  StepButton,
+  StepContent,
+  StylesProvider
 } from '@material-ui/core'
-import useStyles from './create-course.style'
-import { Rating } from '@material-ui/lab'
-import { VideoCall } from '@material-ui/icons'
-import LongParagraph from '@/components/paragraph'
 import CreateCourseProvider from './create-course.context'
 import UploadThumbnail from './thumbnail.component'
 import UpdateInfo from './info.component'
-import UpdateVideo from './video.component'
+import CourseContent from './content.component'
 import UpdateDetail from './detail.component'
+import { useSpring } from 'react-spring'
+import useStyles from './create-course.style'
 
 export default function CourseDetail() {
+  const styles = useStyles()
+  const info = useRef(null)
+  const thumbnail = useRef(null)
+  const [, api] = useSpring(() => ({
+    scroll: 0,
+    onChange: ({ value }) => window.scroll(0, value.scroll)
+  }))
   return (
     <CreateCourseProvider>
-      <Container>
-        <UploadThumbnail />
-        <Box paddingY={2}>
-          <UpdateInfo />
-          <Button fullWidth variant="contained" color="primary">
-            add to cart
-          </Button>
+      <Box display="flex">
+        <Box flexGrow={1} maxWidth={320}>
+          <Stepper orientation="vertical" nonLinear className={styles.stepper}>
+            <Step>
+              <StepButton
+                onClick={() => {
+                  const top =
+                    info.current.getBoundingClientRect().top + window.scrollY
+                  api.start({
+                    scroll: top - 16,
+                    from: { scroll: window.scrollY }
+                  })
+                }}
+              >
+                hello
+              </StepButton>
+              <StepContent>
+                <Button>Back</Button>
+                <Button>Next</Button>
+              </StepContent>
+            </Step>
+            <Step>
+              <StepButton>hello</StepButton>
+              <StepContent>
+                <Button>Back</Button>
+                <Button>Next</Button>
+              </StepContent>
+            </Step>
+            <Step>
+              <StepButton>hello</StepButton>
+            </Step>
+            <Step>
+              <StepButton>hello</StepButton>
+            </Step>
+          </Stepper>
         </Box>
-        <Divider />
-        <Box paddingTop={1} />
-        <UpdateVideo />
-        <Box paddingTop={1} />
-        <UpdateDetail />
-      </Container>
+        <Container maxWidth="md">
+          <ForwardThumbnail ref={thumbnail} />
+          <Box paddingY={2}>
+            <ForwardInfo ref={info} />
+            <Button fullWidth variant="contained" color="primary">
+              add to cart
+            </Button>
+          </Box>
+          <Divider />
+          <Box paddingTop={1} />
+          <CourseContent />
+          <Box paddingTop={1} />
+          <UpdateDetail />
+        </Container>
+      </Box>
     </CreateCourseProvider>
   )
 }
+
+const ForwardInfo = forwardRef(UpdateInfo)
+const ForwardThumbnail = forwardRef(UploadThumbnail)

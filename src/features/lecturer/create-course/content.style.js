@@ -1,12 +1,13 @@
 import { makeStyles } from '@material-ui/core'
 
 export default makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
   header: {
     ...theme.typography.h5,
     fontWeight: theme.typography.h6.fontWeight
-  },
-  preview: {
-    color: theme.palette.warning.main
   },
   placeholder: {
     ['&::placeholder']: {
@@ -19,11 +20,9 @@ export default makeStyles((theme) => ({
   input_duration: {
     width: 48
   },
-  list_icon: {
-    minWidth: 36
-  },
-  list_primary: {
-    overflow: 'hidden',
-    textOverflow: 'ellipsis'
+  item: {
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center'
   }
 }))
