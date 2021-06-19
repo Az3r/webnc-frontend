@@ -7,10 +7,14 @@ import {
   IconButton,
   Dialog
 } from '@material-ui/core'
-import { AddCircle, Create, Delete, Reorder } from '@material-ui/icons'
+import {
+  AddCircle,
+  Create,
+  Delete,
+  KeyboardArrowDown,
+  KeyboardArrowUp
+} from '@material-ui/icons'
 import useStyles from './content.style'
-import { useDrag } from 'react-use-gesture'
-import { animated, useSprings } from 'react-spring'
 import LectureItem from './lecture.component'
 import LectureDialog from './create-lecture.dialog'
 import { useCreateCourse } from './create-course.context'
@@ -23,54 +27,6 @@ export default function CourseContent() {
   // edit lecture
   const [dialog, show] = useState(false)
   const editting = useRef(null)
-
-  // track items' height
-  const item = useRef(null)
-
-  // track initial index of dragged item at the start of drag
-  const beginIndex = useRef(null)
-
-  // store current order
-  const orders = useRef(lectures.map((_, i) => i))
-
-  const [springs, api] = useSprings(
-    lectures.length,
-    () => ({
-      y: 0,
-      opacity: 1,
-      scale: 1,
-      zIndex: 0,
-      immediate: false
-    }),
-    [course]
-  )
-
-  const bind = useDrag(({ args: [origin], active, movement: [, y] }) => {
-    const currentIndex = orders.current.indexOf(origin)
-    if (beginIndex.current === null) beginIndex.current = currentIndex
-    const currentRow = clamp(
-      Math.round(
-        (y + beginIndex.current * item.current.offsetHeight) /
-          item.current.offsetHeight
-      ),
-      0,
-      lectures.length - 1
-    )
-    swap(orders.current, currentIndex, currentRow)
-    api.start(
-      animate({
-        orders: orders.current,
-        item: item.current,
-        current: beginIndex.current,
-        active,
-        y,
-        origin
-      })
-    )
-    if (!active) {
-      beginIndex.current = null
-    }
-  })
 
   return (
     <div>
@@ -91,25 +47,44 @@ export default function CourseContent() {
         </Tooltip>
       </Box>
       <ul>
-        {springs.map((styles, i) => (
-          <animated.div
-            className={classes.item}
-            key={lectures[i].title}
-            ref={i === 0 ? item : undefined}
-            style={styles}
-          >
-            <IconButton disableRipple disableTouchRipple {...bind(i)}>
-              <Reorder />
-            </IconButton>
-            <Box flexGrow={1}>
-              <Paper>
-                <LectureItem lecture={lectures[i]} />
-              </Paper>
+        {lectures.map((item, index) => (
+          <Box display="flex" key={item.title} alignItems="center">
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <IconButton
+                disableFocusRipple
+                disableTouchRipple
+                disableRipple
+                disabled={index === 0}
+                onClick={() => {
+                  swap(lectures, index, index - 1)
+                  update({ lectures })
+                }}
+              >
+                <KeyboardArrowUp />
+              </IconButton>
+              <Typography>{index + 1}</Typography>
+              <IconButton
+                disabled={index === lectures.length - 1}
+                onClick={() => {
+                  swap(lectures, index, index + 1)
+                  update({ lectures })
+                }}
+              >
+                <KeyboardArrowDown />
+              </IconButton>
             </Box>
+            <Paper style={{ flexGrow: 1 }}>
+              <LectureItem lecture={item} />
+            </Paper>
             <Box display="flex" flexDirection="column">
               <IconButton
                 onClick={() => {
-                  editting.current = { item: lectures[i], index: i }
+                  editting.current = { item: item, index }
                   show(true)
                 }}
               >
@@ -117,14 +92,14 @@ export default function CourseContent() {
               </IconButton>
               <IconButton
                 onClick={() => {
-                  lectures.splice(i, 1)
+                  lectures.splice(index, 1)
                   update({ lectures })
                 }}
               >
                 <Delete />
               </IconButton>
             </Box>
-          </animated.div>
+          </Box>
         ))}
       </ul>
       <Dialog open={dialog} maxWidth="md" fullWidth onClose={() => show(false)}>
@@ -132,10 +107,8 @@ export default function CourseContent() {
           lecture={editting.current?.item}
           onDone={(lecture) => {
             if (editting.current) lectures[editting.current.index] = lecture
-            else {
-              orders.current.push(orders.current.length)
-              lectures.push(lecture)
-            }
+            else lectures.push(lecture)
+
             update({ lectures })
             show(false)
           }}
@@ -144,28 +117,6 @@ export default function CourseContent() {
       </Dialog>
     </div>
   )
-}
-
-function animate({ orders, item, active, origin, current, y }) {
-  return function (index) {
-    return active && index === origin
-      ? {
-          y: y + (current - index) * item.offsetHeight,
-          scale: 1.05,
-          zIndex: 10,
-          immediate: (n) => n === 'y' || n === 'zIndex'
-        }
-      : {
-          y: (orders.indexOf(index) - index) * item.offsetHeight,
-          scale: 1,
-          zIndex: 0,
-          immediate: false
-        }
-  }
-}
-
-function clamp(value, min, max) {
-  return Math.min(max, Math.max(min, value))
 }
 
 function swap(array, x, y) {

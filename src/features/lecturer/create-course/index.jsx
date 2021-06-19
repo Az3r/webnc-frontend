@@ -18,7 +18,7 @@ import UpdateDetail from './detail.component'
 import { useSpring } from 'react-spring'
 import useStyles from './create-course.style'
 
-export default function CourseDetail() {
+export default function CreateCourse() {
   const styles = useStyles()
   const info = useRef(null)
   const thumbnail = useRef(null)
