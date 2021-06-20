@@ -10,33 +10,36 @@ import useStyles from './editor.style'
 
 SyntaxHighlighter.registerLanguage('markdown', markdown)
 export default function MarkdownEditor({
-  id = '',
-  value = '',
+  value,
   onChange,
-  autoFocus
+  onScroll,
+  ...props
 }) {
-  const [text, update] = useState(value)
+  const [text, update] = useState(value || '')
   const [offset, scroll] = useState({ top: 0, left: 0 })
+  const textareaEl = useRef(null)
   const outputEl = useRef(null)
   const theme = useTheme()
   const styles = useStyles()
 
   useEffect(() => {
-    if (!outputEl.current) outputEl.current = document.getElementById(id)
+    if (!outputEl.current)
+      outputEl.current = textareaEl.current.nextElementSibling
     outputEl.current.scrollTop = offset.top
     outputEl.current.scrollLeft = offset.left
   }, [offset])
 
   return (
-    <Box width="100%" height="100%" position="relative" overflow="hidden">
+    <Box position="relative" height="100%">
       <textarea
-        autoFocus={autoFocus}
+        ref={textareaEl}
+        {...props}
         spellCheck={false}
-        className={clsx(styles.editor, styles.input, styles.text)}
+        className={styles.textarea}
         value={text}
         onChange={(e) => {
           update(e.target.value)
-          onChange(e.target.value)
+          onChange?.call(undefined, e)
         }}
         onKeyDown={(e) => {
           if (e.code === 'Tab') {
@@ -49,18 +52,18 @@ export default function MarkdownEditor({
             e.target.selectionEnd = s + 1
           }
         }}
-        onScroll={(e) =>
+        onScroll={(e) => {
           scroll({ top: e.target.scrollTop, left: e.target.scrollLeft })
-        }
+          onScroll?.call(undefined, e)
+        }}
       />
       <SyntaxHighlighter
-        id={id}
         showLineNumbers
         lineNumberStyle={{
           width: theme.spacing(5),
           paddingRight: theme.spacing(2)
         }}
-        className={styles.editor}
+        className={styles.output}
         customStyle={{
           ...theme.typography.body1,
           padding: theme.spacing(1, 2),
@@ -71,7 +74,7 @@ export default function MarkdownEditor({
         }}
         language="markdown"
         codeTagProps={{
-          className: clsx(styles.text, styles.code)
+          className: styles.text
         }}
         style={theme.palette.type === 'dark' ? dark : light}
       >
@@ -82,15 +85,7 @@ export default function MarkdownEditor({
 }
 
 MarkdownEditor.propTypes = {
-  id: PropTypes.string.isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func,
-  autoFocus: PropTypes.bool
-}
-
-MarkdownEditor.defaultProps = {
-  id: 'markdown-editor',
-  value: '',
-  onChange: () => {},
-  autoFocus: false
+  onScroll: PropTypes.func
 }

@@ -67,7 +67,7 @@ export default function CreateCourse() {
   }, [])
   return (
     <CreateCourseProvider>
-      <Box display="flex" justifyContent="space-around" minHeight="300vh">
+      <Box display="flex" justifyContent="space-around">
         <Box flexGrow={1} maxWidth={320}>
           <Stepper
             orientation="vertical"
@@ -122,20 +122,22 @@ export default function CreateCourse() {
           </Stepper>
         </Box>
         <Container maxWidth="md">
-          <div ref={thumbnail}>
-            <UploadThumbnail />
-          </div>
-          <div ref={info}>
-            <UpdateInfo />
-          </div>
-          <Box paddingTop={1} />
-          <div ref={lecture}>
-            <CourseContent />
-          </div>
-          <Box paddingTop={1} />
-          <div ref={detail}>
-            <UpdateDetail />
-          </div>
+          <Box paddingY={2}>
+            <div ref={thumbnail}>
+              <UploadThumbnail />
+            </div>
+            <div ref={info}>
+              <UpdateInfo />
+            </div>
+            <Box paddingTop={1} />
+            <div ref={lecture}>
+              <CourseContent />
+            </div>
+            <Box paddingTop={1} />
+            <div ref={detail}>
+              <UpdateDetail />
+            </div>
+          </Box>
         </Container>
       </Box>
     </CreateCourseProvider>

@@ -8,7 +8,8 @@ const CreateCourseContext = React.createContext({
     discount: 0,
     title: '',
     shortdesc: '',
-    lectures: []
+    lectures: [],
+    detail: ''
   },
   update: () => {}
 })

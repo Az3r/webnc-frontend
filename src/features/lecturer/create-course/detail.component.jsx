@@ -1,25 +1,28 @@
-import { Editor, Presenter } from '@/components/markdown'
+import { Presenter } from '@/components/markdown'
 import { Box, Button, Dialog, IconButton, Typography } from '@material-ui/core'
 import { Create } from '@material-ui/icons'
 import React, { useState } from 'react'
+import { useCreateCourse } from './create-course.context'
 import useStyles from './detail.style'
 import DetailDialog from './edit-detail.dialog'
 
-export default function UpdateDetail(_, ref) {
+export default function UpdateDetail() {
   const styles = useStyles()
-  const [text, setText] = useState('')
-  const [editText, setEditText] = useState(false)
+  const { course, update } = useCreateCourse()
+  const { detail } = course
+
+  const [dialog, show] = useState(false)
   return (
     <div>
       <Box display="flex" alignItems="center">
         <Typography className={styles.header}>What you will learn</Typography>
         <Box color="info.main">
-          <IconButton color="inherit" onClick={() => setEditText(true)}>
+          <IconButton color="inherit" onClick={() => show(true)}>
             <Create />
           </IconButton>
         </Box>
       </Box>
-      {!text && (
+      {!detail && (
         <Box
           display="flex"
           flexDirection="column"
@@ -38,22 +41,22 @@ export default function UpdateDetail(_, ref) {
           <Button
             color="primary"
             variant="contained"
-            onClick={() => setEditText(true)}
+            onClick={() => show(true)}
           >
             Edit
           </Button>
         </Box>
       )}
-      {text && <Presenter>{text}</Presenter>}
-      <Dialog open={editText} onClose={() => setEditText(false)}>
+      {detail && <Presenter>{detail}</Presenter>}
+      <Dialog open={dialog} onClose={() => show(false)} fullWidth maxWidth="lg">
         <DetailDialog
-          text={text}
+          text={detail}
           onDone={(text) => {
-            setText(text)
-            setEditText(false)
+            update({ detail: text })
+            show(false)
           }}
           onCancel={() => {
-            setEditText(false)
+            show(false)
           }}
         />
       </Dialog>

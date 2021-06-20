@@ -13,27 +13,26 @@ export default function DetailDialog({ text, onDone, onCancel }) {
   const [markdown, update] = React.useState(text)
   function submit(e) {
     e.preventDefault()
-    onDone?.call(undefined, text)
+    onDone?.call(undefined, markdown)
   }
   return (
     <form onSubmit={submit}>
       <DialogTitle>Edit Detail</DialogTitle>
       <DialogContent>
-        <Box height={320}>
-          <Editor value={markdown} onChange={(s) => update(s)} />
+        <Box height="50vh">
+          <Editor
+            required
+            value={markdown}
+            onChange={(s) => update(s.target.value)}
+          />
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          style={{ width: 120 }}
-        >
-          Done
-        </Button>
-        <Button color="primary" style={{ width: 120 }} onClick={onCancel}>
+        <Button color="primary" onClick={onCancel}>
           Cancel
+        </Button>
+        <Button type="submit" variant="contained" color="primary">
+          Done
         </Button>
       </DialogActions>
     </form>
