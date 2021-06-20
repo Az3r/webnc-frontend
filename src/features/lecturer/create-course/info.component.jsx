@@ -25,7 +25,7 @@ import {
   Update,
   LocalOffer
 } from '@material-ui/icons'
-import { useCreateCourse } from './create-course.context'
+import { useCreateCourse } from '.'
 import LongParagraph from '@/components/paragraph'
 import TitleDialog from './edit-title.dialog'
 import PriceDialog from './edit-price.dialog'

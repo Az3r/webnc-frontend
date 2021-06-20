@@ -8,7 +8,6 @@ import {
   StepButton,
   StepContent
 } from '@material-ui/core'
-import CreateCourseProvider from './create-course.context'
 import UploadThumbnail from './thumbnail.component'
 import UpdateInfo from './info.component'
 import CourseContent from './content.component'
@@ -16,9 +15,31 @@ import UpdateDetail from './detail.component'
 import { config, useSpring } from 'react-spring'
 import useStyles from './create-course.style'
 
+const CreateCourseContext = React.createContext({
+  course: {
+    thumbnail: '',
+    price: 0,
+    discount: 0,
+    title: '',
+    shortdesc: '',
+    lectures: [],
+    detail: ''
+  },
+  update: () => {}
+})
+
 export default function CreateCourse() {
   const styles = useStyles()
 
+  const [course, update] = React.useState({
+    thumbnail: '',
+    price: 0,
+    discount: 0,
+    title: '',
+    shortdesc: '',
+    lectures: [],
+    detail: ''
+  })
   const [active, setActive] = React.useState(0)
 
   const info = useRef(null)
@@ -38,6 +59,10 @@ export default function CreateCourse() {
     config: config.stiff,
     onChange: ({ value }) => window.scroll(0, value.scroll)
   }))
+
+  async function submit() {
+    console.log('submitting course...', course)
+  }
 
   React.useEffect(() => {
     function onScroll() {
@@ -66,8 +91,13 @@ export default function CreateCourse() {
     }
   }, [])
   return (
-    <CreateCourseProvider>
-      <Box display="flex" justifyContent="space-around">
+    <CreateCourseContext.Provider
+      value={{
+        course,
+        update: (props) => update((prev) => ({ ...prev, ...props }))
+      }}
+    >
+      <Box display="flex" justifyContent="space-around" minHeight="280vh">
         <Box flexGrow={1} maxWidth={320}>
           <Stepper
             orientation="vertical"
@@ -99,7 +129,11 @@ export default function CreateCourse() {
                     </Button>
                   )}
                   {index === steps.length - 1 && (
-                    <Button variant="contained" color="secondary">
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={submit}
+                    >
                       Submit
                     </Button>
                   )}
@@ -140,8 +174,12 @@ export default function CreateCourse() {
           </Box>
         </Container>
       </Box>
-    </CreateCourseProvider>
+    </CreateCourseContext.Provider>
   )
+}
+
+export function useCreateCourse() {
+  return React.useContext(CreateCourseContext)
 }
 
 function animate(item, animator) {

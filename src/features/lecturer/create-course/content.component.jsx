@@ -18,7 +18,7 @@ import {
 import useStyles from './content.style'
 import LectureItem from './lecture.component'
 import LectureDialog from './edit-lecture.dialog'
-import { useCreateCourse } from './create-course.context'
+import { useCreateCourse } from '.'
 import clsx from 'clsx'
 
 export default function CourseContent() {

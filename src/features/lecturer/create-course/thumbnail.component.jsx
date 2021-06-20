@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { Typography, Button, Box, TextField, Grow } from '@material-ui/core'
+import { Button, Box, TextField, Grow } from '@material-ui/core'
 import useStyles from './thumbnail.style'
-import { useCreateCourse } from './create-course.context'
+import { useCreateCourse } from '.'
 import clsx from 'clsx'
 
 /** @type {Worker} */

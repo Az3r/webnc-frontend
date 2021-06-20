@@ -2,7 +2,7 @@ import { Presenter } from '@/components/markdown'
 import { Box, Button, Dialog, IconButton, Typography } from '@material-ui/core'
 import { Create } from '@material-ui/icons'
 import React, { useState } from 'react'
-import { useCreateCourse } from './create-course.context'
+import { useCreateCourse } from '.'
 import useStyles from './detail.style'
 import DetailDialog from './edit-detail.dialog'
 
