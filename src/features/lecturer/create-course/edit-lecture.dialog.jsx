@@ -21,13 +21,13 @@ import useStyles from './create-lecture.style'
 export default function LectureDialog({ lecture, onDone, onCancel }) {
   const styles = useStyles()
 
-  const [title, setTitle] = useState(lecture.title)
-  const [url, setUrl] = useState(lecture.url)
-  const [desc, setDesc] = useState(lecture.desc)
-  const [preview, setPreview] = useState(lecture.preview)
-  const [hour, setHour] = useState(lecture.hour)
-  const [minute, setMinute] = useState(lecture.minute)
-  const [second, setSecond] = useState(lecture.second)
+  const [title, setTitle] = useState(lecture?.title)
+  const [url, setUrl] = useState(lecture?.url)
+  const [desc, setDesc] = useState(lecture?.desc)
+  const [preview, setPreview] = useState(lecture?.preview)
+  const [hour, setHour] = useState(lecture?.hour)
+  const [minute, setMinute] = useState(lecture?.minute)
+  const [second, setSecond] = useState(lecture?.second)
 
   function submit(e) {
     e.preventDefault()
@@ -35,8 +35,8 @@ export default function LectureDialog({ lecture, onDone, onCancel }) {
   }
 
   return (
-    <form onSubmit={submit} noValidate>
-      <DialogTitle>Add New Lecture</DialogTitle>
+    <form onSubmit={submit}>
+      <DialogTitle>{lecture ? 'Edit Lecture' : 'Add New Lecture'}</DialogTitle>
       <DialogContent>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -88,7 +88,7 @@ export default function LectureDialog({ lecture, onDone, onCancel }) {
                 onFocus={(e) => e.target.select()}
                 value={hour}
                 onChange={(e) => setHour(e.target.valueAsNumber)}
-                inputProps={{ min: 0, max: 23, style: { textAlign: 'center' } }}
+                inputProps={{ min: 0, style: { textAlign: 'center' } }}
                 placeholder="00"
                 className={styles.input_duration}
               />
@@ -104,7 +104,6 @@ export default function LectureDialog({ lecture, onDone, onCancel }) {
                 inputProps={{
                   min: 0,
                   max: 59,
-                  step: 15,
                   style: { textAlign: 'center' }
                 }}
                 placeholder="00"
@@ -122,7 +121,7 @@ export default function LectureDialog({ lecture, onDone, onCancel }) {
                 inputProps={{
                   min: 0,
                   max: 59,
-                  step: 15,
+
                   style: { textAlign: 'center' }
                 }}
                 placeholder="00"
@@ -177,16 +176,4 @@ LectureDialog.propTypes = {
   }),
   onDone: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired
-}
-
-LectureDialog.defaultProps = {
-  lecture: {
-    url: '',
-    title: '',
-    preview: false,
-    desc: '',
-    hour: 0,
-    minute: 0,
-    second: 0
-  }
 }

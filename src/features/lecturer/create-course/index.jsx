@@ -78,6 +78,7 @@ export default function CreateCourse() {
             {steps.map((item, index) => (
               <Step key={item.label}>
                 <StepButton
+                  orientation="vertical"
                   onClick={() =>
                     animate(item.ref.current, api, () => setActive(index))
                   }

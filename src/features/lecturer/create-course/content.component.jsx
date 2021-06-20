@@ -5,7 +5,8 @@ import {
   Paper,
   Tooltip,
   IconButton,
-  Dialog
+  Dialog,
+  Button
 } from '@material-ui/core'
 import {
   AddCircle,
@@ -16,11 +17,12 @@ import {
 } from '@material-ui/icons'
 import useStyles from './content.style'
 import LectureItem from './lecture.component'
-import LectureDialog from './create-lecture.dialog'
+import LectureDialog from './edit-lecture.dialog'
 import { useCreateCourse } from './create-course.context'
+import clsx from 'clsx'
 
 export default function CourseContent() {
-  const classes = useStyles()
+  const styles = useStyles()
   const { course, update } = useCreateCourse()
   const { lectures } = course
 
@@ -31,7 +33,7 @@ export default function CourseContent() {
   return (
     <div>
       <Box display="flex" alignItems="center" color="info.main">
-        <Typography color="textPrimary" className={classes.header}>
+        <Typography color="textPrimary" className={styles.header}>
           This Course Contains
         </Typography>
         <Tooltip title="Add new lecture" placement="right">
@@ -46,7 +48,38 @@ export default function CourseContent() {
           </IconButton>
         </Tooltip>
       </Box>
-      <ul>
+      <ul
+        className={clsx({
+          [styles.empty]: lectures.length === 0
+        })}
+      >
+        {lectures.length === 0 && (
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            width="100%"
+            height="100%"
+          >
+            <Typography color="textSecondary" variant="h5" align="center">
+              <em>
+                Your course doesn&apos;t have any lecture. Let&apos;s add one
+              </em>
+            </Typography>
+            <Box padding={1} />
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => {
+                editting.current = null
+                show(true)
+              }}
+            >
+              Add lecture
+            </Button>
+          </Box>
+        )}
         {lectures.map((item, index) => (
           <Box display="flex" key={item.title} alignItems="center">
             <Box
