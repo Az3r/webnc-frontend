@@ -32,7 +32,7 @@ import LongParagraph from '@/components/paragraph'
 
 const formatter = new Intl.NumberFormat()
 const date = new Intl.DateTimeFormat()
-export default function UpdateInfo(_, ref) {
+export default function UpdateInfo() {
   const styles = useStyles()
   const { course, update } = useCreateCourse()
 
@@ -47,7 +47,7 @@ export default function UpdateInfo(_, ref) {
   const [editShortdesc, setEditShortdesc] = useState(false)
 
   return (
-    <div ref={ref}>
+    <div>
       {editTitle ? (
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -265,6 +265,9 @@ export default function UpdateInfo(_, ref) {
           </LongParagraph>
         )}
       </ListItem>
+      <Button fullWidth variant="contained" color="primary">
+        add to cart
+      </Button>
     </div>
   )
 }

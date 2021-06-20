@@ -6,7 +6,7 @@ import clsx from 'clsx'
 
 /** @type {Worker} */
 let worker
-export default function UploadThumbnail(_, ref) {
+export default function UploadThumbnail() {
   const styles = useStyles()
   const {
     course: { thumbnail },
@@ -37,7 +37,6 @@ export default function UploadThumbnail(_, ref) {
 
   return (
     <div
-      ref={ref}
       className={styles.root}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}

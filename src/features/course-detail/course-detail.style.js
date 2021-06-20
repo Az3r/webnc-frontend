@@ -1,4 +1,4 @@
-import { Button, fade, makeStyles, withStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 
 export default makeStyles((theme) => ({
   thumbnail: {
