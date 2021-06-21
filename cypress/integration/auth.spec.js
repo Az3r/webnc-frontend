@@ -234,7 +234,7 @@ describe('<VerifyEmail/>', () => {
   })
   */
 
-  it('should order be otp 1 -> 6 -> verify button', () => {
+  it.only('should order be otp 1 -> 6 -> verify button', () => {
     cy.intercept(/verify/i, (req) => {
       req.reply({
         statusCode: 200,
@@ -257,11 +257,6 @@ describe('<VerifyEmail/>', () => {
       .focused()
       .type('6')
       .focused()
-      .click()
-      .intercept(/verify/i, (req) =>
-        req.reply({ statusCode: 200, body: { success: true } })
-      )
-      .get('button[name=verify]')
       .click()
       .url()
       .should('include', '/')
