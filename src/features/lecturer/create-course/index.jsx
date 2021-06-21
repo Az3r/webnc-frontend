@@ -109,9 +109,7 @@ export default function CreateCourse() {
               <Step key={item.label}>
                 <StepButton
                   orientation="vertical"
-                  onClick={() =>
-                    animate(item.ref.current, api, () => setActive(index))
-                  }
+                  onClick={() => animate(item.ref.current, api)}
                 >
                   {item.label}
                 </StepButton>
@@ -120,9 +118,7 @@ export default function CreateCourse() {
                     <Button
                       color="primary"
                       onClick={() => {
-                        animate(steps[index - 1].ref.current, api, () =>
-                          setActive(index - 1)
-                        )
+                        animate(steps[index - 1].ref.current, api)
                       }}
                     >
                       Back
@@ -141,11 +137,7 @@ export default function CreateCourse() {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() =>
-                        animate(steps[index + 1].ref.current, api, () =>
-                          setActive(index + 1)
-                        )
-                      }
+                      onClick={() => animate(steps[index + 1].ref.current)}
                     >
                       Next
                     </Button>
