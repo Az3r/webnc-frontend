@@ -17,18 +17,18 @@ const categories = [
     id: '1',
     name: 'web',
     title: 'Web Development',
-    icon: '/images/category_web.webp',
+    icon: '/images/category/web.webp',
     courses: [
-      { id: 1, label: 'Vue.js', icon: '/images/course_vue.svg' },
+      { id: 1, label: 'Vue.js', icon: '/images/topic/vue.svg' },
       {
         id: 2,
         label: 'React.js',
-        icon: '/images/course_react.svg'
+        icon: '/images/topic/react.svg'
       },
       {
         id: 3,
         label: 'Angular.js',
-        icon: '/images/course_angular.svg'
+        icon: '/images/topic/angular.svg'
       }
     ]
   },
@@ -36,17 +36,17 @@ const categories = [
     id: '2',
     name: 'mobile',
     title: 'Mobile Development',
-    icon: '/images/category_mobile.webp',
+    icon: '/images/category/mobile.webp',
     courses: [
       {
         id: 2,
         label: 'React Native',
-        icon: '/images/course_react.svg'
+        icon: '/images/topic/react.svg'
       },
       {
         id: 3,
         label: 'Flutter',
-        icon: '/images/course_flutter.svg'
+        icon: '/images/topic/flutter.svg'
       }
     ]
   }
