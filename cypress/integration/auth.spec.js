@@ -234,7 +234,7 @@ describe('<VerifyEmail/>', () => {
   })
   */
 
-  it.only('should order be otp 1 -> 6 -> verify button', () => {
+  it('should order be otp 1 -> 6 -> verify button', () => {
     cy.intercept(/verify/i, (req) => {
       req.reply({
         statusCode: 200,
