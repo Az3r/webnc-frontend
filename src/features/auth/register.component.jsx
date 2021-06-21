@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Button, CircularProgress, Typography } from '@material-ui/core'
 import AuthContext from './auth.context'
 import { EmailField, PasswordField, UserField } from '@/components/inputs'
-import { useSnackBar } from '@/components/snackbar'
+import { useSnackBar } from '@/components/snackbar.provider'
 import { parse } from '@/utils/errors'
 
 export default function Register({ classes }) {

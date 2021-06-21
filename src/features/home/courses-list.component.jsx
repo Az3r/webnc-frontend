@@ -1,29 +1,25 @@
-import React, { useState, useRef, useEffect, memo, useCallback } from 'react'
+import React, { useState, useRef, useEffect, memo } from 'react'
 import PropTypes from 'prop-types'
 import {
   Box,
+  Grid,
   Hidden,
   IconButton,
   MobileStepper,
-  useMediaQuery,
-  useTheme
+  useMediaQuery
 } from '@material-ui/core'
 import { NavigateNext, NavigateBefore } from '@material-ui/icons'
-import { config, useSpring } from '@react-spring/core'
+import { useSpring } from '@react-spring/core'
 import { animated } from '@react-spring/web'
 import { useDrag } from 'react-use-gesture'
-import Course from './course.component'
+import { Course } from '@/components/course'
+import { COURSE_WIDTH } from '@/components/course/course.style'
 
+const AnimatedBox = animated(Box)
+const ITEM_PADDING = 1
 export default function CourseList({ courses }) {
-  const theme = useTheme()
-
-  const xsdown = useMediaQuery(theme.breakpoints.down('xs'))
-
-  const lgup = useMediaQuery(theme.breakpoints.up('lg'))
-  const course = {
-    height: lgup ? 280 : 248,
-    width: lgup ? 369 : 369 * 0.8
-  }
+  const ITEM_WIDTH = COURSE_WIDTH + ITEM_PADDING * 8
+  const xsdown = useMediaQuery((theme) => theme.breakpoints.down('xs'))
 
   const { current: scroll } = useRef({ x: 0, item: 0 })
 
@@ -31,8 +27,7 @@ export default function CourseList({ courses }) {
   const listRef = useRef({ offsetWidth: 0 })
 
   const [spring, api] = useSpring(() => ({
-    x: scroll.item * course.width,
-    config: config.slow
+    x: scroll.item * ITEM_WIDTH
   }))
 
   // Set the drag hook and define component movement based on gesture data
@@ -47,89 +42,84 @@ export default function CourseList({ courses }) {
   const [mouse, setMouse] = useState({ down: false })
 
   useEffect(() => {
-    scroll.x = Math.floor(scroll.item) * course.width
+    scroll.x = Math.floor(scroll.item) * ITEM_WIDTH
     api.start({ x: scroll.x })
-  }, [lgup, xsdown])
+  }, [xsdown])
 
   //
   // EVENT HANDLERS
   //
 
   /** scroll the list */
-  const drag = useCallback(
-    (dx, up) => {
-      const {
-        current: { offsetWidth: width }
-      } = listRef
+  function drag(dx, up) {
+    const {
+      current: { offsetWidth: listWidth }
+    } = listRef
 
-      if (!xsdown && width < course.width) return
+    // do not scroll when screen size is below xs
+    if (!xsdown && listWidth < ITEM_WIDTH) return
 
-      // given current width, get number of item per scroll
-      const items = xsdown ? 1 : Math.floor(width / course.width)
+    // given current width, get number of item per 'slide'
+    const items = xsdown ? 1 : Math.floor(listWidth / ITEM_WIDTH)
 
-      // find the first item of the last page
-      const last = Math.floor((courses.length - 0.00001) / items) * items
+    // find the first item of the last page
+    const last = Math.floor((courses.length - 0.00001) / items) * items
 
-      // clamp so not shooting
-      const value = move(scroll.x, dx, -last * course.width, 0)
+    // clamp so not over shooting
+    const value = move(scroll.x, dx, -last * ITEM_WIDTH, 0)
 
-      // perform animation
-      if (up) {
-        // mouse up event, when user has finished dragging, snap to nearest item
-        scroll.item = Math.round(value / course.width)
-        scroll.x = scroll.item * course.width
-      } else {
-        scroll.item = value / course.width
-        scroll.x = value
-      }
+    // perform animation
+    if (up) {
+      // mouse up event, when user has finished dragging, snap to nearest item
+      scroll.item = Math.round(value / ITEM_WIDTH)
+      scroll.x = scroll.item * ITEM_WIDTH
+    } else {
+      scroll.item = value / ITEM_WIDTH
+      scroll.x = value
+    }
 
-      api.start({ x: scroll.x })
-      // update stepper
-      const item = -Math.round(scroll.item)
-      const next = item < last
-      const before = Math.floor(scroll.x) < 0
-      setStatus({ item, next, before })
-    },
-    [course]
-  )
+    api.start({ x: scroll.x })
+    // update stepper
+    const item = -Math.round(scroll.item)
+    const next = item < last
+    const before = Math.floor(scroll.x) < 0
+    setStatus({ item, next, before })
+  }
 
   /** slide the list to next or previous page */
-  const slide = useCallback(
-    (direction) => {
-      const {
-        current: { offsetWidth: width }
-      } = listRef
+  function slide(direction) {
+    const {
+      current: { offsetWidth: width }
+    } = listRef
 
-      if (!xsdown && width < course.width) return
+    if (!xsdown && width < ITEM_WIDTH) return
 
-      // number of item per scroll
-      const items = xsdown ? 1 : Math.floor(width / course.width)
+    // number of item per scroll
+    const items = xsdown ? 1 : Math.floor(width / ITEM_WIDTH)
 
-      // given current width, find the first item of the last page
-      const last = Math.floor((courses.length - 0.00001) / items) * items
+    // given current width, find the first item of the last page
+    const last = Math.floor((courses.length - 0.00001) / items) * items
 
-      // calculate how many pixel to move
-      const value = move(
-        Math.round(scroll.x / course.width) * course.width,
-        direction * items * course.width,
-        -last * course.width,
-        0
-      )
+    // calculate how many pixel to move
+    const value = move(
+      Math.round(scroll.x / ITEM_WIDTH) * ITEM_WIDTH,
+      direction * items * ITEM_WIDTH,
+      -last * ITEM_WIDTH,
+      0
+    )
 
-      // perform animation
-      scroll.x = value
-      scroll.item = value / course.width
-      scroll.last = last
+    // perform animation
+    scroll.x = value
+    scroll.item = value / ITEM_WIDTH
+    scroll.last = last
 
-      const item = -Math.floor(scroll.item)
-      const next = item < last
-      const before = Math.floor(value) < 0
+    const item = -Math.floor(scroll.item)
+    const next = item < last
+    const before = Math.floor(value) < 0
 
-      api.start({ x: scroll.x })
-      setStatus({ item, next, before })
-    },
-    [course]
-  )
+    api.start({ x: scroll.x })
+    setStatus({ item, next, before })
+  }
 
   //
   // COMPONENTS
@@ -157,15 +147,14 @@ export default function CourseList({ courses }) {
       justifyContent="center"
       flexDirection={xsdown ? 'column' : 'row'}
     >
-      <Hidden xsDown>
+      <Hidden xsDown implementation="css">
         <BeforeButton />
       </Hidden>
       <Box
         flexGrow={xsdown ? undefined : 1}
         overflow="hidden"
         position="relative"
-        width={xsdown ? course.width : undefined}
-        height={course.height + 4}
+        width={xsdown ? COURSE_WIDTH : undefined}
         margin={xsdown ? 'auto' : undefined}
         ref={listRef}
         {...bind()}
@@ -176,19 +165,9 @@ export default function CourseList({ courses }) {
           userSelect: mouse.down ? 'none' : 'auto'
         }}
       >
-        <animated.div
-          style={{
-            ...spring,
-            display: 'flex',
-            width: '6000px'
-          }}
-        >
-          <MemoizedList
-            courses={courses}
-            width={course.width}
-            height={course.height}
-          />
-        </animated.div>
+        <AnimatedBox style={spring} width={6000} display="flex">
+          <MemoizedList courses={courses} />
+        </AnimatedBox>
         <Hidden xsDown>
           <div
             style={{
@@ -203,10 +182,10 @@ export default function CourseList({ courses }) {
           />
         </Hidden>
       </Box>
-      <Hidden xsDown>
+      <Hidden xsDown implementation="css">
         <NextButton />
       </Hidden>
-      <Hidden smUp>
+      <Hidden smUp implementation="css">
         <MobileStepper
           variant="dots"
           steps={courses.length}
@@ -220,26 +199,19 @@ export default function CourseList({ courses }) {
   )
 }
 
-function List({ courses, width, height }) {
+function List({ courses }) {
   return (
-    <>
-      {courses.map((item, index) => (
-        <Box
-          key={item.id}
-          paddingLeft={index > 0 ? 1 : 0}
-          paddingRight={index < courses.length - 1 ? 1 : 0}
-          flexShrink={0}
-          width={width}
-          height={height}
-        >
-          <Course {...item} />
-        </Box>
+    <Grid container spacing={1} component="ul">
+      {courses.map((item) => (
+        <Grid item component="li" key={item.id}>
+          <Course course={item} />
+        </Grid>
       ))}
-    </>
+    </Grid>
   )
 }
 
-const MemoizedList = memo(List)
+const MemoizedList = memo(List, () => true)
 
 // move the list component
 function move(x, dx, min, max) {
@@ -256,9 +228,7 @@ CourseList.defaultProps = {
 }
 
 List.propTypes = {
-  courses: PropTypes.array,
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired
+  courses: PropTypes.array
 }
 
 List.defaultProps = {

@@ -4,9 +4,9 @@ import { create } from '@/utils/errors'
 import { parse } from '@/utils/api'
 
 export async function login({ username = '', password = '' }) {
-  const response = await fetch(resources.login, {
+  const response = await fetch(resources.auth.login, {
     method: 'POST',
-    body: qs.stringify({ username, password }),
+    body: qs.stringify({ username, password, email: username }),
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -21,7 +21,7 @@ export async function login({ username = '', password = '' }) {
 }
 
 export async function regsiter({ username = '', email = '', password = '' }) {
-  const response = await fetch(resources.register, {
+  const response = await fetch(resources.auth.register, {
     method: 'POST',
     body: qs.stringify({ username, password, email }),
     headers: {
@@ -38,7 +38,7 @@ export async function regsiter({ username = '', email = '', password = '' }) {
 }
 
 export async function verify({ email = '', code = -1 }) {
-  const response = await fetch(resources.verify, {
+  const response = await fetch(resources.auth.verify, {
     method: 'POST',
     body: qs.stringify({ email, OTPCode: code }),
     headers: {
@@ -51,10 +51,18 @@ export async function verify({ email = '', code = -1 }) {
     const error = parse(data.error)
     throw create(error.scope, error.type, error.value)
   }
-  return response.json()
+  return true
 }
 
 /** send an otp code to specific email */
-export async function send(email) {
+export async function resend(email) {
+  fetch(resources.auth.resend, {
+    method: 'POST',
+    body: qs.stringify({ email }),
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
   return true
 }

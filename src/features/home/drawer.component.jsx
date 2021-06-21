@@ -32,38 +32,35 @@ export default function DrawerProvider({ children }) {
   return (
     <DrawerContext.Provider value={{ open, toggle }}>
       <Drawer
+        classes={{ root: styles.drawer }}
         data-cy="drawer"
         anchor="right"
         open={open}
         onClose={() => toggle(false)}
       >
-        <div>
-          <IconButton onClick={() => toggle(false)} data-cy={testids.close}>
-            <Close />
-          </IconButton>
-        </div>
-        <div className={styles.drawer}>
-          <List>
-            <CategoryListItem />
-            <Divider />
-            <Link passHref href={routes.login}>
-              <ListItem button>
-                <ListItemIcon>
-                  <ExitToApp />
-                </ListItemIcon>
-                <ListItemText>Login</ListItemText>
-              </ListItem>
-            </Link>
-            <Link passHref href={routes.register}>
-              <ListItem button>
-                <ListItemIcon>
-                  <GroupAdd />
-                </ListItemIcon>
-                <ListItemText>Sign up</ListItemText>
-              </ListItem>
-            </Link>
-          </List>
-        </div>
+        <IconButton onClick={() => toggle(false)} data-cy={testids.close}>
+          <Close />
+        </IconButton>
+        <List>
+          <CategoryListItem />
+          <Divider />
+          <Link passHref href={routes.login}>
+            <ListItem button>
+              <ListItemIcon>
+                <ExitToApp />
+              </ListItemIcon>
+              <ListItemText>Login</ListItemText>
+            </ListItem>
+          </Link>
+          <Link passHref href={routes.register}>
+            <ListItem button>
+              <ListItemIcon>
+                <GroupAdd />
+              </ListItemIcon>
+              <ListItemText>Sign up</ListItemText>
+            </ListItem>
+          </Link>
+        </List>
       </Drawer>
       {children}
     </DrawerContext.Provider>

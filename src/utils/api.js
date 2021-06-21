@@ -15,10 +15,27 @@ export function parse(error = {}) {
 
 const production = process.env.NEXT_PUBLIC_MOCK_API == undefined
 const map = {
-  login: production ? '/Auth/Login' : '/login',
-  verify: production ? '/Auth/VerifyTwoStepVerification' : '/verify',
-  register: production ? '/Auth/Register' : '/register',
-  courses: production ? '/Courses' : '/courses'
+  auth: {
+    login: production ? '/Auth/Login' : '/auth/login',
+    verify: production ? '/Auth/VerifyTwoStepVerification' : '/auth/verify',
+    register: production ? '/Auth/Register' : '/auth/register',
+    resend: production ? '/Auth/ResendOTP' : '/auth/resend'
+  },
+  courses: {
+    all: production ? '/Courses' : '/courses/all',
+    trending: production ? '/Courses/OutstandingCourses' : '/courses/trending',
+    mostviews: production ? '/Courses/MostViewedCourses' : '/courses/mostviews',
+    newest: production ? '/Courses/NewestCourses' : '/courses/newest',
+    bestseller: production
+      ? '/Courses/BestSellerCourses'
+      : '/courses/bestseller'
+  },
+  student: {
+    courses: production ? '/StudentCourses/GetAllByStudentId/' : '/student/'
+  },
+  watchlist: {
+    get: production ? '/WatchLists/GetAllByStudentId/' : '/favorites/'
+  }
 }
 
 function endpoint(name) {
@@ -29,8 +46,31 @@ function endpoint(name) {
 }
 
 export const resources = {
-  login: endpoint(map.login),
-  verify: endpoint(map.verify),
-  register: endpoint(map.register),
-  courses: endpoint(map.courses)
+  auth: {
+    login: endpoint(map.auth.login),
+    verify: endpoint(map.auth.verify),
+    register: endpoint(map.auth.register),
+    resend: endpoint(map.auth.resend)
+  },
+  courses: {
+    all: endpoint(map.courses.all),
+    trending: endpoint(map.courses.trending),
+    mostviews: endpoint(map.courses.mostviews),
+    newest: endpoint(map.courses.newest)
+  }
+}
+
+/**
+ *
+ * @param {Function} callback
+ * @param {import('next').NextApiRequest} req
+ * @param {import('next').NextApiResponse} res
+ */
+export async function mock(req, res, callback) {
+  try {
+    const response = await callback()
+    return res.status(200).json({ results: response })
+  } catch (error) {
+    return res.status(404).json({ error: error.message })
+  }
 }

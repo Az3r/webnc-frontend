@@ -59,7 +59,7 @@ describe('<Login/>', () => {
       .should('have.class', 'MuiAlert-filledError')
   })
 
-  it('should navigate to dashboard if login success', () => {
+  it('should navigate to home if login success', () => {
     cy.intercept(/login/i, (req) => {
       req.reply({
         statusCode: 200,
@@ -76,7 +76,7 @@ describe('<Login/>', () => {
       .should('have.text', 'Login successfully')
       .should('have.class', 'MuiAlert-filledSuccess')
       .url()
-      .should('include', '/dashboard')
+      .should('include', '/')
   })
 
   it('should toggle password visibility', () => {
@@ -258,12 +258,7 @@ describe('<VerifyEmail/>', () => {
       .type('6')
       .focused()
       .click()
-      .intercept(/verify/i, (req) =>
-        req.reply({ statusCode: 200, body: { success: true } })
-      )
-      .get('button[name=verify]')
-      .click()
       .url()
-      .should('include', 'dashboard')
+      .should('include', '/')
   })
 })

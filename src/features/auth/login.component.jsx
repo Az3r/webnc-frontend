@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Box, Button, CircularProgress, Typography } from '@material-ui/core'
 import AuthContext from './auth.context'
 import { PasswordField, UserField } from '@/components/inputs'
-import { useSnackBar } from '@/components/snackbar'
+import { useSnackBar } from '@/components/snackbar.provider'
 import { useRouter } from 'next/router'
 import { routes } from '@/utils/app'
 import { parse } from '@/utils/errors'
@@ -24,15 +24,15 @@ export default function Login({ classes }) {
       show({ open: true, severity: 'success', message: 'Login successfully' })
       router.push(
         {
-          pathname: routes.dashboard,
+          pathname: '/',
           query: user
         },
-        routes.dashboard
+        '/'
       )
     } catch (e) {
       const error = parse(e)
       if (error.code === 'auth/account-not-verified') {
-        api.send(form.email)
+        api.resend(form.email)
         update((prev) => ({ ...prev, email: error.value }))
         next(2)
       }

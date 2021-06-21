@@ -39,61 +39,63 @@ function AuthPage({ type, classes, email }) {
   }
 
   return (
-    <AuthContext.Provider
-      value={{
-        next: (i = 1) => setStep((prev) => prev + i),
-        previous: (i = 1) => setStep((prev) => prev - i),
-        form,
-        update
-      }}
-    >
-      <div className={classes.root}>
-        <Card ref={card} className={classes.card}>
-          <AnimatedIconButton
-            data-cy={testids.back}
-            onClick={() => setStep((prev) => prev - 1)}
-            style={{
-              visibility: step > 0 ? 'visible' : 'hidden',
-              rotate: spring.step.to((value) => Math.min(value * 360, 360)),
-              scale: spring.step.to((value) => Math.min(value, 1))
-            }}
-          >
-            <ArrowBack />
-          </AnimatedIconButton>
-          <Link href="/">
-            <div
+    <main>
+      <AuthContext.Provider
+        value={{
+          next: (i = 1) => setStep((prev) => prev + i),
+          previous: (i = 1) => setStep((prev) => prev - i),
+          form,
+          update
+        }}
+      >
+        <div className={classes.root}>
+          <Card ref={card} className={classes.card}>
+            <AnimatedIconButton
+              data-cy={testids.back}
+              onClick={() => setStep((prev) => prev - 1)}
               style={{
-                width: '144px',
-                height: '144px',
-                margin: 'auto',
-                cursor: 'pointer'
+                visibility: step > 0 ? 'visible' : 'hidden',
+                rotate: spring.step.to((value) => Math.min(value * 360, 360)),
+                scale: spring.step.to((value) => Math.min(value, 1))
               }}
             >
-              <img src="images/logo.webp" width="144px" height="144px" />
-            </div>
-          </Link>
-          <AnimatedBox
-            flexGrow={1}
-            display="flex"
-            overflow="hidden"
-            width="6000px"
-            style={{
-              x: spring.step.to((x) => x * -width)
-            }}
-          >
-            <div className={classes.step} style={{ width }}>
-              <Login classes={classes} />
-            </div>
-            <div className={classes.step} style={{ width }}>
-              <Register classes={classes} />
-            </div>
-            <div className={classes.step} style={{ width }}>
-              <VerifyEmail classes={classes} />
-            </div>
-          </AnimatedBox>
-        </Card>
-      </div>
-    </AuthContext.Provider>
+              <ArrowBack />
+            </AnimatedIconButton>
+            <Link href="/">
+              <div
+                style={{
+                  width: '144px',
+                  height: '144px',
+                  margin: 'auto',
+                  cursor: 'pointer'
+                }}
+              >
+                <img src="images/logo.webp" width="144px" height="144px" />
+              </div>
+            </Link>
+            <AnimatedBox
+              flexGrow={1}
+              display="flex"
+              overflow="hidden"
+              width="6000px"
+              style={{
+                x: spring.step.to((x) => x * -width)
+              }}
+            >
+              <div className={classes.step} style={{ width }}>
+                <Login classes={classes} />
+              </div>
+              <div className={classes.step} style={{ width }}>
+                <Register classes={classes} />
+              </div>
+              <div className={classes.step} style={{ width }}>
+                <VerifyEmail classes={classes} />
+              </div>
+            </AnimatedBox>
+          </Card>
+        </div>
+      </AuthContext.Provider>
+    </main>
   )
 }
 

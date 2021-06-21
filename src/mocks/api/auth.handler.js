@@ -39,3 +39,7 @@ export function verify({ email, OTPCode }) {
   const code = Number(OTPCode)
   return opts.includes(code)
 }
+
+export function resend() {
+  return true
+}

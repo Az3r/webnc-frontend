@@ -1,7 +1,7 @@
 import React from 'react'
 import AuthPage from '@/features/auth'
 import Head from 'next/head'
-import { name } from '@/utils/app'
+import { appname } from '@/utils/app'
 import { useRouter } from 'next/router'
 
 export default function VerifyPage() {
@@ -10,7 +10,7 @@ export default function VerifyPage() {
   return (
     <>
       <Head>
-        <title>Verify Your Account | {name}</title>
+        <title>Verify Your Account | {appname}</title>
       </Head>
       <AuthPage type="verify" email={email} />
     </>
