@@ -24,10 +24,10 @@ export default function Login({ classes }) {
       show({ open: true, severity: 'success', message: 'Login successfully' })
       router.push(
         {
-          pathname: routes.dashboard,
+          pathname: '/',
           query: user
         },
-        routes.dashboard
+        '/'
       )
     } catch (e) {
       const error = parse(e)

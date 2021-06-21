@@ -81,10 +81,10 @@ export default function VerifyEmail({ classes }) {
 
       router.push(
         {
-          pathname: routes.dashboard,
+          pathname: '/',
           query: form
         },
-        routes.dashboard
+        '/'
       )
       show({
         open: true,
