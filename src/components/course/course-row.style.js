@@ -2,7 +2,6 @@ import { makeStyles } from '@material-ui/core'
 
 export default makeStyles((theme) => ({
   title: {
-    fontWeight: 500,
     display: '-webkit-box',
     boxOrient: 'vertical',
     textOverflow: 'ellipsis',

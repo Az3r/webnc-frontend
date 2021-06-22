@@ -13,10 +13,9 @@ import { currency } from '@/utils/intl'
 import useStyles from './course.style'
 import { Rating } from '@material-ui/lab'
 
-export default function Course({
-  course: { thumbnail, title, lecturer, rating, reviewers, price, discount },
-  disableContent
-}) {
+export default function Course({ course }) {
+  const { thumbnail, title, lecturer, rating, reviewers, price, discount } =
+    course
   const styles = useStyles()
 
   function CourseRating() {
@@ -55,23 +54,25 @@ export default function Course({
   }
 
   return (
-    <Card className={styles.root}>
-      <CardMedia
-        image={thumbnail}
-        className={styles.thumbnail}
-        component="img"
-      />
-      <CardHeader
-        avatar={<Avatar src={lecturer.avatar} />}
-        title={title}
-        subheader={lecturer.name}
-        classes={{ title: styles.title, subheader: styles.lecturer }}
-      />
-      <CardContent classes={{ root: styles.content }}>
-        <CourseRating />
-        <Price />
-      </CardContent>
-    </Card>
+    <Box className={styles.root}>
+      <Card className={styles.card}>
+        <CardMedia
+          image={thumbnail}
+          className={styles.thumbnail}
+          component="img"
+        />
+        <CardHeader
+          avatar={<Avatar src={lecturer.avatar} />}
+          title={title}
+          subheader={lecturer.name}
+          classes={{ title: styles.title, subheader: styles.lecturer }}
+        />
+        <CardContent className={styles.content}>
+          <CourseRating />
+          <Price />
+        </CardContent>
+      </Card>
+    </Box>
   )
 }
 

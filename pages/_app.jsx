@@ -12,11 +12,10 @@ export default function MainApp({ Component, pageProps }) {
   return (
     <AppProvider>
       <DynamicPageLoading />
-      <SnackBarProvider>
-        <SearchProvider>
-          <Component {...pageProps} />
-        </SearchProvider>
-      </SnackBarProvider>
+      <SearchProvider>
+        <Component {...pageProps} />
+      </SearchProvider>
+      <SnackBarProvider />
     </AppProvider>
   )
 }

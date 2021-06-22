@@ -27,7 +27,7 @@ export default function CourseRow({ course }) {
   const styles = useStyles()
   const theme = useTheme()
   const { show } = useSnackBar()
-  const downXS = useMediaQuery(theme.breakpoints.down('xs'))
+  const downSM = useMediaQuery(theme.breakpoints.down('sm'))
 
   const [watchlisted, setWatchlisted] = React.useState(course.watchlisted)
 
@@ -43,11 +43,19 @@ export default function CourseRow({ course }) {
   }
 
   return (
-    <Box display="flex" alignItems="center">
-      <img src={thumbnail} width={80} height={80} />
-      <Box paddingX={0.5} />
-      <Grid container spacing={downXS ? 0 : 4}>
-        <Grid item xs={12} sm={6}>
+    <Grid container spacing={1} alignItems="center">
+      <Grid item xs={4} sm={3} md={2}>
+        <Box position="relative" height={0} paddingTop="56.25%">
+          <img
+            src={thumbnail}
+            width="100%"
+            height="100%"
+            style={{ position: 'absolute', top: 0, left: 0 }}
+          />
+        </Box>
+      </Grid>
+      <Grid container item xs={8} sm={9} md={10} spacing={downSM ? 0 : 4}>
+        <Grid item xs={12} md={6}>
           <Typography className={styles.title}>{title}</Typography>
           <Box display="flex" alignItems="center">
             {tag && (
@@ -70,17 +78,18 @@ export default function CourseRow({ course }) {
             <Box paddingX={0.25} />
             {discount > 0 && (
               <Typography color="error">
-                <em>-{discount * 100}%</em>
+                <em>-{Math.round(discount * 100)}%</em>
               </Typography>
             )}
           </Box>
         </Grid>
-        <Grid item xs={12} sm={6} container spacing={1}>
-          <Grid item sm={4}>
+        <Grid item xs={12} md={6} container spacing={1}>
+          <Grid item md={4}>
             <Box
               width="100%"
               height="100%"
               display="flex"
+              justifyContent="center"
               color="secondary.main"
               alignItems="center"
             >
@@ -89,10 +98,11 @@ export default function CourseRow({ course }) {
               <Shop color="inherit" />
             </Box>
           </Grid>
-          <Grid item sm={4}>
+          <Grid item md={4}>
             <Box
               display="flex"
               color="warning.main"
+              justifyContent="center"
               alignItems="center"
               width="100%"
               height="100%"
@@ -102,12 +112,18 @@ export default function CourseRow({ course }) {
               <Star color="inherit" />
             </Box>
           </Grid>
-          <Grid item sm={4}>
-            <Box display="flex" alignItems="center" width="100%" height="100%">
+          <Grid item md={4}>
+            <Box
+              display="flex"
+              alignItems="center"
+              width="100%"
+              height="100%"
+              justifyContent="center"
+            >
               <IconButton
                 color="primary"
                 onClick={onWatchList}
-                size={downXS ? 'small' : 'medium'}
+                size={downSM ? 'small' : 'medium'}
               >
                 {watchlisted ? <Favorite /> : <FavoriteBorder />}
               </IconButton>
@@ -115,7 +131,7 @@ export default function CourseRow({ course }) {
           </Grid>
         </Grid>
       </Grid>
-    </Box>
+    </Grid>
   )
 }
 
