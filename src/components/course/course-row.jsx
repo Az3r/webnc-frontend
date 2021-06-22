@@ -11,7 +11,6 @@ import {
 } from '@material-ui/core'
 import useStyles from './course-row.style'
 import {
-  AccessTime,
   Favorite,
   FavoriteBorder,
   Flare,
@@ -20,7 +19,7 @@ import {
   Star
 } from '@material-ui/icons'
 import clsx from 'clsx'
-import { currency, date } from '@/utils/intl'
+import { currency } from '@/utils/intl'
 import { useSnackBar } from '../snackbar.provider'
 
 export default function CourseRow({ course }) {
@@ -47,7 +46,7 @@ export default function CourseRow({ course }) {
     <Box display="flex" alignItems="center">
       <img src={thumbnail} width={80} height={80} />
       <Box paddingX={0.5} />
-      <Grid container>
+      <Grid container spacing={downXS ? 0 : 4}>
         <Grid item xs={12} sm={6}>
           <Typography className={styles.title}>{title}</Typography>
           <Box display="flex" alignItems="center">

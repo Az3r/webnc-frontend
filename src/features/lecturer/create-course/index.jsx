@@ -137,7 +137,7 @@ export default function CreateCourse() {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() => animate(steps[index + 1].ref.current)}
+                      onClick={() => animate(steps[index + 1].ref.current, api)}
                     >
                       Next
                     </Button>
