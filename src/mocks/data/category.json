@@ -1,0 +1,806 @@
+{
+  "id": "60d071fbcc07758038797779",
+  "name": "ex",
+  "label": "veniam",
+  "avatar": "https://picsum.photos/64.webp",
+  "topics": [
+    {
+      "id": "60d071fb84d5709381b3ef12",
+      "name": "culpa",
+      "label": "mollit ea ipsum veniam sint",
+      "avatar": "https://picsum.photos/64.webp",
+      "courses": [
+        {
+          "id": "60d071fb97a21bc8b9d78e13",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "id adipisicing in fugiat commodo ea adipisicing cillum in sint duis qui",
+          "category": "web",
+          "lecturer": {
+            "name": "Oconnor Cote",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 1.63,
+          "reviewers": 239,
+          "price": 918.31,
+          "discount": 0.83
+        },
+        {
+          "id": "60d071fbcd7e47c453e4c2b9",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "labore id aliqua eiusmod elit fugiat sint labore irure voluptate veniam minim culpa ullamco incididunt",
+          "category": "web",
+          "lecturer": {
+            "name": "Meadows Owen",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 4.14,
+          "reviewers": 385,
+          "price": 850.83,
+          "discount": 0.22
+        },
+        {
+          "id": "60d071fbfcbb8f2dfd3a26a8",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "dolore laborum enim nostrud Lorem enim pariatur pariatur sint irure eiusmod",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Prince Gilmore",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 1.92,
+          "reviewers": 167,
+          "price": 674.61,
+          "discount": 0.66
+        },
+        {
+          "id": "60d071fb30c6d1cc30a0411d",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "et esse eu nisi aliqua dolor ut",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Alford Foster",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 1.26,
+          "reviewers": 372,
+          "price": 676.48,
+          "discount": 0.12
+        },
+        {
+          "id": "60d071fb5373cd0fb98174d1",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "amet reprehenderit culpa ut consectetur aute cupidatat adipisicing nisi",
+          "category": "web",
+          "lecturer": {
+            "name": "Clare Wall",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 3.29,
+          "reviewers": 216,
+          "price": 32.19,
+          "discount": 0.23
+        },
+        {
+          "id": "60d071fbd14b574af59281a2",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "enim voluptate eu voluptate deserunt nulla ad do magna excepteur anim occaecat sint laboris reprehenderit ipsum",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Blake Allen",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 1.47,
+          "reviewers": 290,
+          "price": 620.74,
+          "discount": 0.63
+        },
+        {
+          "id": "60d071fb2b4246bcea4842c1",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "consequat anim tempor voluptate incididunt tempor labore anim adipisicing eu dolore quis consequat excepteur",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Macias Humphrey",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 3.52,
+          "reviewers": 232,
+          "price": 772.92,
+          "discount": 0.53
+        },
+        {
+          "id": "60d071fb5580718b92baab7e",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "dolore sint veniam veniam consectetur occaecat consectetur ullamco reprehenderit nulla mollit amet in fugiat voluptate amet voluptate reprehenderit tempor et",
+          "category": "web",
+          "lecturer": {
+            "name": "Castro Hurley",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 1.94,
+          "reviewers": 400,
+          "price": 220.95,
+          "discount": 0.25
+        },
+        {
+          "id": "60d071fb6c431ccd0fa7e3f9",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "et cupidatat ea dolor velit id pariatur aute sint ex consectetur laborum ullamco velit velit anim minim pariatur",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Hendrix Whitaker",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 0.02,
+          "reviewers": 124,
+          "price": 219.82,
+          "discount": 0.68
+        },
+        {
+          "id": "60d071fbc6aaca41637d47f2",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "ut proident eu labore deserunt est veniam laboris dolore nostrud laboris cillum tempor amet do ea commodo irure pariatur sit",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Ramsey Fitzgerald",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 4.07,
+          "reviewers": 151,
+          "price": 206.74,
+          "discount": 0.17
+        }
+      ]
+    },
+    {
+      "id": "60d071fbd5bd93c1a62768e1",
+      "name": "ex",
+      "label": "nulla ex occaecat consectetur",
+      "avatar": "https://picsum.photos/64.webp",
+      "courses": [
+        {
+          "id": "60d071fb1888875a55cb0093",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "incididunt aute in sit aute eu officia est",
+          "category": "web",
+          "lecturer": {
+            "name": "Iva Gregory",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 2.93,
+          "reviewers": 18,
+          "price": 980.02,
+          "discount": 0.24
+        },
+        {
+          "id": "60d071fb0080e62fa30defcf",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "proident consectetur ad excepteur proident Lorem anim dolore",
+          "category": "web",
+          "lecturer": {
+            "name": "Alejandra Pace",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 0.19,
+          "reviewers": 394,
+          "price": 816.33,
+          "discount": 0.76
+        },
+        {
+          "id": "60d071fba5fd081983e4b7be",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "tempor eiusmod mollit labore amet dolor reprehenderit qui elit",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Curtis Erickson",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 2.26,
+          "reviewers": 377,
+          "price": 446.38,
+          "discount": 0.66
+        },
+        {
+          "id": "60d071fb04467c6cd919a7f8",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "adipisicing aliqua labore aliquip culpa labore labore anim sint minim",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Quinn Strong",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 3.49,
+          "reviewers": 400,
+          "price": 601.18,
+          "discount": 0.14
+        },
+        {
+          "id": "60d071fb9c7a621f9f9ff827",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "exercitation commodo sit consectetur ea est pariatur officia laborum tempor duis ex aliqua",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Edwina Perkins",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 0.69,
+          "reviewers": 91,
+          "price": 471.45,
+          "discount": 0.06
+        },
+        {
+          "id": "60d071fbf7425343b5cce776",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "duis consequat consectetur laborum do culpa Lorem aute deserunt consequat proident deserunt",
+          "category": "web",
+          "lecturer": {
+            "name": "Manning Hines",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 1.92,
+          "reviewers": 72,
+          "price": 989.41,
+          "discount": 0.27
+        },
+        {
+          "id": "60d071fbd8512992b06d03da",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "duis labore laboris elit incididunt nisi amet eu voluptate dolor enim duis incididunt incididunt et id aliqua",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Bobbi Combs",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 0.86,
+          "reviewers": 80,
+          "price": 980.78,
+          "discount": 0.87
+        },
+        {
+          "id": "60d071fb16effe2346884c47",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "ipsum consequat ut ut velit reprehenderit ipsum anim dolor sit cupidatat mollit non incididunt id",
+          "category": "web",
+          "lecturer": {
+            "name": "Rena Cameron",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 1.48,
+          "reviewers": 498,
+          "price": 253.98,
+          "discount": 0.57
+        },
+        {
+          "id": "60d071fb85030f441ea45f5e",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "nisi sunt ullamco commodo veniam tempor non excepteur consectetur anim est deserunt",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Daniels Salinas",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 2.98,
+          "reviewers": 81,
+          "price": 265.51,
+          "discount": 0.14
+        },
+        {
+          "id": "60d071fb0b3f6167ec3ebfce",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "excepteur nisi enim eiusmod ullamco enim enim esse elit dolor enim deserunt sit",
+          "category": "web",
+          "lecturer": {
+            "name": "Latonya Mendoza",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 2.77,
+          "reviewers": 476,
+          "price": 652.65,
+          "discount": 0.27
+        }
+      ]
+    },
+    {
+      "id": "60d071fba74ead10bbd0f5e6",
+      "name": "consequat",
+      "label": "id reprehenderit",
+      "avatar": "https://picsum.photos/64.webp",
+      "courses": [
+        {
+          "id": "60d071fb1a6e84644a79a6d9",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "cupidatat ea ut voluptate et est pariatur nostrud magna",
+          "category": "web",
+          "lecturer": {
+            "name": "Coleman Spence",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 1.35,
+          "reviewers": 479,
+          "price": 218.72,
+          "discount": 0.73
+        },
+        {
+          "id": "60d071fbe648ba88a3cfb458",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "elit aliqua aliqua dolor eu laboris ad deserunt tempor quis labore ex ea amet ad est ipsum sunt",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Malinda Matthews",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 1.16,
+          "reviewers": 446,
+          "price": 869.69,
+          "discount": 0.54
+        },
+        {
+          "id": "60d071fb0457bfad1d9d151c",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "in ea aliqua cillum irure nisi",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Roberts Good",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 4.76,
+          "reviewers": 92,
+          "price": 184.26,
+          "discount": 0.99
+        },
+        {
+          "id": "60d071fb76ee262f92c63d03",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "Lorem culpa anim deserunt aute dolor id duis eu dolor aute et ex mollit eiusmod veniam commodo velit",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Louella Wolf",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 4.57,
+          "reviewers": 155,
+          "price": 483.59,
+          "discount": 0.82
+        },
+        {
+          "id": "60d071fb3a45f45e737aa087",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "consequat nulla duis duis cillum minim qui est ut velit duis",
+          "category": "web",
+          "lecturer": {
+            "name": "Holly Horne",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 3.77,
+          "reviewers": 278,
+          "price": 779.74,
+          "discount": 0.17
+        },
+        {
+          "id": "60d071fb4b08701ee149fe3d",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "officia consectetur amet ex sunt commodo do",
+          "category": "web",
+          "lecturer": {
+            "name": "Spence Montoya",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 3.17,
+          "reviewers": 198,
+          "price": 453.13,
+          "discount": 0.13
+        },
+        {
+          "id": "60d071fbdb214f243923dc3c",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "pariatur veniam adipisicing laboris nulla ex cupidatat nulla reprehenderit consequat",
+          "category": "web",
+          "lecturer": {
+            "name": "Naomi Santana",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 1.66,
+          "reviewers": 42,
+          "price": 939.59,
+          "discount": 0.21
+        },
+        {
+          "id": "60d071fbf0d668874fcdeaf0",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "cillum dolor aute culpa est deserunt mollit ad",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Latoya Horn",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 2.98,
+          "reviewers": 479,
+          "price": 787.59,
+          "discount": 0.82
+        },
+        {
+          "id": "60d071fb320abc03b9e87dea",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "ullamco consequat minim laborum excepteur consectetur velit",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Morrow Lara",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 4.08,
+          "reviewers": 484,
+          "price": 684.99,
+          "discount": 0.18
+        },
+        {
+          "id": "60d071fbf3254b3544aa9009",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "ex sint magna esse irure enim ut in et officia sint quis voluptate labore anim reprehenderit est",
+          "category": "web",
+          "lecturer": {
+            "name": "Santana Burch",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 2.08,
+          "reviewers": 154,
+          "price": 740.41,
+          "discount": 0.12
+        }
+      ]
+    },
+    {
+      "id": "60d071fb2053e4bb230ef0da",
+      "name": "eu",
+      "label": "incididunt magna ea voluptate",
+      "avatar": "https://picsum.photos/64.webp",
+      "courses": [
+        {
+          "id": "60d071fb4434ee4ec23e4933",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "do commodo adipisicing occaecat cupidatat in",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Simpson Mays",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 2.31,
+          "reviewers": 491,
+          "price": 755.24,
+          "discount": 0.86
+        },
+        {
+          "id": "60d071fbd11ed7754234db26",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "est deserunt tempor ullamco officia cillum ullamco deserunt in velit sit pariatur exercitation",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Riddle Alston",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 4.74,
+          "reviewers": 45,
+          "price": 924.63,
+          "discount": 0.87
+        },
+        {
+          "id": "60d071fb4ea5ae8edca12830",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "velit nisi laborum mollit qui voluptate excepteur aliqua est sit tempor elit exercitation cillum",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Bridget Nichols",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 2.22,
+          "reviewers": 55,
+          "price": 783.83,
+          "discount": 0.93
+        },
+        {
+          "id": "60d071fb9acc0498324188b0",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "exercitation ad fugiat fugiat quis",
+          "category": "web",
+          "lecturer": {
+            "name": "Barton Noble",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 2.29,
+          "reviewers": 326,
+          "price": 77.69,
+          "discount": 0.41
+        },
+        {
+          "id": "60d071fb4b0000abb6b81c5c",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "qui do do tempor consequat est nostrud",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Merrill Hoover",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 0.25,
+          "reviewers": 323,
+          "price": 637.03,
+          "discount": 0.31
+        },
+        {
+          "id": "60d071fb61cc54e9126c5626",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "cupidatat non laborum velit cupidatat labore nulla esse aliquip nostrud",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Emerson Stokes",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 4.68,
+          "reviewers": 420,
+          "price": 825.49,
+          "discount": 0.02
+        },
+        {
+          "id": "60d071fbf73254155ed5295b",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "sint occaecat id esse veniam",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Erna Coffey",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 4.95,
+          "reviewers": 214,
+          "price": 238.45,
+          "discount": 0.62
+        },
+        {
+          "id": "60d071fb86405ca8836de592",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "fugiat commodo labore nostrud non occaecat aliqua adipisicing ex occaecat proident laborum ipsum aute ullamco proident do eiusmod",
+          "category": "web",
+          "lecturer": {
+            "name": "Jillian Hale",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 0.84,
+          "reviewers": 120,
+          "price": 75.72,
+          "discount": 0.22
+        },
+        {
+          "id": "60d071fb0534822909c66b34",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "est magna nisi id laborum ad ut consectetur",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Deena Cruz",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 3.31,
+          "reviewers": 294,
+          "price": 401.18,
+          "discount": 0.25
+        },
+        {
+          "id": "60d071fbe315e7c4908cabe8",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "excepteur fugiat deserunt voluptate consequat velit",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Daugherty Morin",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 0.22,
+          "reviewers": 419,
+          "price": 91.06,
+          "discount": 0.06
+        }
+      ]
+    },
+    {
+      "id": "60d071fb0b87480bfaa02807",
+      "name": "officia",
+      "label": "non ea",
+      "avatar": "https://picsum.photos/64.webp",
+      "courses": [
+        {
+          "id": "60d071fb9d9d7b35588b7746",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "elit deserunt et consectetur aliquip et do commodo do labore incididunt ad est cupidatat esse ad pariatur exercitation voluptate officia",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Crosby White",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 4.32,
+          "reviewers": 213,
+          "price": 298.37,
+          "discount": 0.41
+        },
+        {
+          "id": "60d071fb30dac85a59f92f3a",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "consequat pariatur esse cillum magna sunt",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Alisha Ray",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 4.62,
+          "reviewers": 151,
+          "price": 110.89,
+          "discount": 0.51
+        },
+        {
+          "id": "60d071fb5876b8f70f1a2f53",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "incididunt laborum ullamco quis tempor duis laborum nisi id amet et eiusmod duis culpa",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Hobbs Curry",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 0.13,
+          "reviewers": 217,
+          "price": 938.52,
+          "discount": 0.65
+        },
+        {
+          "id": "60d071fbc89ff31ea6bd4de4",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "est elit commodo qui elit consectetur sunt mollit Lorem dolor consequat ad ea duis reprehenderit officia nostrud amet deserunt tempor",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Valenzuela Abbott",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 1.16,
+          "reviewers": 441,
+          "price": 424.94,
+          "discount": 0.93
+        },
+        {
+          "id": "60d071fb67c3a1a468d91d36",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "exercitation exercitation consequat laborum qui",
+          "category": "web",
+          "lecturer": {
+            "name": "Liza Higgins",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 4.81,
+          "reviewers": 379,
+          "price": 189.43,
+          "discount": 0.52
+        },
+        {
+          "id": "60d071fb4786c5e66d81257c",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "id cillum voluptate aliqua exercitation dolor dolor ipsum",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Rowe Valencia",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 1.11,
+          "reviewers": 347,
+          "price": 596.46,
+          "discount": 0.38
+        },
+        {
+          "id": "60d071fb9d5e0d0e1ea968a9",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "officia ad ad aliquip deserunt ullamco velit nisi proident id enim aliquip occaecat id",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Kari Leon",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 3.87,
+          "reviewers": 65,
+          "price": 196.05,
+          "discount": 0.87
+        },
+        {
+          "id": "60d071fbf293f83e89ab6c90",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "excepteur ea esse eiusmod ex ullamco velit voluptate quis cillum elit enim id",
+          "category": "web",
+          "lecturer": {
+            "name": "Cross Mooney",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 1.54,
+          "reviewers": 460,
+          "price": 796.45,
+          "discount": 0.25
+        },
+        {
+          "id": "60d071fb9d591beafa44c278",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "incididunt ipsum nisi reprehenderit Lorem id ea sunt ipsum amet tempor",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Estes Serrano",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 1.77,
+          "reviewers": 209,
+          "price": 21.39,
+          "discount": 0.04
+        },
+        {
+          "id": "60d071fb0edcfe469c1be12e",
+          "thumbnail": "https://picsum.photos/400/150.webp",
+          "title": "magna laboris deserunt aliqua quis ipsum amet duis esse veniam qui cillum cupidatat",
+          "category": "mobile",
+          "lecturer": {
+            "name": "Holden Boyle",
+            "avatar": "https://picsum.photos/48.webp"
+          },
+          "rating": 2.23,
+          "reviewers": 162,
+          "price": 914.08,
+          "discount": 0.27
+        }
+      ]
+    }
+  ],
+  "bestsellers": [
+    {
+      "id": "60d071fb54e22e92290f97cb",
+      "thumbnail": "https://picsum.photos/400/150.webp?random=141",
+      "title": "officia ex duis do minim occaecat cillum irure esse fugiat aliquip nisi amet consectetur",
+      "category": "web",
+      "lecturer": {
+        "name": "Francesca Best",
+        "avatar": "https://picsum.photos/48.webp?random=422"
+      },
+      "rating": 2.25,
+      "reviewers": 391,
+      "price": 423.46,
+      "discount": 0.74
+    },
+    {
+      "id": "60d071fb2cdf27c1a58e6d73",
+      "thumbnail": "https://picsum.photos/400/150.webp?random=961",
+      "title": "duis consectetur magna magna exercitation sint duis mollit occaecat elit reprehenderit sunt ad cillum proident irure adipisicing Lorem",
+      "category": "web",
+      "lecturer": {
+        "name": "Watson Ramirez",
+        "avatar": "https://picsum.photos/48.webp?random=566"
+      },
+      "rating": 0.69,
+      "reviewers": 496,
+      "price": 910.53,
+      "discount": 0.94
+    },
+    {
+      "id": "60d071fb994175df08dd3c47",
+      "thumbnail": "https://picsum.photos/400/150.webp?random=910",
+      "title": "nostrud ex nulla aliquip dolor ad Lorem amet",
+      "category": "mobile",
+      "lecturer": {
+        "name": "Whitney Pickett",
+        "avatar": "https://picsum.photos/48.webp?random=840"
+      },
+      "rating": 0.29,
+      "reviewers": 367,
+      "price": 242.26,
+      "discount": 0.11
+    },
+    {
+      "id": "60d071fb8786f8ee34cec868",
+      "thumbnail": "https://picsum.photos/400/150.webp?random=494",
+      "title": "nulla id deserunt aliqua minim",
+      "category": "mobile",
+      "lecturer": {
+        "name": "Bullock Watkins",
+        "avatar": "https://picsum.photos/48.webp?random=402"
+      },
+      "rating": 0.65,
+      "reviewers": 140,
+      "price": 481.43,
+      "discount": 0.55
+    }
+  ]
+}

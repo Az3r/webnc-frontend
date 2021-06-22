@@ -12,7 +12,7 @@ import useStyles, { COURSE_WIDTH, THUMBNAIL_WIDTH } from './course.style'
 export default function SkeletonCourse() {
   const styles = useStyles()
   return (
-    <Box width={COURSE_WIDTH} display="flex" flexDirection="column">
+    <Box display="flex" flexDirection="column">
       <Skeleton variant="rect" width="100%" height={THUMBNAIL_WIDTH} />
       <CardHeader
         disableTypography

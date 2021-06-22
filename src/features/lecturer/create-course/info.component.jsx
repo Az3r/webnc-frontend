@@ -14,7 +14,7 @@ import {
   Dialog
 } from '@material-ui/core'
 import useStyles from './info.style'
-import { currency } from '@/utils/intl'
+import { currency, date } from '@/utils/intl'
 import { Rating } from '@material-ui/lab'
 import {
   Shop,
@@ -30,7 +30,6 @@ import LongParagraph from '@/components/paragraph'
 import TitleDialog from './edit-title.dialog'
 import PriceDialog from './edit-price.dialog'
 
-const date = new Intl.DateTimeFormat()
 export default function UpdateInfo() {
   const styles = useStyles()
   const { course, update } = useCreateCourse()
@@ -103,7 +102,7 @@ export default function UpdateInfo() {
         </ListItemIcon>
         <ListItemText>
           <Typography>
-            Last modified <b>{date.format(Date.now())}</b>
+            Last modified <b>{date()}</b>
           </Typography>
         </ListItemText>
       </ListItem>
