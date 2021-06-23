@@ -18,14 +18,19 @@ export const CoursePropTypes = PropTypes.shape({
 })
 
 export const TopicPropTypes = PropTypes.shape({
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  category: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired
+  }).isRequired,
   label: PropTypes.string.isRequired,
   courses: PropTypes.arrayOf(CoursePropTypes.isRequired)
 })
 
 export const CategoryPropTypes = PropTypes.shape({
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   topics: PropTypes.arrayOf(TopicPropTypes.isRequired).isRequired,

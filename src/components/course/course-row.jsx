@@ -22,20 +22,10 @@ import clsx from 'clsx'
 import { currency } from '@/utils/intl'
 import { useSnackBar } from '../snackbar.provider'
 import NextLink from '../nextlink'
+import { routes } from '@/utils/app'
 
 export default function CourseRow({ course }) {
-  const {
-    id,
-    topic,
-    category,
-    tag,
-    title,
-    thumbnail,
-    rating,
-    bought,
-    price,
-    discount
-  } = course
+  const { id, tag, title, thumbnail, rating, bought, price, discount } = course
   const styles = useStyles()
   const theme = useTheme()
   const { show } = useSnackBar()
@@ -68,10 +58,7 @@ export default function CourseRow({ course }) {
       </Grid>
       <Grid container item xs={8} sm={9} md={10} spacing={downSM ? 0 : 4}>
         <Grid item xs={12} md={6}>
-          <NextLink
-            href={`/category/${category}/${topic}/${id}`}
-            color="inherit"
-          >
+          <NextLink href={routes.course(id)} color="inherit">
             <Typography className={styles.title}>{title}</Typography>
           </NextLink>
           <Box display="flex" alignItems="center">

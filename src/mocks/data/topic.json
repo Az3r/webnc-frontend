@@ -1,0 +1,235 @@
+{
+  "id": "60d2eafb3376f69ddc487540",
+  "name": "magna",
+  "label": "et laborum",
+  "category": {
+    "id": "60d2eafb3794aa32e81a6aa9",
+    "name": "pariatur",
+    "label": "ad magna dolore ullamco eu"
+  },
+  "avatar": "https://picsum.photos/64.webp",
+  "courses": [
+    {
+      "id": "60d2eafb71590c24ab90fe84",
+      "thumbnail": "https://picsum.photos/400/150.webp?random=352",
+      "title": "Sint sit id incididunt nisi est sint consectetur fugiat duis et sunt pariatur ullamco ipsum.",
+      "lecturer": {
+        "name": "Marsha Stout",
+        "avatar": "https://picsum.photos/48.webp?random=82"
+      },
+      "rating": 2.99,
+      "reviewers": 139,
+      "price": 615.44,
+      "discount": 0.12,
+      "tag": "",
+      "lastModified": 1471665130733,
+      "bought": 3308043,
+      "watchlisted": false
+    },
+    {
+      "id": "60d2eafbce07b024292b8374",
+      "thumbnail": "https://picsum.photos/400/150.webp?random=314",
+      "title": "Proident ipsum est fugiat aliquip consequat enim aliquip eiusmod est deserunt.",
+      "lecturer": {
+        "name": "Graves Trujillo",
+        "avatar": "https://picsum.photos/48.webp?random=818"
+      },
+      "rating": 3.95,
+      "reviewers": 150,
+      "price": 414.46,
+      "discount": 0.93,
+      "tag": "",
+      "lastModified": 1514934965447,
+      "bought": 516652,
+      "watchlisted": false
+    },
+    {
+      "id": "60d2eafbb37c6dbc03ab2fd4",
+      "thumbnail": "https://picsum.photos/400/150.webp?random=286",
+      "title": "Occaecat tempor excepteur sunt commodo.",
+      "lecturer": {
+        "name": "Rowena Combs",
+        "avatar": "https://picsum.photos/48.webp?random=359"
+      },
+      "rating": 2.58,
+      "reviewers": 496,
+      "price": 382.29,
+      "discount": 0.81,
+      "tag": "",
+      "lastModified": 1278407437048,
+      "bought": 2125396,
+      "watchlisted": true
+    },
+    {
+      "id": "60d2eafb3b934349ba9c3527",
+      "thumbnail": "https://picsum.photos/400/150.webp?random=839",
+      "title": "Sit id ullamco est eu irure pariatur.",
+      "lecturer": {
+        "name": "Harvey David",
+        "avatar": "https://picsum.photos/48.webp?random=332"
+      },
+      "rating": 3.69,
+      "reviewers": 323,
+      "price": 678.61,
+      "discount": 0.33,
+      "tag": "bestseller",
+      "lastModified": 1347330014090,
+      "bought": 175505,
+      "watchlisted": false
+    },
+    {
+      "id": "60d2eafbbc303e65ffb543ab",
+      "thumbnail": "https://picsum.photos/400/150.webp?random=474",
+      "title": "Laborum nulla aliquip fugiat ad magna officia velit enim id aliqua sunt sunt ut esse.",
+      "lecturer": {
+        "name": "Sutton Velez",
+        "avatar": "https://picsum.photos/48.webp?random=179"
+      },
+      "rating": 3.09,
+      "reviewers": 436,
+      "price": 894.38,
+      "discount": 0.29,
+      "tag": "",
+      "lastModified": 1403776657980,
+      "bought": 2365894,
+      "watchlisted": true
+    },
+    {
+      "id": "60d2eafbb5511e594f97946c",
+      "thumbnail": "https://picsum.photos/400/150.webp?random=939",
+      "title": "Exercitation exercitation esse cupidatat eu nulla proident excepteur nulla incididunt qui sint.",
+      "lecturer": {
+        "name": "Day Galloway",
+        "avatar": "https://picsum.photos/48.webp?random=820"
+      },
+      "rating": 3.71,
+      "reviewers": 287,
+      "price": 73.62,
+      "discount": 0.25,
+      "tag": "",
+      "lastModified": 1523266519335,
+      "bought": 3483909,
+      "watchlisted": true
+    },
+    {
+      "id": "60d2eafbeeb0ab5acb6f5d45",
+      "thumbnail": "https://picsum.photos/400/150.webp?random=124",
+      "title": "Tempor tempor et exercitation consequat quis ea proident dolore deserunt aliqua.",
+      "lecturer": {
+        "name": "Margret Mathis",
+        "avatar": "https://picsum.photos/48.webp?random=364"
+      },
+      "rating": 1.73,
+      "reviewers": 345,
+      "price": 127.01,
+      "discount": 0.73,
+      "tag": "",
+      "lastModified": 1139671276340,
+      "bought": 2603458,
+      "watchlisted": true
+    },
+    {
+      "id": "60d2eafbe32f8689085a6082",
+      "thumbnail": "https://picsum.photos/400/150.webp?random=934",
+      "title": "Anim ut pariatur Lorem do.",
+      "lecturer": {
+        "name": "Earline Madden",
+        "avatar": "https://picsum.photos/48.webp?random=856"
+      },
+      "rating": 0.09,
+      "reviewers": 380,
+      "price": 579.64,
+      "discount": 0.37,
+      "tag": "bestseller",
+      "lastModified": 1457692022635,
+      "bought": 1548565,
+      "watchlisted": false
+    },
+    {
+      "id": "60d2eafb53298c30c18da5df",
+      "thumbnail": "https://picsum.photos/400/150.webp?random=10",
+      "title": "Officia aliqua ipsum exercitation non esse incididunt in consectetur.",
+      "lecturer": {
+        "name": "Bessie Bishop",
+        "avatar": "https://picsum.photos/48.webp?random=295"
+      },
+      "rating": 3.22,
+      "reviewers": 263,
+      "price": 803.15,
+      "discount": 0.74,
+      "tag": "bestseller",
+      "lastModified": 1401620824000,
+      "bought": 1991732,
+      "watchlisted": true
+    },
+    {
+      "id": "60d2eafbd6367030f5df61d0",
+      "thumbnail": "https://picsum.photos/400/150.webp?random=280",
+      "title": "Lorem ipsum aute nulla enim do esse ut.",
+      "lecturer": {
+        "name": "Cohen Payne",
+        "avatar": "https://picsum.photos/48.webp?random=815"
+      },
+      "rating": 1.31,
+      "reviewers": 197,
+      "price": 921.65,
+      "discount": 0.98,
+      "tag": "",
+      "lastModified": 1133762372496,
+      "bought": 261575,
+      "watchlisted": true
+    }
+  ],
+  "others": [
+    {
+      "id": "60d2eafbb0eedfd07d91dba1",
+      "name": "aute",
+      "label": "occaecat"
+    },
+    {
+      "id": "60d2eafbb59e76a895540290",
+      "name": "est",
+      "label": "pariatur nostrud sint"
+    },
+    {
+      "id": "60d2eafb66b5222485f7783c",
+      "name": "cupidatat",
+      "label": "pariatur exercitation"
+    },
+    {
+      "id": "60d2eafb89a78d877553293f",
+      "name": "nisi",
+      "label": "et velit non eiusmod"
+    },
+    {
+      "id": "60d2eafb130620ed21111e70",
+      "name": "laboris",
+      "label": "irure occaecat culpa in mollit"
+    },
+    {
+      "id": "60d2eafbf7ea3950edbc84db",
+      "name": "elit",
+      "label": "sunt adipisicing esse"
+    },
+    {
+      "id": "60d2eafb4c03fe7491151a60",
+      "name": "nulla",
+      "label": "culpa id sunt voluptate quis"
+    },
+    {
+      "id": "60d2eafb13e623cbb365ae41",
+      "name": "in",
+      "label": "cillum pariatur excepteur adipisicing"
+    },
+    {
+      "id": "60d2eafbd18e4ec742609356",
+      "name": "nostrud",
+      "label": "sit ullamco"
+    },
+    {
+      "id": "60d2eafbeceeee9f34028488",
+      "name": "duis",
+      "label": "magna"
+    }
+  ]
+}

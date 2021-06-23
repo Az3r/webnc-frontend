@@ -12,16 +12,29 @@ import {
 import { currency } from '@/utils/intl'
 import useStyles from './course.style'
 import { Rating } from '@material-ui/lab'
+import NextLink from '../nextlink'
+import { routes } from '@/utils/app'
+import { CoursePropTypes } from '@/utils/typing'
 
 export default function Course({ course }) {
-  const { thumbnail, title, lecturer, rating, reviewers, price, discount } =
-    course
+  const {
+    id,
+    category,
+    topic,
+    thumbnail,
+    title,
+    lecturer,
+    rating,
+    reviewers,
+    price,
+    discount
+  } = course
   const styles = useStyles()
 
   function CourseRating() {
     return (
       <Box display="flex" color="text.secondary" alignItems="center">
-        <Rating value={rating} size="medium" readOnly precision={0.5} />
+        <Rating value={rating} size="small" readOnly precision={0.5} />
         <Box paddingX={0.5} />
         <Typography variant="subtitle1">
           ({rating} / {reviewers})
@@ -54,41 +67,26 @@ export default function Course({ course }) {
   }
 
   return (
-    <Box className={styles.root}>
-      <Card className={styles.card}>
-        <CardMedia
-          image={thumbnail}
-          className={styles.thumbnail}
-          component="img"
-        />
-        <CardHeader
-          avatar={<Avatar src={lecturer.avatar} />}
-          title={title}
-          subheader={lecturer.name}
-          classes={{ title: styles.title, subheader: styles.lecturer }}
-        />
-        <CardContent className={styles.content}>
-          <CourseRating />
-          <Price />
-        </CardContent>
-      </Card>
-    </Box>
+    <Card className={styles.card}>
+      <CardMedia image={thumbnail} className={styles.thumbnail} title={title} />
+      <CardHeader
+        avatar={<Avatar src={lecturer.avatar} />}
+        title={
+          <NextLink color="inherit" href={routes.course(id)}>
+            <Typography>{title}</Typography>
+          </NextLink>
+        }
+        subheader={lecturer.name}
+        classes={{ title: styles.title, subheader: styles.lecturer }}
+      />
+      <CardContent>
+        <CourseRating />
+        <Price />
+      </CardContent>
+    </Card>
   )
 }
 
 Course.propTypes = {
-  course: PropTypes.shape({
-    thumbnail: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    lecturer: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      avatar: PropTypes.string.isRequired
-    }),
-    rating: PropTypes.number,
-    reviewers: PropTypes.number,
-    price: PropTypes.number.isRequired,
-    discount: PropTypes.number
-  })
+  course: CoursePropTypes.isRequired
 }
-
-Course.defaultProps = {}

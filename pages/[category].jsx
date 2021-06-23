@@ -2,7 +2,7 @@ export { default } from '@/features/category'
 import category from '@/mocks/data/category.json'
 
 export async function getStaticProps({ params }) {
-  const { name } = params
+  // const { category } = params
   if (category)
     return {
       props: { category },
@@ -10,7 +10,7 @@ export async function getStaticProps({ params }) {
     }
   return {
     redirect: {
-      destination: `/category`,
+      destination: `/`,
       permanent: true
     }
   }

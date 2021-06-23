@@ -19,6 +19,7 @@ import CourseRow from 'pages/demo/course'
 import NextLink from '@/components/nextlink'
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons'
 import clsx from 'clsx'
+import { routes } from '@/utils/app'
 
 export default function CategoryFeature({ category }) {
   const { name, label, bestsellers, topics } = category
@@ -43,13 +44,20 @@ export default function CategoryFeature({ category }) {
               sm={6}
               md={4}
               lg={3}
-              xl={2}
               key={course.title}
               component="li"
             >
-              <Paper>
-                <Course course={course} />
-              </Paper>
+              <Box
+                maxWidth={360}
+                position="relative"
+                left="50%"
+                top="50%"
+                style={{ transform: 'translate(-50%,-50%)' }}
+              >
+                <Paper>
+                  <Course course={course} />
+                </Paper>
+              </Box>
             </Grid>
           ))}
         </Grid>
@@ -65,7 +73,7 @@ export default function CategoryFeature({ category }) {
       <ul>
         {topics.map((topic) => (
           <Box component="li" key={topic.id}>
-            <CourseList category={name} topic={topic} />
+            <CourseList category={category} topic={topic} />
           </Box>
         ))}
       </ul>
@@ -124,7 +132,10 @@ function CourseList({ category, topic }) {
       <Box display="flex" alignItems="center">
         <Avatar src={topic.avatar} alt={topic.name} className={styles.avatar} />
         <Box paddingX={0.5} />
-        <NextLink href={`/category/${category}/${topic.name}`} color="inherit">
+        <NextLink
+          href={routes.topic(category.name, topic.name)}
+          color="inherit"
+        >
           <Typography variant="h5" className={styles.label}>
             {topic.name}
           </Typography>
@@ -160,6 +171,6 @@ function CourseList({ category, topic }) {
 }
 
 CourseList.propTypes = {
-  category: PropTypes.string.isRequired,
+  category: CategoryPropTypes.isRequired,
   topic: TopicPropTypes.isRequired
 }
