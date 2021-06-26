@@ -15,7 +15,7 @@ import {
 import { FilterList } from '@material-ui/icons'
 import { FilterButton } from './search.style'
 import GridCourses from '@/components/list/course.grid'
-import StudentLayout from '@/components/layout/student'
+import DefaultLayout from '@/components/layout'
 
 const filters = [
   {
@@ -55,7 +55,7 @@ const sort = [
 export default function SearchPage() {
   const [filter, toggle] = useState(false)
   return (
-    <StudentLayout>
+    <DefaultLayout>
       <Box display="flex" alignItems="center">
         <Typography variant="h5">Search results (15)</Typography>
         <Tooltip title="Filter results" placement="top">
@@ -79,7 +79,7 @@ export default function SearchPage() {
         </Box>
       </Collapse>
       <GridCourses courses={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} skeleton />
-    </StudentLayout>
+    </DefaultLayout>
   )
 }
 

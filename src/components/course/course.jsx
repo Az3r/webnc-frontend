@@ -9,6 +9,7 @@ import {
   CardMedia,
   Typography
 } from '@material-ui/core'
+import NextImage from 'next/image'
 import { currency } from '@/utils/intl'
 import useStyles from './course.style'
 import { Rating } from '@material-ui/lab'
@@ -68,7 +69,14 @@ export default function Course({ course }) {
 
   return (
     <Card className={styles.card}>
-      <CardMedia image={thumbnail} className={styles.thumbnail} title={title} />
+      <Box height={0} paddingTop="56.25%" position="relative">
+        <NextImage
+          src={thumbnail}
+          layout="fill"
+          objectFit="cover"
+          title={title}
+        />
+      </Box>
       <CardHeader
         avatar={<Avatar src={lecturer.avatar} />}
         title={

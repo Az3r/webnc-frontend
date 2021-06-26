@@ -14,12 +14,12 @@ import {
   Button,
   IconButton
 } from '@material-ui/core'
-import { Course } from '@/components/course'
-import CourseRow from 'pages/demo/course'
+import { Course, CourseRow } from '@/components/course'
 import NextLink from '@/components/nextlink'
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons'
 import clsx from 'clsx'
 import { routes } from '@/utils/app'
+import NextImage from 'next/image'
 
 export default function CategoryFeature({ category }) {
   const { name, label, bestsellers, topics } = category
@@ -130,7 +130,13 @@ function CourseList({ category, topic }) {
   return (
     <Box paddingY={2}>
       <Box display="flex" alignItems="center">
-        <Avatar src={topic.avatar} alt={topic.name} className={styles.avatar} />
+        <NextImage
+          width={48}
+          height={48}
+          src={topic.avatar}
+          alt={topic.name}
+          className={styles.avatar}
+        />
         <Box paddingX={0.5} />
         <NextLink
           href={routes.topic(category.name, topic.name)}

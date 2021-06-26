@@ -5,6 +5,7 @@ export default makeStyles((theme) => ({
     textTransform: 'capitalize'
   },
   avatar: {
+    borderRadius: '50%',
     width: 48,
     height: 48
   },

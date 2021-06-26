@@ -5,11 +5,12 @@ import { routes } from '@/utils/app'
 export async function getStaticProps({ params }) {
   // const { course } = params
 
-  if (topic)
+  if (topic) {
     return {
       props: { topic },
       revalidate: 3600
     }
+  }
   return {
     redirect: {
       destination: routes.category('PLEASE FIX THIS'),

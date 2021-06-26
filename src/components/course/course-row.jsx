@@ -22,6 +22,7 @@ import clsx from 'clsx'
 import { currency } from '@/utils/intl'
 import { useSnackBar } from '../snackbar.provider'
 import NextLink from '../nextlink'
+import NextImage from 'next/image'
 import { routes } from '@/utils/app'
 
 export default function CourseRow({ course }) {
@@ -48,12 +49,14 @@ export default function CourseRow({ course }) {
     <Grid container spacing={1} alignItems="center">
       <Grid item xs={4} sm={3} md={2}>
         <Box position="relative" height={0} paddingTop="56.25%">
-          <img
-            src={thumbnail}
-            width="100%"
-            height="100%"
-            style={{ position: 'absolute', top: 0, left: 0 }}
-          />
+          <Box position="absolute" top={0} left={0} right={0} bottom={0}>
+            <NextImage
+              src={thumbnail}
+              alt={title}
+              layout="fill"
+              objectFit="cover"
+            />
+          </Box>
         </Box>
       </Grid>
       <Grid container item xs={8} sm={9} md={10} spacing={downSM ? 0 : 4}>

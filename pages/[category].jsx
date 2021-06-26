@@ -3,11 +3,12 @@ import category from '@/mocks/data/category.json'
 
 export async function getStaticProps({ params }) {
   // const { category } = params
-  if (category)
+  if (category) {
     return {
       props: { category },
       revalidate: 3600
     }
+  }
   return {
     redirect: {
       destination: `/`,

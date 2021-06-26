@@ -8,10 +8,12 @@ import { useSnackBar } from '@/components/snackbar.provider'
 import { useRouter } from 'next/router'
 import { routes } from '@/utils/app'
 import { parse } from '@/utils/errors'
+import { useAuthWrite } from '@/components/auth.provider'
 
 export default function Login({ classes }) {
   const router = useRouter()
   const { show } = useSnackBar()
+  const { update: updateAuth } = useAuthWrite()
   const { form, update, next } = useContext(AuthContext)
   const [processing, process] = useState(false)
 
@@ -20,15 +22,12 @@ export default function Login({ classes }) {
     process(true)
     const api = await import('./auth.api')
     try {
-      const user = await api.login(form)
+      await api.login(form)
       show({ open: true, severity: 'success', message: 'Login successfully' })
-      router.push(
-        {
-          pathname: '/',
-          query: user
-        },
-        '/'
-      )
+
+      updateAuth(1)
+
+      router.push('/demo/appbar')
     } catch (e) {
       const error = parse(e)
       if (error.code === 'auth/account-not-verified') {

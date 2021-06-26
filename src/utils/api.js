@@ -12,51 +12,31 @@ export function parse(error = {}) {
     type
   }
 }
-
 const production = process.env.NEXT_PUBLIC_MOCK_API == undefined
-const map = {
-  auth: {
-    login: production ? '/Auth/Login' : '/auth/login',
-    verify: production ? '/Auth/VerifyTwoStepVerification' : '/auth/verify',
-    register: production ? '/Auth/Register' : '/auth/register',
-    resend: production ? '/Auth/ResendOTP' : '/auth/resend'
-  },
-  courses: {
-    all: production ? '/Courses' : '/courses/all',
-    trending: production ? '/Courses/OutstandingCourses' : '/courses/trending',
-    mostviews: production ? '/Courses/MostViewedCourses' : '/courses/mostviews',
-    newest: production ? '/Courses/NewestCourses' : '/courses/newest',
-    bestseller: production
-      ? '/Courses/BestSellerCourses'
-      : '/courses/bestseller'
-  },
-  student: {
-    courses: production ? '/StudentCourses/GetAllByStudentId/' : '/student/'
-  },
-  watchlist: {
-    get: production ? '/WatchLists/GetAllByStudentId/' : '/favorites/'
-  }
-}
 
-function endpoint(name) {
-  const url = production
-    ? 'https://programmingcourse.herokuapp.com/api'
-    : 'http://localhost:3000/api'
-  return url + name
+function resource(prod, dev) {
+  return `${endpoint}${production ? prod : dev}`
 }
+export const endpoint = production
+  ? 'https://programmingcourse.herokuapp.com/api'
+  : 'http://localhost:3000/api'
 
 export const resources = {
   auth: {
-    login: endpoint(map.auth.login),
-    verify: endpoint(map.auth.verify),
-    register: endpoint(map.auth.register),
-    resend: endpoint(map.auth.resend)
+    login: resource('/Auth/Login', '/auth/login'),
+    verify: resource('/Auth/VerifyTwoStepVerification', '/auth/verify'),
+    register: resource('/Auth/Register', '/auth/register'),
+    resend: resource('/Auth/ResendOTP', '/auth/resend')
   },
   courses: {
-    all: endpoint(map.courses.all),
-    trending: endpoint(map.courses.trending),
-    mostviews: endpoint(map.courses.mostviews),
-    newest: endpoint(map.courses.newest)
+    all: resource('/Courses', '/courses/all'),
+    trending: resource('/Courses/OutstandingCourses', '/courses/trending'),
+    mostviews: resource('/Courses/MostViewedCourses', '/courses/mostviews'),
+    newest: resource('/Courses/NewestCourses', '/courses/newest'),
+    bestseller: resource('/Courses/BestSellerCourses', '/courses/bestseller')
+  },
+  user: {
+    get: (id) => resource(`/Users/${id}`, `/auth/user/${id}`)
   }
 }
 

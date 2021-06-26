@@ -5,14 +5,16 @@ import { routes } from '@/utils/app'
 
 const SearchContext = React.createContext({
   keyword: '',
+  update: () => {},
   search: () => {}
 })
 
+let search
 export default function SearchProvider({ children = <></> }) {
   const router = useRouter()
   const [keyword, update] = React.useState('')
 
-  function search(q) {
+  search = (q) => {
     if (q) {
       update(q)
       router.push({
@@ -23,11 +25,13 @@ export default function SearchProvider({ children = <></> }) {
   }
 
   return (
-    <SearchContext.Provider value={{ keyword, search }}>
+    <SearchContext.Provider value={{ keyword, search, update }}>
       {children}
     </SearchContext.Provider>
   )
 }
+
+export { search }
 
 export function useSearch() {
   return React.useContext(SearchContext)
