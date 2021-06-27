@@ -6,7 +6,7 @@ export default function DefaultLayout({ children = <></> }) {
   return (
     <>
       <MainAppBar />
-      {children}
+      <main>{children}</main>
     </>
   )
 }

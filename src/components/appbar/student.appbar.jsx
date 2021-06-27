@@ -1,5 +1,12 @@
 import React, { useState } from 'react'
-import { Box, Button, Hidden, IconButton, Typography } from '@material-ui/core'
+import {
+  Box,
+  Button,
+  Grow,
+  Hidden,
+  IconButton,
+  Typography
+} from '@material-ui/core'
 import { appname } from '@/utils/app'
 import NextImage from 'next/image'
 import NextLink from 'next/link'
@@ -21,6 +28,7 @@ import InlineSearch from './search.component'
 const StudentDrawer = dynamic(() =>
   import('@/components/drawer/student.drawer')
 )
+const CategoryPopover = dynamic(() => import('./category.popover'))
 
 export default function StudentAppBar({ student }) {
   const styles = useStyles()
@@ -28,92 +36,122 @@ export default function StudentAppBar({ student }) {
   const { username, avatar } = student
 
   const [drawer, setDrawer] = useState(false)
+  const [showCategory, setShowCategory] = useState(false)
+  const [mobileSearch, setMobileSearch] = useState(false)
 
   return (
     <>
-      <NextLink href="/" passHref>
+      <Grow in={showCategory}>
         <Box
-          component="a"
-          display="flex"
-          alignItems="center"
-          className={styles.brand}
+          style={{
+            pointerEvents: showCategory ? 'all' : 'none',
+            transformOrigin: '50% 0'
+          }}
+          className={styles.popover}
+          onMouseEnter={() => setShowCategory(true)}
+          onMouseLeave={() => setShowCategory(false)}
         >
-          <NextImage
-            priority
-            title="app's logo"
-            src="/images/logo_icon.webp"
-            width={48}
-            height={48}
-          />
-          <Typography variant="h4" className={styles.title}>
-            {appname}
-          </Typography>
+          <CategoryPopover />
         </Box>
-      </NextLink>
-      <Box flexGrow={1} justifyContent="center">
-        <Hidden implementation="css" smDown>
-          <Button variant="text" color="inherit">
-            categories
-          </Button>
-        </Hidden>
-      </Box>
-      <Hidden xsDown>
-        <InlineSearch />
-      </Hidden>
-      <Box justifyContent="flex-end" flexGrow={1} className={styles.actions}>
-        <Hidden implementation="css" smUp>
-          <IconButton>
-            <Search />
-          </IconButton>
-        </Hidden>
-        <Hidden implementation="css" smDown>
-          <IconButton
-            onClick={() =>
-              setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
-            }
-          >
-            {theme === 'dark' ? <Brightness3 /> : <BrightnessHigh />}
-          </IconButton>
-        </Hidden>
-        <Hidden implementation="css" xsDown>
-          <IconButton>
-            <Shop />
-          </IconButton>
-        </Hidden>
-        <Hidden implementation="css" xsDown>
-          <IconButton>
-            <Favorite />
-          </IconButton>
-        </Hidden>
-        <Hidden implementation="css" smDown>
-          <NextImage
-            width={40}
-            height={40}
-            alt={username}
-            src={avatar}
-            priority
-            className={styles.avatar}
-          />
-        </Hidden>
-        <Hidden implementation="css" mdUp>
-          <IconButton onClick={() => setDrawer(true)}>
-            <Menu />
-          </IconButton>
-        </Hidden>
-      </Box>
-      <StudentDrawer
-        classes={{ paper: styles.drawer }}
-        student={student}
-        open={drawer}
-        onClose={() => setDrawer(false)}
-        anchor="right"
-      >
-        <Box>
-          <IconButton onClick={() => setDrawer(false)}>
+      </Grow>
+      {mobileSearch ? (
+        <>
+          <IconButton onClick={() => setMobileSearch(false)}>
             <Close />
           </IconButton>
-        </Box>
-      </StudentDrawer>
+          <InlineSearch autoFocus />
+        </>
+      ) : (
+        <>
+          <NextLink href="/" passHref>
+            <Box
+              component="a"
+              display="flex"
+              alignItems="center"
+              className={styles.brand}
+            >
+              <NextImage
+                priority
+                title="app's logo"
+                src="/images/logo_icon.webp"
+                width={48}
+                height={48}
+              />
+              <Typography variant="h4" className={styles.title}>
+                {appname}
+              </Typography>
+            </Box>
+          </NextLink>
+          <Box flexGrow={1} justifyContent="center">
+            <Hidden implementation="css" smDown>
+              <Button variant="text" color="inherit">
+                categories
+              </Button>
+            </Hidden>
+          </Box>
+          <Hidden xsDown>
+            <InlineSearch />
+          </Hidden>
+          <Box
+            justifyContent="flex-end"
+            flexGrow={1}
+            className={styles.actions}
+          >
+            <Hidden implementation="css" smUp>
+              <IconButton>
+                <Search />
+              </IconButton>
+            </Hidden>
+            <Hidden implementation="css" smDown>
+              <IconButton
+                onClick={() =>
+                  setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
+                }
+              >
+                {theme === 'dark' ? <Brightness3 /> : <BrightnessHigh />}
+              </IconButton>
+            </Hidden>
+            <Hidden implementation="css" xsDown>
+              <IconButton>
+                <Shop />
+              </IconButton>
+            </Hidden>
+            <Hidden implementation="css" xsDown>
+              <IconButton>
+                <Favorite />
+              </IconButton>
+            </Hidden>
+            <Hidden implementation="css" smDown>
+              <NextImage
+                width={40}
+                height={40}
+                alt={username}
+                src={avatar}
+                priority
+                className={styles.avatar}
+              />
+            </Hidden>
+            <Hidden implementation="css" mdUp>
+              <IconButton onClick={() => setDrawer(true)}>
+                <Menu />
+              </IconButton>
+            </Hidden>
+          </Box>
+          <StudentDrawer
+            classes={{ paper: styles.drawer }}
+            student={student}
+            open={drawer}
+            onClose={() => setDrawer(false)}
+            anchor="right"
+          >
+            <Box>
+              <IconButton onClick={() => setDrawer(false)}>
+                <Close />
+              </IconButton>
+            </Box>
+          </StudentDrawer>
+        </>
+      )}
     </>
   )
 }

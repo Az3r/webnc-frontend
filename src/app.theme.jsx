@@ -25,10 +25,13 @@ const dark = responsiveFontSizes(
     palette: {
       type: 'dark',
       primary: {
-        main: '#424242'
+        main: '#333'
       },
       secondary: {
-        main: '#0277bd'
+        main: '#333'
+      },
+      background: {
+        paper: '#2a2a2a'
       }
     }
   })
@@ -40,7 +43,7 @@ const AppContext = createContext({
 })
 
 export default function AppProvider({ children }) {
-  const [theme, setTheme] = useState('light')
+  const [theme, setTheme] = useState('dark')
   return (
     <AppContext.Provider
       value={{
