@@ -1,19 +1,12 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import {
-  Box,
-  Button,
-  Hidden,
-  IconButton,
-  InputBase,
-  Typography
-} from '@material-ui/core'
-import { appname, routes } from '@/utils/app'
+import { Box, Button, Hidden, IconButton, Typography } from '@material-ui/core'
+import { appname } from '@/utils/app'
 import NextImage from 'next/image'
 import NextLink from 'next/link'
 import useStyles from './student.style'
 import {
-  Brightness4,
+  Brightness3,
+  BrightnessHigh,
   Close,
   Favorite,
   Menu,
@@ -22,6 +15,8 @@ import {
 } from '@material-ui/icons'
 import dynamic from 'next/dynamic'
 import { StudentPropTypes } from '@/utils/typing'
+import { useApp } from '@/app.theme'
+import InlineSearch from './search.component'
 
 const StudentDrawer = dynamic(() =>
   import('@/components/drawer/student.drawer')
@@ -29,7 +24,7 @@ const StudentDrawer = dynamic(() =>
 
 export default function StudentAppBar({ student }) {
   const styles = useStyles()
-
+  const { setTheme, theme } = useApp()
   const { username, avatar } = student
 
   const [drawer, setDrawer] = useState(false)
@@ -63,24 +58,7 @@ export default function StudentAppBar({ student }) {
         </Hidden>
       </Box>
       <Hidden xsDown>
-        <form
-          className={styles.form}
-          onSubmit={(e) => {
-            e.preventDefault()
-          }}
-        >
-          <InputBase
-            onFocus={(e) => e.target.select()}
-            name="search"
-            fullWidth
-            placeholder="Search anything"
-            endAdornment={
-              <IconButton type="submit" color="inherit">
-                <Search color="inherit" />
-              </IconButton>
-            }
-          />
-        </form>
+        <InlineSearch />
       </Hidden>
       <Box justifyContent="flex-end" flexGrow={1} className={styles.actions}>
         <Hidden implementation="css" smUp>
@@ -89,8 +67,12 @@ export default function StudentAppBar({ student }) {
           </IconButton>
         </Hidden>
         <Hidden implementation="css" smDown>
-          <IconButton>
-            <Brightness4 />
+          <IconButton
+            onClick={() =>
+              setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
+            }
+          >
+            {theme === 'dark' ? <Brightness3 /> : <BrightnessHigh />}
           </IconButton>
         </Hidden>
         <Hidden implementation="css" xsDown>

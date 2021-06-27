@@ -31,10 +31,12 @@ export default function SearchProvider({ children = <></> }) {
   )
 }
 
-export { search }
-
-export function useSearch() {
+export function useSearchRead() {
   return React.useContext(SearchContext)
+}
+
+export function useSearchWrite() {
+  return { search }
 }
 
 SearchProvider.propTypes = {

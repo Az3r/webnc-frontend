@@ -4,7 +4,7 @@ export const routes = {
   login: '/login',
   register: '/register',
   verify: '/verify',
-  search: (q = '') => `/search?q=${q}`,
+  search: '/search',
   category: (name) => `/${name}`,
   topic: (category, name) => `/${category}/${name}`,
   course: (id) => `/course/${id}`,
