@@ -13,7 +13,9 @@ import {
   Switch
 } from '@material-ui/core'
 import {
+  Brightness3,
   Brightness4,
+  BrightnessHigh,
   Create,
   ExitToApp,
   Favorite,
@@ -91,7 +93,7 @@ export default function StudentDrawer({ student, children, ...props }) {
         </ListItem>
         <ListItem>
           <ListItemIcon>
-            <Brightness4 />
+            {theme === 'dark' ? <Brightness3 /> : <BrightnessHigh />}
           </ListItemIcon>
           <ListItemText primary="Dark Theme" />
           <ListItemSecondaryAction>

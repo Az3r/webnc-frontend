@@ -115,13 +115,9 @@ export default function StudentAppBar({ student }) {
               <IconButton>
                 <Shop />
               </IconButton>
-            </Hidden>
-            <Hidden implementation="css" xsDown>
               <IconButton>
                 <Favorite />
               </IconButton>
-            </Hidden>
-            <Hidden implementation="css" smDown>
               <NextImage
                 width={40}
                 height={40}

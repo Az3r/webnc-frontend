@@ -13,12 +13,16 @@ export default makeStyles((theme) => ({
     width: '100%',
     maxWidth: 320
   },
-  avatar: {
-    borderRadius: '50%'
+  category: {
+    ...theme.mixins.toolbar,
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center'
   },
-  actions: {
-    ['& > *']: {
-      margin: theme.spacing(0, 0.5)
-    }
+  popover: {
+    zIndex: 10000,
+    position: 'absolute',
+    top: (theme.mixins.toolbar.minHeight / 3) * 2 + theme.spacing(1),
+    left: theme.spacing(20)
   }
 }))
