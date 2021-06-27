@@ -1,17 +1,15 @@
+import { create } from './errors'
 /**
  * parse response error returned from api call
  * @param {Object} error
+ * @returns {Error}
  */
-export function parse(error = {}) {
+export function ApiError(error = {}) {
   const [code, value] = error.split(':', 2)
-  const [scope, type] = code.split('/', 2)
-  return {
-    code,
-    value,
-    scope,
-    type
-  }
+  const [name, type] = code.split('/', 2)
+  return create(name, type, value)
 }
+
 const production = process.env.NEXT_PUBLIC_MOCK_API == undefined
 
 function resource(prod, dev) {
@@ -34,6 +32,9 @@ export const resources = {
     mostviews: resource('/Courses/MostViewedCourses', '/courses/mostviews'),
     newest: resource('/Courses/NewestCourses', '/courses/newest'),
     bestseller: resource('/Courses/BestSellerCourses', '/courses/bestseller')
+  },
+  categoryType: {
+    get: (id) => resource(`/CategoryTypes/${id}`, `/category-type/${id}`)
   },
   user: {
     get: (id) => resource(`/Users/${id}`, `/auth/user/${id}`)

@@ -1,7 +1,8 @@
 /**
- * @typedef {'unknown' |
- * 'auth'
- * } ErrorScope
+ * @typedef {'UnknownError' |
+ * 'AuthError' |
+ * 'ApiError'
+ * } ErrorName
  * @typedef {'unknown' |
  * 'invalid-email' |
  * 'weak-password' |
@@ -11,7 +12,7 @@
  * 'email-not-found'
  * } ErrorType
  * @typedef {Object} ErrorCode
- * @property {ErrorScope} ErrorCode.scope
+ * @property {ErrorName} ErrorCode.scope
  * @property {ErrorType} ErrorCode.type
  * @property {string} ErrorCode.code ${scope}/${type}
  * @property {Error} ErrorCode.details
@@ -20,14 +21,18 @@
 
 /**
  * create error message
- * @param {ErrorScope} scope
+ * @param {ErrorName} name
  * @param {ErrorType} type
  * @param {string} value
  * @returns
  */
-export function create(scope, type, value) {
-  const error = new Error(`${scope}/${type}:${value}`)
-  error.name = 'AppError'
+export function create(name, type, value) {
+  const error = new Error(`${name}/${type}:${value}`)
+  Error.captureStackTrace(error)
+  error.name = name
+  error.type = type
+  error.code = `${name}/${type}`
+  error.value = value
   return error
 }
 

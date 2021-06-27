@@ -1,5 +1,12 @@
 import React, { useState } from 'react'
-import { Box, Button, Hidden, IconButton, Typography } from '@material-ui/core'
+import {
+  Box,
+  Grow,
+  Button,
+  Hidden,
+  IconButton,
+  Typography
+} from '@material-ui/core'
 import { appname, routes } from '@/utils/app'
 import NextImage from 'next/image'
 import NextLink from 'next/link'
@@ -16,16 +23,31 @@ import { useApp } from '@/app.theme'
 import InlineSearch from './search.component'
 
 const GuestDrawer = dynamic(() => import('@/components/drawer/guest.drawer'))
+const CategoryPopover = dynamic(() => import('./category.popover'))
 
 export default function GuestAppBar() {
   const styles = useStyles()
   const { setTheme, theme } = useApp()
 
   const [drawer, setDrawer] = useState(false)
+  const [showCategory, setShowCategory] = useState(false)
   const [mobileSearch, setMobileSearch] = useState(false)
 
   return (
     <>
+      <Grow in={showCategory}>
+        <Box
+          style={{
+            pointerEvents: showCategory ? 'all' : 'none',
+            transformOrigin: '50% 0'
+          }}
+          className={styles.popover}
+          onMouseEnter={() => setShowCategory(true)}
+          onMouseLeave={() => setShowCategory(false)}
+        >
+          <CategoryPopover />
+        </Box>
+      </Grow>
       {mobileSearch ? (
         <>
           <IconButton onClick={() => setMobileSearch(false)}>
@@ -56,9 +78,15 @@ export default function GuestAppBar() {
           </NextLink>
           <Box flexGrow={1} justifyContent="center">
             <Hidden implementation="css" smDown>
-              <Button variant="text" color="inherit">
-                categories
-              </Button>
+              <Typography
+                variant="h6"
+                className={styles.category}
+                onTouchEnd={() => setShowCategory((prev) => !prev)}
+                onMouseEnter={() => setShowCategory(true)}
+                onMouseLeave={() => setShowCategory(false)}
+              >
+                Categories
+              </Typography>
             </Hidden>
           </Box>
           <Hidden xsDown>
