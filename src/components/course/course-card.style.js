@@ -17,10 +17,6 @@ export default makeStyles((theme) => ({
     overflow: 'hidden',
     WebkitLineClamp: 1,
     lineClamp: 1
-  },
-  thumbnail: {
-    height: 0,
-    paddingTop: '56.25%' // 16:9
   }
 }))
 

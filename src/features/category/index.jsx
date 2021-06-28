@@ -14,7 +14,7 @@ import {
   Button,
   IconButton
 } from '@material-ui/core'
-import { Course, CourseRow } from '@/components/course'
+import { CourseCard, CourseRow } from '@/components/course'
 import NextLink from '@/components/nextlink'
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons'
 import clsx from 'clsx'
@@ -55,7 +55,7 @@ export default function CategoryFeature({ category }) {
                 style={{ transform: 'translate(-50%,-50%)' }}
               >
                 <Paper>
-                  <Course course={course} />
+                  <CourseCard course={course} />
                 </Paper>
               </Box>
             </Grid>

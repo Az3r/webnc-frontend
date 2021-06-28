@@ -9,12 +9,11 @@ const SearchContext = React.createContext({
   search: () => {}
 })
 
-let search
-export default function SearchProvider({ children = <></> }) {
+const SearchProvider = ({ children }) => {
   const router = useRouter()
   const [keyword, update] = React.useState('')
 
-  search = (q) => {
+  const search = (q) => {
     if (q) {
       update(q)
       router.push({
@@ -31,12 +30,10 @@ export default function SearchProvider({ children = <></> }) {
   )
 }
 
-export function useSearchRead() {
-  return React.useContext(SearchContext)
-}
+export default SearchProvider
 
-export function useSearchWrite() {
-  return { search }
+export function useSearch() {
+  return React.useContext(SearchContext)
 }
 
 SearchProvider.propTypes = {

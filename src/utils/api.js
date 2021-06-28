@@ -38,6 +38,9 @@ export const resources = {
   },
   user: {
     get: (id) => resource(`/Users/${id}`, `/auth/user/${id}`)
+  },
+  shop: {
+    get: (id) => resource(undefined, `/shop/${id}`)
   }
 }
 

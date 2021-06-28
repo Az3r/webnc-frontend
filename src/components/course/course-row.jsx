@@ -7,7 +7,8 @@ import {
   IconButton,
   Typography,
   useTheme,
-  useMediaQuery
+  useMediaQuery,
+  Button
 } from '@material-ui/core'
 import useStyles from './course-row.style'
 import {
@@ -20,29 +21,30 @@ import {
 } from '@material-ui/icons'
 import clsx from 'clsx'
 import { currency } from '@/utils/intl'
-import { useSnackBar } from '../snackbar.provider'
 import NextLink from '../nextlink'
 import NextImage from 'next/image'
 import { routes } from '@/utils/app'
+import { Skeleton } from '@material-ui/lab'
+import { useSnackbar } from 'notistack'
 
 export default function CourseRow({ course }) {
   const { id, tag, title, thumbnail, rating, bought, price, discount } = course
   const styles = useStyles()
   const theme = useTheme()
-  const { show } = useSnackBar()
   const downSM = useMediaQuery(theme.breakpoints.down('sm'))
+  const { enqueueSnackbar } = useSnackbar()
 
   const [watchlisted, setWatchlisted] = React.useState(course.watchlisted)
 
   async function onWatchList() {
     // TODO: Add course to user watchlist
     setWatchlisted((prev) => !prev)
-    show({
-      message: !watchlisted
-        ? 'Add course to Watchlist'
-        : 'Remove course from Watchlist',
-      severity: 'success'
-    })
+    enqueueSnackbar(
+      !watchlisted ? 'Add to Watchlist' : 'Remove from Watchlist',
+      {
+        variant: 'success'
+      }
+    )
   }
 
   return (
@@ -144,4 +146,29 @@ export default function CourseRow({ course }) {
 
 CourseRow.propTypes = {
   course: CoursePropTypes.isRequired
+}
+
+export function CourseRowSkeleton() {
+  return (
+    <Grid container spacing={1} alignItems="center">
+      <Grid item xs={4} sm={3} md={2}>
+        <Box position="relative" height={0} paddingTop="56.25%">
+          <Box position="absolute" top={0} left={0} right={0} bottom={0}>
+            <Skeleton width="100%" height="100%" variant="rect" />
+          </Box>
+        </Box>
+      </Grid>
+      <Grid item xs={8} sm={9} md={10}>
+        <Skeleton width="100%">
+          <Typography>.</Typography>
+        </Skeleton>
+        <Skeleton width="70%">
+          <Typography variant="h6">.</Typography>
+        </Skeleton>
+        <Skeleton width="55%">
+          <Typography>.</Typography>
+        </Skeleton>
+      </Grid>
+    </Grid>
+  )
 }

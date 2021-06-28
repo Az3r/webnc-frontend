@@ -11,13 +11,13 @@ import {
 } from '@material-ui/core'
 import NextImage from 'next/image'
 import { currency } from '@/utils/intl'
-import useStyles from './course.style'
-import { Rating } from '@material-ui/lab'
+import useStyles from './course-card.style'
+import { Rating, Skeleton } from '@material-ui/lab'
 import NextLink from '../nextlink'
 import { routes } from '@/utils/app'
 import { CoursePropTypes } from '@/utils/typing'
 
-export default function Course({ course }) {
+export default function CourseCard({ course }) {
   const {
     id,
     category,
@@ -68,7 +68,7 @@ export default function Course({ course }) {
   }
 
   return (
-    <Card className={styles.card}>
+    <Card>
       <Box height={0} paddingTop="56.25%" position="relative">
         <NextImage
           src={thumbnail}
@@ -95,6 +95,43 @@ export default function Course({ course }) {
   )
 }
 
-Course.propTypes = {
+CourseCard.propTypes = {
   course: CoursePropTypes.isRequired
+}
+
+export function CourseCardSkeleton() {
+  return (
+    <Card>
+      <Box height={0} paddingTop="56.25%" position="relative">
+        <Box position="absolute" top={0} left={0} right={0} bottom={0}>
+          <Skeleton variant="rect" width="100%" height="100%" />
+        </Box>
+      </Box>
+      <CardHeader
+        avatar={
+          <Skeleton variant="circle">
+            <Avatar>.</Avatar>
+          </Skeleton>
+        }
+        title={
+          <Skeleton width="100%">
+            <Typography>.</Typography>
+          </Skeleton>
+        }
+        subheader={
+          <Skeleton width="100%">
+            <Typography>.</Typography>
+          </Skeleton>
+        }
+      />
+      <CardContent>
+        <Skeleton width="100%">
+          <Typography>.</Typography>
+        </Skeleton>
+        <Skeleton width="100%">
+          <Typography variant="h5">.</Typography>
+        </Skeleton>
+      </CardContent>
+    </Card>
+  )
 }

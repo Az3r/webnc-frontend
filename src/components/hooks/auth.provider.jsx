@@ -1,42 +1,41 @@
 import React, { createContext, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { resources } from '@/utils/api'
-import { create } from '@/utils/errors'
+import { ApiError, resources } from '@/utils/api'
 
 const AuthContext = createContext({
   error: undefined,
-  user: undefined
+  user: undefined,
+  loading: true,
+  revalidate: () => {}
 })
-let update
 
-export default function AuthProvider({ children }) {
-  const [identity, setIdentity] = React.useState(null)
+const AuthProvider = ({ children }) => {
+  const [valid, setValid] = React.useState(false)
   const [session, setSession] = React.useState({
     user: undefined,
     error: undefined
   })
-  update = (id) => setIdentity(id)
+  const revalidate = () => setValid((prev) => !prev)
 
   useEffect(async () => {
-    if (identity == null || identity == undefined)
-      return { user: undefined, error: undefined }
+    // invalidate current session
+    setSession({ user: undefined, error: undefined })
 
-    const url = resources.user.get(identity)
+    const url = resources.user.get(valid)
     const response = await fetch(url)
     const data = await response.json()
     if (response.ok) return setSession({ user: data.results, error: undefined })
-    const error = create('auth', 'unknown', url)
-    error.code = 'auth/unknown'
-    error.error = data.error
-    error.value = url
+    const error = ApiError(data.error)
     return setSession({ user: undefined, error })
-  }, [identity])
+  }, [valid])
 
   return (
     <AuthContext.Provider
       value={{
+        revalidate,
         user: session.user,
-        error: session.error
+        error: session.error,
+        loading: !session.user && !session.error
       }}
     >
       {children}
@@ -44,11 +43,10 @@ export default function AuthProvider({ children }) {
   )
 }
 
-export function useAuthRead() {
+export default AuthProvider
+
+export function useAuth() {
   return useContext(AuthContext)
-}
-export function useAuthWrite() {
-  return { update }
 }
 
 AuthProvider.propTypes = {

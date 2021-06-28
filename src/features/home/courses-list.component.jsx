@@ -12,8 +12,8 @@ import { NavigateNext, NavigateBefore } from '@material-ui/icons'
 import { useSpring } from '@react-spring/core'
 import { animated } from '@react-spring/web'
 import { useDrag } from 'react-use-gesture'
-import { Course } from '@/components/course'
-import { COURSE_WIDTH } from '@/components/course/course.style'
+import { CourseCard } from '@/components/course'
+import { COURSE_WIDTH } from '@/components/course/course-card.style'
 
 const AnimatedBox = animated(Box)
 const ITEM_PADDING = 1
@@ -204,7 +204,7 @@ function List({ courses }) {
     <Grid container spacing={1} component="ul">
       {courses.map((item) => (
         <Grid item component="li" key={item.id}>
-          <Course course={item} />
+          <CourseCard course={item} />
         </Grid>
       ))}
     </Grid>

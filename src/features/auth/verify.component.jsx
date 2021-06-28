@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core'
 import { CancelScheduleSend, Send } from '@material-ui/icons'
 import { parse } from '@/utils/errors'
-import { useSnackBar } from '@/components/snackbar.provider'
+import { useSnackBar } from '@/components/hooks/snackbar.provider'
 import { useRouter } from 'next/router'
 import { routes } from '@/utils/app'
 

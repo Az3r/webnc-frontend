@@ -2,21 +2,30 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import AppProvider from '@/app.theme'
 import dynamic from 'next/dynamic'
-import SearchProvider from '@/components/search.provider'
+import SearchProvider from '@/components/hooks/search.provider'
 import '@/app.css'
-import AuthProvider from '@/components/auth.provider'
+import AuthProvider from '@/components/hooks/auth.provider'
+import { SnackbarProvider } from 'notistack'
+import { Slide } from '@material-ui/core'
 
-const DynamicPageLoading = dynamic(() => import('@/components/page-loading'))
-const DynamicSnackBar = dynamic(() => import('@/components/snackbar.provider'))
+const PageLoading = dynamic(() => import('@/components/page-loading'))
 export default function MainApp({ Component, pageProps }) {
   return (
     <AppProvider>
       <AuthProvider>
-        <DynamicPageLoading />
+        <PageLoading />
         <SearchProvider>
-          <Component {...pageProps} />
+          <SnackbarProvider
+            maxSnack={5}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right'
+            }}
+            TransitionComponent={Slide}
+          >
+            <Component {...pageProps} />
+          </SnackbarProvider>
         </SearchProvider>
-        <DynamicSnackBar />
       </AuthProvider>
     </AppProvider>
   )

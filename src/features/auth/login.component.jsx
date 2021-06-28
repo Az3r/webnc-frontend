@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Box, Button, CircularProgress, Typography } from '@material-ui/core'
 import AuthContext from './auth.context'
 import { PasswordField, UserField } from '@/components/inputs'
-import { useSnackBar } from '@/components/snackbar.provider'
+import { useSnackBar } from '@/components/hooks/snackbar.provider'
 import { useRouter } from 'next/router'
 import { routes } from '@/utils/app'
 import { parse } from '@/utils/errors'
@@ -13,7 +13,7 @@ import { useAuthWrite } from '@/components/auth.provider'
 export default function Login({ classes }) {
   const router = useRouter()
   const { show } = useSnackBar()
-  const { update: updateAuth } = useAuthWrite()
+  const { revalidate } = useAuthWrite()
   const { form, update, next } = useContext(AuthContext)
   const [processing, process] = useState(false)
 
@@ -25,7 +25,7 @@ export default function Login({ classes }) {
       await api.login(form)
       show({ open: true, severity: 'success', message: 'Login successfully' })
 
-      updateAuth(1)
+      revalidate()
 
       router.push('/demo/appbar')
     } catch (e) {

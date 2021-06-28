@@ -74,8 +74,8 @@ export default function CategoryPopover() {
         </Grid>
       </Box>
       <Box
-        visibility={category ? 'visible' : 'hidden'}
-        width={320}
+        visibility={category ? 'visible' : 'collapse'}
+        width={category ? 320 : 0}
         minHeight="80vh"
       >
         {data ? (
