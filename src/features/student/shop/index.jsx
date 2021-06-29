@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+
 import DefaultLayout from '@/components/layout'
 import { useAuth } from '@/components/hooks/auth.provider'
 import {
@@ -20,6 +22,7 @@ import useSWR from 'swr'
 import { Delete, Shop, ShoppingCart } from '@material-ui/icons'
 import { useSnackbar } from 'notistack'
 import { animated, useTransition } from 'react-spring'
+import { CoursePropTypes } from '@/utils/typing'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,12 +63,10 @@ export default function ShopFeature() {
   const loading = !courses && !error
 
   return (
-    <DefaultLayout>
-      <Container className={styles.root}>
-        {loading && <Loading />}
-        {courses && <DataAvailable courses={courses} />}
-      </Container>
-    </DefaultLayout>
+    <Container className={styles.root}>
+      {loading && <Loading />}
+      {courses && <DataAvailable courses={courses} />}
+    </Container>
   )
 }
 
@@ -213,4 +214,8 @@ function EmptyList() {
       </Typography>
     </Container>
   )
+}
+
+DataAvailable.propTypes = {
+  courses: PropTypes.arrayOf(CoursePropTypes.isRequired).isRequired
 }

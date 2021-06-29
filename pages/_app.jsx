@@ -7,6 +7,7 @@ import '@/app.css'
 import AuthProvider from '@/components/hooks/auth.provider'
 import { SnackbarProvider } from 'notistack'
 import { Slide } from '@material-ui/core'
+import DefaultLayout from '@/components/layout'
 
 const PageLoading = dynamic(() => import('@/components/page-loading'))
 export default function MainApp({ Component, pageProps }) {
@@ -23,7 +24,9 @@ export default function MainApp({ Component, pageProps }) {
             }}
             TransitionComponent={Slide}
           >
-            <Component {...pageProps} />
+            <DefaultLayout>
+              <Component {...pageProps} />
+            </DefaultLayout>
           </SnackbarProvider>
         </SearchProvider>
       </AuthProvider>

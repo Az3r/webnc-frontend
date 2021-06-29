@@ -42,6 +42,10 @@ export const resources = {
   },
   shop: {
     get: (id) => resource(undefined, `/shop/${id}`)
+  },
+  watchlist: {
+    get: (id) =>
+      resource(`/WatchLists/GetAllByStudentId/${id}`, `/watchlist/${id}`)
   }
 }
 
