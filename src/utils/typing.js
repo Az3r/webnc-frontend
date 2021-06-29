@@ -49,7 +49,6 @@ export const CoursePropTypes = PropTypes.shape({
   price: PropTypes.number.isRequired,
   discount: PropTypes.number.isRequired,
   tag: PropTypes.string,
-  lastModified: PropTypes.number.isRequired,
   bought: PropTypes.number.isRequired,
   watchlisted: PropTypes.bool
 })

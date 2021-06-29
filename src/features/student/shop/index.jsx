@@ -43,8 +43,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const fetcher = async (id) => {
-  const url = resources.shop.get(id)
+const fetcher = async (url) => {
   const response = await fetch(url)
   const data = await response.json()
   if (response.ok) return data.results
@@ -54,7 +53,10 @@ const fetcher = async (id) => {
 export default function ShopFeature() {
   const styles = useStyles()
   const { user } = useAuth()
-  const { data: courses, error } = useSWR(() => user.id, fetcher)
+  const { data: courses, error } = useSWR(
+    () => (user ? resources.shop.get(user.id) : undefined),
+    fetcher
+  )
   const loading = !courses && !error
 
   return (

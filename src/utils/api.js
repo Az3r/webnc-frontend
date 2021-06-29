@@ -1,3 +1,4 @@
+import useSWR from 'swr'
 import { create } from './errors'
 /**
  * parse response error returned from api call
@@ -57,4 +58,17 @@ export async function mock(req, res, callback) {
   } catch (error) {
     return res.status(404).json({ error: error.message })
   }
+}
+
+export async function fetcher(...args) {
+  const response = await fetch(...args)
+  const data = await response.json()
+  if (response.ok) return data.results
+  throw ApiError(data.error)
+}
+
+export function useGET(url) {
+  const { data, error } = useSWR(url, fetcher)
+  const loading = !data && !error
+  return { data, error, loading }
 }
