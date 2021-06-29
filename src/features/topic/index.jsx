@@ -14,7 +14,7 @@ import {
 import { NavigateNext } from '@material-ui/icons'
 import Link from 'next/link'
 import NextLink from '@/components/nextlink'
-import { CourseCard, CourseSkeleton } from '@/components/course'
+import CourseCard, { CourseCardSkeleton } from '@/components/course/course-card'
 import { TopicPropTypes } from '@/utils/typing'
 import { routes } from '@/utils/app'
 import useStyles from './topic.style'
@@ -74,7 +74,7 @@ export default function TopicFeature({ topic }) {
             sm={6}
             xs={12}
           >
-            {loading ? <CourseSkeleton /> : <CourseCard course={course} />}
+            {loading ? <CourseCardSkeleton /> : <CourseCard course={course} />}
           </Grid>
         ))}
         <Grid item xs={12} container justify="center" alignItems="center">

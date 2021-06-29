@@ -11,16 +11,16 @@ import {
 } from '@material-ui/core'
 import { CancelScheduleSend, Send } from '@material-ui/icons'
 import { parse } from '@/utils/errors'
-import { useSnackBar } from '@/components/hooks/snackbar.provider'
 import { useRouter } from 'next/router'
 import { routes } from '@/utils/app'
+import { useSnackbar } from 'notistack'
 
 const WELCOME =
   "An OPT code has been sent to your email address, if you don't recieve one, you can click on the send button to the right"
 const INPUTS = [0, 1, 2, 3, 4, 5]
 export default function VerifyEmail({ classes }) {
   const { form } = useContext(AuthContext)
-  const { show } = useSnackBar()
+  const { enqueueSnackbar } = useSnackbar()
 
   const router = useRouter()
   const [cooldown, setCooldown] = useState(0)
@@ -86,14 +86,10 @@ export default function VerifyEmail({ classes }) {
         },
         '/'
       )
-      show({
-        open: true,
-        severity: 'success',
-        message: 'Account verified'
-      })
+      enqueueSnackbar('Account verified', { variant: 'success' })
     } catch (e) {
       const error = parse(e)
-      show({ open: true, severity: 'error', message: error.code })
+      enqueueSnackbar(error.code, { variant: 'error' })
     } finally {
       process(false)
     }

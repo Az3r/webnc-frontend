@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import { Button, CircularProgress, Typography } from '@material-ui/core'
 import AuthContext from './auth.context'
 import { EmailField, PasswordField, UserField } from '@/components/inputs'
-import { useSnackBar } from '@/components/hooks/snackbar.provider'
 import { parse } from '@/utils/errors'
+import { useSnackbar } from 'notistack'
 
 export default function Register({ classes }) {
-  const { show } = useSnackBar()
+  const { enqueueSnackbar } = useSnackbar()
   const { form, update, next } = useContext(AuthContext)
   const [processing, process] = useState(false)
 
@@ -19,18 +19,10 @@ export default function Register({ classes }) {
       await api.regsiter(form)
       next()
 
-      show({
-        open: true,
-        severity: 'success',
-        message: 'Register successfully'
-      })
+      enqueueSnackbar('Register successfully', { variant: 'success' })
     } catch (e) {
       const error = parse(e)
-      show({
-        open: true,
-        severity: 'error',
-        message: error.code
-      })
+      enqueueSnackbar(error.code, { variant: 'error' })
     } finally {
       process(false)
     }

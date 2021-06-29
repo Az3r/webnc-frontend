@@ -5,7 +5,6 @@ import SyntaxHighlighter from 'react-syntax-highlighter/dist/cjs/prism-async-lig
 import light from 'react-syntax-highlighter/dist/cjs/styles/prism/prism'
 import dark from 'react-syntax-highlighter/dist/cjs/styles/prism/atom-dark'
 import markdown from 'react-syntax-highlighter/dist/cjs/languages/prism/markdown'
-import clsx from 'clsx'
 import useStyles from './editor.style'
 
 SyntaxHighlighter.registerLanguage('markdown', markdown)

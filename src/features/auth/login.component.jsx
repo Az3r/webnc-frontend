@@ -1,19 +1,18 @@
 import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
-
 import { Box, Button, CircularProgress, Typography } from '@material-ui/core'
 import AuthContext from './auth.context'
 import { PasswordField, UserField } from '@/components/inputs'
-import { useSnackBar } from '@/components/hooks/snackbar.provider'
 import { useRouter } from 'next/router'
 import { routes } from '@/utils/app'
 import { parse } from '@/utils/errors'
-import { useAuthWrite } from '@/components/auth.provider'
+import { useAuth } from '@/components/hooks/auth.provider'
+import { useSnackbar } from 'notistack'
 
 export default function Login({ classes }) {
   const router = useRouter()
-  const { show } = useSnackBar()
-  const { revalidate } = useAuthWrite()
+  const { enqueueSnackbar } = useSnackbar()
+  const { revalidate } = useAuth()
   const { form, update, next } = useContext(AuthContext)
   const [processing, process] = useState(false)
 
@@ -23,7 +22,7 @@ export default function Login({ classes }) {
     const api = await import('./auth.api')
     try {
       await api.login(form)
-      show({ open: true, severity: 'success', message: 'Login successfully' })
+      enqueueSnackbar('Login successfully', { variant: 'success' })
 
       revalidate()
 
@@ -35,7 +34,7 @@ export default function Login({ classes }) {
         update((prev) => ({ ...prev, email: error.value }))
         next(2)
       }
-      show({ open: true, severity: 'error', message: error.code })
+      enqueueSnackbar(error.code, { variant: 'error' })
     } finally {
       process(false)
     }
