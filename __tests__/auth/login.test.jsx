@@ -4,7 +4,8 @@ import userEvent from '@testing-library/user-event'
 import Login from '@/features/auth/login.component'
 import AuthContext from '@/features/auth/auth.context'
 import { ThemeProvider } from '@material-ui/styles'
-import { createMuiTheme } from '@material-ui/core'
+import { createMuiTheme, Slide } from '@material-ui/core'
+import { SnackbarProvider } from 'notistack'
 
 test('should update value', () => {
   const { getByLabelText } = render(<TestComponent />)
@@ -75,7 +76,16 @@ function TestComponent() {
           update
         }}
       >
-        <Login classes={{}} />
+        <SnackbarProvider
+          maxSnack={5}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          TransitionComponent={Slide}
+        >
+          <Login classes={{}} />
+        </SnackbarProvider>
       </AuthContext.Provider>
     </ThemeProvider>
   )
