@@ -1,6 +1,8 @@
 import React from 'react'
 import { CoursePropTypes } from '@/utils/typing'
 import {
+  CircularProgress,
+  Tooltip,
   Box,
   Chip,
   Grid,
@@ -17,6 +19,7 @@ import {
   Flare,
   MonetizationOn,
   Shop,
+  ShoppingCart,
   Star
 } from '@material-ui/icons'
 import clsx from 'clsx'
@@ -28,7 +31,18 @@ import { Skeleton } from '@material-ui/lab'
 import { useSnackbar } from 'notistack'
 
 export default function CourseRow({ course }) {
-  const { id, tag, title, thumbnail, rating, bought, price, discount } = course
+  const {
+    id,
+    tag,
+    title,
+    thumbnail,
+    rating,
+    bought,
+    price,
+    discount,
+    inUserLibrary,
+    userProgression
+  } = course
   const styles = useStyles()
   const theme = useTheme()
   const downSM = useMediaQuery(theme.breakpoints.down('sm'))
@@ -51,8 +65,42 @@ export default function CourseRow({ course }) {
     <Grid container spacing={1} alignItems="center">
       <Grid item xs={4} sm={3} md={2}>
         <Box position="relative" height={0} paddingTop="56.25%">
+          {inUserLibrary && (
+            <Box
+              position="absolute"
+              top={0}
+              right={0}
+              zIndex={1}
+              display="inline-flex"
+              color="success.dark"
+            >
+              <CircularProgress
+                value={userProgression}
+                variant="determinate"
+                color="inherit"
+              />
+              <Box
+                top={0}
+                left={0}
+                bottom={0}
+                right={0}
+                position="absolute"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                color="white"
+              >
+                <Typography
+                  variant="caption"
+                  component="div"
+                  color="inherit"
+                >{`${Math.round(userProgression ?? 0)}%`}</Typography>
+              </Box>
+            </Box>
+          )}
           <Box position="absolute" top={0} left={0} right={0} bottom={0}>
             <NextImage
+              className={styles.thumbnail}
               src={thumbnail}
               alt={title}
               layout="fill"
@@ -63,6 +111,13 @@ export default function CourseRow({ course }) {
       </Grid>
       <Grid container item xs={8} sm={9} md={10} spacing={downSM ? 0 : 4}>
         <Grid item xs={12} md={6}>
+          {inUserLibrary && (
+            <Box color="info.main">
+              <Typography>
+                <i>In library</i>
+              </Typography>
+            </Box>
+          )}
           <NextLink href={routes.course(id)} color="inherit">
             <Typography className={styles.title}>{title}</Typography>
           </NextLink>
@@ -90,6 +145,13 @@ export default function CourseRow({ course }) {
                 <em>-{Math.round(discount * 100)}%</em>
               </Typography>
             )}
+            {!inUserLibrary && (
+              <Tooltip title="Add to Cart">
+                <IconButton color="primary">
+                  <ShoppingCart />
+                </IconButton>
+              </Tooltip>
+            )}
           </Box>
         </Grid>
         <Grid item xs={12} md={6} container spacing={1}>
@@ -99,7 +161,7 @@ export default function CourseRow({ course }) {
               height="100%"
               display="flex"
               justifyContent="center"
-              color="secondary.main"
+              color="text.secondary"
               alignItems="center"
             >
               <Typography color="inherit">{bought}</Typography>

@@ -38,7 +38,8 @@ export const resources = {
     get: (id) => resource(`/CategoryTypes/${id}`, `/category-type/${id}`)
   },
   user: {
-    get: (id) => resource(`/Users/${id}`, `/auth/user/${id}`)
+    get: (id) => resource(`/Users/${id}`, `/auth/user/${id}`),
+    session: resource(undefined, '/auth/user/1')
   },
   shop: {
     get: (id) => resource(undefined, `/shop/${id}`)
@@ -46,6 +47,13 @@ export const resources = {
   watchlist: {
     get: (id) =>
       resource(`/WatchLists/GetAllByStudentId/${id}`, `/watchlist/${id}`)
+  },
+  library: {
+    get: (id) =>
+      resource(
+        `/StudentCourses/GetAllByStudentId?studentId=${id}`,
+        `/library/${id}`
+      )
   }
 }
 
@@ -72,7 +80,7 @@ export async function fetcher(...args) {
 }
 
 export function useGET(url) {
-  const { data, error } = useSWR(url, fetcher)
+  const { data, error, ...props } = useSWR(url, fetcher)
   const loading = !data && !error
-  return { data, error, loading }
+  return { ...props, data, error, loading }
 }

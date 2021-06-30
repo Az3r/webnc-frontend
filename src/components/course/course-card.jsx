@@ -1,12 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {
   Avatar,
   Box,
   Card,
   CardContent,
   CardHeader,
-  CardMedia,
+  IconButton,
+  Tooltip,
   Typography
 } from '@material-ui/core'
 import NextImage from 'next/image'
@@ -16,6 +16,13 @@ import { Rating, Skeleton } from '@material-ui/lab'
 import NextLink from '../nextlink'
 import { routes } from '@/utils/app'
 import { CoursePropTypes } from '@/utils/typing'
+import {
+  Favorite,
+  FavoriteBorder,
+  ShoppingCart,
+  VideoLibrary
+} from '@material-ui/icons'
+import { useSnackbar } from 'notistack'
 
 export default function CourseCard({ course }) {
   const {
@@ -28,9 +35,16 @@ export default function CourseCard({ course }) {
     rating,
     reviewers,
     price,
-    discount
+    discount,
+    inUserLibrary,
+    userProgression
   } = course
   const styles = useStyles()
+
+  const { enqueueSnackbar } = useSnackbar()
+  const [watchlisted, setWatchlisted] = React.useState(
+    course.watchlisted ?? false
+  )
 
   function CourseRating() {
     return (
@@ -75,7 +89,25 @@ export default function CourseCard({ course }) {
           layout="fill"
           objectFit="cover"
           title={title}
+          className={styles.thumbnail}
         />
+        <Box position="absolute" top={0} right={0} zIndex={1}>
+          <Tooltip
+            title={watchlisted ? 'Remove from Watchlist' : 'Add to Watchlist'}
+          >
+            <IconButton
+              onClick={() => {
+                enqueueSnackbar(
+                  watchlisted ? 'Removed from Watchlist' : 'Added to Watchlist',
+                  { variant: 'success' }
+                )
+                setWatchlisted((prev) => !prev)
+              }}
+            >
+              {watchlisted ? <Favorite /> : <FavoriteBorder />}
+            </IconButton>
+          </Tooltip>
+        </Box>
       </Box>
       <CardHeader
         avatar={<Avatar src={lecturer.avatar} />}
@@ -90,6 +122,23 @@ export default function CourseCard({ course }) {
       <CardContent>
         <CourseRating />
         <Price />
+        <Box position="relative">
+          <Box position="absolute" bottom={0} right={0}>
+            {inUserLibrary ? (
+              <Box color="info.light">
+                <Tooltip title="In your library">
+                  <VideoLibrary color="inherit" />
+                </Tooltip>
+              </Box>
+            ) : (
+              <Tooltip title="Add to Cart">
+                <IconButton color="primary">
+                  <ShoppingCart />
+                </IconButton>
+              </Tooltip>
+            )}
+          </Box>
+        </Box>
       </CardContent>
     </Card>
   )

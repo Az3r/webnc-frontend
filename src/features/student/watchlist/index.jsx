@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useAuth } from '@/components/hooks/auth.provider'
 import { resources, useGET } from '@/utils/api'
 import { CoursePropTypes } from '@/utils/typing'
-import { Box, Grid, Container, makeStyles, Typography } from '@material-ui/core'
+import { Box, Container, makeStyles } from '@material-ui/core'
 import React from 'react'
 
 const useStyles = makeStyles((theme) => ({

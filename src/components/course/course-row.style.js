@@ -1,6 +1,12 @@
 import { makeStyles } from '@material-ui/core'
 
 export default makeStyles((theme) => ({
+  thumbnail: {
+    transition: theme.transitions.create('filter'),
+    ['&:hover']: {
+      filter: 'brightness(33%)'
+    }
+  },
   title: {
     display: '-webkit-box',
     boxOrient: 'vertical',

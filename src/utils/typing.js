@@ -34,7 +34,9 @@ export const CourseDetailPropTypes = PropTypes.shape({
   bought: PropTypes.number.isRequired,
   watchlisted: PropTypes.bool,
   feedbacks: PropTypes.arrayOf(FeedbackPropTypes.isRequired).isRequired,
-  lectures: PropTypes.arrayOf(LecturePropTypes.isRequired).isRequired
+  lectures: PropTypes.arrayOf(LecturePropTypes.isRequired).isRequired,
+  inUserLibrary: PropTypes.bool,
+  userProgression: PropTypes.number
 })
 
 export const CoursePropTypes = PropTypes.shape({
@@ -50,7 +52,9 @@ export const CoursePropTypes = PropTypes.shape({
   discount: PropTypes.number.isRequired,
   tag: PropTypes.string,
   bought: PropTypes.number.isRequired,
-  watchlisted: PropTypes.bool
+  watchlisted: PropTypes.bool,
+  inUserLibrary: PropTypes.bool,
+  userProgression: PropTypes.number
 })
 
 export const TopicPropTypes = PropTypes.shape({

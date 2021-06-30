@@ -14,12 +14,12 @@ import {
 import { NavigateNext } from '@material-ui/icons'
 import Link from 'next/link'
 import NextLink from '@/components/nextlink'
-import CourseCard, { CourseCardSkeleton } from '@/components/course/course-card'
 import { TopicPropTypes } from '@/utils/typing'
 import { routes } from '@/utils/app'
 import useStyles from './topic.style'
 import { Pagination } from '@material-ui/lab'
 import { useSpring } from 'react-spring'
+import GridCourses from '@/components/list/course.grid'
 
 export default function TopicFeature({ topic }) {
   const { others, courses, label, category } = topic
@@ -63,20 +63,7 @@ export default function TopicFeature({ topic }) {
         </Typography>
       </Breadcrumbs>
       <Box paddingY={1} />
-      <Grid container spacing={2} component="ul">
-        {display.map((course) => (
-          <Grid
-            item
-            component="li"
-            key={course.id}
-            lg={3}
-            md={4}
-            sm={6}
-            xs={12}
-          >
-            {loading ? <CourseCardSkeleton /> : <CourseCard course={course} />}
-          </Grid>
-        ))}
+      <GridCourses skeleton={loading} courses={courses}>
         <Grid item xs={12} container justify="center" alignItems="center">
           <Pagination
             page={offset + 1}
@@ -88,7 +75,7 @@ export default function TopicFeature({ topic }) {
             size="large"
           />
         </Grid>
-      </Grid>
+      </GridCourses>
       <Box paddingY={2} />
       <Typography variant="h5" className={styles.label}>
         checkout other topics:

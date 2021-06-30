@@ -154,8 +154,6 @@ function CourseList({ category, topic }) {
       </ul>
       <Button
         onClick={() => setCollapse((prev) => !prev)}
-        variant="contained"
-        color="inherit"
         height={8}
         fullWidth
         className={styles.expand_button}

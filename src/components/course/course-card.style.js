@@ -12,13 +12,15 @@ export default makeStyles((theme) => ({
   lecturer: {
     display: '-webkit-box',
     boxOrient: 'vertical',
-    color: theme.palette.text.secondary,
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     WebkitLineClamp: 1,
     lineClamp: 1
+  },
+  thumbnail: {
+    transition: theme.transitions.create(['filter', 'opacity']),
+    ['&:hover']: {
+      filter: 'brightness(33%)'
+    }
   }
 }))
-
-export const COURSE_WIDTH = 320
-export const THUMBNAIL_WIDTH = 120

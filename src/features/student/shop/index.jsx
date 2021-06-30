@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import DefaultLayout from '@/components/layout'
 import { useAuth } from '@/components/hooks/auth.provider'
 import {
   Tooltip,
@@ -19,7 +18,7 @@ import { currency } from '@/utils/intl'
 import { Skeleton } from '@material-ui/lab'
 import { ApiError, resources } from '@/utils/api'
 import useSWR from 'swr'
-import { Delete, Shop, ShoppingCart } from '@material-ui/icons'
+import { Delete, ShoppingCart } from '@material-ui/icons'
 import { useSnackbar } from 'notistack'
 import { animated, useTransition } from 'react-spring'
 import { CoursePropTypes } from '@/utils/typing'

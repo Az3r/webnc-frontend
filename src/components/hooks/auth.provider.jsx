@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useEffect } from 'react'
+import React, { createContext, useContext } from 'react'
 import PropTypes from 'prop-types'
-import { ApiError, resources } from '@/utils/api'
+import { resources, useGET } from '@/utils/api'
 
 const AuthContext = createContext({
   error: undefined,
@@ -10,32 +10,16 @@ const AuthContext = createContext({
 })
 
 const AuthProvider = ({ children }) => {
-  const [valid, setValid] = React.useState(false)
-  const [session, setSession] = React.useState({
-    user: undefined,
-    error: undefined
-  })
-  const revalidate = () => setValid((prev) => !prev)
-
-  useEffect(async () => {
-    // invalidate current session
-    setSession({ user: undefined, error: undefined })
-
-    const url = resources.user.get(valid)
-    const response = await fetch(url)
-    const data = await response.json()
-    if (response.ok) return setSession({ user: data.results, error: undefined })
-    const error = ApiError(data.error)
-    return setSession({ user: undefined, error })
-  }, [valid])
+  const { data: user, loading, error, mutate } = useGET(resources.user.session)
+  const revalidate = () => mutate(resources.user.session)
 
   return (
     <AuthContext.Provider
       value={{
         revalidate,
-        user: session.user,
-        error: session.error,
-        loading: !session.user && !session.error
+        user,
+        loading,
+        error
       }}
     >
       {children}
