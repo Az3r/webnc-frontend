@@ -107,13 +107,7 @@ function CourseList({ category, topic }) {
     for (let i = 0; i < Math.max(topic.courses.length - 5, 0); i++) {
       const course = topic.courses[i + 5]
       elements.push(
-        <Box
-          paddingLeft={4}
-          paddingRight={0}
-          paddingY={2}
-          key={course.id}
-          component="li"
-        >
+        <Box paddingY={2} key={course.id} component="li">
           <CourseRow course={course} />
         </Box>
       )

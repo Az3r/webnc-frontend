@@ -9,13 +9,10 @@ import {
   IconButton,
   Typography,
   useTheme,
-  useMediaQuery,
-  Button
+  useMediaQuery
 } from '@material-ui/core'
 import useStyles from './course-row.style'
 import {
-  Favorite,
-  FavoriteBorder,
   Flare,
   MonetizationOn,
   Shop,
@@ -29,6 +26,7 @@ import NextImage from 'next/image'
 import { routes } from '@/utils/app'
 import { Skeleton } from '@material-ui/lab'
 import { useSnackbar } from 'notistack'
+import FavoriteButton from '../button/favorite.button'
 
 export default function CourseRow({ course }) {
   const {
@@ -147,7 +145,7 @@ export default function CourseRow({ course }) {
             )}
             {!inUserLibrary && (
               <Tooltip title="Add to Cart">
-                <IconButton color="primary">
+                <IconButton>
                   <ShoppingCart />
                 </IconButton>
               </Tooltip>
@@ -161,12 +159,11 @@ export default function CourseRow({ course }) {
               height="100%"
               display="flex"
               justifyContent="center"
-              color="text.secondary"
               alignItems="center"
             >
               <Typography color="inherit">{bought}</Typography>
               <Box paddingX={0.25} />
-              <Shop color="inherit" />
+              <Shop color="action" />
             </Box>
           </Grid>
           <Grid item md={4}>
@@ -191,13 +188,11 @@ export default function CourseRow({ course }) {
               height="100%"
               justifyContent="center"
             >
-              <IconButton
-                color="primary"
+              <FavoriteButton
                 onClick={onWatchList}
                 size={downSM ? 'small' : 'medium'}
-              >
-                {watchlisted ? <Favorite /> : <FavoriteBorder />}
-              </IconButton>
+                value={watchlisted}
+              />
             </Box>
           </Grid>
         </Grid>

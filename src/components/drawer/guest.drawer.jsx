@@ -18,11 +18,9 @@ import {
 } from '@material-ui/core'
 import {
   Brightness3,
-  Brightness4,
   BrightnessHigh,
   Category,
   ExitToApp,
-  Fullscreen,
   GroupAdd,
   KeyboardArrowDown,
   Launch
@@ -31,7 +29,6 @@ import NextImage from 'next/image'
 import { useApp } from '@/app.theme'
 import Link from 'next/link'
 import { routes } from '@/utils/app'
-import StudentDrawer from './student.drawer'
 
 const useStyles = makeStyles((theme) => ({
   avatar: {

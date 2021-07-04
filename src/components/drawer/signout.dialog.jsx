@@ -17,7 +17,7 @@ export default function SignoutDialog({ onConfirm, onCancel, ...props }) {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onConfirm} color="primary">
+        <Button onClick={onConfirm} variant="text">
           Confirm
         </Button>
         <Button

@@ -14,12 +14,10 @@ import {
 } from '@material-ui/core'
 import {
   Brightness3,
-  Brightness4,
   BrightnessHigh,
   Create,
   ExitToApp,
   Favorite,
-  Home,
   Security,
   Shop,
   VideoLibrary
@@ -34,10 +32,9 @@ import dynamic from 'next/dynamic'
 import useStyles from './student.style'
 
 const destinations = [
-  { section: routes.u.explore, icon: <Home />, label: 'Explore' },
-  { section: routes.u.course, icon: <VideoLibrary />, label: 'My Courses' },
-  { section: '/', icon: <Favorite />, label: 'Favorites' },
-  { section: '/', icon: <Shop />, label: 'Shopping Cart' }
+  { section: routes.u.library, icon: <VideoLibrary />, label: 'My Library' },
+  { section: routes.u.watchlist, icon: <Favorite />, label: 'My Watchlist' },
+  { section: routes.u.shop, icon: <Shop />, label: 'Shopping Cart' }
 ]
 
 const SignoutDialog = dynamic(() => import('./signout.dialog'))
@@ -108,8 +105,8 @@ export default function StudentDrawer({ student, children, ...props }) {
       <Divider />
       <List subheader={<ListSubheader>Workspace</ListSubheader>}>
         {destinations.map((item) => (
-          <Link href={item.section} key={item.section}>
-            <ListItem button>
+          <Link href={item.section} key={item.section} passHref>
+            <ListItem button component="a">
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.label} />
             </ListItem>

@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  CircularProgress,
   Avatar,
   Box,
   Card,
@@ -23,6 +24,7 @@ import {
   VideoLibrary
 } from '@material-ui/icons'
 import { useSnackbar } from 'notistack'
+import FavoriteButton from '../button/favorite.button'
 
 export default function CourseCard({ course }) {
   const {
@@ -95,7 +97,8 @@ export default function CourseCard({ course }) {
           <Tooltip
             title={watchlisted ? 'Remove from Watchlist' : 'Add to Watchlist'}
           >
-            <IconButton
+            <FavoriteButton
+              value={watchlisted}
               onClick={() => {
                 enqueueSnackbar(
                   watchlisted ? 'Removed from Watchlist' : 'Added to Watchlist',
@@ -103,11 +106,42 @@ export default function CourseCard({ course }) {
                 )
                 setWatchlisted((prev) => !prev)
               }}
-            >
-              {watchlisted ? <Favorite /> : <FavoriteBorder />}
-            </IconButton>
+            />
           </Tooltip>
         </Box>
+        {inUserLibrary && (
+          <Box
+            position="absolute"
+            bottom={0}
+            right={0}
+            zIndex={1}
+            display="inline-flex"
+            color="success.dark"
+          >
+            <CircularProgress
+              value={userProgression}
+              variant="determinate"
+              color="inherit"
+            />
+            <Box
+              top={0}
+              left={0}
+              bottom={0}
+              right={0}
+              position="absolute"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              color="white"
+            >
+              <Typography
+                variant="caption"
+                component="div"
+                color="inherit"
+              >{`${Math.round(userProgression ?? 0)}%`}</Typography>
+            </Box>
+          </Box>
+        )}
       </Box>
       <CardHeader
         avatar={<Avatar src={lecturer.avatar} />}

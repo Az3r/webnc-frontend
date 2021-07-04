@@ -8,9 +8,10 @@ export const routes = {
   category: (name) => `/${name}`,
   topic: (category, name) => `/${category}/${name}`,
   course: (id) => `/course/${id}`,
-  dashboard: '/u/',
   u: {
-    explore: '/u/explore',
-    course: '/u/course'
+    shop: '/u/shop',
+    watchlist: '/u/watchlist',
+    library: '/u/library',
+    watch: '/u/watch'
   }
 }
