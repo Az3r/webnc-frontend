@@ -10,18 +10,16 @@ import {
 import React, { useState } from 'react'
 import NextImage from 'next/image'
 import useStyles from './category.style'
-import { ApiError, resources } from '@/utils/api'
-import useSWR from 'swr'
+import { resources, useGET } from '@/utils/api'
 import NextLink from 'next/link'
 import { routes } from '@/utils/app'
 
 export default function CategoryPopover() {
   const styles = useStyles()
   const [category, setCategory] = useState(null)
-  const { data } = useSWR(
-    () => (category ? (category === 'web' ? 1 : 2) : null),
-    fetcher
-  )
+  const id = category ? (category === 'web' ? 1 : 2) : null
+  const { data } = useGET(() => (id ? resources.categoryType.get(id) : null))
+  const categories = data?.categories
 
   return (
     <Paper className={styles.root}>
@@ -78,9 +76,9 @@ export default function CategoryPopover() {
         width={category ? 320 : 0}
         minHeight="80vh"
       >
-        {data ? (
+        {categories ? (
           <Grid container component="nav">
-            {data.map((item) => {
+            {categories.map((item) => {
               const { label, avatar, name } = item
               return (
                 <Grid item key={name} xs={12}>
@@ -117,11 +115,4 @@ export default function CategoryPopover() {
       </Box>
     </Paper>
   )
-}
-
-const fetcher = async (id) => {
-  const response = await fetch(resources.categoryType.get(id))
-  const data = await response.json()
-  if (response.ok) return data.results.categories
-  throw ApiError(data.error)
 }

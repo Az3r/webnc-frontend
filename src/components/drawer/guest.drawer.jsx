@@ -9,40 +9,25 @@ import {
   Switch,
   Box,
   ListItem,
-  Divider,
-  Collapse,
-  ListItemAvatar,
-  makeStyles,
-  IconButton,
-  Tooltip
+  Divider
 } from '@material-ui/core'
 import {
   Brightness3,
   BrightnessHigh,
-  Category,
   ExitToApp,
-  GroupAdd,
-  KeyboardArrowDown,
-  Launch
+  GroupAdd
 } from '@material-ui/icons'
 import NextImage from 'next/image'
 import { useApp } from '@/app.theme'
 import Link from 'next/link'
 import { routes } from '@/utils/app'
-
-const useStyles = makeStyles((theme) => ({
-  avatar: {
-    borderRadius: '50%'
-  }
-}))
+import CategoryListItem from './category.listitem'
 
 /**
  * @param {import('@material-ui/core').DrawerProps} props
  */
 export default function GuestDrawer({ children, ...props }) {
   const { theme, setTheme } = useApp()
-  const styles = useStyles()
-  const [nested, setNested] = React.useState(false)
   return (
     <>
       <Drawer {...props}>
@@ -70,63 +55,7 @@ export default function GuestDrawer({ children, ...props }) {
               />
             </ListItemSecondaryAction>
           </ListItem>
-          <ListItem>
-            <ListItemIcon>
-              <Category />
-            </ListItemIcon>
-            <ListItemText primary="Categories" />
-            <ListItemSecondaryAction>
-              <IconButton>
-                <KeyboardArrowDown />
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
-          <Collapse in>
-            <Box paddingLeft={2}>
-              <ListItem button onClick={() => setNested(true)}>
-                <ListItemAvatar>
-                  <NextImage
-                    src="/images/category/web.webp"
-                    alt="Web Development"
-                    width={32}
-                    height={32}
-                    className={styles.avatar}
-                  />
-                </ListItemAvatar>
-                <ListItemText primary="Categories" />
-                <ListItemSecondaryAction>
-                  <Link href="/web" passHref>
-                    <Tooltip title="Explore Web Development">
-                      <IconButton>
-                        <Launch />
-                      </IconButton>
-                    </Tooltip>
-                  </Link>
-                </ListItemSecondaryAction>
-              </ListItem>
-              <ListItem button>
-                <ListItemAvatar>
-                  <NextImage
-                    src="/images/category/mobile.webp"
-                    alt="Mobile Development"
-                    width={32}
-                    height={32}
-                    className={styles.avatar}
-                  />
-                </ListItemAvatar>
-                <ListItemText primary="Categories" />
-                <ListItemSecondaryAction>
-                  <Link href="/mobile" passHref>
-                    <Tooltip title="Explore Mobile Development">
-                      <IconButton>
-                        <Launch />
-                      </IconButton>
-                    </Tooltip>
-                  </Link>
-                </ListItemSecondaryAction>
-              </ListItem>
-            </Box>
-          </Collapse>
+          <CategoryListItem />
           <Divider variant="middle" />
           <Link href={routes.login} passHref>
             <ListItem button component="a">
@@ -145,14 +74,6 @@ export default function GuestDrawer({ children, ...props }) {
             </ListItem>
           </Link>
         </List>
-      </Drawer>
-      <Drawer open={nested} anchor="right" onClose={() => setNested(false)}>
-        <ListItem button component="a">
-          <ListItemIcon>
-            <GroupAdd />
-          </ListItemIcon>
-          <ListItemText primary="Register" />
-        </ListItem>
       </Drawer>
     </>
   )

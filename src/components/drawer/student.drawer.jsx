@@ -30,6 +30,7 @@ import { StudentPropTypes } from '@/utils/typing'
 import NextImage from 'next/image'
 import dynamic from 'next/dynamic'
 import useStyles from './student.style'
+import CategoryListItem from './category.listitem'
 
 const destinations = [
   { section: routes.u.library, icon: <VideoLibrary />, label: 'My Library' },
@@ -101,6 +102,7 @@ export default function StudentDrawer({ student, children, ...props }) {
             />
           </ListItemSecondaryAction>
         </ListItem>
+        <CategoryListItem />
       </List>
       <Divider />
       <List subheader={<ListSubheader>Workspace</ListSubheader>}>

@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import useStyles from './category.style'
 import { CategoryPropTypes, TopicPropTypes } from '@/utils/typing'
 import {
@@ -9,17 +8,15 @@ import {
   Box,
   Grid,
   Divider,
-  Avatar,
   Collapse,
-  Button,
-  IconButton
+  Button
 } from '@material-ui/core'
 import { CourseCard, CourseRow } from '@/components/course'
 import NextLink from '@/components/nextlink'
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons'
-import clsx from 'clsx'
 import { routes } from '@/utils/app'
 import NextImage from 'next/image'
+import CollapseButton from '@/components/button/collapse.button'
 
 export default function CategoryFeature({ category }) {
   const { name, label, bestsellers, topics } = category
@@ -135,12 +132,10 @@ function CourseList({ category, topic }) {
           </Typography>
         </NextLink>
         <Box flexGrow={1} />
-        <IconButton
+        <CollapseButton
+          collapse={collapse}
           onClick={() => setCollapse((prev) => !prev)}
-          className={clsx(styles.rotate, { [styles.collapse]: collapse })}
-        >
-          <KeyboardArrowDown />
-        </IconButton>
+        />
       </Box>
       <ul>
         {VisibleList()}

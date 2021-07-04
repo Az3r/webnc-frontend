@@ -136,11 +136,9 @@ export default function GuestAppBar() {
                 <Hidden implementation="css" smDown>
                   <AppBarActions />
                 </Hidden>
-                <Hidden implementation="css" mdUp>
-                  <IconButton onClick={() => setDrawer(true)}>
-                    <Menu />
-                  </IconButton>
-                </Hidden>
+                <IconButton onClick={() => setDrawer(true)}>
+                  <Menu />
+                </IconButton>
               </Box>
               <AppBarDrawer
                 classes={{ paper: styles.drawer }}
