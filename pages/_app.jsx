@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 import AppProvider from '@/app.theme'
 import dynamic from 'next/dynamic'
 import SearchProvider from '@/components/hooks/search.provider'
-import '@/app.css'
 import AuthProvider from '@/components/hooks/auth.provider'
 import { SnackbarProvider } from 'notistack'
 import { Slide } from '@material-ui/core'
 import DefaultLayout from '@/components/layout'
+import { analytics } from '@/utils/firebase'
+import '@/app.css'
 
 const PageLoading = dynamic(() => import('@/components/page-loading'))
 export default function MainApp({ Component, pageProps }) {
@@ -45,5 +46,6 @@ MainApp.defaultProps = {
 }
 
 export function reportWebVitals(metric) {
-  console.log(metric)
+  const { name, ...props } = metric
+  analytics.logEvent(name, props)
 }

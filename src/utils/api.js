@@ -39,7 +39,7 @@ export const resources = {
   },
   user: {
     get: (id) => resource(`/Users/${id}`, `/auth/user/${id}`),
-    session: resource(undefined, '/auth/user/1')
+    session: resource('/Auth/IsLoggedIn', '/auth/user/1')
   },
   shop: {
     get: (id) => resource(undefined, `/shop/${id}`)

@@ -1,14 +1,12 @@
 import { resources, ApiError } from '@/utils/api'
-import qs from 'qs'
-import { create } from '@/utils/errors'
 
 export async function login({ username = '', password = '' }) {
   const response = await fetch(resources.auth.login, {
     method: 'POST',
-    body: qs.stringify({ username, password, email: username }),
+    body: { username, password, email: username },
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/json'
     }
   })
   if (response.status >= 400) {
@@ -21,10 +19,10 @@ export async function login({ username = '', password = '' }) {
 export async function regsiter({ username = '', email = '', password = '' }) {
   const response = await fetch(resources.auth.register, {
     method: 'POST',
-    body: qs.stringify({ username, password, email }),
+    body: { username, password, email },
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/json'
     }
   })
   if (response.status >= 400) {
@@ -37,10 +35,10 @@ export async function regsiter({ username = '', email = '', password = '' }) {
 export async function verify({ email = '', code = -1 }) {
   const response = await fetch(resources.auth.verify, {
     method: 'POST',
-    body: qs.stringify({ email, OTPCode: code }),
+    body: { email, OTPCode: code },
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/json'
     }
   })
   if (response.status >= 400) {
@@ -54,10 +52,10 @@ export async function verify({ email = '', code = -1 }) {
 export async function resend(email) {
   fetch(resources.auth.resend, {
     method: 'POST',
-    body: qs.stringify({ email }),
+    body: { email },
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/json'
     }
   })
   return true
