@@ -1,6 +1,11 @@
-import { verify } from '@/mocks/api/auth.handler'
-import { mock } from '@/utils/api'
+import { withMockApi } from '@/utils/api'
+import opts from '@mocks/opts.json'
 
-export default async function handler(req, res) {
-  return mock(req, res, () => verify(req.body))
+export default withMockApi((req) => verify(req.body))
+
+function verify({ email, OTPCode }) {
+  if (!email.match(/(\w+)@(\w+)/))
+    throw new Error(`auth/invalid-email:${email}`)
+  const code = Number(OTPCode)
+  return opts.includes(code)
 }

@@ -6,9 +6,13 @@ import { create } from './errors'
  * @returns {Error}
  */
 export function ApiError(error = {}) {
-  const [code, value] = error.split(':', 2)
-  const [name, type] = code.split('/', 2)
-  return create(name, type, value)
+  const { code, value } = error
+  switch (code) {
+    case 'InvalidAccount':
+      return create('AuthError', 'invalid-account', value)
+    default:
+      return new Error(code)
+  }
 }
 
 const production = process.env.NEXT_PUBLIC_MOCK_API == undefined
@@ -58,29 +62,30 @@ export const resources = {
 }
 
 /**
- *
- * @param {Function} callback
- * @param {import('next').NextApiRequest} req
- * @param {import('next').NextApiResponse} res
+ * simple mock api handler that encapsulates basic workflow
+ * @param {(req: import('next').NextApiRequest) => Promise<unknown>} handler
+ * @returns {import('next').NextApiHandler}
  */
-export async function mock(req, res, callback) {
-  try {
-    const response = await callback()
-    return res.status(200).json({ results: response })
-  } catch (error) {
-    return res.status(404).json({ error: error.message })
+export function withMockApi(handler) {
+  return async (req, res) => {
+    try {
+      const response = await handler?.call(undefined, req)
+      return res.status(200).json({ results: response })
+    } catch (error) {
+      return res.status(404).json({ errors: error })
+    }
   }
 }
 
-export async function fetcher(...args) {
-  const response = await fetch(...args)
+export async function fetcher(url) {
+  const response = await fetch(url, { credentials: 'include' })
   const data = await response.json()
   if (response.ok) return data.results
-  throw ApiError(data.error)
+  throw ApiError(data.errors)
 }
 
 export function useGET(url) {
-  const { data, error, ...props } = useSWR(url, fetcher)
+  const { data, error, mutate } = useSWR(url, fetcher)
   const loading = !data && !error
-  return { ...props, data, error, loading }
+  return { mutate, data, error, loading }
 }

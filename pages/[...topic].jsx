@@ -1,5 +1,5 @@
 export { default } from '@/features/topic'
-import topic from '@/mocks/data/topic.json'
+import topic from '@/mocks/topic.json'
 import { routes } from '@/utils/app'
 
 export async function getStaticProps({ params }) {

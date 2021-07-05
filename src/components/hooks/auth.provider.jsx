@@ -10,14 +10,14 @@ const AuthContext = createContext({
 })
 
 const AuthProvider = ({ children }) => {
-  const { data: user, loading, error, mutate } = useGET(resources.user.session)
+  const { data, loading, error, mutate } = useGET(resources.user.session)
   const revalidate = () => mutate(resources.user.session)
 
   return (
     <AuthContext.Provider
       value={{
         revalidate,
-        user,
+        user: data,
         loading,
         error
       }}

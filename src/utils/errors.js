@@ -5,10 +5,12 @@
  * } ErrorName
  * @typedef {'unknown' |
  * 'invalid-email' |
+ * 'invalid-account' |
  * 'weak-password' |
  * 'account-existed' |
  * 'username-not-found' |
  * 'password-not-match' |
+ * 'account-not-verified' |
  * 'email-not-found'
  * } ErrorType
  * @typedef {Object} ErrorCode
@@ -23,12 +25,12 @@
  * create error message
  * @param {ErrorName} name
  * @param {ErrorType} type
- * @param {string} value
- * @returns
+ * @param {object} value
+ * @returns {Error & {name: ErrorName, code: string, value: object, type: ErrorType}}
  */
 export function create(name, type, value) {
   const error = new Error(`${name}/${type}:${value}`)
-  Error.captureStackTrace(error)
+  if (Error.captureStackTrace) Error.captureStackTrace(error)
   error.name = name
   error.type = type
   error.code = `${name}/${type}`

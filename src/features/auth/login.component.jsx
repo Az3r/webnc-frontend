@@ -27,9 +27,8 @@ export default function Login({ classes }) {
       revalidate()
 
       router.push('/demo/appbar')
-    } catch (e) {
-      const error = parse(e)
-      if (error.code === 'auth/account-not-verified') {
+    } catch (error) {
+      if (error.code === 'AuthError/account-not-verified') {
         api.resend(form.email)
         update((prev) => ({ ...prev, email: error.value }))
         next(2)

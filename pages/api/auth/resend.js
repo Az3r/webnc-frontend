@@ -1,6 +1,3 @@
-import { resend } from '@/mocks/api/auth.handler'
-import { mock } from '@/utils/api'
-
 export default async function handler(req, res) {
-  return mock(req, res, () => resend())
+  return res.status(200).json({ results: true })
 }

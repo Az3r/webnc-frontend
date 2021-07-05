@@ -1,5 +1,5 @@
 export { default } from '@/features/category'
-import category from '@/mocks/data/category.json'
+import category from '@/mocks/category.json'
 
 export async function getStaticProps({ params }) {
   // const { category } = params
