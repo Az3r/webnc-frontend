@@ -1,5 +1,5 @@
 export { default } from '@/features/home'
-import courses from '@/mocks/data/courses.json'
+import courses from '@/mocks/courses.json'
 
 export async function getStaticProps() {
   return {

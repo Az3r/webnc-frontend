@@ -1,11 +1,15 @@
 import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Box, Button, CircularProgress, Typography } from '@material-ui/core'
+import {
+  Box,
+  Button,
+  CircularProgress,
+  TextField,
+  Typography
+} from '@material-ui/core'
 import AuthContext from './auth.context'
-import { PasswordField, UserField } from '@/components/inputs'
+import { PasswordField } from '@/components/inputs'
 import { useRouter } from 'next/router'
-import { routes } from '@/utils/app'
-import { parse } from '@/utils/errors'
 import { useAuth } from '@/components/hooks/auth.provider'
 import { useSnackbar } from 'notistack'
 
@@ -26,7 +30,7 @@ export default function Login({ classes }) {
 
       revalidate()
 
-      router.push('/demo/appbar')
+      router.push('/')
     } catch (error) {
       if (error.code === 'AuthError/account-not-verified') {
         api.resend(form.email)
@@ -49,7 +53,10 @@ export default function Login({ classes }) {
       <Typography align="center" variant="h4">
         Sign in
       </Typography>
-      <UserField
+      <TextField
+        name="login-username"
+        label="Username/Email"
+        required
         className={classes.field}
         onChange={(e) =>
           update((prev) => ({ ...prev, username: e.target.value }))
@@ -57,6 +64,8 @@ export default function Login({ classes }) {
         value={form.username}
       />
       <PasswordField
+        label="Password"
+        name="login-password"
         className={classes.field}
         value={form.password}
         onChange={(e) =>

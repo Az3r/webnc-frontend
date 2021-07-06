@@ -1,5 +1,5 @@
 import { withMockApi } from '@/utils/api'
-import opts from '@mocks/opts.json'
+import opts from '@/mocks/opts.json'
 
 export default withMockApi((req) => verify(req.body))
 

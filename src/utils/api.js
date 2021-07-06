@@ -6,6 +6,7 @@ import { create } from './errors'
  * @returns {Error}
  */
 export function ApiError(error = {}) {
+  console.log(error)
   const { code, value } = error
   switch (code) {
     case 'InvalidAccount':
@@ -88,4 +89,19 @@ export function useGET(url) {
   const { data, error, mutate } = useSWR(url, fetcher)
   const loading = !data && !error
   return { mutate, data, error, loading }
+}
+
+export async function fetchPOST(url, payload) {
+  const response = await fetch(url, {
+    credentials: 'include',
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+  const data = await response.json()
+  if (response.ok) return data.results
+  throw ApiError(data.errors)
 }

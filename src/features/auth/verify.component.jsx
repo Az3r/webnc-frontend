@@ -12,7 +12,6 @@ import {
 import { CancelScheduleSend, Send } from '@material-ui/icons'
 import { parse } from '@/utils/errors'
 import { useRouter } from 'next/router'
-import { routes } from '@/utils/app'
 import { useSnackbar } from 'notistack'
 
 const WELCOME =

@@ -4,19 +4,12 @@ import { IconButton, InputAdornment, TextField } from '@material-ui/core'
 import { Visibility, VisibilityOff } from '@material-ui/icons'
 import { testids } from '@/utils/testing'
 
-export default function PasswordField({ className, onChange, value }) {
+export default function PasswordField(props) {
   const [visible, toggle] = React.useState(false)
   return (
     <TextField
-      className={className}
-      required
-      label="Password"
-      id="password"
-      aria-label="password"
-      name="password"
+      {...props}
       type={visible ? 'text' : 'password'}
-      onChange={onChange}
-      value={value}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
