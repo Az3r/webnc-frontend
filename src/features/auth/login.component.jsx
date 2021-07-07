@@ -25,7 +25,7 @@ export default function Login({ classes }) {
     process(true)
     const api = await import('./auth.api')
     try {
-      await api.login(form)
+      await api.login({ username: form.email, password: form.password })
       enqueueSnackbar('Login successfully', { variant: 'success' })
 
       revalidate()
@@ -33,11 +33,13 @@ export default function Login({ classes }) {
       router.push('/')
     } catch (error) {
       if (error.code === 'AuthError/account-not-verified') {
+        // TODO wait for backend to add email into error response
+        // api.resend(error.email)
+        // update((prev) => ({ ...prev, email: error.email }))
         api.resend(form.email)
-        update((prev) => ({ ...prev, email: error.value }))
         next(2)
       }
-      enqueueSnackbar(error.code, { variant: 'error' })
+      enqueueSnackbar(error.message, { variant: 'error' })
     } finally {
       process(false)
     }
@@ -54,14 +56,13 @@ export default function Login({ classes }) {
         Sign in
       </Typography>
       <TextField
-        name="login-username"
-        label="Username/Email"
+        name="login-email"
+        label="Email"
+        type="email"
         required
         className={classes.field}
-        onChange={(e) =>
-          update((prev) => ({ ...prev, username: e.target.value }))
-        }
-        value={form.username}
+        onChange={(e) => update((prev) => ({ ...prev, email: e.target.value }))}
+        value={form.email}
       />
       <PasswordField
         label="Password"

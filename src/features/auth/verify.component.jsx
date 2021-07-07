@@ -2,12 +2,14 @@ import React, { useContext, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import AuthContext from './auth.context'
 import {
+  Box,
   Button,
   CircularProgress,
   IconButton,
   InputAdornment,
   TextField,
-  Tooltip
+  Tooltip,
+  Typography
 } from '@material-ui/core'
 import { CancelScheduleSend, Send } from '@material-ui/icons'
 import { parse } from '@/utils/errors'
@@ -46,7 +48,7 @@ export default function VerifyEmail({ classes }) {
   async function send() {
     if (ready) {
       if (first) setFirst(false)
-      setCooldown(5)
+      setCooldown(30)
       resend(false)
 
       const api = await import('./auth.api')
@@ -78,17 +80,10 @@ export default function VerifyEmail({ classes }) {
         code: otp.join('')
       })
 
-      router.push(
-        {
-          pathname: '/',
-          query: form
-        },
-        '/'
-      )
+      router.push('/')
       enqueueSnackbar('Account verified', { variant: 'success' })
     } catch (e) {
-      const error = parse(e)
-      enqueueSnackbar(error.code, { variant: 'error' })
+      enqueueSnackbar(e.message, { variant: 'error' })
     } finally {
       process(false)
     }
@@ -96,18 +91,17 @@ export default function VerifyEmail({ classes }) {
 
   const wait =
     cooldown > 0
-      ? `Please wait for ${cooldown} seconds before you can resend another one, you should also check in spam or junk mail folder`
+      ? `Please wait for ${cooldown} seconds before you can resend another one`
       : undefined
 
   return (
     <div className={classes.form}>
       <TextField
-        style={{ height: 128 }}
         tabIndex="-1"
         name="email"
         type="email"
         aria-label="email"
-        helperText={first ? WELCOME : wait}
+        helperText={wait}
         error={!ready}
         InputLabelProps={{ shrink: true }}
         InputProps={{
@@ -133,6 +127,13 @@ export default function VerifyEmail({ classes }) {
         label="Email"
         value={form.email || ''}
       />
+      <Box paddingY={2}>
+        <Typography color="textSecondary" variant="caption">
+          An OPT code has been sent to your email address, you should also check
+          in spam or junk mail folder if you don&apos;t recieve one, you can
+          click on the send button to the right
+        </Typography>
+      </Box>
       <div className={classes.opt_section}>
         {INPUTS.map((start) => (
           <TextField

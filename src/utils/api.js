@@ -6,13 +6,29 @@ import { create } from './errors'
  * @returns {Error}
  */
 export function ApiError(error = {}) {
-  console.log(error)
-  const { code, value } = error
+  const { code, value = undefined } = error
+  // use regex to catch multiple code at once
+  if (code.match(/PasswordRequires/))
+    return create('AuthError', 'weak-password', value)
+
+  // switch
   switch (code) {
+    case 'NotVerifiedAccount':
+      return create('AuthError', 'account-not-verified', value)
     case 'InvalidAccount':
       return create('AuthError', 'invalid-account', value)
+    case 'NotExistedEmailAddress':
+      return create('AuthError', 'email-not-found', value)
+    case 'InvalidUserName':
+      return create('AuthError', 'invalid-username', value)
+    case 'InvalidEmail':
+      return create('AuthError', 'invalid-email', value)
+    case 'PasswordTooShort':
+      return create('AuthError', 'weak-password', value)
+    case 'InvalidOTPCode!':
+      return create('AuthError', 'invalid-otp', value)
     default:
-      return new Error(code)
+      return create('UnknownError', code, value)
   }
 }
 
@@ -28,6 +44,7 @@ export const endpoint = production
 export const resources = {
   auth: {
     login: resource('/Auth/Login', '/auth/login'),
+    logout: resource('/Auth/Logout', undefined),
     verify: resource('/Auth/VerifyTwoStepVerification', '/auth/verify'),
     register: resource('/Auth/Register', '/auth/register'),
     resend: resource('/Auth/ResendOTP', '/auth/resend')
@@ -78,28 +95,34 @@ export function withMockApi(handler) {
   }
 }
 
-export async function fetcher(url) {
+export async function fetchGET(url) {
   const response = await fetch(url, { credentials: 'include' })
   const data = await response.json()
   if (response.ok) return data.results
   throw ApiError(data.errors)
 }
 
-export function useGET(url) {
-  const { data, error, mutate } = useSWR(url, fetcher)
+export function useGET(url, config) {
+  const { data, error, mutate } = useSWR(url, fetchGET, config)
   const loading = !data && !error
   return { mutate, data, error, loading }
 }
 
-export async function fetchPOST(url, payload) {
+export async function fetchPOST(
+  url,
+  payload,
+  transformer = JSON.stringify,
+  headers = {}
+) {
   const response = await fetch(url, {
     credentials: 'include',
     method: 'POST',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      ...headers
     },
-    body: JSON.stringify(payload)
+    body: transformer(payload)
   })
   const data = await response.json()
   if (response.ok) return data.results

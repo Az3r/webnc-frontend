@@ -145,12 +145,7 @@ export default function GuestAppBar() {
                 anchor="right"
                 open={drawer}
                 onClose={() => setDrawer(false)}
-                student={{
-                  username: user?.userName,
-                  avatar: user?.avatarUrl,
-                  id: user?.id,
-                  email: user?.email
-                }}
+                student={user}
               >
                 <Box>
                   <IconButton onClick={() => setDrawer(false)}>

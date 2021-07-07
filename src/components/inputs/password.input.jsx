@@ -32,13 +32,5 @@ export default function PasswordField(props) {
 PasswordField.propTypes = {
   onChange: PropTypes.func,
   value: PropTypes.string,
-  show: PropTypes.bool,
   className: PropTypes.string
-}
-
-PasswordField.defaultProps = {
-  onChange: undefined,
-  value: undefined,
-  show: false,
-  className: undefined
 }

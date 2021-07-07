@@ -31,6 +31,7 @@ import NextImage from 'next/image'
 import dynamic from 'next/dynamic'
 import useStyles from './student.style'
 import CategoryListItem from './category.listitem'
+import { resources } from '@/utils/api'
 
 const destinations = [
   { section: routes.u.library, icon: <VideoLibrary />, label: 'My Library' },
@@ -51,10 +52,6 @@ export default function StudentDrawer({ student, children, ...props }) {
   const { username, avatar, email } = student
   const [signoutDialog, setSignoutDialog] = useState(false)
   const [profileDialog, setProfileDialog] = useState(false)
-
-  function signout() {
-    router.push(routes.login)
-  }
 
   return (
     <Drawer {...props}>
@@ -127,7 +124,11 @@ export default function StudentDrawer({ student, children, ...props }) {
       <SignoutDialog
         open={signoutDialog}
         onClose={() => setSignoutDialog(false)}
-        onConfirm={() => setSignoutDialog(signout)}
+        onConfirm={() => {
+          setSignoutDialog(false)
+          router.push(routes.login)
+          fetch(resources.auth.logout, { credentials: 'include' })
+        }}
         onCancel={() => setSignoutDialog(false)}
       />
       <ProfileDialog

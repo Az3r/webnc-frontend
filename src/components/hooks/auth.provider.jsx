@@ -1,6 +1,6 @@
-import React, { createContext, useContext } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { resources, useGET } from '@/utils/api'
+import { fetchGET, resources } from '@/utils/api'
 
 const AuthContext = createContext({
   error: undefined,
@@ -10,14 +10,29 @@ const AuthContext = createContext({
 })
 
 const AuthProvider = ({ children }) => {
-  const { data, loading, error, mutate } = useGET(resources.user.session)
-  const revalidate = () => mutate(resources.user.session)
+  const [{ data, loading, error }, setState] = useState({
+    data: undefined,
+    loading: true,
+    error: undefined
+  })
+  const [mutate, setMutate] = useState(false)
+
+  useEffect(() => {
+    fetchGET(resources.user.session)
+      .then((data) => setState({ data, loading: false, error: undefined }))
+      .catch((error) => setState({ data: undefined, loading: false, error }))
+  }, [mutate])
 
   return (
     <AuthContext.Provider
       value={{
-        revalidate,
-        user: data,
+        revalidate: () => setMutate((prev) => !prev),
+        user: data && {
+          id: data?.id,
+          avatar: data?.avatarUrl,
+          username: data?.userName,
+          email: data?.email
+        },
         loading,
         error
       }}

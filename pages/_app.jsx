@@ -14,21 +14,23 @@ const PageLoading = dynamic(() => import('@/components/page-loading'))
 export default function MainApp({ Component, pageProps }) {
   return (
     <AppProvider>
-      <PageLoading />
-      <SearchProvider>
-        <SnackbarProvider
-          maxSnack={5}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right'
-          }}
-          TransitionComponent={Slide}
-        >
-          <DefaultLayout>
-            <Component {...pageProps} />
-          </DefaultLayout>
-        </SnackbarProvider>
-      </SearchProvider>
+      <AuthProvider>
+        <PageLoading />
+        <SearchProvider>
+          <SnackbarProvider
+            maxSnack={5}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right'
+            }}
+            TransitionComponent={Slide}
+          >
+            <DefaultLayout>
+              <Component {...pageProps} />
+            </DefaultLayout>
+          </SnackbarProvider>
+        </SearchProvider>
+      </AuthProvider>
     </AppProvider>
   )
 }

@@ -8,7 +8,6 @@ import {
 } from '@material-ui/core'
 import AuthContext from './auth.context'
 import { PasswordField } from '@/components/inputs'
-import { parse } from '@/utils/errors'
 import { useSnackbar } from 'notistack'
 
 export default function Register({ classes }) {
@@ -21,13 +20,12 @@ export default function Register({ classes }) {
     process(true)
     try {
       const api = await import('./auth.api')
-      await api.regsiter(form)
+      await api.register(form)
       next()
 
       enqueueSnackbar('Register successfully', { variant: 'success' })
     } catch (e) {
-      const error = parse(e)
-      enqueueSnackbar(error.code, { variant: 'error' })
+      enqueueSnackbar(e.message, { variant: 'error' })
     } finally {
       process(false)
     }

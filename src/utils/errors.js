@@ -5,12 +5,14 @@
  * } ErrorName
  * @typedef {'unknown' |
  * 'invalid-email' |
+ * 'invalid-username' |
  * 'invalid-account' |
  * 'weak-password' |
  * 'account-existed' |
  * 'username-not-found' |
  * 'password-not-match' |
  * 'account-not-verified' |
+ * 'invalid-otp' |
  * 'email-not-found'
  * } ErrorType
  * @typedef {Object} ErrorCode
@@ -29,7 +31,7 @@
  * @returns {Error & {name: ErrorName, code: string, value: object, type: ErrorType}}
  */
 export function create(name, type, value) {
-  const error = new Error(`${name}/${type}:${value}`)
+  const error = new Error(`${name}/${type}`)
   if (Error.captureStackTrace) Error.captureStackTrace(error)
   error.name = name
   error.type = type
