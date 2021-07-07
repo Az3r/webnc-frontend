@@ -3,7 +3,12 @@ import PropTypes from 'prop-types'
 import { Grid } from '@material-ui/core'
 import CourseCard, { CourseCardSkeleton } from '@/components/course/course-card'
 
-export default function GridCourses({ courses, skeleton, children }) {
+export default function GridCourses({
+  courses,
+  skeleton,
+  children,
+  Item = CourseCard
+}) {
   return (
     <Grid container spacing={2} component="ul">
       {courses.map((item, index) => (
@@ -16,7 +21,7 @@ export default function GridCourses({ courses, skeleton, children }) {
           sm={6}
           xs={12}
         >
-          {skeleton ? <CourseCardSkeleton /> : <CourseCard course={item} />}
+          {skeleton ? <CourseCardSkeleton /> : <Item course={item} />}
         </Grid>
       ))}
       {children}
@@ -27,7 +32,8 @@ export default function GridCourses({ courses, skeleton, children }) {
 GridCourses.propTypes = {
   courses: PropTypes.array,
   skeleton: PropTypes.bool,
-  children: PropTypes.node
+  children: PropTypes.node,
+  Item: PropTypes.func
 }
 
 GridCourses.defaultProps = {

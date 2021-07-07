@@ -7,19 +7,51 @@ import {
   CircularProgress,
   IconButton,
   InputAdornment,
+  makeStyles,
   TextField,
   Tooltip,
   Typography
 } from '@material-ui/core'
 import { CancelScheduleSend, Send } from '@material-ui/icons'
-import { parse } from '@/utils/errors'
 import { useRouter } from 'next/router'
 import { useSnackbar } from 'notistack'
 
-const WELCOME =
-  "An OPT code has been sent to your email address, if you don't recieve one, you can click on the send button to the right"
+const useStyles = makeStyles((theme) => ({
+  opt_section: {
+    display: 'flex',
+    flexGrow: 1,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    margin: theme.spacing(4, 2)
+  },
+  opt: {
+    width: 36,
+    textAlign: 'center',
+    fontSize: theme.typography.h3.fontSize
+  },
+  opt_input: {
+    textAlign: 'center',
+    MozAppearance: 'textfield',
+    '&::-webkit-outer-spin-button': {
+      WebkitAppearance: 'none',
+      margin: 0
+    },
+    '&::-webkit-inner-spin-button': {
+      WebkitAppearance: 'none',
+      margin: 0
+    }
+  },
+  form: {
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column'
+  }
+}))
+
 const INPUTS = [0, 1, 2, 3, 4, 5]
-export default function VerifyEmail({ classes }) {
+
+export default function VerifyEmail() {
+  const classes = useStyles()
   const { form } = useContext(AuthContext)
   const { enqueueSnackbar } = useSnackbar()
 

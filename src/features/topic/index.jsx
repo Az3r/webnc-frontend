@@ -20,6 +20,8 @@ import useStyles from './topic.style'
 import { Pagination } from '@material-ui/lab'
 import { useSpring } from 'react-spring'
 import GridCourses from '@/components/list/course.grid'
+import DefaultLayout from '@/components/layout'
+import { useRouter } from 'next/router'
 
 export default function TopicFeature({ topic }) {
   const { others, courses, label, category } = topic
@@ -49,56 +51,66 @@ export default function TopicFeature({ topic }) {
       setLoading(false)
     }, 1000)
   }
+  const router = useRouter()
+  console.log(router.query)
 
   return (
-    <Container className={styles.root}>
-      <Breadcrumbs separator={<NavigateNext />}>
-        <NextLink color="inherit" href={routes.category(category.name)}>
-          <Typography variant="h6" className={styles.label}>
-            {category.label}
+    <>
+      <DefaultLayout>
+        <Container className={styles.root}>
+          <Breadcrumbs separator={<NavigateNext />}>
+            <NextLink color="inherit" href={routes.category(category.name)}>
+              <Typography variant="h6" className={styles.label}>
+                {category.label}
+              </Typography>
+            </NextLink>
+            <Typography
+              variant="h5"
+              color="textPrimary"
+              className={styles.label}
+            >
+              {label}
+            </Typography>
+          </Breadcrumbs>
+          <Box paddingY={1} />
+          <GridCourses skeleton={loading} courses={courses}>
+            <Grid item xs={12} container justify="center" alignItems="center">
+              <Pagination
+                page={offset + 1}
+                siblingCount={2}
+                onChange={(e, page) => setOffset(page - 1)}
+                count={size.current}
+                color="primary"
+                className={styles.pagination}
+                size="large"
+              />
+            </Grid>
+          </GridCourses>
+          <Box paddingY={2} />
+          <Typography variant="h5" className={styles.label}>
+            checkout other topics:
           </Typography>
-        </NextLink>
-        <Typography variant="h5" color="textPrimary" className={styles.label}>
-          {label}
-        </Typography>
-      </Breadcrumbs>
-      <Box paddingY={1} />
-      <GridCourses skeleton={loading} courses={courses}>
-        <Grid item xs={12} container justify="center" alignItems="center">
-          <Pagination
-            page={offset + 1}
-            siblingCount={2}
-            onChange={(e, page) => setOffset(page - 1)}
-            count={size.current}
-            color="primary"
-            className={styles.pagination}
-            size="large"
-          />
-        </Grid>
-      </GridCourses>
-      <Box paddingY={2} />
-      <Typography variant="h5" className={styles.label}>
-        checkout other topics:
-      </Typography>
-      <Box paddingY={1} />
-      <Grid container spacing={2} component="ul">
-        {others.map((item) => (
-          <Grid item key={item.name} component="li">
-            <Link href={routes.topic(category.name, item.name)} passHref>
-              <ListItem button component="a">
-                <ListItemAvatar>
-                  <Avatar src={item.avatar} alt={item.label} />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={item.label}
-                  primaryTypographyProps={{ variant: 'body1' }}
-                />
-              </ListItem>
-            </Link>
+          <Box paddingY={1} />
+          <Grid container spacing={2} component="ul">
+            {others.map((item) => (
+              <Grid item key={item.name} component="li">
+                <Link href={routes.topic(category.name, item.name)} passHref>
+                  <ListItem button component="a">
+                    <ListItemAvatar>
+                      <Avatar src={item.avatar} alt={item.label} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={item.label}
+                      primaryTypographyProps={{ variant: 'body1' }}
+                    />
+                  </ListItem>
+                </Link>
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
-    </Container>
+        </Container>
+      </DefaultLayout>
+    </>
   )
 }
 

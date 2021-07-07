@@ -14,67 +14,78 @@ import {
 import { CourseCard, CourseRow } from '@/components/course'
 import NextLink from '@/components/nextlink'
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons'
-import { routes } from '@/utils/app'
+import { appname, routes } from '@/utils/app'
 import NextImage from 'next/image'
 import CollapseButton from '@/components/button/collapse.button'
+import DefaultLayout from '@/components/layout'
+import Head from 'next/head'
 
 export default function CategoryFeature({ category }) {
   const { name, label, bestsellers, topics } = category
   const styles = useStyles()
 
   return (
-    <Container maxWidth="lg">
-      <Box paddingY={2}>
-        <Typography variant="h4" className={styles.label}>
-          popular courses for &quot;{label}&quot;
-        </Typography>
-        <Box paddingTop={1} paddingBottom={2}>
-          <Divider />
-        </Box>
-      </Box>
-      <Box minHeight="33vh" alignItems="center" display="flex">
-        <Grid component="ul" container justify="center" spacing={2}>
-          {bestsellers.map((course) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              lg={3}
-              key={course.title}
-              component="li"
-            >
-              <Box
-                maxWidth={360}
-                position="relative"
-                left="50%"
-                top="50%"
-                style={{ transform: 'translate(-50%,-50%)' }}
-              >
-                <Paper>
-                  <CourseCard course={course} />
-                </Paper>
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-      <Box paddingBottom={2} paddingTop={4}>
-        <Typography variant="h4" className={styles.label}>
-          all categories for &quot;{label}&quot;
-        </Typography>
-        <Box paddingTop={1} paddingBottom={2}>
-          <Divider />
-        </Box>
-      </Box>
-      <ul>
-        {topics.map((topic) => (
-          <Box component="li" key={topic.id}>
-            <CourseList category={category} topic={topic} />
+    <>
+      <Head>
+        <title>
+          &quot;{category.label}&quot; Category | {appname}
+        </title>
+      </Head>
+      <DefaultLayout>
+        <Container maxWidth="lg">
+          <Box paddingY={2}>
+            <Typography variant="h4" className={styles.label}>
+              popular courses for &quot;{label}&quot;
+            </Typography>
+            <Box paddingTop={1} paddingBottom={2}>
+              <Divider />
+            </Box>
           </Box>
-        ))}
-      </ul>
-    </Container>
+          <Box minHeight="33vh" alignItems="center" display="flex">
+            <Grid component="ul" container justify="center" spacing={2}>
+              {bestsellers.map((course) => (
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  key={course.title}
+                  component="li"
+                >
+                  <Box
+                    maxWidth={360}
+                    position="relative"
+                    left="50%"
+                    top="50%"
+                    style={{ transform: 'translate(-50%,-50%)' }}
+                  >
+                    <Paper>
+                      <CourseCard course={course} />
+                    </Paper>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+          <Box paddingBottom={2} paddingTop={4}>
+            <Typography variant="h4" className={styles.label}>
+              all categories for &quot;{label}&quot;
+            </Typography>
+            <Box paddingTop={1} paddingBottom={2}>
+              <Divider />
+            </Box>
+          </Box>
+          <ul>
+            {topics.map((topic) => (
+              <Box component="li" key={topic.id}>
+                <CourseList category={category} topic={topic} />
+              </Box>
+            ))}
+          </ul>
+        </Container>
+      </DefaultLayout>
+    </>
   )
 }
 

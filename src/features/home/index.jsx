@@ -5,20 +5,21 @@ import TopTrending from './trending.component'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import DrawerProvider from '@/features/home/drawer.component'
+import DefaultLayout from '@/components/layout'
 
 const AppBarProvider = dynamic(() => import('./appbar.component'))
 export default function HomePage({ courses }) {
   return (
-    <main>
-      <DrawerProvider>
-        <Head>
-          <title>Urskyll - Online Courses, Catch Up To Modern Technology</title>
-        </Head>
+    <DrawerProvider>
+      <Head>
+        <title>Urskyll - Online Courses, Catch Up To Modern Technology</title>
+      </Head>
+      <DefaultLayout>
         <Banner target="target" />
         <AppBarProvider />
         <TopTrending courses={courses} />
-      </DrawerProvider>
-    </main>
+      </DefaultLayout>
+    </DrawerProvider>
   )
 }
 

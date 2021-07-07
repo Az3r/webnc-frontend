@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
-  CircularProgress,
   Avatar,
   Box,
   Card,
@@ -11,42 +10,44 @@ import {
   Typography
 } from '@material-ui/core'
 import NextImage from 'next/image'
-import { currency } from '@/utils/intl'
+import { currency } from '@/utils/tools'
 import useStyles from './course-card.style'
 import { Rating, Skeleton } from '@material-ui/lab'
 import NextLink from '../nextlink'
 import { routes } from '@/utils/app'
-import { CoursePropTypes } from '@/utils/typing'
-import {
-  Favorite,
-  FavoriteBorder,
-  ShoppingCart,
-  VideoLibrary
-} from '@material-ui/icons'
+import { CourseLibraryPropTypes, CoursePropTypes } from '@/utils/typing'
+import { PlayArrow, ShoppingCart, VideoLibrary } from '@material-ui/icons'
 import { useSnackbar } from 'notistack'
 import FavoriteButton from '../button/favorite.button'
+import { useAuth } from '../hooks/auth.provider'
+import { resources, useGET } from '@/utils/api'
+import clsx from 'clsx'
+import Link from 'next/link'
+import LabelProgress from '@/components/progress/label-progress'
 
 export default function CourseCard({ course }) {
-  const {
-    id,
-    category,
-    topic,
-    thumbnail,
-    title,
-    lecturer,
-    rating,
-    reviewers,
-    price,
-    discount,
-    inUserLibrary,
-    userProgression
-  } = course
+  const { id, thumbnail, title, lecturer, rating, reviewers, price, discount } =
+    course
   const styles = useStyles()
 
   const { enqueueSnackbar } = useSnackbar()
-  const [watchlisted, setWatchlisted] = React.useState(
-    course.watchlisted ?? false
+
+  const { user } = useAuth()
+  const { data: library = [] } = useGET(() =>
+    user ? resources.library.get(user.id) : undefined
   )
+  const { data: watchlist = [] } = useGET(() =>
+    user ? resources.watchlist.get(user.id) : undefined
+  )
+  const [watchlisted, setWatchlisted] = useState(false)
+  const [inUserLibrary, setInUserLibrary] = useState(false)
+
+  useEffect(() => {
+    setInUserLibrary(library.includes(id))
+  }, [library])
+  useEffect(() => {
+    setInUserLibrary(watchlist.includes(id))
+  }, [watchlist])
 
   function CourseRating() {
     return (
@@ -109,39 +110,6 @@ export default function CourseCard({ course }) {
             />
           </Tooltip>
         </Box>
-        {inUserLibrary && (
-          <Box
-            position="absolute"
-            bottom={0}
-            right={0}
-            zIndex={1}
-            display="inline-flex"
-            color="success.dark"
-          >
-            <CircularProgress
-              value={userProgression}
-              variant="determinate"
-              color="inherit"
-            />
-            <Box
-              top={0}
-              left={0}
-              bottom={0}
-              right={0}
-              position="absolute"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              color="white"
-            >
-              <Typography
-                variant="caption"
-                component="div"
-                color="inherit"
-              >{`${Math.round(userProgression ?? 0)}%`}</Typography>
-            </Box>
-          </Box>
-        )}
       </Box>
       <CardHeader
         avatar={<Avatar src={lecturer.avatar} />}
@@ -217,4 +185,71 @@ export function CourseCardSkeleton() {
       </CardContent>
     </Card>
   )
+}
+
+export function CourseCardLibrary({ course }) {
+  const styles = useStyles()
+  const { thumbnail, title, lecturer, id, progress } = course
+  const [hover, setHover] = useState(false)
+  return (
+    <Card>
+      <Box
+        height={0}
+        paddingTop="56.25%"
+        position="relative"
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+      >
+        <NextImage
+          src={thumbnail}
+          layout="fill"
+          objectFit="cover"
+          title={title}
+          className={clsx(styles.transition, {
+            [styles.thumbnailHover]: hover
+          })}
+        />
+        <Link href={routes.u.watch(id)} passHref>
+          <Box
+            component="a"
+            position="absolute"
+            top={0}
+            left={0}
+            right={0}
+            fontSize="4em"
+            bottom={0}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            zIndex={1}
+            color="white"
+            className={clsx(styles.transition, styles.watch, {
+              [styles.watchHover]: hover
+            })}
+          >
+            <PlayArrow color="inherit" fontSize="inherit" />
+          </Box>
+        </Link>
+      </Box>
+      <CardHeader
+        avatar={<Avatar src={lecturer.avatar} />}
+        title={
+          <NextLink color="inherit" href={routes.course(id)}>
+            <Typography>{title}</Typography>
+          </NextLink>
+        }
+        subheader={lecturer.name}
+        classes={{ title: styles.title, subheader: styles.lecturer }}
+      />
+      <CardContent>
+        <Box display="flex" alignItems="center" justifyContent="flex-end">
+          <LabelProgress value={progress} />
+        </Box>
+      </CardContent>
+    </Card>
+  )
+}
+
+CourseCardLibrary.propTypes = {
+  course: CourseLibraryPropTypes.isRequired
 }

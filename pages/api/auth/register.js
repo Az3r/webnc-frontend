@@ -9,12 +9,9 @@ function register({ username, email, password }) {
     (item) => item.username === username || item.email === email
   )
   if (found) {
-    if (found.username === username)
-      throw new Error(`auth/username-existed:${username}`)
-    throw new Error(`auth/email-existed:${email}`)
+    if (found.username === username) throw { code: 'InvalidUserName' }
+    throw { code: 'InvalidEmail' }
   }
-
-  if (password.length < 8) throw new Error(`auth/weak-password:${password}`)
-
+  if (password.length < 8) throw { code: 'PasswordTooShort' }
   return { username, email, password, id: '12345678' }
 }

@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { useState, useRef, useEffect } from 'react'
 import { Box, Card, IconButton } from '@material-ui/core'
-import StyledComponent from './auth.style'
 import { ArrowBack } from '@material-ui/icons'
 import { useSpring } from '@react-spring/core'
 import { animated } from '@react-spring/web'
@@ -11,6 +10,7 @@ import Register from './register.component'
 import Link from 'next/link'
 import VerifyEmail from './verify.component'
 import { testids } from '@/utils/testing'
+import useStyles from './auth.style'
 
 const AnimatedBox = animated(Box)
 const AnimatedIconButton = animated(IconButton)
@@ -20,7 +20,8 @@ const TYPES = {
   verify: 2
 }
 
-function AuthPage({ type, classes, email }) {
+export default function AuthPage({ type, email }) {
+  const classes = useStyles()
   const [form, update] = useState({ email, username: '', password: '' })
   const [step, setStep] = useState(TYPES[type])
   const card = useRef(null)
@@ -96,8 +97,6 @@ function AuthPage({ type, classes, email }) {
     </AuthContext.Provider>
   )
 }
-
-export default StyledComponent(AuthPage)
 
 AuthPage.propTypes = {
   type: PropTypes.string,

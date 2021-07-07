@@ -17,10 +17,17 @@ export default makeStyles((theme) => ({
     WebkitLineClamp: 1,
     lineClamp: 1
   },
-  thumbnail: {
-    transition: theme.transitions.create(['filter', 'opacity']),
-    ['&:hover']: {
-      filter: 'brightness(33%)'
-    }
+  transition: {
+    transition: theme.transitions.create(['filter', 'opacity'])
+  },
+  watch: {
+    opacity: 0,
+    cursor: 'pointer'
+  },
+  thumbnailHover: {
+    filter: 'brightness(30%)'
+  },
+  watchHover: {
+    opacity: 1
   }
 }))

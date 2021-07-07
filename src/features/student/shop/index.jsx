@@ -14,14 +14,16 @@ import {
   IconButton
 } from '@material-ui/core'
 import CourseRow, { CourseRowSkeleton } from '@/components/course/course-row'
-import { currency } from '@/utils/intl'
+import { currency } from '@/utils/tools'
 import { Skeleton } from '@material-ui/lab'
-import { ApiError, resources } from '@/utils/api'
-import useSWR from 'swr'
+import { resources, useGET } from '@/utils/api'
 import { Delete, ShoppingCart } from '@material-ui/icons'
 import { useSnackbar } from 'notistack'
 import { animated, useTransition } from 'react-spring'
 import { CoursePropTypes } from '@/utils/typing'
+import DefaultLayout from '@/components/layout'
+import Head from 'next/head'
+import { appname } from '@/utils/app'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,27 +47,25 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const fetcher = async (url) => {
-  const response = await fetch(url)
-  const data = await response.json()
-  if (response.ok) return data.results
-  throw ApiError(data.error)
-}
-
 export default function ShopFeature() {
   const styles = useStyles()
   const { user } = useAuth()
-  const { data: courses, error } = useSWR(
-    () => (user ? resources.shop.get(user.id) : undefined),
-    fetcher
+  const { data: courses, loading } = useGET(() =>
+    user ? resources.shop.get(user.id) : undefined
   )
-  const loading = !courses && !error
 
   return (
-    <Container className={styles.root}>
-      {loading && <Loading />}
-      {courses && <DataAvailable courses={courses} />}
-    </Container>
+    <>
+      <Head>
+        <title>My Shopping Cart | {appname}</title>
+      </Head>
+      <DefaultLayout>
+        <Container className={styles.root}>
+          {loading && <Loading />}
+          {courses && <DataAvailable courses={courses} />}
+        </Container>
+      </DefaultLayout>
+    </>
   )
 }
 

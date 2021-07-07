@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react'
-import PropTypes from 'prop-types'
 import {
   Box,
   Button,
   CircularProgress,
+  makeStyles,
   TextField,
   Typography
 } from '@material-ui/core'
@@ -13,8 +13,24 @@ import { useRouter } from 'next/router'
 import { useAuth } from '@/components/hooks/auth.provider'
 import { useSnackbar } from 'notistack'
 
-export default function Login({ classes }) {
+const useStyles = makeStyles((theme) => ({
+  form: {
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  field: {
+    margin: theme.spacing(2, 0)
+  },
+  submit: {
+    margin: theme.spacing(4, 0),
+    height: 40
+  }
+}))
+
+export default function Login() {
   const router = useRouter()
+  const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
   const { revalidate } = useAuth()
   const { form, update, next } = useContext(AuthContext)
@@ -25,7 +41,7 @@ export default function Login({ classes }) {
     process(true)
     const api = await import('./auth.api')
     try {
-      await api.login({ username: form.email, password: form.password })
+      await api.login({ username: form.email.trim(), password: form.password })
       enqueueSnackbar('Login successfully', { variant: 'success' })
 
       revalidate()
@@ -102,12 +118,4 @@ export default function Login({ classes }) {
       </Box>
     </form>
   )
-}
-
-Login.propTypes = {
-  classes: PropTypes.object
-}
-
-Login.defaultProps = {
-  classes: {}
 }

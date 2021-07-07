@@ -28,10 +28,10 @@ const AuthProvider = ({ children }) => {
       value={{
         revalidate: () => setMutate((prev) => !prev),
         user: data && {
-          id: data?.id,
-          avatar: data?.avatarUrl,
-          username: data?.userName,
-          email: data?.email
+          id: data.id,
+          avatar: data.avatarUrl,
+          username: data.userName,
+          email: data.email
         },
         loading,
         error

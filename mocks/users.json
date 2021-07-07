@@ -1,7 +1,7 @@
 [
   {
     "id": "60e2fbb1262a589ebf7c50af",
-    "avatar": "https://picsum.photos/64.webp?random=2267",
+    "avatarUrl": "https://picsum.photos/64.webp?random=2267",
     "userName": "McdonaldChavez",
     "role": "Lecturer",
     "passsword": "consectetur",
@@ -9,7 +9,7 @@
   },
   {
     "id": "60e2fbb1e6e1a2ff82dc4bc9",
-    "avatar": "https://picsum.photos/64.webp?random=1932",
+    "avatarUrl": "https://picsum.photos/64.webp?random=1932",
     "userName": "HornKnowles",
     "role": "Lecturer",
     "passsword": "et",
@@ -17,7 +17,7 @@
   },
   {
     "id": "60e2fbb17fe945992e356a7a",
-    "avatar": "https://picsum.photos/64.webp?random=451",
+    "avatarUrl": "https://picsum.photos/64.webp?random=451",
     "userName": "KatelynMccarthy",
     "role": "Lecturer",
     "passsword": "velit",
@@ -25,7 +25,7 @@
   },
   {
     "id": "60e2fbb1e279bcb636f2f4a3",
-    "avatar": "https://picsum.photos/64.webp?random=1932",
+    "avatarUrl": "https://picsum.photos/64.webp?random=1932",
     "userName": "BanksCochran",
     "role": "Lecturer",
     "passsword": "culpa",
@@ -33,7 +33,7 @@
   },
   {
     "id": "60e2fbb17d8ed78db62970b3",
-    "avatar": "https://picsum.photos/64.webp?random=1686",
+    "avatarUrl": "https://picsum.photos/64.webp?random=1686",
     "userName": "RamonaWood",
     "role": "Admin",
     "passsword": "ea",
@@ -41,7 +41,7 @@
   },
   {
     "id": "60e2fbb1dfaba2b18fcf3f5c",
-    "avatar": "https://picsum.photos/64.webp?random=1428",
+    "avatarUrl": "https://picsum.photos/64.webp?random=1428",
     "userName": "WatkinsMcclain",
     "role": "Lecturer",
     "passsword": "non",
@@ -49,7 +49,7 @@
   },
   {
     "id": "60e2fbb18e9a06b59238907d",
-    "avatar": "https://picsum.photos/64.webp?random=2157",
+    "avatarUrl": "https://picsum.photos/64.webp?random=2157",
     "userName": "GainesZimmerman",
     "role": "Lecturer",
     "passsword": "ipsum",
@@ -57,7 +57,7 @@
   },
   {
     "id": "60e2fbb1ddc8c920a4a44615",
-    "avatar": "https://picsum.photos/64.webp?random=1279",
+    "avatarUrl": "https://picsum.photos/64.webp?random=1279",
     "userName": "RoxieBarrett",
     "role": "Student",
     "passsword": "aliquip",
@@ -65,7 +65,7 @@
   },
   {
     "id": "60e2fbb1375c5daee12f1dab",
-    "avatar": "https://picsum.photos/64.webp?random=1275",
+    "avatarUrl": "https://picsum.photos/64.webp?random=1275",
     "userName": "HaydenOsborne",
     "role": "Admin",
     "passsword": "amet",
@@ -73,7 +73,7 @@
   },
   {
     "id": "60e2fbb16a76b20603a9879e",
-    "avatar": "https://picsum.photos/64.webp?random=1042",
+    "avatarUrl": "https://picsum.photos/64.webp?random=1042",
     "userName": "SaraGeorge",
     "role": "Admin",
     "passsword": "et",
@@ -81,7 +81,7 @@
   },
   {
     "id": "60e2fbb15ce24adaec656ec0",
-    "avatar": "https://picsum.photos/64.webp?random=2374",
+    "avatarUrl": "https://picsum.photos/64.webp?random=2374",
     "userName": "LoisBeach",
     "role": "Student",
     "passsword": "eiusmod",
@@ -89,7 +89,7 @@
   },
   {
     "id": "60e2fbb11af25266fb07fb9c",
-    "avatar": "https://picsum.photos/64.webp?random=402",
+    "avatarUrl": "https://picsum.photos/64.webp?random=402",
     "userName": "VaughnLove",
     "role": "Admin",
     "passsword": "qui",
@@ -97,7 +97,7 @@
   },
   {
     "id": "60e2fbb1491e5c6fdaf0e78c",
-    "avatar": "https://picsum.photos/64.webp?random=2494",
+    "avatarUrl": "https://picsum.photos/64.webp?random=2494",
     "userName": "EnglandBeck",
     "role": "Student",
     "passsword": "in",
@@ -105,7 +105,7 @@
   },
   {
     "id": "60e2fbb1a00bc8e2a6d569d6",
-    "avatar": "https://picsum.photos/64.webp?random=344",
+    "avatarUrl": "https://picsum.photos/64.webp?random=344",
     "userName": "MunozPreston",
     "role": "Student",
     "passsword": "officia",
@@ -113,7 +113,7 @@
   },
   {
     "id": "60e2fbb1c499dc109e08ee8f",
-    "avatar": "https://picsum.photos/64.webp?random=1918",
+    "avatarUrl": "https://picsum.photos/64.webp?random=1918",
     "userName": "EwingHenderson",
     "role": "Student",
     "passsword": "eiusmod",
@@ -121,7 +121,7 @@
   },
   {
     "id": "60e2fbb1126e4fb6e1848e54",
-    "avatar": "https://picsum.photos/64.webp?random=758",
+    "avatarUrl": "https://picsum.photos/64.webp?random=758",
     "userName": "LottChaney",
     "role": "Lecturer",
     "passsword": "velit",
@@ -129,7 +129,7 @@
   },
   {
     "id": "60e2fbb1120e4f2911822400",
-    "avatar": "https://picsum.photos/64.webp?random=53",
+    "avatarUrl": "https://picsum.photos/64.webp?random=53",
     "userName": "ReneeSweet",
     "role": "Lecturer",
     "passsword": "aliqua",
@@ -137,7 +137,7 @@
   },
   {
     "id": "60e2fbb16e5b9c468a8863ff",
-    "avatar": "https://picsum.photos/64.webp?random=1000",
+    "avatarUrl": "https://picsum.photos/64.webp?random=1000",
     "userName": "SherryStone",
     "role": "Admin",
     "passsword": "sunt",
@@ -145,7 +145,7 @@
   },
   {
     "id": "60e2fbb19ad3282c860e4f5d",
-    "avatar": "https://picsum.photos/64.webp?random=474",
+    "avatarUrl": "https://picsum.photos/64.webp?random=474",
     "userName": "DanaWhite",
     "role": "Student",
     "passsword": "quis",
@@ -153,7 +153,7 @@
   },
   {
     "id": "60e2fbb10a684d27472b07db",
-    "avatar": "https://picsum.photos/64.webp?random=2216",
+    "avatarUrl": "https://picsum.photos/64.webp?random=2216",
     "userName": "DaphneBowman",
     "role": "Student",
     "passsword": "voluptate",
@@ -161,7 +161,7 @@
   },
   {
     "id": "60e2fbb1917c8fbb64077436",
-    "avatar": "https://picsum.photos/64.webp?random=2617",
+    "avatarUrl": "https://picsum.photos/64.webp?random=2617",
     "userName": "ChavezKlein",
     "role": "Lecturer",
     "passsword": "culpa",
@@ -169,7 +169,7 @@
   },
   {
     "id": "60e2fbb19cca054665c5599b",
-    "avatar": "https://picsum.photos/64.webp?random=2966",
+    "avatarUrl": "https://picsum.photos/64.webp?random=2966",
     "userName": "StacyMcmahon",
     "role": "Admin",
     "passsword": "fugiat",
@@ -177,7 +177,7 @@
   },
   {
     "id": "60e2fbb14ea535bfd9f97b01",
-    "avatar": "https://picsum.photos/64.webp?random=1550",
+    "avatarUrl": "https://picsum.photos/64.webp?random=1550",
     "userName": "WolfeHines",
     "role": "Lecturer",
     "passsword": "dolor",
@@ -185,7 +185,7 @@
   },
   {
     "id": "60e2fbb1328760a49c70395b",
-    "avatar": "https://picsum.photos/64.webp?random=2123",
+    "avatarUrl": "https://picsum.photos/64.webp?random=2123",
     "userName": "ShelbyHaynes",
     "role": "Lecturer",
     "passsword": "eu",
@@ -193,7 +193,7 @@
   },
   {
     "id": "60e2fbb1e9494e5ba3252e95",
-    "avatar": "https://picsum.photos/64.webp?random=2565",
+    "avatarUrl": "https://picsum.photos/64.webp?random=2565",
     "userName": "DunnYork",
     "role": "Admin",
     "passsword": "velit",
@@ -201,7 +201,7 @@
   },
   {
     "id": "60e2fbb129459e58d3a8f643",
-    "avatar": "https://picsum.photos/64.webp?random=1988",
+    "avatarUrl": "https://picsum.photos/64.webp?random=1988",
     "userName": "JeanneOconnor",
     "role": "Lecturer",
     "passsword": "deserunt",
@@ -209,7 +209,7 @@
   },
   {
     "id": "60e2fbb1b6c6c57d8a4b6acd",
-    "avatar": "https://picsum.photos/64.webp?random=1341",
+    "avatarUrl": "https://picsum.photos/64.webp?random=1341",
     "userName": "BrandiChandler",
     "role": "Admin",
     "passsword": "aliquip",
@@ -217,7 +217,7 @@
   },
   {
     "id": "60e2fbb11298934b9d57a7b3",
-    "avatar": "https://picsum.photos/64.webp?random=1079",
+    "avatarUrl": "https://picsum.photos/64.webp?random=1079",
     "userName": "MedinaCarter",
     "role": "Student",
     "passsword": "nostrud",
@@ -225,7 +225,7 @@
   },
   {
     "id": "60e2fbb1d1303b6003674d1a",
-    "avatar": "https://picsum.photos/64.webp?random=171",
+    "avatarUrl": "https://picsum.photos/64.webp?random=171",
     "userName": "BarreraMack",
     "role": "Lecturer",
     "passsword": "sunt",
@@ -233,7 +233,7 @@
   },
   {
     "id": "60e2fbb178cd1d44ad0ce85b",
-    "avatar": "https://picsum.photos/64.webp?random=2066",
+    "avatarUrl": "https://picsum.photos/64.webp?random=2066",
     "userName": "JordanWoods",
     "role": "Lecturer",
     "passsword": "amet",
@@ -241,7 +241,7 @@
   },
   {
     "id": "60e2fbb1e8d3283a3acd5afa",
-    "avatar": "https://picsum.photos/64.webp?random=2703",
+    "avatarUrl": "https://picsum.photos/64.webp?random=2703",
     "userName": "KimberleyHogan",
     "role": "Student",
     "passsword": "fugiat",
@@ -249,7 +249,7 @@
   },
   {
     "id": "60e2fbb12bb6931d5d0ed976",
-    "avatar": "https://picsum.photos/64.webp?random=451",
+    "avatarUrl": "https://picsum.photos/64.webp?random=451",
     "userName": "LatonyaBriggs",
     "role": "Admin",
     "passsword": "quis",
@@ -257,7 +257,7 @@
   },
   {
     "id": "60e2fbb16b9fa3a2fd6bf1eb",
-    "avatar": "https://picsum.photos/64.webp?random=1370",
+    "avatarUrl": "https://picsum.photos/64.webp?random=1370",
     "userName": "NolaSchroeder",
     "role": "Student",
     "passsword": "eiusmod",
@@ -265,7 +265,7 @@
   },
   {
     "id": "60e2fbb141995ecbe156dfb9",
-    "avatar": "https://picsum.photos/64.webp?random=2953",
+    "avatarUrl": "https://picsum.photos/64.webp?random=2953",
     "userName": "LangleyCalderon",
     "role": "Lecturer",
     "passsword": "in",
@@ -273,7 +273,7 @@
   },
   {
     "id": "60e2fbb13fd4ea040965492f",
-    "avatar": "https://picsum.photos/64.webp?random=19",
+    "avatarUrl": "https://picsum.photos/64.webp?random=19",
     "userName": "McgeeCarlson",
     "role": "Admin",
     "passsword": "aliqua",
@@ -281,7 +281,7 @@
   },
   {
     "id": "60e2fbb1e66211d34023b933",
-    "avatar": "https://picsum.photos/64.webp?random=2676",
+    "avatarUrl": "https://picsum.photos/64.webp?random=2676",
     "userName": "RachelleKirby",
     "role": "Lecturer",
     "passsword": "id",
@@ -289,7 +289,7 @@
   },
   {
     "id": "60e2fbb1cf7b44c5bbc6b990",
-    "avatar": "https://picsum.photos/64.webp?random=1378",
+    "avatarUrl": "https://picsum.photos/64.webp?random=1378",
     "userName": "WattsHatfield",
     "role": "Lecturer",
     "passsword": "laboris",
@@ -297,7 +297,7 @@
   },
   {
     "id": "60e2fbb19a4259c99b1b6bb4",
-    "avatar": "https://picsum.photos/64.webp?random=2044",
+    "avatarUrl": "https://picsum.photos/64.webp?random=2044",
     "userName": "DonovanHarrington",
     "role": "Admin",
     "passsword": "irure",
@@ -305,7 +305,7 @@
   },
   {
     "id": "60e2fbb1132a5e7f10f63ef5",
-    "avatar": "https://picsum.photos/64.webp?random=318",
+    "avatarUrl": "https://picsum.photos/64.webp?random=318",
     "userName": "AudraReed",
     "role": "Admin",
     "passsword": "enim",
@@ -313,7 +313,7 @@
   },
   {
     "id": "60e2fbb1ae4aa556faf9d50f",
-    "avatar": "https://picsum.photos/64.webp?random=1840",
+    "avatarUrl": "https://picsum.photos/64.webp?random=1840",
     "userName": "DeeMcintosh",
     "role": "Lecturer",
     "passsword": "commodo",
@@ -321,7 +321,7 @@
   },
   {
     "id": "60e2fbb1575db6e38698126e",
-    "avatar": "https://picsum.photos/64.webp?random=498",
+    "avatarUrl": "https://picsum.photos/64.webp?random=498",
     "userName": "EllaStuart",
     "role": "Lecturer",
     "passsword": "ad",
@@ -329,7 +329,7 @@
   },
   {
     "id": "60e2fbb1981d184f6e832b3c",
-    "avatar": "https://picsum.photos/64.webp?random=2584",
+    "avatarUrl": "https://picsum.photos/64.webp?random=2584",
     "userName": "SmallOrr",
     "role": "Student",
     "passsword": "aute",
@@ -337,7 +337,7 @@
   },
   {
     "id": "60e2fbb1a790f3fce529a159",
-    "avatar": "https://picsum.photos/64.webp?random=2719",
+    "avatarUrl": "https://picsum.photos/64.webp?random=2719",
     "userName": "MargretMullen",
     "role": "Admin",
     "passsword": "proident",
@@ -345,7 +345,7 @@
   },
   {
     "id": "60e2fbb1974012946056e7dc",
-    "avatar": "https://picsum.photos/64.webp?random=2535",
+    "avatarUrl": "https://picsum.photos/64.webp?random=2535",
     "userName": "PierceCameron",
     "role": "Lecturer",
     "passsword": "incididunt",
@@ -353,7 +353,7 @@
   },
   {
     "id": "60e2fbb17becb1111b300e52",
-    "avatar": "https://picsum.photos/64.webp?random=388",
+    "avatarUrl": "https://picsum.photos/64.webp?random=388",
     "userName": "FrancoRomero",
     "role": "Admin",
     "passsword": "laboris",
@@ -361,7 +361,7 @@
   },
   {
     "id": "60e2fbb156a94690d7f7a97b",
-    "avatar": "https://picsum.photos/64.webp?random=1721",
+    "avatarUrl": "https://picsum.photos/64.webp?random=1721",
     "userName": "OpalCantu",
     "role": "Admin",
     "passsword": "ex",
@@ -369,7 +369,7 @@
   },
   {
     "id": "60e2fbb1243fb843b1d266f8",
-    "avatar": "https://picsum.photos/64.webp?random=1061",
+    "avatarUrl": "https://picsum.photos/64.webp?random=1061",
     "userName": "WilkinsLynn",
     "role": "Lecturer",
     "passsword": "in",
@@ -377,7 +377,7 @@
   },
   {
     "id": "60e2fbb1caec3a4ec821fab8",
-    "avatar": "https://picsum.photos/64.webp?random=2273",
+    "avatarUrl": "https://picsum.photos/64.webp?random=2273",
     "userName": "WeaverMyers",
     "role": "Student",
     "passsword": "eu",
@@ -385,7 +385,7 @@
   },
   {
     "id": "60e2fbb15434a99dc779b2b5",
-    "avatar": "https://picsum.photos/64.webp?random=327",
+    "avatarUrl": "https://picsum.photos/64.webp?random=327",
     "userName": "CohenCalhoun",
     "role": "Lecturer",
     "passsword": "consectetur",
@@ -393,7 +393,7 @@
   },
   {
     "id": "60e2fbb1b5e6867681eb7359",
-    "avatar": "https://picsum.photos/64.webp?random=1535",
+    "avatarUrl": "https://picsum.photos/64.webp?random=1535",
     "userName": "WoodwardAcosta",
     "role": "Admin",
     "passsword": "duis",

@@ -5,6 +5,7 @@ import { resources, useGET } from '@/utils/api'
 import { CoursePropTypes } from '@/utils/typing'
 import { Box, Container, makeStyles } from '@material-ui/core'
 import React from 'react'
+import DefaultLayout from '@/components/layout'
 
 const useStyles = makeStyles((theme) => ({
   ul: {
@@ -22,12 +23,14 @@ export default function WatchlistFeature() {
   const { user } = useAuth()
   const { data, loading } = useGET(() => resources.watchlist.get(user.id))
   return (
-    <Container className={styles.root}>
-      <Box paddingY={2}>
-        {loading && <LoadingList />}
-        {data && <DataAvailable courses={data} />}
-      </Box>
-    </Container>
+    <DefaultLayout>
+      <Container className={styles.root}>
+        <Box paddingY={2}>
+          {loading && <LoadingList />}
+          {data && <DataAvailable courses={data} />}
+        </Box>
+      </Container>
+    </DefaultLayout>
   )
 }
 
@@ -35,7 +38,7 @@ function LoadingList() {
   const styles = useStyles()
   return (
     <ul className={styles.ul}>
-      {[0, 1, 2, 3, 4].map((item, index) => (
+      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item, index) => (
         <li key={index}>
           <CourseRowSkeleton />
         </li>

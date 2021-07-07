@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { CoursePropTypes } from '@/utils/typing'
 import {
-  CircularProgress,
   Tooltip,
   Box,
   Chip,
@@ -20,33 +19,39 @@ import {
   Star
 } from '@material-ui/icons'
 import clsx from 'clsx'
-import { currency } from '@/utils/intl'
+import { currency } from '@/utils/tools'
 import NextLink from '../nextlink'
 import NextImage from 'next/image'
 import { routes } from '@/utils/app'
 import { Skeleton } from '@material-ui/lab'
 import { useSnackbar } from 'notistack'
 import FavoriteButton from '../button/favorite.button'
+import { useAuth } from '../hooks/auth.provider'
+import { resources, useGET } from '@/utils/api'
 
 export default function CourseRow({ course }) {
-  const {
-    id,
-    tag,
-    title,
-    thumbnail,
-    rating,
-    bought,
-    price,
-    discount,
-    inUserLibrary,
-    userProgression
-  } = course
+  const { id, tag, title, thumbnail, rating, bought, price, discount } = course
   const styles = useStyles()
   const theme = useTheme()
   const downSM = useMediaQuery(theme.breakpoints.down('sm'))
   const { enqueueSnackbar } = useSnackbar()
 
-  const [watchlisted, setWatchlisted] = React.useState(course.watchlisted)
+  const { user } = useAuth()
+  const { data: library = [] } = useGET(() =>
+    user ? resources.library.get(user.id) : undefined
+  )
+  const { data: watchlist = [] } = useGET(() =>
+    user ? resources.watchlist.get(user.id) : undefined
+  )
+  const [watchlisted, setWatchlisted] = useState(false)
+  const [inUserLibrary, setInUserLibrary] = useState(false)
+
+  useEffect(() => {
+    setInUserLibrary(library.includes(id))
+  }, [library])
+  useEffect(() => {
+    setInUserLibrary(watchlist.includes(id))
+  }, [watchlist])
 
   async function onWatchList() {
     // TODO: Add course to user watchlist
@@ -63,42 +68,8 @@ export default function CourseRow({ course }) {
     <Grid container spacing={1} alignItems="center">
       <Grid item xs={4} sm={3} md={2}>
         <Box position="relative" height={0} paddingTop="56.25%">
-          {inUserLibrary && (
-            <Box
-              position="absolute"
-              top={0}
-              right={0}
-              zIndex={1}
-              display="inline-flex"
-              color="success.dark"
-            >
-              <CircularProgress
-                value={userProgression}
-                variant="determinate"
-                color="inherit"
-              />
-              <Box
-                top={0}
-                left={0}
-                bottom={0}
-                right={0}
-                position="absolute"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                color="white"
-              >
-                <Typography
-                  variant="caption"
-                  component="div"
-                  color="inherit"
-                >{`${Math.round(userProgression ?? 0)}%`}</Typography>
-              </Box>
-            </Box>
-          )}
           <Box position="absolute" top={0} left={0} right={0} bottom={0}>
             <NextImage
-              className={styles.thumbnail}
               src={thumbnail}
               alt={title}
               layout="fill"

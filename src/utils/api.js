@@ -1,5 +1,47 @@
 import useSWR from 'swr'
-import { create } from './errors'
+
+/**
+ * @typedef {'UnknownError' |
+ * 'AuthError' |
+ * 'ApiError'
+ * } ErrorName
+ * @typedef {'unknown' |
+ * 'invalid-email' |
+ * 'invalid-username' |
+ * 'invalid-account' |
+ * 'weak-password' |
+ * 'account-existed' |
+ * 'username-not-found' |
+ * 'password-not-match' |
+ * 'account-not-verified' |
+ * 'invalid-otp' |
+ * 'email-not-found'
+ * } ErrorType
+ * @typedef {Object} ErrorCode
+ * @property {ErrorName} ErrorCode.scope
+ * @property {ErrorType} ErrorCode.type
+ * @property {string} ErrorCode.code ${scope}/${type}
+ * @property {Error} ErrorCode.details
+ * @property {unknown} ErrorCode.value
+ */
+
+/**
+ * create error message
+ * @param {ErrorName} name
+ * @param {ErrorType} type
+ * @param {object} value
+ * @returns {Error & {name: ErrorName, code: string, value: object, type: ErrorType}}
+ */
+export function create(name, type, value) {
+  const error = new Error(`${name}/${type}`)
+  if (Error.captureStackTrace) Error.captureStackTrace(error)
+  error.name = name
+  error.type = type
+  error.code = `${name}/${type}`
+  error.value = value
+  return error
+}
+
 /**
  * parse response error returned from api call
  * @param {Object} error
@@ -35,11 +77,14 @@ export function ApiError(error = {}) {
 const production = process.env.NEXT_PUBLIC_MOCK_API == undefined
 
 function resource(prod, dev) {
-  return `${endpoint}${production ? prod : dev}`
+  const endpoint =
+    !dev || production
+      ? 'https://programmingcourse.herokuapp.com/api'
+      : 'http://localhost:3000/api'
+
+  const route = dev ? (production ? prod : dev) : prod
+  return `${endpoint}${route}`
 }
-export const endpoint = production
-  ? 'https://programmingcourse.herokuapp.com/api'
-  : 'http://localhost:3000/api'
 
 export const resources = {
   auth: {
@@ -57,7 +102,9 @@ export const resources = {
     bestseller: resource('/Courses/BestSellerCourses', '/courses/bestseller')
   },
   categoryType: {
-    get: (id) => resource(`/CategoryTypes/${id}`, `/category-type/${id}`)
+    get: (id) => resource(`/CategoryTypes/${id}`, `/category-type/${id}`),
+    detail: (id) =>
+      resource(`/CategoryTypes/GetFormattedCategoryTypeById?id=${id}`)
   },
   user: {
     get: (id) => resource(`/Users/${id}`, `/auth/user/${id}`),
@@ -102,18 +149,9 @@ export async function fetchGET(url) {
   throw ApiError(data.errors)
 }
 
-export function useGET(url, config) {
-  const { data, error, mutate } = useSWR(url, fetchGET, config)
-  const loading = !data && !error
-  return { mutate, data, error, loading }
-}
-
-export async function fetchPOST(
-  url,
-  payload,
-  transformer = JSON.stringify,
-  headers = {}
-) {
+export async function fetchPOST(url, payload, config) {
+  const transformer = config?.transformer ?? JSON.stringify
+  const headers = config?.headers ?? {}
   const response = await fetch(url, {
     credentials: 'include',
     method: 'POST',
@@ -127,4 +165,10 @@ export async function fetchPOST(
   const data = await response.json()
   if (response.ok) return data.results
   throw ApiError(data.errors)
+}
+
+export function useGET(url) {
+  const { data, error, mutate } = useSWR(url, fetchGET)
+  const loading = !data && !error
+  return { mutate, data, error, loading }
 }

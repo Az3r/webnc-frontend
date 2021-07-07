@@ -6,7 +6,6 @@ import SearchProvider from '@/components/hooks/search.provider'
 import AuthProvider from '@/components/hooks/auth.provider'
 import { SnackbarProvider } from 'notistack'
 import { Slide } from '@material-ui/core'
-import DefaultLayout from '@/components/layout'
 import { analytics } from '@/utils/firebase'
 import '@/app.css'
 
@@ -25,9 +24,7 @@ export default function MainApp({ Component, pageProps }) {
             }}
             TransitionComponent={Slide}
           >
-            <DefaultLayout>
-              <Component {...pageProps} />
-            </DefaultLayout>
+            <Component {...pageProps} />
           </SnackbarProvider>
         </SearchProvider>
       </AuthProvider>

@@ -14,7 +14,7 @@ import {
   Dialog
 } from '@material-ui/core'
 import useStyles from './info.style'
-import { currency, date } from '@/utils/intl'
+import { currency, date } from '@/utils/tools'
 import { Rating } from '@material-ui/lab'
 import {
   Shop,
