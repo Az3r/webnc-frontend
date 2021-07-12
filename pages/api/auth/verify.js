@@ -3,10 +3,9 @@ import opts from '@/mocks/opts.json'
 
 export default withMockApi((req) => verify(req.body))
 
-function verify({ email, OTPCode }) {
+function verify({ email, code }) {
   if (!email.match(/(\w+)@(\w+)/)) throw { code: 'InvalidEmail' }
-  const code = Number(OTPCode)
-  const verified = opts.includes(code)
+  const verified = opts.includes(Number(code))
   if (verified) return verified
   throw { code: 'InvalidOTPCode!' }
 }

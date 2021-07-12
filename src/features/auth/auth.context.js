@@ -4,5 +4,6 @@ export default createContext({
   next: () => {},
   previous: () => {},
   form: { username: '', password: '', email: '' },
-  update: () => {}
+  update: () => {},
+  redirect: ''
 })

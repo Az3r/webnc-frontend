@@ -48,7 +48,7 @@ export function create(name, type, value) {
  * @returns {Error}
  */
 export function ApiError(error = {}) {
-  const { code, value = undefined } = error
+  const { code, value = undefined, email = undefined } = error
   // use regex to catch multiple code at once
   if (code.match(/PasswordRequires/))
     return create('AuthError', 'weak-password', value)
@@ -56,7 +56,7 @@ export function ApiError(error = {}) {
   // switch
   switch (code) {
     case 'NotVerifiedAccount':
-      return create('AuthError', 'account-not-verified', value)
+      return create('AuthError', 'account-not-verified', email)
     case 'InvalidAccount':
       return create('AuthError', 'invalid-account', value)
     case 'NotExistedEmailAddress':

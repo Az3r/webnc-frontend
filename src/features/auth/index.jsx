@@ -100,8 +100,7 @@ export default function AuthPage({ type, email }) {
 
 AuthPage.propTypes = {
   type: PropTypes.string,
-  email: PropTypes.string,
-  classes: PropTypes.object.isRequired
+  email: PropTypes.string
 }
 AuthPage.defaultProps = {
   email: '',

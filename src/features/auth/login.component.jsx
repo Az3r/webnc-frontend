@@ -12,6 +12,7 @@ import { PasswordField } from '@/components/inputs'
 import { useRouter } from 'next/router'
 import { useAuth } from '@/components/hooks/auth.provider'
 import { useSnackbar } from 'notistack'
+import qs from 'qs'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -41,18 +42,24 @@ export default function Login() {
     process(true)
     const api = await import('./auth.api')
     try {
-      await api.login({ username: form.email.trim(), password: form.password })
+      await api.login({
+        username: form.username.trim(),
+        password: form.password
+      })
       enqueueSnackbar('Login successfully', { variant: 'success' })
 
       revalidate()
 
-      router.push('/')
+      const query = window.location.href.split('?', 2)[1]
+      const { redirect } = qs.parse(query)
+      router.push(redirect ?? '/')
     } catch (error) {
       if (error.code === 'AuthError/account-not-verified') {
         // TODO wait for backend to add email into error response
         // api.resend(error.email)
         // update((prev) => ({ ...prev, email: error.email }))
-        api.resend(form.email)
+        update((prev) => ({ ...prev, email: error.value }))
+        api.resend(error.value)
         next(2)
       }
       enqueueSnackbar(error.message, { variant: 'error' })
@@ -72,13 +79,15 @@ export default function Login() {
         Sign in
       </Typography>
       <TextField
-        name="login-email"
-        label="Email"
-        type="email"
+        name="login-username"
+        label="Username"
+        type="text"
         required
         className={classes.field}
-        onChange={(e) => update((prev) => ({ ...prev, email: e.target.value }))}
-        value={form.email}
+        onChange={(e) =>
+          update((prev) => ({ ...prev, username: e.target.value }))
+        }
+        value={form.username}
       />
       <PasswordField
         label="Password"

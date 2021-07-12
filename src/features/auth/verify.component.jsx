@@ -15,6 +15,7 @@ import {
 import { CancelScheduleSend, Send } from '@material-ui/icons'
 import { useRouter } from 'next/router'
 import { useSnackbar } from 'notistack'
+import qs from 'qs'
 
 const useStyles = makeStyles((theme) => ({
   opt_section: {
@@ -45,6 +46,10 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     display: 'flex',
     flexDirection: 'column'
+  },
+  submit: {
+    margin: theme.spacing(4, 0),
+    height: 40
   }
 }))
 
@@ -112,7 +117,9 @@ export default function VerifyEmail() {
         code: otp.join('')
       })
 
-      router.push('/')
+      const query = window.location.href.split('?', 2)[1]
+      const { redirect } = qs.parse(query)
+      router.push(redirect ?? '/')
       enqueueSnackbar('Account verified', { variant: 'success' })
     } catch (e) {
       enqueueSnackbar(e.message, { variant: 'error' })
