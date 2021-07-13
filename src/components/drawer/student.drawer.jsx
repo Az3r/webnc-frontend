@@ -40,7 +40,7 @@ const destinations = [
 ]
 
 const SignoutDialog = dynamic(() => import('./signout.dialog'))
-const ProfileDialog = dynamic(() => import('./profile.dialog'))
+const ProfileDialog = dynamic(() => import('../dialog/profile.dialog'))
 
 /**
  * @param {import('@material-ui/core').DrawerProps} props
