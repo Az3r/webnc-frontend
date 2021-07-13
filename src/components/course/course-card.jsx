@@ -16,7 +16,7 @@ import { Rating, Skeleton } from '@material-ui/lab'
 import NextLink from '../nextlink'
 import { routes } from '@/utils/app'
 import { CourseLibraryPropTypes, CoursePropTypes } from '@/utils/typing'
-import { PlayArrow, ShoppingCart, VideoLibrary } from '@material-ui/icons'
+import { PlayArrow, Shop, ShoppingCart, VideoLibrary } from '@material-ui/icons'
 import { useSnackbar } from 'notistack'
 import FavoriteButton from '../button/favorite.button'
 import { useAuth } from '../hooks/auth.provider'
@@ -26,8 +26,17 @@ import Link from 'next/link'
 import LabelProgress from '@/components/progress/label-progress'
 
 export default function CourseCard({ course }) {
-  const { id, thumbnail, title, lecturer, rating, reviewers, price, discount } =
-    course
+  const {
+    id,
+    thumbnail,
+    title,
+    lecturer,
+    rating,
+    reviewers,
+    price,
+    discount,
+    bought
+  } = course
   const styles = useStyles()
 
   const { enqueueSnackbar } = useSnackbar()
@@ -122,6 +131,13 @@ export default function CourseCard({ course }) {
         classes={{ title: styles.title, subheader: styles.lecturer }}
       />
       <CardContent>
+        <Box display="flex" alignItems="center" color="text.secondary">
+          <Shop fontSize="small" color="inherit" />
+          <Box paddingX={0.5} />
+          <Typography color="inherit" variant="subtitle1">
+            {bought}
+          </Typography>
+        </Box>
         <CourseRating />
         <Price />
         <Box position="relative">
