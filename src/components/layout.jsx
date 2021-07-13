@@ -7,13 +7,13 @@ export default function DefaultLayout({ children = <></> }) {
   return (
     <>
       <MainAppBar />
-      <main>{children}</main>
-      <Box paddingTop={8} paddingBottom={2}>
+      <Box component="main" minHeight="100vh">
+        {children}
+      </Box>
+      <Box paddingY={2}>
         <Divider />
       </Box>
-      <footer>
-        <Box minHeight="10vh" />
-      </footer>
+      <Box component="footer"></Box>
     </>
   )
 }

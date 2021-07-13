@@ -51,8 +51,6 @@ export default function TopicFeature({ topic }) {
       setLoading(false)
     }, 1000)
   }
-  const router = useRouter()
-  console.log(router.query)
 
   return (
     <>

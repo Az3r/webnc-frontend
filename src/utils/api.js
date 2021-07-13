@@ -77,6 +77,7 @@ export function ApiError(error = {}) {
 const production = process.env.NEXT_PUBLIC_MOCK_API == undefined
 
 function resource(prod, dev) {
+  // if development resource is not provided, use production endpoint instead
   const endpoint =
     !dev || production
       ? 'https://programmingcourse.herokuapp.com/api'
@@ -95,16 +96,27 @@ export const resources = {
     resend: resource('/Auth/ResendOTP', '/auth/resend')
   },
   courses: {
-    all: resource('/Courses', '/courses/all'),
+    all: resource('/Courses', undefined),
+    get: (id) => resource(`/Courses/${id}`, undefined),
     trending: resource('/Courses/OutstandingCourses', '/courses/trending'),
     mostviews: resource('/Courses/MostViewedCourses', '/courses/mostviews'),
     newest: resource('/Courses/NewestCourses', '/courses/newest'),
     bestseller: resource('/Courses/BestSellerCourses', '/courses/bestseller')
   },
   categoryType: {
+    all: resource('/CategoryTypes', undefined),
     get: (id) => resource(`/CategoryTypes/${id}`, `/category-type/${id}`),
     detail: (id) =>
-      resource(`/CategoryTypes/GetFormattedCategoryTypeById?id=${id}`)
+      resource(`/CategoryTypes/GetFormattedCategoryTypeById?id=${id}`),
+    bestseller: (id) =>
+      resource(
+        `/Courses/Get10BestSellerCoursesInMonthByCategoryTypeId?categoryTypeId=${id}`,
+        undefined
+      )
+  },
+  topic: {
+    get: (name) =>
+      resource(`/Categories/GetWithAllInfoByName?name=${name}`, undefined)
   },
   user: {
     get: (id) => resource(`/Users/${id}`, `/auth/user/${id}`),

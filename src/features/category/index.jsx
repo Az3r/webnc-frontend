@@ -21,7 +21,7 @@ import DefaultLayout from '@/components/layout'
 import Head from 'next/head'
 
 export default function CategoryFeature({ category }) {
-  const { name, label, bestsellers, topics } = category
+  const { label, bestsellers, topics } = category
   const styles = useStyles()
 
   return (
@@ -95,12 +95,14 @@ CategoryFeature.propTypes = {
 
 function CourseList({ category, topic }) {
   const styles = useStyles()
+  const { name = '', avatar = '', courses = [] } = topic
+
   const [collapse, setCollapse] = React.useState(false)
 
   function VisibleList() {
     const elements = []
-    for (let i = 0; i < Math.min(topic.courses.length, 5); i++) {
-      const course = topic.courses[i]
+    for (let i = 0; i < Math.min(courses.length, 5); i++) {
+      const course = courses[i]
       elements.push(
         <Box paddingY={2} key={course.id} component="li">
           <CourseRow course={course} />
@@ -112,8 +114,8 @@ function CourseList({ category, topic }) {
 
   function CollapsableList() {
     const elements = []
-    for (let i = 0; i < Math.max(topic.courses.length - 5, 0); i++) {
-      const course = topic.courses[i + 5]
+    for (let i = 0; i < Math.max(courses.length - 5, 0); i++) {
+      const course = courses[i + 5]
       elements.push(
         <Box paddingY={2} key={course.id} component="li">
           <CourseRow course={course} />
@@ -129,17 +131,14 @@ function CourseList({ category, topic }) {
         <NextImage
           width={48}
           height={48}
-          src={topic.avatar}
-          alt={topic.name}
+          src={avatar}
+          alt={name}
           className={styles.avatar}
         />
         <Box paddingX={0.5} />
-        <NextLink
-          href={routes.topic(category.name, topic.name)}
-          color="inherit"
-        >
+        <NextLink href={routes.topic(category.name, name)} color="inherit">
           <Typography variant="h5" className={styles.label}>
-            {topic.name}
+            {name}
           </Typography>
         </NextLink>
         <Box flexGrow={1} />
@@ -152,18 +151,28 @@ function CourseList({ category, topic }) {
         {VisibleList()}
         <Collapse in={collapse}>{CollapsableList()}</Collapse>
       </ul>
-      <Button
-        onClick={() => setCollapse((prev) => !prev)}
-        height={8}
-        fullWidth
-        className={styles.expand_button}
-      >
-        {collapse ? <KeyboardArrowUp /> : <KeyboardArrowDown color="action" />}
-        <Typography variant="button" color="textSecondary">
-          {collapse ? 'show less' : 'show more'}
-        </Typography>
-        {collapse ? <KeyboardArrowUp /> : <KeyboardArrowDown color="action" />}
-      </Button>
+      {courses.length > 5 && (
+        <Button
+          onClick={() => setCollapse((prev) => !prev)}
+          height={8}
+          fullWidth
+          className={styles.expand_button}
+        >
+          {collapse ? (
+            <KeyboardArrowUp />
+          ) : (
+            <KeyboardArrowDown color="action" />
+          )}
+          <Typography variant="button" color="textSecondary">
+            {collapse ? 'show less' : 'show more'}
+          </Typography>
+          {collapse ? (
+            <KeyboardArrowUp />
+          ) : (
+            <KeyboardArrowDown color="action" />
+          )}
+        </Button>
+      )}
     </Box>
   )
 }

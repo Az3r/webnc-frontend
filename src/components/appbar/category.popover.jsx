@@ -79,10 +79,12 @@ export default function CategoryPopover() {
         {categories ? (
           <Grid container component="nav">
             {categories.map((item) => {
-              const { label, avatar, name } = item
+              const { name: label, label: name, imageUrl: avatar } = item
+              const href = routes.topic(category, name || label.toLowerCase())
+
               return (
                 <Grid item key={name} xs={12}>
-                  <NextLink href={routes.topic(category, name)} passHref>
+                  <NextLink href={href} passHref>
                     <ListItem component="a" button>
                       <ListItemAvatar>
                         <NextImage

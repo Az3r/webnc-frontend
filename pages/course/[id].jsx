@@ -1,21 +1,28 @@
 export { default } from '@/features/course'
-import course from '@/mocks/course.json'
+import mock from '@/mocks/course.json'
+import { fetchGET, resources } from '@/utils/api'
 
 export async function getStaticProps({ params }) {
-  // const { category } = params
-  if (course)
+  if (process.env.NEXT_PUBLIC_MOCK_API)
     return {
-      props: { course },
-      revalidate: 3600
+      props: { course: mock }
     }
+
   return {
     notFound: true
   }
 }
 
 export async function getStaticPaths() {
+  if (process.env.NEXT_PUBLIC_MOCK_API)
+    return {
+      paths: [],
+      fallback: 'blocking'
+    }
+
+  const ids = await fetchGET(resources.courses.all)
   return {
-    paths: [],
+    paths: [ids.map((item) => ({ params: { id: item.id } }))],
     fallback: 'blocking'
   }
 }
