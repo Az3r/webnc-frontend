@@ -1,262 +1,262 @@
 [
   {
     "id": "60e5654934377bf7ba0cf6d2",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=279",
     "title": "Non reprehenderit deserunt laborum cupidatat adipisicing ipsum aute veniam nostrud duis et veniam.",
+    "finished": false,
     "lecturer": {
       "name": "Santos Estrada",
       "avatar": "https://picsum.photos/48.webp?random=650"
     },
-    "finished": false,
-    "lastModified": 1625645117494,
+    "progress": 37,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=279",
     "lastWatched": 1625656286402,
-    "progress": 37
+    "lastModified": 1625645117494
   },
   {
     "id": "60e565497dd029fe4e9c7c3f",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=550",
     "title": "Ullamco magna irure aliqua magna qui pariatur cillum ad laboris incididunt fugiat nostrud cillum elit.",
+    "finished": true,
     "lecturer": {
       "name": "Olga Cole",
       "avatar": "https://picsum.photos/48.webp?random=378"
     },
-    "finished": true,
-    "lastModified": 1625652656313,
+    "progress": 98,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=550",
     "lastWatched": 1625642748749,
-    "progress": 98
+    "lastModified": 1625652656313
   },
   {
     "id": "60e56549b82504cb88e4ca09",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=749",
     "title": "Consectetur esse dolore reprehenderit quis consectetur nulla consectetur nostrud mollit.",
+    "finished": true,
     "lecturer": {
       "name": "Lana Reilly",
       "avatar": "https://picsum.photos/48.webp?random=86"
     },
-    "finished": true,
-    "lastModified": 1625636466808,
+    "progress": 46,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=749",
     "lastWatched": 1625653752552,
-    "progress": 46
+    "lastModified": 1625636466808
   },
   {
     "id": "60e5654900a53eacfd6b3ed2",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=457",
     "title": "Ea dolor mollit esse ex nostrud esse.",
+    "finished": false,
     "lecturer": {
       "name": "Lourdes Ratliff",
       "avatar": "https://picsum.photos/48.webp?random=322"
     },
-    "finished": false,
-    "lastModified": 1625644204715,
+    "progress": 84,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=457",
     "lastWatched": 1625642341457,
-    "progress": 84
+    "lastModified": 1625644204715
   },
   {
     "id": "60e565493bbb3bc13555c397",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=134",
     "title": "Est eiusmod aliqua fugiat id exercitation id veniam commodo incididunt ullamco laborum ea.",
+    "finished": true,
     "lecturer": {
       "name": "Mercer Townsend",
       "avatar": "https://picsum.photos/48.webp?random=227"
     },
-    "finished": true,
-    "lastModified": 1625646380694,
+    "progress": 69,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=134",
     "lastWatched": 1625642244194,
-    "progress": 69
+    "lastModified": 1625646380694
   },
   {
     "id": "60e56549c7338a256cb78221",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=642",
     "title": "Nostrud enim Lorem aute nostrud reprehenderit dolor.",
+    "finished": true,
     "lecturer": {
       "name": "Beryl Avila",
       "avatar": "https://picsum.photos/48.webp?random=529"
     },
-    "finished": true,
-    "lastModified": 1625652262577,
+    "progress": 97,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=642",
     "lastWatched": 1625645269340,
-    "progress": 97
+    "lastModified": 1625652262577
   },
   {
     "id": "60e565490de88d6a34c67d03",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=965",
     "title": "Occaecat cillum aliqua excepteur sint aute tempor ex voluptate esse nulla nulla ipsum in incididunt.",
+    "finished": true,
     "lecturer": {
       "name": "Eloise Ferrell",
       "avatar": "https://picsum.photos/48.webp?random=989"
     },
-    "finished": true,
-    "lastModified": 1625646924440,
+    "progress": 75,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=965",
     "lastWatched": 1625655984690,
-    "progress": 75
+    "lastModified": 1625646924440
   },
   {
     "id": "60e56549c500858070c1394c",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=530",
     "title": "Elit cillum elit tempor in commodo labore.",
+    "finished": true,
     "lecturer": {
       "name": "Potts Brady",
       "avatar": "https://picsum.photos/48.webp?random=415"
     },
-    "finished": true,
-    "lastModified": 1625645403194,
+    "progress": 73,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=530",
     "lastWatched": 1625649116361,
-    "progress": 73
+    "lastModified": 1625645403194
   },
   {
     "id": "60e565494986db14d2492ae1",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=938",
     "title": "Anim non laboris dolor cillum voluptate dolore anim anim do minim ut cupidatat ipsum esse.",
+    "finished": false,
     "lecturer": {
       "name": "Emma Johns",
       "avatar": "https://picsum.photos/48.webp?random=88"
     },
-    "finished": false,
-    "lastModified": 1625652688683,
+    "progress": 30,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=938",
     "lastWatched": 1625647028686,
-    "progress": 30
+    "lastModified": 1625652688683
   },
   {
     "id": "60e565495a5002430290f788",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=473",
     "title": "Esse sit adipisicing laborum sint in consectetur aliqua adipisicing nulla minim occaecat in.",
+    "finished": true,
     "lecturer": {
       "name": "Dolores Roy",
       "avatar": "https://picsum.photos/48.webp?random=799"
     },
-    "finished": true,
-    "lastModified": 1625651436346,
+    "progress": 18,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=473",
     "lastWatched": 1625641208310,
-    "progress": 18
+    "lastModified": 1625651436346
   },
   {
     "id": "60e56549f1293e4e33046933",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=14",
     "title": "Culpa est voluptate esse sint occaecat esse fugiat commodo do non elit in adipisicing.",
+    "finished": false,
     "lecturer": {
       "name": "Janell Gordon",
       "avatar": "https://picsum.photos/48.webp?random=197"
     },
-    "finished": false,
-    "lastModified": 1625636615131,
+    "progress": 95,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=14",
     "lastWatched": 1625642849382,
-    "progress": 95
+    "lastModified": 1625636615131
   },
   {
     "id": "60e56549019e96652db1e28f",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=962",
     "title": "Consectetur nostrud reprehenderit in non labore laboris culpa quis tempor.",
+    "finished": false,
     "lecturer": {
       "name": "Twila Calhoun",
       "avatar": "https://picsum.photos/48.webp?random=611"
     },
-    "finished": false,
-    "lastModified": 1625646735208,
+    "progress": 2,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=962",
     "lastWatched": 1625653081945,
-    "progress": 2
+    "lastModified": 1625646735208
   },
   {
     "id": "60e565490ddf52c540720204",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=291",
     "title": "Elit aute incididunt occaecat ea nisi exercitation et officia sit dolore do ullamco amet sit.",
+    "finished": true,
     "lecturer": {
       "name": "Evangelina Gay",
       "avatar": "https://picsum.photos/48.webp?random=488"
     },
-    "finished": true,
-    "lastModified": 1625644560894,
+    "progress": 3,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=291",
     "lastWatched": 1625641125140,
-    "progress": 3
+    "lastModified": 1625644560894
   },
   {
     "id": "60e5654917dc31eaaed4084a",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=207",
     "title": "Irure commodo commodo nisi aute consequat enim minim.",
+    "finished": true,
     "lecturer": {
       "name": "Hollie Maynard",
       "avatar": "https://picsum.photos/48.webp?random=104"
     },
-    "finished": true,
-    "lastModified": 1625655593116,
+    "progress": 52,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=207",
     "lastWatched": 1625651537605,
-    "progress": 52
+    "lastModified": 1625655593116
   },
   {
     "id": "60e565493db54fb56a48b44d",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=215",
     "title": "Exercitation cupidatat commodo cillum ullamco aliqua do elit deserunt consequat magna est aliquip laboris.",
+    "finished": false,
     "lecturer": {
       "name": "Annette Phillips",
       "avatar": "https://picsum.photos/48.webp?random=786"
     },
-    "finished": false,
-    "lastModified": 1625654443510,
+    "progress": 67,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=215",
     "lastWatched": 1625653818234,
-    "progress": 67
+    "lastModified": 1625654443510
   },
   {
     "id": "60e5654964492e55e308c511",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=186",
     "title": "Proident officia incididunt nulla tempor.",
+    "finished": false,
     "lecturer": {
       "name": "Holman Bailey",
       "avatar": "https://picsum.photos/48.webp?random=635"
     },
-    "finished": false,
-    "lastModified": 1625639727716,
+    "progress": 89,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=186",
     "lastWatched": 1625642413902,
-    "progress": 89
+    "lastModified": 1625639727716
   },
   {
     "id": "60e565498c546f7ea5388b6d",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=959",
     "title": "Lorem aliqua do cupidatat et minim.",
+    "finished": false,
     "lecturer": {
       "name": "Raymond Langley",
       "avatar": "https://picsum.photos/48.webp?random=110"
     },
-    "finished": false,
-    "lastModified": 1625640330393,
+    "progress": 90,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=959",
     "lastWatched": 1625644604316,
-    "progress": 90
+    "lastModified": 1625640330393
   },
   {
     "id": "60e565492baa51c938b8ef4b",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=940",
     "title": "Irure ex occaecat occaecat est ea deserunt reprehenderit minim ea ea pariatur.",
+    "finished": false,
     "lecturer": {
       "name": "Hays Mclaughlin",
       "avatar": "https://picsum.photos/48.webp?random=516"
     },
-    "finished": false,
-    "lastModified": 1625656228527,
+    "progress": 62,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=940",
     "lastWatched": 1625639263064,
-    "progress": 62
+    "lastModified": 1625656228527
   },
   {
     "id": "60e56549230425e6b3ed92b4",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=10",
     "title": "Minim dolore Lorem commodo nostrud aliqua consectetur eu nisi ea magna commodo reprehenderit nisi do.",
+    "finished": true,
     "lecturer": {
       "name": "Winnie Dorsey",
       "avatar": "https://picsum.photos/48.webp?random=986"
     },
-    "finished": true,
-    "lastModified": 1625646762576,
+    "progress": 7,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=10",
     "lastWatched": 1625651799527,
-    "progress": 7
+    "lastModified": 1625646762576
   },
   {
     "id": "60e56549971a44edfae0f952",
-    "thumbnail": "https://picsum.photos/400/150.webp?random=631",
     "title": "In sunt nulla sunt nulla labore.",
+    "finished": true,
     "lecturer": {
       "name": "Lyons Evans",
       "avatar": "https://picsum.photos/48.webp?random=350"
     },
-    "finished": true,
-    "lastModified": 1625644700099,
+    "progress": 49,
+    "thumbnail": "https://picsum.photos/400/150.webp?random=631",
     "lastWatched": 1625650984699,
-    "progress": 49
+    "lastModified": 1625644700099
   }
 ]
