@@ -93,7 +93,8 @@ export const resources = {
     logout: resource('/Auth/Logout', undefined),
     verify: resource('/Auth/VerifyTwoStepVerification', '/auth/verify'),
     register: resource('/Auth/Register', '/auth/register'),
-    resend: resource('/Auth/ResendOTP', '/auth/resend')
+    resend: resource('/Auth/ResendOTP', '/auth/resend'),
+    changePassword: resource('/Auth/ChangePassword', '/auth/user/1')
   },
   courses: {
     all: resource('/Courses', undefined),
@@ -120,6 +121,7 @@ export const resources = {
   },
   user: {
     get: (id) => resource(`/Users/${id}`, `/auth/user/${id}`),
+    put: resource('/Users', `/auth/user/1`),
     session: resource('/Auth/IsLoggedIn', '/auth/user/1')
   },
   shop: {
@@ -167,6 +169,24 @@ export async function fetchPOST(url, payload, config) {
   const response = await fetch(url, {
     credentials: 'include',
     method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      ...headers
+    },
+    body: transformer(payload)
+  })
+  const data = await response.json()
+  if (response.ok) return data.results
+  throw ApiError(data.errors)
+}
+
+export async function fetchPUT(url, payload, config) {
+  const transformer = config?.transformer ?? JSON.stringify
+  const headers = config?.headers ?? {}
+  const response = await fetch(url, {
+    credentials: 'include',
+    method: 'PUT',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',

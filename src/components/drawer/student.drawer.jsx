@@ -32,6 +32,8 @@ import dynamic from 'next/dynamic'
 import useStyles from './student.style'
 import CategoryListItem from './category.listitem'
 import { resources } from '@/utils/api'
+import { useAuth } from '../hooks/auth.provider'
+import { useSnackbar } from 'notistack'
 
 const destinations = [
   { section: routes.u.library, icon: <VideoLibrary />, label: 'My Library' },
@@ -39,19 +41,31 @@ const destinations = [
   { section: routes.u.shop, icon: <Shop />, label: 'Shopping Cart' }
 ]
 
-const SignoutDialog = dynamic(() => import('./signout.dialog'))
-const ProfileDialog = dynamic(() => import('../dialog/profile.dialog'))
+const SignoutDialog = dynamic(() =>
+  import('@/components/dialog/signout.dialog')
+)
+const PasswordDialog = dynamic(() =>
+  import('@/components/dialog/password.dialog')
+)
+
+const ProfileDialog = dynamic(() =>
+  import('@/components/dialog/profile.dialog')
+)
 
 /**
  * @param {import('@material-ui/core').DrawerProps} props
  */
-export default function StudentDrawer({ student, children, ...props }) {
+export default function StudentDrawer({ children, ...props }) {
+  const styles = useStyles()
   const router = useRouter()
   const { theme, setTheme } = useApp()
-  const styles = useStyles()
-  const { username, avatar, email } = student
+  const { user, revalidate } = useAuth()
+  const { enqueueSnackbar } = useSnackbar()
+  const { username, email, avatar } = user
+
   const [signoutDialog, setSignoutDialog] = useState(false)
   const [profileDialog, setProfileDialog] = useState(false)
+  const [passwordDialog, setPasswordDialog] = useState(false)
 
   return (
     <Drawer {...props}>
@@ -80,7 +94,7 @@ export default function StudentDrawer({ student, children, ...props }) {
           </ListItemIcon>
           <ListItemText primary="Edit profile" />
         </ListItem>
-        <ListItem button>
+        <ListItem button onClick={() => setPasswordDialog(true)}>
           <ListItemIcon>
             <Security />
           </ListItemIcon>
@@ -131,14 +145,27 @@ export default function StudentDrawer({ student, children, ...props }) {
         }}
         onCancel={() => setSignoutDialog(false)}
       />
+      <PasswordDialog
+        fullWidth
+        maxWidth="sm"
+        open={passwordDialog}
+        user={user}
+        onClose={() => setPasswordDialog(false)}
+        onConfirm={() => {
+          enqueueSnackbar('Password Updated', { variant: 'success' })
+          setPasswordDialog(false)
+        }}
+        onCancel={() => setPasswordDialog(false)}
+      />
       <ProfileDialog
         fullWidth
         maxWidth="sm"
-        student={student}
         open={profileDialog}
+        user={user}
         onClose={() => setProfileDialog(false)}
-        onConfirm={(user) => {
-          alert(`email: ${user.email}\nusername: ${user.username}`)
+        onConfirm={() => {
+          revalidate()
+          enqueueSnackbar('Account Updated', { variant: 'success' })
           setProfileDialog(false)
         }}
         onCancel={() => setProfileDialog(false)}

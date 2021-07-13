@@ -12,7 +12,8 @@ import {
   CircularProgress
 } from '@material-ui/core'
 import dynamic from 'next/dynamic'
-import { fetchPUT, resources } from '@/utils/api'
+import { fetchPOST, fetchPUT, resources } from '@/utils/api'
+import { PasswordField } from '../inputs'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -29,27 +30,31 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginDialog = dynamic(() => import('./login.dialog'))
 
-export default function ProfileDialog({ user, onConfirm, onCancel, ...props }) {
+export default function PasswordDialog({
+  user,
+  onConfirm,
+  onCancel,
+  ...props
+}) {
   const styles = useStyles()
 
-  const [email, setEmail] = useState(user.email)
-  const [username, setUsername] = useState(user.username)
+  const [password, setPassword] = useState('')
   const [verifyDialog, setVerifyDialog] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
 
   const submitEl = useRef(undefined)
 
-  async function onUpdate() {
+  async function onUpdate(_, oldPassword) {
     setVerifyDialog(false)
     setSubmitting(true)
 
     try {
-      await fetchPUT(resources.user.put, {
+      await fetchPOST(resources.auth.changePassword, {
         userId: user.id,
-        newUserName: username,
-        newEmail: email,
-        newAvatarUrl: user.avatar
+        oldPassword,
+        newPassword: password,
+        confirmPassword: password
       })
       onConfirm?.call(undefined)
     } catch (error) {
@@ -67,26 +72,15 @@ export default function ProfileDialog({ user, onConfirm, onCancel, ...props }) {
   return (
     <>
       <Dialog {...props}>
-        <DialogTitle>Update Profile</DialogTitle>
+        <DialogTitle>Change Password</DialogTitle>
         <DialogContent>
           <form className={styles.form} onSubmit={onSubmit}>
-            <TextField
+            <PasswordField
               required
-              autoFocus
-              onFocus={(e) => e.target.select()}
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              label="Username"
-              fullWidth
-              disabled={submitting}
-            />
-            <TextField
-              required
-              onFocus={(e) => e.target.select()}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              label="Email Address"
-              type="email"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              label="Your new Password"
               fullWidth
               disabled={submitting}
             />
@@ -125,7 +119,7 @@ export default function ProfileDialog({ user, onConfirm, onCancel, ...props }) {
   )
 }
 
-ProfileDialog.propTypes = {
+PasswordDialog.propTypes = {
   onConfirm: PropTypes.func,
   onCancel: PropTypes.func,
   user: PropTypes.shape({
