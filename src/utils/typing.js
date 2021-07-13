@@ -85,7 +85,7 @@ export const TopicPropTypes = PropTypes.shape({
     name: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired
-  }).isRequired
+  })
 })
 
 export const CategoryPropTypes = PropTypes.shape({

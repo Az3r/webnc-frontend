@@ -25,7 +25,14 @@ export default function CategoryDrawer({ category, children, ...props }) {
   const styles = useStyles()
   const id = category ? (category === 'web' ? 1 : 2) : null
   const { data } = useGET(() => (id ? resources.categoryType.get(id) : null))
-  const categories = data?.categories
+  const categories = data?.categories?.map((item) => {
+    const { name: label, label: name, imageUrl: avatar } = item
+    return {
+      name,
+      label,
+      avatar
+    }
+  })
 
   return (
     <Drawer {...props}>

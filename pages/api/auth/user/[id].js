@@ -1,4 +1,12 @@
 import users from '@/mocks/users.json'
 export default async function handler(req, res) {
-  return res.status(200).json({ results: users[0] })
+  const { id, userName, avatar, email } = users[0]
+  return res.status(200).json({
+    results: {
+      id,
+      userName,
+      email,
+      avatarUrl: avatar
+    }
+  })
 }

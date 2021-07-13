@@ -17,9 +17,17 @@ import { routes } from '@/utils/app'
 export default function CategoryPopover() {
   const styles = useStyles()
   const [category, setCategory] = useState(null)
+
   const id = category ? (category === 'web' ? 1 : 2) : null
   const { data } = useGET(() => (id ? resources.categoryType.get(id) : null))
-  const categories = data?.categories
+  const categories = data?.categories?.map((item) => {
+    const { name: label, label: name, imageUrl: avatar } = item
+    return {
+      name,
+      label,
+      avatar
+    }
+  })
 
   return (
     <Paper className={styles.root}>
@@ -79,7 +87,7 @@ export default function CategoryPopover() {
         {categories ? (
           <Grid container component="nav">
             {categories.map((item) => {
-              const { name: label, label: name, imageUrl: avatar } = item
+              const { name, label, avatar } = item
               const href = routes.topic(category, name || label.toLowerCase())
 
               return (
