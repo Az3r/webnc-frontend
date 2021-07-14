@@ -5,6 +5,7 @@ import qs from 'qs'
 
 /** api uses CamelCase */
 export function toCoursePropTypes(course) {
+  if (process.env.NEXT_PUBLIC_MOCK_API) return course
   return {
     id: course.Id.toString(),
     thumbnail: course.ImageUrl.match(/https/)
@@ -26,6 +27,7 @@ export function toCoursePropTypes(course) {
 
 /** api uses snakeCase */
 export function toCoursePropTypesV2(course) {
+  if (process.env.NEXT_PUBLIC_MOCK_API) return course
   return {
     id: course.id.toString(),
     thumbnail: course.imageUrl.match(/https/)
@@ -46,6 +48,7 @@ export function toCoursePropTypesV2(course) {
 }
 
 export function toCourseDetailPropTypes(course) {
+  if (process.env.NEXT_PUBLIC_MOCK_API) return course
   return {
     id: course.id,
     thumbnail: course.imageUrl,
@@ -66,6 +69,7 @@ export function toCourseDetailPropTypes(course) {
 }
 
 export function toLecturePropTypes(lecture) {
+  if (process.env.NEXT_PUBLIC_MOCK_API) return lecture
   const { duration, videoUrl } = lecture
   const hour = Math.floor(duration / 3600)
   const minute = Math.floor((duration % 3600) / 60)
@@ -84,6 +88,7 @@ export function toLecturePropTypes(lecture) {
 }
 
 export function toFeedbackPropTypes(feedback) {
+  if (process.env.NEXT_PUBLIC_MOCK_API) return feedback
   return {
     rating: feedback.rate,
     content: feedback.review,

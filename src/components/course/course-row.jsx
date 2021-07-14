@@ -65,7 +65,7 @@ export default function CourseRow({ course }) {
   }
 
   return (
-    <Grid container spacing={1} alignItems="center">
+    <Grid container spacing={1}>
       <Grid item xs={4} sm={3} md={2}>
         <Box position="relative" height={0} paddingTop="56.25%">
           <Box position="absolute" top={0} left={0} right={0} bottom={0}>

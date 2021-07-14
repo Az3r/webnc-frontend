@@ -13,6 +13,7 @@ import {
   Switch
 } from '@material-ui/core'
 import {
+  AccountBalance,
   Brightness3,
   BrightnessHigh,
   Create,
@@ -36,6 +37,11 @@ import { useAuth } from '../hooks/auth.provider'
 import { useSnackbar } from 'notistack'
 
 const destinations = [
+  {
+    section: routes.l.dashboard,
+    icon: <AccountBalance />,
+    label: 'My Own Course'
+  },
   { section: routes.u.library, icon: <VideoLibrary />, label: 'My Library' },
   { section: routes.u.watchlist, icon: <Favorite />, label: 'My Watchlist' },
   { section: routes.u.shop, icon: <Shop />, label: 'Shopping Cart' }
@@ -55,7 +61,7 @@ const ProfileDialog = dynamic(() =>
 /**
  * @param {import('@material-ui/core').DrawerProps} props
  */
-export default function StudentDrawer({ children, ...props }) {
+export default function LecturerDrawer({ children, ...props }) {
   const styles = useStyles()
   const router = useRouter()
   const { theme, setTheme } = useApp()
@@ -174,6 +180,6 @@ export default function StudentDrawer({ children, ...props }) {
   )
 }
 
-StudentDrawer.propTypes = {
+LecturerDrawer.propTypes = {
   children: PropTypes.node
 }

@@ -21,12 +21,14 @@ import {
   Close,
   Menu,
   Search,
-  VideoLibrary
+  VideoLibrary,
+  AccountBalance
 } from '@material-ui/icons'
 import dynamic from 'next/dynamic'
 import { useApp } from '@/app.theme'
 import InlineSearch from './search.component'
 import { useAuth } from '../hooks/auth.provider'
+import LecturerDrawer from '../drawer/lecturer.drawer'
 
 const GuestDrawer = dynamic(() => import('@/components/drawer/guest.drawer'))
 const StudentDrawer = dynamic(() =>
@@ -43,19 +45,25 @@ export default function GuestAppBar() {
   const [showCategory, setShowCategory] = useState(false)
   const [mobileSearch, setMobileSearch] = useState(false)
 
-  const guest = !user
-  const student = Boolean(user)
+  const guest = !user || user.role === 'Admin'
+  const student = user?.role === 'Student'
+  const lecturer = user?.role === 'Lecturer'
 
   function AppBarActions() {
     return (
       <>
         {guest && <GuestAction />}
         {student && <StudentAction />}
+        {lecturer && <LecturerAction />}
       </>
     )
   }
 
-  const AppBarDrawer = student ? StudentDrawer : GuestDrawer
+  const AppBarDrawer = lecturer
+    ? LecturerDrawer
+    : student
+    ? StudentDrawer
+    : GuestDrawer
 
   return (
     <>
@@ -185,6 +193,27 @@ function StudentAction() {
         <Tooltip title="Go to Cart">
           <IconButton>
             <Shop />
+          </IconButton>
+        </Tooltip>
+      </NextLink>
+      <NextLink href={routes.u.library} passHref>
+        <Tooltip title="Go to Library">
+          <IconButton>
+            <VideoLibrary />
+          </IconButton>
+        </Tooltip>
+      </NextLink>
+    </>
+  )
+}
+
+function LecturerAction() {
+  return (
+    <>
+      <NextLink href={routes.l.dashboard} passHref>
+        <Tooltip title="Go to Own Courses">
+          <IconButton>
+            <AccountBalance />
           </IconButton>
         </Tooltip>
       </NextLink>

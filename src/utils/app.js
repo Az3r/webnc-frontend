@@ -13,5 +13,8 @@ export const routes = {
     watchlist: '/u/watchlist',
     library: '/u/library',
     watch: (id) => `/u/watch/${id}`
+  },
+  l: {
+    dashboard: '/l/dashboard'
   }
 }

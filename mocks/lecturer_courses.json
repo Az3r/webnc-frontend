@@ -1,0 +1,82 @@
+[
+  {
+    "id": "60ee99a28c296f848a0a469f",
+    "thumbnail": "https://picsum.photos/400/150.webp?random=133",
+    "title": "Cillum velit nostrud minim id veniam labore duis reprehenderit consectetur aliqua officia nisi.",
+    "status": true,
+    "lastModified": 1626259629096,
+    "totalLectures": 6
+  },
+  {
+    "id": "60ee99a26ce971d4bf79d660",
+    "thumbnail": "https://picsum.photos/400/150.webp?random=488",
+    "title": "Quis proident velit pariatur do anim cillum adipisicing veniam nulla reprehenderit Lorem mollit.",
+    "status": true,
+    "lastModified": 1626251787887,
+    "totalLectures": 10
+  },
+  {
+    "id": "60ee99a27354ed51d01d1382",
+    "thumbnail": "https://picsum.photos/400/150.webp?random=321",
+    "title": "Occaecat non laborum ut voluptate voluptate.",
+    "status": false,
+    "lastModified": 1626243802910,
+    "totalLectures": 8
+  },
+  {
+    "id": "60ee99a2da0568c4f95bf7b8",
+    "thumbnail": "https://picsum.photos/400/150.webp?random=448",
+    "title": "Aliqua commodo in fugiat eu.",
+    "status": false,
+    "lastModified": 1626252965058,
+    "totalLectures": 3
+  },
+  {
+    "id": "60ee99a2ff1e2b268d21828c",
+    "thumbnail": "https://picsum.photos/400/150.webp?random=527",
+    "title": "Lorem duis qui fugiat id in magna id excepteur.",
+    "status": false,
+    "lastModified": 1626242285169,
+    "totalLectures": 3
+  },
+  {
+    "id": "60ee99a2ecf101c92f9a12ee",
+    "thumbnail": "https://picsum.photos/400/150.webp?random=101",
+    "title": "In commodo excepteur est nisi aliqua fugiat culpa.",
+    "status": false,
+    "lastModified": 1626251449428,
+    "totalLectures": 2
+  },
+  {
+    "id": "60ee99a2a1835b05a69eaa75",
+    "thumbnail": "https://picsum.photos/400/150.webp?random=654",
+    "title": "Ex adipisicing occaecat culpa deserunt quis commodo do esse do ad nulla ipsum cillum ad.",
+    "status": true,
+    "lastModified": 1626244509094,
+    "totalLectures": 10
+  },
+  {
+    "id": "60ee99a210c47d138d272f33",
+    "thumbnail": "https://picsum.photos/400/150.webp?random=344",
+    "title": "Enim anim ullamco labore est aute anim deserunt in.",
+    "status": false,
+    "lastModified": 1626253083918,
+    "totalLectures": 2
+  },
+  {
+    "id": "60ee99a2141da01d40202483",
+    "thumbnail": "https://picsum.photos/400/150.webp?random=440",
+    "title": "Et deserunt sit adipisicing consectetur.",
+    "status": true,
+    "lastModified": 1626241262306,
+    "totalLectures": 5
+  },
+  {
+    "id": "60ee99a23b6f4e21334cdb7c",
+    "thumbnail": "https://picsum.photos/400/150.webp?random=49",
+    "title": "Nostrud non quis cillum id esse officia amet.",
+    "status": false,
+    "lastModified": 1626248908243,
+    "totalLectures": 9
+  }
+]

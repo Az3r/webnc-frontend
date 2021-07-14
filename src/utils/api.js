@@ -146,6 +146,13 @@ export const resources = {
         `/StudentCourses/GetAllByStudentId?studentId=${id}`,
         `/library/${id}`
       )
+  },
+  lecturer: {
+    course: (id) =>
+      resource(
+        `/Courses/GetCourseListByLecturerId?lecturerId=${id}`,
+        '/lecturer/courses'
+      )
   }
 }
 
