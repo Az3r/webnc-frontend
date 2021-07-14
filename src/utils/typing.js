@@ -93,6 +93,7 @@ export const TopicPropTypes = PropTypes.shape({
 export const CategoryPropTypes = PropTypes.shape({
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   topics: PropTypes.arrayOf(TopicPropTypes.isRequired).isRequired,
   bestsellers: PropTypes.arrayOf(CoursePropTypes.isRequired)
 })

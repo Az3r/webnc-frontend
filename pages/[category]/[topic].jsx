@@ -2,7 +2,7 @@ export { default } from '@/features/topic'
 import mock from '@/mocks/topic.json'
 import { fetchGET, resources } from '@/utils/api'
 import { routes } from '@/utils/app'
-import { toCoursePropTypes } from '@/utils/conversion'
+import { toCoursePropTypesV2 } from '@/utils/conversion'
 
 export async function getStaticProps({ params }) {
   if (process.env.NEXT_PUBLIC_MOCK_API)
@@ -24,7 +24,8 @@ export async function getStaticProps({ params }) {
       label: name,
       name: label,
       imageUrl: avatar,
-      categoryType,
+      categoryTypeId,
+      categoryTypeName,
       courses
     } = await fetchGET(resources.topic.get(topic))
 
@@ -34,18 +35,18 @@ export async function getStaticProps({ params }) {
     return {
       props: {
         topic: {
-          id,
+          id: id.toString(),
           name: name || label.toLowerCase(),
           avatar,
           category: {
-            id: categoryType.id,
-            label: categoryType.name,
+            id: categoryTypeId.toString(),
+            label: categoryTypeName,
             name: category
           },
           label,
-          courses: courses.map(toCoursePropTypes),
+          courses: courses.map(toCoursePropTypesV2),
           others: others.categories.map((item) => ({
-            id: item.id,
+            id: item.id.toString(),
             name: item.label,
             label: item.name || item.label.toLowerCase(),
             avatar: item.imageUrl

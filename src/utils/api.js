@@ -117,7 +117,12 @@ export const resources = {
   },
   topic: {
     get: (name) =>
-      resource(`/Categories/GetWithAllInfoByName?name=${name}`, undefined)
+      resource(`/Categories/GetWithAllInfoByName?name=${name}`, undefined),
+    course: (id, size, offset) =>
+      resource(
+        `/Courses/GetCourseListByFilterAndPaginationParameters?CategoryId=${id}&PageNumber=${offset}&PageSize=${size}`,
+        '/courses'
+      )
   },
   user: {
     get: (id) => resource(`/Users/${id}`, `/auth/user/${id}`),
@@ -125,11 +130,10 @@ export const resources = {
     session: resource('/Auth/IsLoggedIn', '/auth/user/1')
   },
   shop: {
-    get: (id) => resource(undefined, `/shop/${id}`)
+    get: (id) => resource(`/Carts/GetByStudentId?studentId=${id}`, '/courses')
   },
   watchlist: {
-    get: (id) =>
-      resource(`/WatchLists/GetAllByStudentId/${id}`, `/watchlist/${id}`)
+    get: (id) => resource(`/WatchLists/GetAllByStudentId/${id}`, '/courses')
   },
   library: {
     get: (id) =>

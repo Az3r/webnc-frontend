@@ -1,7 +1,7 @@
 export { default } from '@/features/category'
 import data from '@/mocks/category.json'
 import { fetchGET, resources } from '@/utils/api'
-import { toCoursePropTypes } from '@/utils/conversion'
+import { toCoursePropTypes, toCoursePropTypesV2 } from '@/utils/conversion'
 
 export async function getStaticProps({ params }) {
   if (process.env.NEXT_PUBLIC_MOCK_API)
@@ -20,6 +20,7 @@ export async function getStaticProps({ params }) {
       props: {
         category: {
           id: categoryType.id.toString(),
+          name: params.category,
           label: categoryType.name,
           topics: categoryType.categories.map((item, index) => {
             const { id, name: label, label: name, imageUrl } = item
@@ -28,7 +29,7 @@ export async function getStaticProps({ params }) {
               name: name || label.toLowerCase(),
               avatar: imageUrl,
               label,
-              courses: dynamicCategoryList[index].map(toCoursePropTypes)
+              courses: dynamicCategoryList[index].map(toCoursePropTypesV2)
             }
           }),
           bestsellers: bestsellers.map(toCoursePropTypes)
