@@ -47,8 +47,8 @@ export async function getStaticProps({ params }) {
           courses: courses.map(toCoursePropTypesV2),
           others: others.categories.map((item) => ({
             id: item.id.toString(),
-            name: item.label,
-            label: item.name || item.label.toLowerCase(),
+            name: item.label || item.name.toLowerCase(),
+            label: item.name,
             avatar: item.imageUrl
           }))
         }

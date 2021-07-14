@@ -19,6 +19,7 @@ export const LecturePropTypes = PropTypes.shape({
 })
 
 export const CourseDetailPropTypes = PropTypes.shape({
+  id: PropTypes.string.isRequired,
   thumbnail: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   lecturer: PropTypes.shape({
@@ -32,11 +33,8 @@ export const CourseDetailPropTypes = PropTypes.shape({
   tag: PropTypes.string,
   lastModified: PropTypes.number.isRequired,
   bought: PropTypes.number.isRequired,
-  watchlisted: PropTypes.bool,
   feedbacks: PropTypes.arrayOf(FeedbackPropTypes.isRequired).isRequired,
-  lectures: PropTypes.arrayOf(LecturePropTypes.isRequired).isRequired,
-  inUserLibrary: PropTypes.bool,
-  userProgression: PropTypes.number
+  lectures: PropTypes.arrayOf(LecturePropTypes.isRequired).isRequired
 })
 
 export const CoursePropTypes = PropTypes.shape({

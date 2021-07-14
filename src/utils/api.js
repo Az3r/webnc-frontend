@@ -97,8 +97,13 @@ export const resources = {
     changePassword: resource('/Auth/ChangePassword', '/auth/user/1')
   },
   courses: {
-    all: resource('/Courses', undefined),
+    all: resource('/Courses/GetCourseIdList', undefined),
     get: (id) => resource(`/Courses/${id}`, undefined),
+    feedback: (id) =>
+      resource(
+        `/Feedbacks/GetFeedbackListByCourseId?courseId=${id}`,
+        undefined
+      ),
     trending: resource('/Courses/OutstandingCourses', '/courses/trending'),
     mostviews: resource('/Courses/MostViewedCourses', '/courses/mostviews'),
     newest: resource('/Courses/NewestCourses', '/courses/newest'),
