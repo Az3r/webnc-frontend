@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { CourseRowSkeleton } from '@/components/course/course-row'
 import DefaultLayout from '@/components/layout'
@@ -17,6 +17,7 @@ import { resources, useGET } from '@/utils/api'
 import { useAuth } from '@/components/hooks/auth.provider'
 import NextImage from 'next/image'
 import { Add } from '@material-ui/icons'
+import CourseDialog from '@/components/dialog/course.dialog'
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -76,6 +77,7 @@ function LoadingContent() {
 
 function DisplayContent({ data }) {
   const styles = useStyles()
+  const [dialog, setDialog] = useState(false)
   return (
     <>
       <ul className={styles.ul}>
@@ -86,10 +88,15 @@ function DisplayContent({ data }) {
         ))}
       </ul>
       <Tooltip title="Add new Course">
-        <Fab color="primary" className={styles.fab}>
+        <Fab
+          color="primary"
+          className={styles.fab}
+          onClick={() => setDialog('create')}
+        >
           <Add />
         </Fab>
       </Tooltip>
+      <CourseDialog onClose={() => setDialog(undefined)} action={dialog} />
     </>
   )
 }
