@@ -34,6 +34,7 @@ import ThumbnailSection from './thumbnail.component'
 import InfoSection from './info.component'
 import DescriptionSection from './description.component'
 import LectureSection from './lecture.component'
+import mocks from '@/mocks/lectures.json'
 
 const useStyles = makeStyles((theme) => ({
   bottomAppBar: {
@@ -100,10 +101,11 @@ export default function CourseDialog({
   const downXS = useMediaQuery(theme.breakpoints.down('sm'))
   const [value, setValue] = useState(0)
   const [status, setValidation] = useState(tabs.map(() => false))
+
   const [thumbnail, setThumbnail] = useState(undefined)
   const [info, setInfo] = useState({})
   const [longdesc, setLongdesc] = useState(undefined)
-  const [lectures, setLectures] = useState(undefined)
+  const [lectures, setLectures] = useState(['a', 'b', 'c', 'd', 'e', 'f'])
 
   useEffect(() => {
     setValidation((prev) => {
@@ -129,6 +131,13 @@ export default function CourseDialog({
       return prev.slice()
     })
   }, [longdesc])
+
+  useEffect(() => {
+    setValidation((prev) => {
+      prev[3] = Boolean(lectures?.length)
+      return prev.slice()
+    })
+  }, [lectures])
 
   return (
     <Dialog

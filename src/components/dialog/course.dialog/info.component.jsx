@@ -26,7 +26,7 @@ export default function InfoSection() {
   const formatter = new Intl.NumberFormat()
   const formattedPrice = formatter.format(price)
   return (
-    <Container className={styles.root}>
+    <Container className={styles.root} maxWidth="md">
       <TextField
         label="Enter your Course's title"
         placeholder="My awesome course"

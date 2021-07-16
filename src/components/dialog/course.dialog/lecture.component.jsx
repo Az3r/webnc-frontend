@@ -15,10 +15,10 @@ import {
 } from '@material-ui/core'
 import { Create, Delete, Reorder, VideoCall } from '@material-ui/icons'
 import { formatDuration } from '@/utils/tools'
-import lectures from '@/mocks/lectures.json'
 import { animated, useSprings } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 import CreateLectureDialog from '../lecture.dialog'
+import { useCreateCourse } from '.'
 
 const ITEM_HEIGHT = 80
 const useStyles = makeStyles((theme) => ({
@@ -59,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LectureSection() {
   const styles = useStyles()
+  const { lectures, setLectures } = useCreateCourse()
 
   const orders = useRef(lectures.map((_, index) => index))
   const [dialog, setDialog] = useState(false)
@@ -67,6 +68,7 @@ export default function LectureSection() {
     lectures.length,
     animate(orders.current)
   )
+
   const bind = useDrag(({ args: [origin], active, movement: [, y] }) => {
     // find the current row of an item
     const row = orders.current.indexOf(origin)
@@ -88,12 +90,28 @@ export default function LectureSection() {
     animation.start(animate(newOrders, active, origin, row, y))
   })
 
+  function onAddLecture(lecture) {
+    orders.current.push(-1)
+    const insertedRow = orders.current.indexOf(-1)
+    orders.current[insertedRow] = lectures.length
+    setLectures((prev) => [...prev, 'z'])
+  }
+
+  function onDeleteLecture(index) {
+    const removedRow = orders.current.indexOf(index)
+    orders.current.forEach((origin, row) => {
+      if (row > removedRow) orders.current[row - 1] = origin
+    })
+    orders.current[orders.current.length - 1] = -1
+    animation.start(animate(orders.current))
+  }
+
   return (
     <Container fixed className={styles.root}>
       <Box display="flex" alignItems="center">
         <Typography>Total Lectures: {lectures.length}</Typography>
         <Box marginLeft="auto">
-          <Button color="primary" onClick={() => setDialog(true)}>
+          <Button color="primary" onClick={onAddLecture}>
             Add Lecture
           </Button>
         </Box>
@@ -102,12 +120,14 @@ export default function LectureSection() {
         className={styles.ul}
         style={{ height: lectures.length * ITEM_HEIGHT }}
       >
-        {springs.map(({ shadow, zIndex, y, scale }, index) => (
+        {springs.map(({ x, shadow, zIndex, opacity, y, scale }, index) => (
           <animated.li
             key={lectures[index].title}
             style={{
               zIndex,
               y,
+              x,
+              opacity,
               scale,
               boxShadow: shadow.to(
                 (s) => `rgba(0, 0, 0, 0.2) 0px ${s}px ${s}px 0px`
@@ -120,9 +140,16 @@ export default function LectureSection() {
               color="action"
               className={styles.reorder}
             />
-            <LectureItem lecture={lectures[index]} />
+            <Box width={320}>
+              <Typography align="center" variant="h4">
+                {lectures[index]}
+              </Typography>
+            </Box>
             <Tooltip title="Remove Lecture">
-              <IconButton className={styles.remove}>
+              <IconButton
+                className={styles.remove}
+                onClick={() => onDeleteLecture(index)}
+              >
                 <Delete />
               </IconButton>
             </Tooltip>
@@ -134,6 +161,7 @@ export default function LectureSection() {
         fullWidth
         open={dialog}
         onClose={() => setDialog(false)}
+        onConfirm={onAddLecture}
       />
     </Container>
   )
@@ -227,9 +255,19 @@ function move(array, from, to) {
  * @returns
  */
 function animate(orders, active, origin, row, y) {
-  return (index) =>
-    active && index === origin
+  return (index) => {
+    if (orders.indexOf(index) === -1)
+      return {
+        opacity: 0,
+        zIndex: -1,
+        x: 300,
+        shadow: 0,
+        immediate: false
+      }
+    return active && index === origin
       ? {
+          opacity: 1,
+          x: 0,
           y: row * ITEM_HEIGHT + y,
           scale: 1.05,
           zIndex: 1,
@@ -237,10 +275,13 @@ function animate(orders, active, origin, row, y) {
           immediate: (key) => key === 'y' || key === 'zIndex'
         }
       : {
+          x: 0,
+          opacity: 1,
           y: orders.indexOf(index) * ITEM_HEIGHT,
           scale: 1,
           zIndex: 0,
           shadow: 0,
           immediate: false
         }
+  }
 }
