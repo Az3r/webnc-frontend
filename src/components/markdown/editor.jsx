@@ -64,7 +64,6 @@ export default function MarkdownEditor({
         }}
         className={styles.output}
         customStyle={{
-          ...theme.typography.body1,
           padding: theme.spacing(1, 2),
           margin: 0,
           borderRadius: 0,

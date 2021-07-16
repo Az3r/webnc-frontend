@@ -31,8 +31,5 @@ export default makeStyles((theme) => ({
     height: '100%',
     ozTabSize: 2
   },
-  text: {
-    ...theme.typography.body1,
-    fontWeight: 'bold'
-  }
+  text: theme.typography.body1
 }))

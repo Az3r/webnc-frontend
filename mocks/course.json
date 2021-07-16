@@ -1,285 +1,250 @@
 {
-  "id": "60ed109be04e5f88775aabc9",
-  "tag": "new",
-  "price": 954.55,
-  "title": "Dolore adipisicing exercitation ad velit.",
-  "topic": {
-    "id": "60ed109be164ee57d57b41a1",
-    "name": "labore nisi consectetur",
-    "label": "veniam aliquip exercitation in fugiat officia pariatur deserunt occaecat sit sint sunt adipisicing exercitation sint dolor ullamco aliqua"
-  },
-  "bought": 1152490,
-  "rating": 2.86,
+  "id": "60f03e4a5f0868de8b241d06",
+  "thumbnail": "https://picsum.photos/400/150.webp",
+  "title": "Magna duis ullamco pariatur elit.",
+  "shortdesc": "Elit id et exercitation ex labore consequat nostrud aliquip mollit minim enim magna amet. Culpa irure nisi adipisicing proident sit. Magna sit eu nulla reprehenderit laborum mollit.",
+  "detaildesc": "Do deserunt enim laboris laborum culpa sunt id proident culpa ea sit eiusmod. Aliqua sit labore sint aliqua. Lorem officia excepteur eu sit pariatur qui exercitation qui voluptate commodo ea commodo. Ex commodo Lorem reprehenderit elit laborum voluptate consequat cupidatat amet elit laborum. Id aliqua nulla voluptate irure laborum enim commodo consectetur. Adipisicing dolore ea nisi duis mollit.\n\nMinim qui ipsum incididunt eiusmod ullamco ex. Ex labore ut amet in qui pariatur voluptate excepteur labore quis ex labore excepteur qui. Minim cupidatat duis ea nisi ipsum sunt minim proident ipsum labore dolore culpa excepteur cupidatat. Eu nisi eiusmod aliqua ut tempor excepteur voluptate reprehenderit cupidatat adipisicing. Enim ad laborum exercitation non enim non exercitation nulla irure Lorem labore ea ullamco amet. Irure minim cillum mollit culpa est proident consequat magna cupidatat. Proident dolore non minim excepteur.",
   "category": {
-    "id": "60ed109b7ff880f2a1b50849",
-    "name": "tempor id",
-    "label": "adipisicing laboris ad consectetur labore excepteur duis exercitation nostrud non"
+    "id": "60f03e4a66951d1340182a88",
+    "name": "pariatur est excepteur",
+    "label": "commodo ea culpa voluptate exercitation minim voluptate laboris nisi laboris"
   },
-  "discount": 0.26,
+  "topic": {
+    "id": "60f03e4a27c08b7c7bcd9a79",
+    "name": "culpa aliqua incididunt",
+    "label": "officia Lorem cupidatat ad voluptate magna sint cupidatat dolor"
+  },
   "lecturer": {
-    "name": "Hull Tyson",
-    "avatar": "https://picsum.photos/48.webp?random=559",
-    "description": "Amet magna officia ea nulla ut voluptate tempor incididunt occaecat aute fugiat. Ullamco cillum magna qui non do laboris Lorem in id qui culpa ipsum duis. Ex commodo ullamco id nulla excepteur ea qui aliqua. Magna ipsum officia cillum excepteur et velit amet sit.\n\nNostrud quis minim aliqua ipsum eu velit aliqua. Cupidatat esse ipsum velit tempor. Reprehenderit officia aliqua sit sit deserunt. Officia veniam ad incididunt cillum consectetur cupidatat aliquip. Ex in ipsum et nisi. Enim sunt mollit occaecat sunt qui incididunt mollit commodo Lorem reprehenderit. Reprehenderit consequat labore nostrud laborum elit proident minim officia irure adipisicing qui."
+    "name": "Mayer Norris",
+    "avatar": "https://picsum.photos/48.webp?random=216",
+    "description": "Aute irure exercitation et aute. Fugiat quis in consequat anim ipsum ea magna consectetur culpa incididunt deserunt duis sint. Sint commodo incididunt labore proident ea id.\n\nNisi ut aliquip esse minim cupidatat adipisicing sunt officia velit occaecat occaecat laboris sit. Do proident velit laboris cupidatat. Aute fugiat ea aute Lorem officia veniam labore ex laborum voluptate voluptate consectetur elit adipisicing. Aute anim ex exercitation dolore pariatur."
   },
+  "rating": 0.17,
+  "reviewers": 309,
+  "price": 257.21,
+  "discount": 0.31,
+  "tag": "new",
+  "lastModified": 1141093693906,
+  "bought": 2789922,
+  "feedbacks": [
+    {
+      "rating": 4.38,
+      "avatar": "https://picsum.photos/48.webp",
+      "name": "Dolly Hoover",
+      "content": "Do irure irure laboris fugiat do quis sit do nostrud laboris ullamco. Tempor duis incididunt quis labore amet. Cillum esse reprehenderit anim id amet ad qui quis officia non. Consectetur reprehenderit aliqua eiusmod duis reprehenderit eiusmod cillum mollit nulla duis non eiusmod. Incididunt Lorem pariatur irure reprehenderit quis elit sint ad aliquip nostrud. Nostrud irure exercitation irure mollit ullamco pariatur."
+    },
+    {
+      "rating": 4.42,
+      "avatar": "https://picsum.photos/48.webp",
+      "name": "Whitley Gilbert",
+      "content": "Sint laboris velit non id commodo. Ullamco nostrud labore occaecat ea deserunt pariatur. Cillum sunt amet laboris cillum ea. Nisi eiusmod ullamco reprehenderit do est nisi deserunt. Consequat enim exercitation proident esse dolor ad exercitation tempor minim pariatur veniam. Cupidatat laborum laboris ex ea qui nisi consectetur adipisicing ipsum sint dolor cillum et. Occaecat reprehenderit eiusmod irure esse et consectetur deserunt anim aliquip nisi eu fugiat tempor veniam."
+    },
+    {
+      "rating": 2.98,
+      "avatar": "https://picsum.photos/48.webp",
+      "name": "Witt Kennedy",
+      "content": "Lorem duis mollit sit tempor. Culpa anim officia sunt adipisicing et mollit. Ut non elit esse veniam dolore commodo pariatur ea dolor. Quis laborum mollit duis pariatur ipsum nisi esse dolore."
+    },
+    {
+      "rating": 4.88,
+      "avatar": "https://picsum.photos/48.webp",
+      "name": "Tasha Maynard",
+      "content": "Lorem consequat consequat aute sint irure ex minim dolore id. Aute laborum officia magna consectetur laboris cupidatat aliqua. Officia Lorem pariatur sit incididunt dolore consectetur ex id do."
+    },
+    {
+      "rating": 2.59,
+      "avatar": "https://picsum.photos/48.webp",
+      "name": "Tania Castaneda",
+      "content": "Dolore esse incididunt mollit aliqua incididunt adipisicing. Nostrud labore ad et ut sint elit sunt in non cupidatat fugiat. Aute veniam et proident est consequat deserunt. Commodo tempor nostrud culpa dolore incididunt elit mollit elit duis ut est aliquip duis. Minim aliquip officia nulla voluptate laborum do. Ullamco ut laboris nostrud fugiat."
+    },
+    {
+      "rating": 3.05,
+      "avatar": "https://picsum.photos/48.webp",
+      "name": "Morse Shepherd",
+      "content": "Adipisicing dolore et quis officia adipisicing sint. Ea labore ipsum elit ea amet nostrud proident aliqua commodo ea velit. Magna sit sit exercitation ipsum consequat enim est culpa."
+    },
+    {
+      "rating": 2.19,
+      "avatar": "https://picsum.photos/48.webp",
+      "name": "Josefa Decker",
+      "content": "Aliquip id labore elit nulla cupidatat occaecat sint. Laboris labore quis velit Lorem proident velit laboris voluptate. Minim culpa sint ex deserunt ipsum reprehenderit magna elit excepteur mollit aliqua culpa voluptate incididunt. Mollit sunt eiusmod irure consectetur incididunt excepteur. Dolor adipisicing fugiat non eu ex. Sit eu do esse tempor duis veniam dolore commodo culpa id ut tempor consequat. Cillum dolore dolor ea officia aliquip pariatur ut minim elit ut esse quis."
+    },
+    {
+      "rating": 1.25,
+      "avatar": "https://picsum.photos/48.webp",
+      "name": "Green Gomez",
+      "content": "Exercitation sint anim velit eiusmod adipisicing irure consectetur dolore velit labore quis veniam. Esse dolore exercitation anim consectetur magna sit commodo anim aliqua in occaecat adipisicing in do. Aliquip eiusmod elit voluptate sunt id ea proident sint fugiat officia. Reprehenderit id ea veniam adipisicing. Ullamco ex enim sunt mollit cillum id culpa est sunt fugiat magna pariatur elit commodo. Aute id Lorem veniam ea quis laborum et ut id ex ullamco minim quis. Consectetur consequat aliquip incididunt esse."
+    },
+    {
+      "rating": 3.32,
+      "avatar": "https://picsum.photos/48.webp",
+      "name": "Shepard Campos",
+      "content": "Nisi nostrud incididunt consequat non tempor do laborum qui. Anim aliqua consectetur irure fugiat aliqua adipisicing est. Anim do duis eu sint deserunt ad. Deserunt fugiat anim voluptate consequat mollit in reprehenderit consectetur incididunt."
+    },
+    {
+      "rating": 2.23,
+      "avatar": "https://picsum.photos/48.webp",
+      "name": "Ingrid Estes",
+      "content": "Ipsum eiusmod enim velit in incididunt est elit culpa irure nostrud nulla. Lorem enim nostrud excepteur occaecat. Dolor consequat sit quis voluptate duis laborum cupidatat magna pariatur adipisicing. Magna cillum sit aliqua culpa sunt duis qui tempor sint tempor consectetur."
+    }
+  ],
   "lectures": [
     {
-      "url": "UbQgXeY_zi4",
-      "desc": "Deserunt sunt eu nostrud sit excepteur ea ipsum mollit ut irure sit dolore.",
-      "hour": 3,
-      "title": "esse labore ea elit deserunt mollit",
-      "minute": 52,
-      "second": 37,
+      "section": 551,
+      "title": "pariatur officia in ut ea sunt proident",
+      "desc": "Incididunt id duis excepteur elit anim.",
+      "duration": 81816,
+      "preview": false,
+      "url": "iuJDhFRDx9M"
+    },
+    {
+      "section": 54,
+      "title": "adipisicing velit elit enim anim excepteur consectetur",
+      "desc": "Ullamco in qui dolor eu aliqua.",
+      "duration": 41792,
+      "preview": false,
+      "url": "MwxgUVrj5m4"
+    },
+    {
+      "section": 150,
+      "title": "do eu consequat non et nulla irure",
+      "desc": "Sit minim magna aliquip enim tempor cillum non.",
+      "duration": 44249,
+      "preview": false,
+      "url": "UbQgXeY_zi4"
+    },
+    {
+      "section": 674,
+      "title": "labore ea occaecat laboris adipisicing do occaecat in",
+      "desc": "Veniam sint officia ipsum laboris esse id laboris ipsum mollit et aliquip ad.",
+      "duration": 16275,
+      "preview": false,
+      "url": "RawsoZjbHHY"
+    },
+    {
+      "section": 955,
+      "title": "eiusmod duis eu cupidatat minim consequat ipsum dolor voluptate aliqua",
+      "desc": "Dolore enim magna culpa labore irure non dolore occaecat.",
+      "duration": 15563,
+      "preview": false,
+      "url": "ady--PNMsfI"
+    },
+    {
+      "section": 666,
+      "title": "eu tempor ad esse sint magna occaecat eiusmod exercitation",
+      "desc": "Id quis ea est ex Lorem occaecat labore laborum culpa laborum.",
+      "duration": 81507,
+      "preview": false,
+      "url": "votCEPMHm9Y"
+    },
+    {
+      "section": 375,
+      "title": "eu ex sit id adipisicing in sunt reprehenderit",
+      "desc": "Tempor sunt esse cillum aute excepteur quis cupidatat id sunt anim aute enim dolor.",
+      "duration": 4894,
       "preview": true,
-      "section": 962
+      "url": "iuJDhFRDx9M"
     },
     {
-      "url": "votCEPMHm9Y",
-      "desc": "Minim nisi ad in eiusmod amet do aute anim cillum nisi officia mollit.",
-      "hour": 7,
-      "title": "eiusmod culpa commodo elit ea nisi laborum anim",
-      "minute": 59,
-      "second": 18,
-      "preview": false,
-      "section": 205
-    },
-    {
-      "url": "UbQgXeY_zi4",
-      "desc": "Minim occaecat laborum irure sit.",
-      "hour": 9,
-      "title": "id anim officia tempor consectetur esse sit",
-      "minute": 18,
-      "second": 18,
-      "preview": false,
-      "section": 528
-    },
-    {
-      "url": "Y5ZQYURYaAs",
-      "desc": "Exercitation ex sint nisi ad ad ex ea esse deserunt culpa nulla ex nostrud nisi.",
-      "hour": 5,
-      "title": "do quis eiusmod sint ut quis Lorem officia",
-      "minute": 12,
-      "second": 53,
-      "preview": false,
-      "section": 713
-    },
-    {
-      "url": "71ZkhO44NIo",
-      "desc": "Et in ipsum occaecat fugiat ullamco sint.",
-      "hour": 2,
-      "title": "officia ea officia cillum reprehenderit",
-      "minute": 56,
-      "second": 33,
-      "preview": false,
-      "section": 46
-    },
-    {
-      "url": "votCEPMHm9Y",
-      "desc": "Enim eiusmod minim do Lorem consequat et duis ex duis consectetur elit.",
-      "hour": 9,
-      "title": "veniam magna fugiat ad sint adipisicing",
-      "minute": 6,
-      "second": 3,
-      "preview": false,
-      "section": 466
-    },
-    {
-      "url": "UbQgXeY_zi4",
-      "desc": "Proident duis labore reprehenderit dolore in est incididunt sunt minim Lorem eiusmod labore.",
-      "hour": 0,
-      "title": "nostrud aliqua aliqua sit quis ea non",
-      "minute": 37,
-      "second": 32,
+      "section": 32,
+      "title": "ea occaecat nisi officia nostrud",
+      "desc": "Commodo minim nisi deserunt Lorem sint officia.",
+      "duration": 49316,
       "preview": true,
-      "section": 686
+      "url": "71ZkhO44NIo"
     },
     {
-      "url": "UbQgXeY_zi4",
-      "desc": "Do do sint nisi aliquip irure ex tempor ut reprehenderit fugiat ullamco cupidatat sit.",
-      "hour": 8,
-      "title": "sit enim do minim eu dolore voluptate",
-      "minute": 15,
-      "second": 20,
+      "section": 762,
+      "title": "est dolore veniam culpa amet enim",
+      "desc": "Laborum officia amet quis cillum nisi commodo ad aliquip eiusmod anim Lorem exercitation officia culpa.",
+      "duration": 53919,
       "preview": false,
-      "section": 848
+      "url": "votCEPMHm9Y"
     },
     {
-      "url": "71ZkhO44NIo",
-      "desc": "Commodo quis ea ad aute adipisicing magna cupidatat pariatur in labore reprehenderit veniam Lorem enim.",
-      "hour": 0,
-      "title": "nisi ea dolore irure officia",
-      "minute": 5,
-      "second": 6,
+      "section": 411,
+      "title": "laboris magna in ullamco",
+      "desc": "Sit aliquip aliquip ullamco et est esse fugiat excepteur irure laborum anim cupidatat eu.",
+      "duration": 783,
       "preview": false,
-      "section": 11
-    },
-    {
-      "url": "iuJDhFRDx9M",
-      "desc": "Nulla sit mollit do laborum fugiat adipisicing culpa laborum proident sint cupidatat ea laborum nulla.",
-      "hour": 0,
-      "title": "aute dolore eu aliqua ad in sunt pariatur sint qui",
-      "minute": 1,
-      "second": 45,
-      "preview": true,
-      "section": 794
+      "url": "RawsoZjbHHY"
     }
   ],
   "populars": [
     {
-      "id": "60ed109b40e0d3ca1615d99b",
+      "id": "60f03e4a440b6edcd27b03e3",
+      "thumbnail": "https://picsum.photos/400/150.webp?random=792",
+      "title": "Cillum amet quis enim ad sint aliqua excepteur dolore enim occaecat exercitation sint.",
+      "lecturer": {
+        "name": "Terra Henson",
+        "avatar": "https://picsum.photos/48.webp?random=785"
+      },
+      "rating": 2.06,
+      "reviewers": 101,
+      "price": 88.19,
+      "discount": 0.67,
       "tag": "new",
-      "price": 891.38,
-      "title": "Nisi minim aute excepteur dolor occaecat mollit voluptate aliqua eu adipisicing consectetur.",
-      "bought": 57890,
-      "rating": 3.89,
-      "discount": 0.78,
-      "lecturer": {
-        "name": "Holmes Ochoa",
-        "avatar": "https://picsum.photos/48.webp?random=761"
-      },
-      "reviewers": 72,
-      "thumbnail": "https://picsum.photos/400/150.webp?random=959",
-      "watchlisted": false,
-      "inUserLibrary": true,
-      "userProgression": 59
+      "bought": 1857279
     },
     {
-      "id": "60ed109b2ca324c7789014a5",
-      "tag": "bestseller",
-      "price": 37.45,
-      "title": "Amet nulla laborum anim minim aliqua amet excepteur sunt cupidatat labore incididunt.",
-      "bought": 818094,
-      "rating": 0.54,
-      "discount": 0.05,
+      "id": "60f03e4a08234503aa576af0",
+      "thumbnail": "https://picsum.photos/400/150.webp?random=240",
+      "title": "Consectetur magna ut cillum veniam exercitation ipsum ullamco eiusmod.",
       "lecturer": {
-        "name": "Burt Cannon",
-        "avatar": "https://picsum.photos/48.webp?random=642"
+        "name": "Stacy Kirby",
+        "avatar": "https://picsum.photos/48.webp?random=84"
       },
-      "reviewers": 451,
-      "thumbnail": "https://picsum.photos/400/150.webp?random=405",
-      "watchlisted": true,
-      "inUserLibrary": false,
-      "userProgression": 18
-    },
-    {
-      "id": "60ed109b4bdc320acb51242f",
-      "tag": "new",
-      "price": 947.38,
-      "title": "Lorem adipisicing culpa sint consequat culpa elit nulla consequat amet sint ad aute esse duis.",
-      "bought": 1889453,
-      "rating": 0.37,
-      "discount": 0.93,
-      "lecturer": {
-        "name": "Eileen Gibbs",
-        "avatar": "https://picsum.photos/48.webp?random=21"
-      },
-      "reviewers": 167,
-      "thumbnail": "https://picsum.photos/400/150.webp?random=833",
-      "watchlisted": true,
-      "inUserLibrary": false,
-      "userProgression": 83
-    },
-    {
-      "id": "60ed109bebd57319a7327cf0",
-      "tag": "new",
-      "price": 415.88,
-      "title": "Cillum nisi incididunt ea sit.",
-      "bought": 3833230,
-      "rating": 2.58,
-      "discount": 0.74,
-      "lecturer": {
-        "name": "Henrietta Pierce",
-        "avatar": "https://picsum.photos/48.webp?random=421"
-      },
-      "reviewers": 428,
-      "thumbnail": "https://picsum.photos/400/150.webp?random=841",
-      "watchlisted": true,
-      "inUserLibrary": false,
-      "userProgression": 47
-    },
-    {
-      "id": "60ed109ba135cb8b29f7cbf0",
+      "rating": 3.17,
+      "reviewers": 175,
+      "price": 439.53,
+      "discount": 0.75,
       "tag": "",
-      "price": 477.73,
-      "title": "Laboris non sint sint Lorem duis elit voluptate sunt ex.",
-      "bought": 782234,
-      "rating": 0.81,
-      "discount": 0.19,
+      "bought": 2167166
+    },
+    {
+      "id": "60f03e4a9de214a650947f79",
+      "thumbnail": "https://picsum.photos/400/150.webp?random=865",
+      "title": "Do proident enim laborum eu sit consectetur dolor.",
       "lecturer": {
-        "name": "Leigh Long",
-        "avatar": "https://picsum.photos/48.webp?random=733"
+        "name": "Booth Fulton",
+        "avatar": "https://picsum.photos/48.webp?random=230"
       },
-      "reviewers": 343,
-      "thumbnail": "https://picsum.photos/400/150.webp?random=932",
-      "watchlisted": false,
-      "inUserLibrary": true,
-      "userProgression": 35
+      "rating": 2.51,
+      "reviewers": 31,
+      "price": 434.66,
+      "discount": 0.43,
+      "tag": "",
+      "bought": 1042531
+    },
+    {
+      "id": "60f03e4ab00f3f8da0e5df13",
+      "thumbnail": "https://picsum.photos/400/150.webp?random=98",
+      "title": "Enim magna et quis occaecat.",
+      "lecturer": {
+        "name": "Alma Ewing",
+        "avatar": "https://picsum.photos/48.webp?random=203"
+      },
+      "rating": 1.32,
+      "reviewers": 441,
+      "price": 755.19,
+      "discount": 0.82,
+      "tag": "new",
+      "bought": 2070503
+    },
+    {
+      "id": "60f03e4a6d333edfc1f46451",
+      "thumbnail": "https://picsum.photos/400/150.webp?random=575",
+      "title": "Magna ullamco reprehenderit velit enim officia officia cillum irure.",
+      "lecturer": {
+        "name": "Meghan Williams",
+        "avatar": "https://picsum.photos/48.webp?random=279"
+      },
+      "rating": 4.82,
+      "reviewers": 30,
+      "price": 187.31,
+      "discount": 0.52,
+      "tag": "bestseller",
+      "bought": 3139388
     }
-  ],
-  "feedbacks": [
-    {
-      "name": "Martina Gregory",
-      "avatar": "https://picsum.photos/48.webp",
-      "rating": 1.79,
-      "content": "Magna eu Lorem enim minim aliquip amet minim Lorem deserunt. Velit duis velit ipsum id. Amet non incididunt aute dolor tempor ullamco qui elit aliquip tempor nulla proident ipsum ex."
-    },
-    {
-      "name": "Anderson Flores",
-      "avatar": "https://picsum.photos/48.webp",
-      "rating": 1.02,
-      "content": "Laborum elit duis laborum magna sit deserunt laboris qui amet id tempor duis. Magna nostrud mollit ullamco laboris labore aliqua aliquip tempor. Ea sint duis esse Lorem ea magna sit est laboris do. Sunt ullamco consectetur consequat ad ipsum commodo pariatur esse velit irure aute incididunt laboris. Reprehenderit amet consectetur ea reprehenderit mollit anim ipsum do qui irure sint est deserunt."
-    },
-    {
-      "name": "Alta Suarez",
-      "avatar": "https://picsum.photos/48.webp",
-      "rating": 3.65,
-      "content": "Dolor sunt occaecat irure deserunt occaecat in cupidatat. Ex tempor dolor exercitation dolor deserunt nulla excepteur do irure anim commodo cillum. Dolor commodo cillum sint magna minim ut quis id laboris magna sunt ipsum. Adipisicing eu eu eiusmod dolor. Voluptate reprehenderit aliqua est consectetur irure."
-    },
-    {
-      "name": "Miriam Martin",
-      "avatar": "https://picsum.photos/48.webp",
-      "rating": 3.79,
-      "content": "Minim anim in amet magna non ut ullamco et nisi fugiat non. Consequat anim ex tempor laborum consectetur aliquip pariatur quis. Reprehenderit amet minim nostrud ipsum velit ea occaecat id dolore elit. Excepteur tempor minim ad proident veniam nostrud nulla. Fugiat consectetur ea esse anim amet mollit sint sit laboris quis. Mollit excepteur quis reprehenderit minim id sint commodo nisi."
-    },
-    {
-      "name": "Simone Villarreal",
-      "avatar": "https://picsum.photos/48.webp",
-      "rating": 3.88,
-      "content": "Labore nisi sint laborum Lorem ut ex sit labore ea et. Irure nulla culpa ex excepteur nostrud consectetur mollit dolor eu mollit ipsum esse ullamco Lorem. Dolor anim sit adipisicing ipsum. Anim culpa enim do sint sit occaecat consectetur."
-    },
-    {
-      "name": "Ingram Burton",
-      "avatar": "https://picsum.photos/48.webp",
-      "rating": 2.87,
-      "content": "Enim do velit ad occaecat cillum occaecat. Lorem consequat voluptate aliquip excepteur sit reprehenderit laboris excepteur consectetur et aliqua. Minim commodo ex adipisicing ex nisi occaecat duis eu fugiat. Veniam nulla in et nostrud esse excepteur aliquip eiusmod proident elit non elit."
-    },
-    {
-      "name": "Marion Steele",
-      "avatar": "https://picsum.photos/48.webp",
-      "rating": 2.84,
-      "content": "Elit id consequat duis cillum id culpa voluptate et. Laborum ut aute ipsum ad occaecat commodo veniam nulla fugiat nulla est nostrud. Occaecat duis laborum proident aute sit voluptate et pariatur laboris anim."
-    },
-    {
-      "name": "Farmer Carver",
-      "avatar": "https://picsum.photos/48.webp",
-      "rating": 3.14,
-      "content": "Quis ipsum minim minim cupidatat laborum. Sunt veniam eiusmod sit commodo dolor ipsum. Nulla incididunt pariatur eiusmod voluptate fugiat tempor officia. Occaecat dolore dolore proident aliquip laborum velit sint tempor nulla sint voluptate mollit consequat do."
-    },
-    {
-      "name": "Edwards Sanders",
-      "avatar": "https://picsum.photos/48.webp",
-      "rating": 1.08,
-      "content": "Non aute qui eu nisi aliquip aliqua adipisicing sunt et excepteur id laboris. Culpa deserunt sunt minim laboris nulla. Duis eu exercitation aliqua deserunt qui commodo nisi do sunt. Elit enim aliqua consectetur id commodo irure do tempor ea irure culpa. Ea aliqua cillum cupidatat esse laborum eiusmod incididunt ipsum excepteur quis esse nostrud. Deserunt dolore id id dolore exercitation fugiat ut."
-    },
-    {
-      "name": "Wynn Franks",
-      "avatar": "https://picsum.photos/48.webp",
-      "rating": 1.98,
-      "content": "Qui ipsum commodo amet elit sit cupidatat quis elit. Nostrud sunt deserunt do reprehenderit aute dolore reprehenderit occaecat et sunt nisi duis. Deserunt dolore pariatur cupidatat excepteur."
-    }
-  ],
-  "reviewers": 116,
-  "shortdesc": "Reprehenderit nulla laboris sunt laboris occaecat. Id culpa ad Lorem deserunt. Aliquip enim aliqua adipisicing exercitation do enim aute exercitation. Velit consequat qui officia reprehenderit irure nostrud veniam sit magna.",
-  "thumbnail": "https://picsum.photos/400/150.webp",
-  "detaildesc": "Duis proident minim culpa labore nulla exercitation mollit est eu cupidatat sunt. Tempor non tempor incididunt elit nostrud nisi culpa amet aliquip fugiat aliqua. Adipisicing dolore quis exercitation anim quis in ex consequat esse anim eu cupidatat. Aute non officia tempor culpa mollit adipisicing sint dolore consequat esse amet in. Laborum voluptate elit in excepteur reprehenderit consequat dolor nulla mollit quis sunt enim. Mollit veniam aliqua aliqua eu adipisicing commodo proident adipisicing id eiusmod velit.\n\nSunt nisi eu consequat nisi veniam commodo esse est tempor magna. Commodo dolore dolor nostrud voluptate et veniam esse exercitation est est. Commodo id exercitation ad amet exercitation reprehenderit tempor ipsum.",
-  "lastModified": 1340967108670
+  ]
 }

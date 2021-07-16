@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from 'react'
+import React, { useState, createContext, useContext, useEffect } from 'react'
 import {
   AppBar,
   Box,
@@ -12,6 +12,7 @@ import {
   Tabs,
   Toolbar,
   Tooltip,
+  Typography,
   useMediaQuery,
   useTheme
 } from '@material-ui/core'
@@ -20,15 +21,19 @@ import {
   Close,
   Description,
   ImageSearch,
-  KeyboardArrowDown,
   ListAlt,
   LocalOffer,
+  NavigateBefore,
+  NavigateNext,
   Restore,
   Save,
   Settings
 } from '@material-ui/icons'
 import { TabContext, TabPanel } from '@material-ui/lab'
 import ThumbnailSection from './thumbnail.component'
+import InfoSection from './info.component'
+import DescriptionSection from './description.component'
+import LectureSection from './lecture.component'
 
 const useStyles = makeStyles((theme) => ({
   bottomAppBar: {
@@ -49,20 +54,26 @@ const useStyles = makeStyles((theme) => ({
     ['& > li']: {
       margin: theme.spacing(0, 1)
     }
+  },
+  panel: {
+    position: 'relative'
   }
 }))
 
 const CreateCourseContext = createContext({
-  course: {
-    thumbnail: '',
+  thumbnail: '',
+  info: {
     price: 0,
     discount: 0,
     title: '',
-    shortdesc: '',
-    lectures: [],
-    detail: ''
+    shortdesc: ''
   },
-  update: () => {}
+  longdesc: '',
+  lectures: [],
+  setThumbnail: () => {},
+  setInfo: () => {},
+  setLongdesc: () => {},
+  setLectures: () => {}
 })
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -71,7 +82,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const tabs = [
   { label: 'Thumbnail', icon: <ImageSearch /> },
-  { label: 'Pricing', icon: <LocalOffer /> },
+  { label: 'Info', icon: <LocalOffer /> },
   { label: 'Description', icon: <Description /> },
   { label: 'Lectures', icon: <ListAlt /> }
 ]
@@ -88,16 +99,36 @@ export default function CourseDialog({
 
   const downXS = useMediaQuery(theme.breakpoints.down('sm'))
   const [value, setValue] = useState(0)
-  const [validation, setValidation] = useState(tabs.map(() => false))
-  const [course, setCourse] = useState({
-    thumbnail: '',
-    price: 0,
-    discount: 0,
-    title: '',
-    shortdesc: '',
-    lectures: [],
-    detail: ''
-  })
+  const [status, setValidation] = useState(tabs.map(() => false))
+  const [thumbnail, setThumbnail] = useState(undefined)
+  const [info, setInfo] = useState({})
+  const [longdesc, setLongdesc] = useState(undefined)
+  const [lectures, setLectures] = useState(undefined)
+
+  useEffect(() => {
+    setValidation((prev) => {
+      prev[0] = Boolean(thumbnail)
+      return prev.slice()
+    })
+  }, [thumbnail])
+
+  useEffect(() => {
+    setValidation((prev) => {
+      prev[1] =
+        !isNaN(info.price) &&
+        !isNaN(info.discount) &&
+        Boolean(info.title) &&
+        Boolean(info.shortdesc)
+      return prev.slice()
+    })
+  }, [info])
+
+  useEffect(() => {
+    setValidation((prev) => {
+      prev[2] = Boolean(longdesc)
+      return prev.slice()
+    })
+  }, [longdesc])
 
   return (
     <Dialog
@@ -112,7 +143,7 @@ export default function CourseDialog({
             <ul className={styles.status}>
               {tabs.map((item, index) => (
                 <li key={item.label}>
-                  {validation[index] ? (
+                  {status[index] ? (
                     <Check className={styles.complete} />
                   ) : (
                     <Close color="error" />
@@ -122,9 +153,7 @@ export default function CourseDialog({
             </ul>
             <Box flexGrow={1} />
             {action === 'create' && (
-              <Button disabled={!validation.every((item) => item)}>
-                Submit
-              </Button>
+              <Button disabled={!status.every((item) => item)}>Submit</Button>
             )}
             {action === 'update' && (
               <>
@@ -144,25 +173,60 @@ export default function CourseDialog({
             )}
             <Tooltip title="Close dialog">
               <IconButton onClick={onClose}>
-                <KeyboardArrowDown />
+                <Close />
               </IconButton>
             </Tooltip>
           </Toolbar>
         </AppBar>
         <CreateCourseContext.Provider
           value={{
-            course,
-            update: (props) => (prev) => setCourse({ ...prev, ...props })
+            thumbnail,
+            info,
+            longdesc,
+            lectures,
+            setThumbnail,
+            setInfo,
+            setLongdesc,
+            setLectures
           }}
         >
           <Toolbar />
-          <Box position="relative" width="100%" height="100%">
-            <TabPanel value={0}>
-              <ThumbnailSection />
-            </TabPanel>
-            <TabPanel value={1}>Item Two</TabPanel>
-            <TabPanel value={2}>Item Three</TabPanel>
+          <Box paddingY={1} />
+          <Box display="flex" alignItems="center" justifyContent="center">
+            <IconButton
+              color="inherit"
+              onClick={() =>
+                setValue(value === 0 ? tabs.length - 1 : value - 1)
+              }
+            >
+              <NavigateBefore />
+            </IconButton>
+            <Box minWidth={320}>
+              <Typography align="center" variant="h5">
+                Create Course / <b>{tabs[value].label}</b>
+              </Typography>
+            </Box>
+            <IconButton
+              color="inherit"
+              onClick={() =>
+                setValue(value === tabs.length - 1 ? 0 : value + 1)
+              }
+            >
+              <NavigateNext />
+            </IconButton>
           </Box>
+          <TabPanel className={styles.panel} value={0}>
+            <ThumbnailSection />
+          </TabPanel>
+          <TabPanel className={styles.panel} value={1}>
+            <InfoSection />
+          </TabPanel>
+          <TabPanel className={styles.panel} value={2}>
+            <DescriptionSection />
+          </TabPanel>
+          <TabPanel className={styles.panel} value={3}>
+            <LectureSection />
+          </TabPanel>
           <Box minHeight={48} />
         </CreateCourseContext.Provider>
         <AppBar position="fixed" className={styles.bottomAppBar}>
