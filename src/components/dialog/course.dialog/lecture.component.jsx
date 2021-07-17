@@ -4,7 +4,6 @@ import {
   Container,
   ListItem,
   makeStyles,
-  ListItemIcon,
   ListItemText,
   Box,
   Typography,
@@ -13,12 +12,13 @@ import {
   Button,
   IconButton
 } from '@material-ui/core'
-import { Create, Delete, Reorder, VideoCall } from '@material-ui/icons'
+import { Delete, Reorder, VideoCall } from '@material-ui/icons'
 import { formatDuration } from '@/utils/tools'
 import { animated, useSprings } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 import CreateLectureDialog from '../lecture.dialog'
 import { useCreateCourse } from '.'
+import { LecturePropTypes } from '@/utils/typing'
 
 const ITEM_HEIGHT = 80
 const useStyles = makeStyles((theme) => ({
@@ -60,14 +60,34 @@ const useStyles = makeStyles((theme) => ({
 export default function LectureSection() {
   const styles = useStyles()
   const { lectures, setLectures } = useCreateCourse()
+  useCreateCourse()
 
   const orders = useRef(lectures.map((_, index) => index))
-  const [dialog, setDialog] = useState(false)
+  const [dialog, setDialog] = useState(undefined)
 
   const [springs, animation] = useSprings(
     lectures.length,
     animate(orders.current)
   )
+
+  function debounce() {
+    return (duration, index) => {
+      this.items.push(index)
+      clearTimeout(this.timer)
+      this.timer = setTimeout(
+        () =>
+          setLectures((prev) => {
+            const array = prev.slice()
+            this.items.forEach((i) => {
+              array[i] = undefined
+            })
+            return array
+          }),
+        duration
+      )
+    }
+  }
+  const removeLectures = debounce.bind({ timer: undefined, items: [] })()
 
   const bind = useDrag(({ args: [origin], active, movement: [, y] }) => {
     // find the current row of an item
@@ -83,18 +103,29 @@ export default function LectureSection() {
     const newRow = Math.round(position / ITEM_HEIGHT)
 
     // move item to new position
-    const newOrders = move(orders.current, row, newRow)
-    if (!active) orders.current = newOrders
+    let newOrders = orders.current
+    if (orders.current[newRow]) {
+      newOrders = move(orders.current, row, newRow)
+      if (!active) orders.current = newOrders
+    }
 
     // start animation
     animation.start(animate(newOrders, active, origin, row, y))
   })
 
   function onAddLecture(lecture) {
-    orders.current.push(-1)
-    const insertedRow = orders.current.indexOf(-1)
-    orders.current[insertedRow] = lectures.length
-    setLectures((prev) => [...prev, 'z'])
+    orders.current.push(undefined)
+    const insertedRow = orders.current.indexOf(undefined)
+    orders.current[insertedRow] = orders.current.length - 1
+    setLectures((prev) => [...prev, lecture])
+  }
+
+  function onEditLecture(lecture, index) {
+    setLectures((prev) => [
+      ...prev.slice(0, index),
+      lecture,
+      ...prev.slice(index + 1)
+    ])
   }
 
   function onDeleteLecture(index) {
@@ -102,113 +133,121 @@ export default function LectureSection() {
     orders.current.forEach((origin, row) => {
       if (row > removedRow) orders.current[row - 1] = origin
     })
-    orders.current[orders.current.length - 1] = -1
-    animation.start(animate(orders.current))
+    orders.current[orders.current.length - 1] = undefined
+    animation.start(
+      animate(orders.current, undefined, undefined, undefined, undefined, () =>
+        removeLectures(600, index)
+      )
+    )
   }
 
+  const length = lectures.reduce((prev, current) => prev + (current ? 1 : 0), 0)
   return (
     <Container fixed className={styles.root}>
       <Box display="flex" alignItems="center">
-        <Typography>Total Lectures: {lectures.length}</Typography>
+        <Typography>Total Lectures: {length}</Typography>
         <Box marginLeft="auto">
-          <Button color="primary" onClick={onAddLecture}>
+          <Button color="primary" onClick={() => setDialog({ index: -1 })}>
             Add Lecture
           </Button>
         </Box>
       </Box>
-      <ul
-        className={styles.ul}
-        style={{ height: lectures.length * ITEM_HEIGHT }}
-      >
+      <ul className={styles.ul} style={{ height: length * ITEM_HEIGHT }}>
         {springs.map(({ x, shadow, zIndex, opacity, y, scale }, index) => (
-          <animated.li
-            key={lectures[index].title}
-            style={{
-              zIndex,
-              y,
-              x,
-              opacity,
-              scale,
-              boxShadow: shadow.to(
-                (s) => `rgba(0, 0, 0, 0.2) 0px ${s}px ${s}px 0px`
-              )
-            }}
-            component="li"
-          >
-            <Reorder
-              {...bind(index)}
-              color="action"
-              className={styles.reorder}
-            />
-            <Box width={320}>
-              <Typography align="center" variant="h4">
-                {lectures[index]}
-              </Typography>
-            </Box>
-            <Tooltip title="Remove Lecture">
-              <IconButton
-                className={styles.remove}
-                onClick={() => onDeleteLecture(index)}
+          <>
+            {lectures[index] && (
+              <animated.li
+                key={lectures[index].title}
+                style={{
+                  zIndex,
+                  y,
+                  x,
+                  opacity,
+                  scale,
+                  boxShadow: shadow.to(
+                    (s) => `rgba(0, 0, 0, 0.2) 0px ${s}px ${s}px 0px`
+                  )
+                }}
+                component="li"
               >
-                <Delete />
-              </IconButton>
-            </Tooltip>
-          </animated.li>
+                <Reorder
+                  {...bind(index)}
+                  color="action"
+                  className={styles.reorder}
+                />
+                <LectureItem
+                  lecture={lectures[index]}
+                  onClick={() => setDialog({ lecture: lectures[index], index })}
+                  onPreviewChange={(checked) =>
+                    setLectures((prev) => [
+                      ...prev.slice(0, index),
+                      {
+                        ...prev[index],
+                        preview: checked
+                      },
+                      ...prev.slice(index + 1)
+                    ])
+                  }
+                />
+                <Tooltip title="Remove Lecture">
+                  <IconButton
+                    className={styles.remove}
+                    onClick={() => onDeleteLecture(index)}
+                  >
+                    <Delete />
+                  </IconButton>
+                </Tooltip>
+              </animated.li>
+            )}
+          </>
         ))}
       </ul>
       <CreateLectureDialog
         maxWidth="sm"
-        fullWidth
-        open={dialog}
-        onClose={() => setDialog(false)}
-        onConfirm={onAddLecture}
+        lecture={dialog?.lecture}
+        index={dialog?.index}
+        onClose={() => setDialog(undefined)}
+        onConfirm={(lecture) => {
+          dialog.index === -1
+            ? onAddLecture(lecture)
+            : onEditLecture(lecture, dialog.index)
+        }}
       />
     </Container>
   )
 }
 
-function LectureItem({ lecture }) {
+function LectureItem({ lecture, onPreviewChange, onClick }) {
   const styles = useStyles()
-  const { title, preview, desc, duration } = lecture
+  const { title, preview, duration, url } = lecture
   const [checked, setChecked] = useState(preview)
 
   return (
-    <ListItem component="div">
-      <ListItemIcon>
-        <Tooltip title={checked ? 'Disable preview' : 'Enable preview'}>
-          <Checkbox
-            checked={checked}
-            onChange={(e) => setChecked(e.target.checked)}
-            checkedIcon={<VideoCall className={styles.preview} />}
-            icon={<VideoCall color="action" />}
+    <>
+      <Tooltip title={checked ? 'Disable preview' : 'Enable preview'}>
+        <Checkbox
+          checked={checked}
+          onChange={(e) => {
+            setChecked(e.target.checked)
+            onPreviewChange?.(e.target.checked)
+          }}
+          checkedIcon={<VideoCall className={styles.preview} />}
+          icon={<VideoCall color="action" />}
+        />
+      </Tooltip>
+      <Tooltip title="Edit Lecture">
+        <ListItem component="div" button onClick={onClick}>
+          <ListItemText
+            primaryTypographyProps={{ className: styles.text }}
+            secondaryTypographyProps={{ className: styles.text }}
+            primary={title}
+            secondary={url}
           />
-        </Tooltip>
-      </ListItemIcon>
-      <ListItemText
-        primaryTypographyProps={{ className: styles.text }}
-        secondaryTypographyProps={{ className: styles.text }}
-        primary={title}
-        secondary={desc}
-      />
-      <Box paddingY={1}>
-        <Tooltip title="Edit Lecture">
-          <IconButton>
-            <Create />
-          </IconButton>
-        </Tooltip>
-      </Box>
-      <Typography>{formatDuration(duration)}</Typography>
-    </ListItem>
+          <Typography>{formatDuration(duration)}</Typography>
+        </ListItem>
+      </Tooltip>
+    </>
   )
-}
-
-LectureItem.propTypes = {
-  lecture: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    preview: PropTypes.bool,
-    desc: PropTypes.string,
-    duration: PropTypes.number.isRequired
-  }).isRequired
 }
 
 /**
@@ -254,15 +293,15 @@ function move(array, from, to) {
  * @param {number} y y-axis drag value
  * @returns
  */
-function animate(orders, active, origin, row, y) {
+function animate(orders, active, origin, row, y, onLeave) {
   return (index) => {
     if (orders.indexOf(index) === -1)
       return {
         opacity: 0,
-        zIndex: -1,
         x: 300,
         shadow: 0,
-        immediate: false
+        immediate: false,
+        onRest: onLeave
       }
     return active && index === origin
       ? {
@@ -284,4 +323,10 @@ function animate(orders, active, origin, row, y) {
           immediate: false
         }
   }
+}
+
+LectureItem.propTypes = {
+  lecture: LecturePropTypes.isRequired,
+  onPreviewChange: PropTypes.func,
+  onClick: PropTypes.func
 }

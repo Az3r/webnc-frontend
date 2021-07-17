@@ -5,6 +5,7 @@ import DefaultLayout from '@/components/layout'
 import { appname } from '@/utils/app'
 import {
   Box,
+  Button,
   Container,
   Fab,
   Grid,
@@ -18,6 +19,8 @@ import { useAuth } from '@/components/hooks/auth.provider'
 import NextImage from 'next/image'
 import { Add } from '@material-ui/icons'
 import CourseDialog from '@/components/dialog/course.dialog'
+import { formatDateDifference } from '@/utils/tools'
+import { LecturerCoursePropTypes } from '@/utils/typing'
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -77,13 +80,13 @@ function LoadingContent() {
 
 function DisplayContent({ data }) {
   const styles = useStyles()
-  const [dialog, setDialog] = useState(false)
+  const [dialog, setDialog] = useState(undefined)
   return (
     <>
       <ul className={styles.ul}>
         {data.map((item) => (
           <li key={item.id}>
-            <CourseItem course={item} />
+            <CourseItem course={item} onClick={() => setDialog(item)} />
           </li>
         ))}
       </ul>
@@ -91,44 +94,22 @@ function DisplayContent({ data }) {
         <Fab
           color="primary"
           className={styles.fab}
-          onClick={() => setDialog('create')}
+          onClick={() => setDialog({})}
         >
           <Add />
         </Fab>
       </Tooltip>
-      <CourseDialog onClose={() => setDialog(undefined)} action={dialog} />
+      <CourseDialog onClose={() => setDialog(undefined)} course={dialog} />
     </>
   )
 }
 
-function CourseItem({ course, onDelete, onUpdate }) {
+function CourseItem({ course, onClick }) {
   const styles = useStyles()
-  const { id, title, thumbnail, status, lastModified, totalLectures } = course
+  const { title, thumbnail, status, lastModified, lectures } = course
+  const totalLectures = lectures.length
 
-  const now = new Date()
-  const diff = now - new Date(lastModified)
-  const second = 1000
-  const minute = 60 * second
-  const hour = 60 * minute
-  const day = 24 * hour
-  const month = 30 * day
-  const year = 12 * month
-
-  let divided = second
-  if (diff > year) divided = year
-  else if (diff > month) divided = month
-  else if (diff > day) divided = day
-  else if (diff > hour) divided = hour
-  else if (diff > minute) divided = minute
-
-  let unit = 'seconds'
-  if (diff > year) unit = 'years'
-  else if (diff > month) unit = 'months'
-  else if (diff > day) unit = 'days'
-  else if (diff > hour) unit = 'hours'
-  else if (diff > minute) unit = 'minutes'
-
-  const message = `${Math.floor(diff / divided)} ${unit} ago`
+  const message = formatDateDifference(new Date(lastModified))
 
   return (
     <Grid container spacing={1}>
@@ -152,7 +133,9 @@ function CourseItem({ course, onDelete, onUpdate }) {
         </Box>
         <Typography className={styles.title}>{title}</Typography>
         <Typography color="textSecondary">{totalLectures} Lectures</Typography>
-        <Typography color="textSecondary">Updated {message}</Typography>
+        <Typography color="textSecondary">
+          Updated {message} <Button onClick={onClick}>Edit</Button>
+        </Typography>
       </Grid>
     </Grid>
   )
@@ -160,4 +143,9 @@ function CourseItem({ course, onDelete, onUpdate }) {
 
 DisplayContent.propTypes = {
   data: PropTypes.array.isRequired
+}
+
+CourseItem.propTypes = {
+  course: LecturerCoursePropTypes.isRequired,
+  onClick: PropTypes.func
 }

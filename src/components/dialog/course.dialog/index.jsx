@@ -1,4 +1,5 @@
 import React, { useState, createContext, useContext, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import {
   AppBar,
   Box,
@@ -34,7 +35,7 @@ import ThumbnailSection from './thumbnail.component'
 import InfoSection from './info.component'
 import DescriptionSection from './description.component'
 import LectureSection from './lecture.component'
-import mocks from '@/mocks/lectures.json'
+import { CourseDetailPropTypes } from '@/utils/typing'
 
 const useStyles = makeStyles((theme) => ({
   bottomAppBar: {
@@ -74,7 +75,9 @@ const CreateCourseContext = createContext({
   setThumbnail: () => {},
   setInfo: () => {},
   setLongdesc: () => {},
-  setLectures: () => {}
+  setLectures: () => {},
+  lectureDialog: undefined,
+  setLectureDialog: () => {}
 })
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -88,13 +91,7 @@ const tabs = [
   { label: 'Lectures', icon: <ListAlt /> }
 ]
 
-export default function CourseDialog({
-  onConfirm,
-  onCancel,
-  onClose,
-  action,
-  ...props
-}) {
+export default function CourseDialog({ onConfirm, onClose, course, ...props }) {
   const styles = useStyles()
   const theme = useTheme()
 
@@ -104,8 +101,26 @@ export default function CourseDialog({
 
   const [thumbnail, setThumbnail] = useState(undefined)
   const [info, setInfo] = useState({})
-  const [longdesc, setLongdesc] = useState(undefined)
-  const [lectures, setLectures] = useState(['a', 'b', 'c', 'd', 'e', 'f'])
+  const [detaildesc, setDetaildesc] = useState(undefined)
+  const [lectures, setLectures] = useState(undefined)
+
+  useEffect(() => {
+    if (course) {
+      const {
+        thumbnail,
+        title,
+        price,
+        discount,
+        shortdesc,
+        detaildesc,
+        lectures
+      } = course
+      setThumbnail(thumbnail)
+      setInfo({ title, shortdesc, price, discount })
+      setDetaildesc(detaildesc)
+      setLectures(lectures || [])
+    }
+  }, [course])
 
   useEffect(() => {
     setValidation((prev) => {
@@ -127,23 +142,37 @@ export default function CourseDialog({
 
   useEffect(() => {
     setValidation((prev) => {
-      prev[2] = Boolean(longdesc)
+      prev[2] = Boolean(detaildesc)
       return prev.slice()
     })
-  }, [longdesc])
+  }, [detaildesc])
 
   useEffect(() => {
     setValidation((prev) => {
-      prev[3] = Boolean(lectures?.length)
+      const length = lectures?.reduce(
+        (prev, current) => prev + (current ? 1 : 0),
+        0
+      )
+      prev[3] = Boolean(length)
       return prev.slice()
     })
   }, [lectures])
+
+  function onCreate() {
+    // call api
+  }
+
+  function onCloseDialog() {
+    // purging undefined elements
+    setLectures((prev) => prev.filter(Boolean))
+    onClose?.()
+  }
 
   return (
     <Dialog
       fullScreen
       TransitionComponent={Transition}
-      open={Boolean(action)}
+      open={Boolean(course)}
       {...props}
     >
       <TabContext value={value}>
@@ -161,10 +190,16 @@ export default function CourseDialog({
               ))}
             </ul>
             <Box flexGrow={1} />
-            {action === 'create' && (
-              <Button disabled={!status.every((item) => item)}>Submit</Button>
-            )}
-            {action === 'update' && (
+            {course === {} ? (
+              <Button
+                color="primary"
+                variant="contained"
+                disabled={!status.every((item) => item)}
+                onClick={onCreate}
+              >
+                Submit
+              </Button>
+            ) : (
               <>
                 <Hidden smUp implementation="css">
                   <IconButton>
@@ -181,7 +216,7 @@ export default function CourseDialog({
               </>
             )}
             <Tooltip title="Close dialog">
-              <IconButton onClick={onClose}>
+              <IconButton onClick={onCloseDialog}>
                 <Close />
               </IconButton>
             </Tooltip>
@@ -191,11 +226,11 @@ export default function CourseDialog({
           value={{
             thumbnail,
             info,
-            longdesc,
+            longdesc: detaildesc,
             lectures,
             setThumbnail,
             setInfo,
-            setLongdesc,
+            setLongdesc: setDetaildesc,
             setLectures
           }}
         >
@@ -252,7 +287,7 @@ export default function CourseDialog({
                 key={item.label}
               />
             ))}
-            {action === 'update' && (
+            {course === 'update' && (
               <Tab
                 label={downXS ? undefined : 'Settings'}
                 icon={downXS ? <Settings /> : undefined}
@@ -265,6 +300,12 @@ export default function CourseDialog({
       </TabContext>
     </Dialog>
   )
+}
+
+CourseDialog.propTypes = {
+  onConfirm: PropTypes.func,
+  onClose: PropTypes.func,
+  course: CourseDetailPropTypes
 }
 
 export function useCreateCourse() {

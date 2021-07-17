@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import {
   InputBase,
@@ -37,42 +37,40 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditLectureDialog({
   lecture,
+  index,
   onConfirm,
   onClose,
   ...props
 }) {
   const styles = useStyles()
 
-  const [title, setTitle] = useState(lecture?.title)
-  const [video, setVideo] = useState(lecture?.videoUrl)
-  const [desc, setDesc] = useState(lecture?.desc)
-  const [minute, setMinute] = useState(
-    lecture ? Math.floor(lecture.duration / 60) : 0
-  )
-  const [second, setSecond] = useState(
-    lecture ? Math.floor(lecture.duration % 60) : 0
-  )
+  const [title, setTitle] = useState(null)
+  const [video, setVideo] = useState(null)
+  const [minute, setMinute] = useState(0)
+  const [second, setSecond] = useState(0)
+
+  useEffect(() => {
+    if (lecture) {
+      setTitle(lecture.title)
+      setVideo(lecture.url)
+      setMinute(Math.floor(lecture.duration / 60))
+      setSecond(Math.floor(lecture.duration % 60))
+    }
+  }, [lecture])
 
   function onSubmit(e) {
     e.preventDefault()
 
-    onConfirm?.call(undefined, {
+    onConfirm?.({
       title,
-      desc,
       duration: minute * 60 + second,
-      videoUrl: video
+      url: video
     })
-    onClose?.call(undefined)
-
-    setTitle(null)
-    setDesc(null)
-    setVideo(null)
-    setMinute(null)
-    setSecond(null)
+    onClose?.()
   }
 
   return (
-    <Dialog {...props}>
+    <Dialog open={index != undefined} {...props}>
       <DialogTitle>Add new Lecture</DialogTitle>
       <form onSubmit={onSubmit}>
         <DialogContent className={styles.form}>
@@ -105,7 +103,7 @@ export default function EditLectureDialog({
               type="number"
               name="minute"
               required
-              value={minute}
+              value={minute || 0}
               onChange={(e) => setMinute(e.target.valueAsNumber)}
               onFocus={(e) => e.target.select()}
               inputProps={{
@@ -119,7 +117,7 @@ export default function EditLectureDialog({
               type="number"
               name="second"
               required
-              value={second}
+              value={second || 0}
               onChange={(e) => {
                 const number = e.target.valueAsNumber || 0
                 setMinute((prev) =>
@@ -138,15 +136,6 @@ export default function EditLectureDialog({
             />
             seconds
           </Box>
-          <TextField
-            fullWidth
-            variant="outlined"
-            multiline
-            value={desc}
-            onChange={(e) => setDesc(e.target.value)}
-            placeholder="Explain in detail about this lecture, this is optional. "
-            name="description"
-          />
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={onClose}>
@@ -163,6 +152,7 @@ export default function EditLectureDialog({
 
 EditLectureDialog.propTypes = {
   lecture: PropTypes.object,
+  index: PropTypes.number,
   onConfirm: PropTypes.func,
   onClose: PropTypes.func
 }

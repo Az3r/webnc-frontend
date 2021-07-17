@@ -10,11 +10,8 @@ export const FeedbackPropTypes = PropTypes.shape({
 export const LecturePropTypes = PropTypes.shape({
   section: PropTypes.number,
   preview: PropTypes.bool,
-  hour: PropTypes.number.isRequired,
-  second: PropTypes.number.isRequired,
-  minute: PropTypes.number.isRequired,
+  duration: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
-  desc: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired
 })
 
@@ -100,4 +97,14 @@ export const StudentPropTypes = PropTypes.shape({
   id: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired
+})
+
+export const LecturerCoursePropTypes = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  thumbnail: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  discount: PropTypes.number.isRequired,
+  lastModified: PropTypes.number.isRequired,
+  lectures: PropTypes.arrayOf(LecturePropTypes.isRequired).isRequired
 })
