@@ -18,3 +18,18 @@ export const routes = {
     dashboard: '/l/dashboard'
   }
 }
+
+/** user must be authenticated to perform an action */
+export function withAuthenticated({
+  router,
+  user,
+  validator = (user) => Boolean(user),
+  action
+}) {
+  if (!validator(user))
+    return router.push({
+      pathname: routes.login,
+      query: { redirect: router.asPath }
+    })
+  return action?.()
+}

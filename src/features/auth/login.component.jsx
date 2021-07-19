@@ -50,18 +50,19 @@ export default function Login() {
 
       revalidate()
 
-      const query = window.location.href.split('?', 2)[1]
-      const { redirect } = qs.parse(query)
+      const { redirect } = router.query
       router.push(redirect ?? '/')
     } catch (error) {
+      // account must be verified before using services
       if (error.code === 'AuthError/account-not-verified') {
-        // TODO wait for backend to add email into error response
-        // api.resend(error.email)
-        // update((prev) => ({ ...prev, email: error.email }))
         update((prev) => ({ ...prev, email: error.value }))
         api.resend(error.value)
         next(2)
+        return enqueueSnackbar('Please verify your Account', {
+          variant: 'info'
+        })
       }
+
       enqueueSnackbar(error.message, { variant: 'error' })
     } finally {
       process(false)

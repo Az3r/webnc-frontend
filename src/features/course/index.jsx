@@ -13,14 +13,15 @@ import { CourseDetailPropTypes } from '@/utils/typing'
 import NextLink from '@/components/nextlink'
 import { NavigateNext } from '@material-ui/icons'
 import { routes } from '@/utils/app'
+import DefaultLayout from '@/components/layout'
 
 const CourseLectures = dynamic(() => import('./content.component'))
 const CourseContent = dynamic(() => import('./detail.component'))
 
 export default function CourseDetail({ course }) {
-  const { category, topic, title } = course
+  const { category, topic } = course
   return (
-    <>
+    <DefaultLayout>
       <CourseThumbnail course={course} />
       <Container maxWidth="md">
         <Box paddingY={1}>
@@ -49,7 +50,7 @@ export default function CourseDetail({ course }) {
         <CourseContent course={course} />
         <Box height="15vh" />
       </Container>
-    </>
+    </DefaultLayout>
   )
 }
 

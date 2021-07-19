@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Box,
   Grow,
@@ -8,7 +8,8 @@ import {
   Typography,
   Toolbar,
   AppBar,
-  Tooltip
+  Tooltip,
+  Badge
 } from '@material-ui/core'
 import { appname, routes } from '@/utils/app'
 import NextImage from 'next/image'
@@ -29,6 +30,7 @@ import { useApp } from '@/app.theme'
 import InlineSearch from './search.component'
 import { useAuth } from '../hooks/auth.provider'
 import LecturerDrawer from '../drawer/lecturer.drawer'
+import { resources, useGET } from '@/utils/api'
 
 const GuestDrawer = dynamic(() => import('@/components/drawer/guest.drawer'))
 const StudentDrawer = dynamic(() =>
@@ -187,12 +189,19 @@ function GuestAction() {
 }
 
 function StudentAction() {
+  const { user } = useAuth()
+  const { data: shop } = useGET(() =>
+    user ? resources.shop.get(user.id) : undefined
+  )
+
   return (
     <>
       <NextLink href={routes.u.shop} passHref>
         <Tooltip title="Go to Cart">
           <IconButton>
-            <Shop />
+            <Badge color="secondary" badgeContent={shop?.length}>
+              <Shop />
+            </Badge>
           </IconButton>
         </Tooltip>
       </NextLink>
@@ -214,13 +223,6 @@ function LecturerAction() {
         <Tooltip title="Go to Own Courses">
           <IconButton>
             <AccountBalance />
-          </IconButton>
-        </Tooltip>
-      </NextLink>
-      <NextLink href={routes.u.library} passHref>
-        <Tooltip title="Go to Library">
-          <IconButton>
-            <VideoLibrary />
           </IconButton>
         </Tooltip>
       </NextLink>

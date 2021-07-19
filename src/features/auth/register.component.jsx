@@ -76,6 +76,7 @@ export default function Register() {
         value={form.email}
       />
       <PasswordField
+        required
         label="Password"
         name="register-password"
         className={classes.field}

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import {
   Dialog,
@@ -6,27 +6,12 @@ import {
   DialogActions,
   Button,
   DialogTitle,
-  TextField,
-  makeStyles,
   Typography,
   CircularProgress
 } from '@material-ui/core'
 import dynamic from 'next/dynamic'
-import { fetchPOST, fetchPUT, resources } from '@/utils/api'
+import { fetchPOST, resources } from '@/utils/api'
 import { PasswordField } from '../inputs'
-
-const useStyles = makeStyles((theme) => ({
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    ['& > div']: {
-      margin: theme.spacing(1, 0)
-    },
-    ['& > input[type=submit]']: {
-      visibility: 'hidden'
-    }
-  }
-}))
 
 const LoginDialog = dynamic(() => import('./login.dialog'))
 
@@ -36,14 +21,10 @@ export default function PasswordDialog({
   onCancel,
   ...props
 }) {
-  const styles = useStyles()
-
   const [password, setPassword] = useState('')
   const [verifyDialog, setVerifyDialog] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
-
-  const submitEl = useRef(undefined)
 
   async function onUpdate(_, oldPassword) {
     setVerifyDialog(false)
@@ -66,7 +47,8 @@ export default function PasswordDialog({
 
   function onSubmit(e) {
     e.preventDefault()
-    setVerifyDialog(true)
+    if (password) setVerifyDialog(true)
+    else setError('Password must not be empty')
   }
 
   return (
@@ -74,18 +56,15 @@ export default function PasswordDialog({
       <Dialog {...props}>
         <DialogTitle>Change Password</DialogTitle>
         <DialogContent>
-          <form className={styles.form} onSubmit={onSubmit}>
-            <PasswordField
-              required
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              label="Your new Password"
-              fullWidth
-              disabled={submitting}
-            />
-            <input type="submit" ref={submitEl} />
-          </form>
+          <PasswordField
+            autoFocus
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            label="Your new Password"
+            fullWidth
+            disabled={submitting}
+          />
           {error && (
             <Typography color="error" align="center">
               *{error}*
@@ -94,11 +73,11 @@ export default function PasswordDialog({
         </DialogContent>
         <DialogActions>
           {submitting && <CircularProgress />}
-          <Button onClick={onCancel} autoFocus disabled={submitting}>
+          <Button onClick={onCancel} disabled={submitting}>
             Cancel
           </Button>
           <Button
-            onClick={() => submitEl.current.click()}
+            onClick={onSubmit}
             color="primary"
             variant="contained"
             disabled={submitting}

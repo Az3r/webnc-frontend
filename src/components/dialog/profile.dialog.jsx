@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginDialog = dynamic(() => import('./login.dialog'))
 
-export default function ProfileDialog({ user, onConfirm, onCancel, ...props }) {
+export default function ProfileDialog({ user, onConfirm, onClose, ...props }) {
   const styles = useStyles()
 
   const [email, setEmail] = useState(user.email)
@@ -49,9 +49,10 @@ export default function ProfileDialog({ user, onConfirm, onCancel, ...props }) {
         userId: user.id,
         newUserName: username,
         newEmail: email,
-        newAvatarUrl: user.avatar
+        newAvatarUrl: user.avatar,
+        description: 'LÀM ƠN FIX DÙM CON ĐI BỐ, CON LẠY BỐ'
       })
-      onConfirm?.call(undefined)
+      onConfirm?.()
     } catch (error) {
       setError(error.message)
     } finally {
@@ -100,7 +101,7 @@ export default function ProfileDialog({ user, onConfirm, onCancel, ...props }) {
         </DialogContent>
         <DialogActions>
           {submitting && <CircularProgress />}
-          <Button onClick={onCancel} autoFocus disabled={submitting}>
+          <Button onClick={onClose} autoFocus disabled={submitting}>
             Cancel
           </Button>
           <Button
@@ -127,7 +128,7 @@ export default function ProfileDialog({ user, onConfirm, onCancel, ...props }) {
 
 ProfileDialog.propTypes = {
   onConfirm: PropTypes.func,
-  onCancel: PropTypes.func,
+  onClose: PropTypes.func,
   user: PropTypes.shape({
     id: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,

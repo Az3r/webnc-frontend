@@ -3,6 +3,8 @@ import mock from '@/mocks/course.json'
 import { fetchGET, resources } from '@/utils/api'
 import {
   toCourseDetailPropTypes,
+  toCoursePropTypes,
+  toCoursePropTypesV2,
   toFeedbackPropTypes
 } from '@/utils/conversion'
 
@@ -14,16 +16,22 @@ export async function getStaticProps({ params }) {
 
   const { id } = params
   try {
-    const data = await fetchGET(resources.courses.get(id))
-    const feedbacks = await fetchGET(resources.courses.feedback(id))
+    const courseResponse = await fetchGET(resources.courses.get(id))
+    const course = toCourseDetailPropTypes(courseResponse)
+
+    const feedbackResponse = await fetchGET(resources.courses.feedback(id))
+    course.feedbacks = feedbackResponse.map(toFeedbackPropTypes)
+
+    const bestSellerResponse = await fetchGET(
+      resources.courses.bestSellerOfSameTopic(id, course.topic.id)
+    )
+    course.populars = bestSellerResponse.map(toCoursePropTypes)
 
     return {
       props: {
-        course: {
-          ...toCourseDetailPropTypes(data),
-          feedbacks: feedbacks.map(toFeedbackPropTypes)
-        }
-      }
+        course
+      },
+      revalidate: 3600
     }
   } catch (error) {
     return {

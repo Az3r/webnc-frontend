@@ -35,24 +35,25 @@ export async function getStaticProps({ params }) {
     return {
       props: {
         topic: {
-          id: id.toString(),
+          id: id,
           name: name || label.toLowerCase(),
           avatar,
           category: {
-            id: categoryTypeId.toString(),
+            id: categoryTypeId,
             label: categoryTypeName,
             name: category
           },
           label,
           courses: courses.map(toCoursePropTypesV2),
           others: others.categories.map((item) => ({
-            id: item.id.toString(),
+            id: item.id,
             name: item.label || item.name.toLowerCase(),
             label: item.name,
             avatar: item.imageUrl
           }))
         }
-      }
+      },
+      revalidate: 3600
     }
   } catch (error) {
     // redirect to current category for unknown topic

@@ -48,7 +48,7 @@ const destinations = [
 ]
 
 const SignoutDialog = dynamic(() =>
-  import('@/components/dialog/signout.dialog')
+  import('@/components/dialog/confirm.dialog')
 )
 const PasswordDialog = dynamic(() =>
   import('@/components/dialog/password.dialog')
@@ -172,9 +172,7 @@ export default function LecturerDrawer({ children, ...props }) {
         onConfirm={() => {
           revalidate()
           enqueueSnackbar('Account Updated', { variant: 'success' })
-          setProfileDialog(false)
         }}
-        onCancel={() => setProfileDialog(false)}
       />
     </Drawer>
   )

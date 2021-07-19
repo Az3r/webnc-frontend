@@ -1,9 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {
-  Box,
   ListItem,
   ListItemIcon,
+  ListItemSecondaryAction,
   ListItemText,
   Tooltip,
   Typography
@@ -11,13 +10,22 @@ import {
 import { VideoCall } from '@material-ui/icons'
 import { useCourseThumbnail } from './thumbnail.component'
 import useStyles from './lecture.style'
+import { formatDuration } from '@/utils/tools'
+import { LecturePropTypes } from '@/utils/typing'
 
 export default function LectureItem({ lecture }) {
-  const { desc, title, preview, hour, second, minute } = lecture
+  const { title, preview, duration } = lecture
   const { play } = useCourseThumbnail()
   const styles = useStyles()
+
   return (
-    <ListItem button={preview} onClick={() => play(lecture)} component="div">
+    <ListItem
+      button={preview}
+      onClick={() => {
+        if (preview) return play(lecture)
+      }}
+      component="li"
+    >
       <ListItemIcon className={styles.list_icon}>
         {preview && (
           <Tooltip title="This lecture is previewable">
@@ -27,31 +35,15 @@ export default function LectureItem({ lecture }) {
       </ListItemIcon>
       <ListItemText
         primaryTypographyProps={{ className: styles.text }}
-        secondaryTypographyProps={{ className: styles.text }}
         primary={title}
-        secondary={desc}
       />
-      <Box paddingLeft={2}>
-        <Typography>{formatDuration(hour, minute, second)}</Typography>
-      </Box>
+      <ListItemSecondaryAction>
+        <Typography>{formatDuration(duration)}</Typography>
+      </ListItemSecondaryAction>
     </ListItem>
   )
 }
 
 LectureItem.propTypes = {
-  lecture: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    preview: PropTypes.bool,
-    desc: PropTypes.string,
-    hour: PropTypes.number.isRequired,
-    minute: PropTypes.number.isRequired,
-    second: PropTypes.number.isRequired
-  }).isRequired
-}
-
-function formatDuration(hour = 0, minute = 0, second = 0) {
-  const secondStr = ':' + second.toString().padStart(2, '0')
-  const minuteStr = minute.toString().padStart(2, '0')
-  const hourStr = hour > 0 ? hour.toString().padStart(2, '0') + ':' : ''
-  return hourStr + minuteStr + secondStr
+  lecture: LecturePropTypes.isRequired
 }

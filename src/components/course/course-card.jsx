@@ -14,16 +14,18 @@ import { currency } from '@/utils/tools'
 import useStyles from './course-card.style'
 import { Rating, Skeleton } from '@material-ui/lab'
 import NextLink from '../nextlink'
-import { routes } from '@/utils/app'
+import { routes, withAuthenticated } from '@/utils/app'
 import { CourseLibraryPropTypes, CoursePropTypes } from '@/utils/typing'
 import { PlayArrow, Shop, ShoppingCart, VideoLibrary } from '@material-ui/icons'
 import { useSnackbar } from 'notistack'
 import FavoriteButton from '../button/favorite.button'
 import { useAuth } from '../hooks/auth.provider'
-import { resources, useGET } from '@/utils/api'
+import { fetchPOST, resources, useGET } from '@/utils/api'
 import clsx from 'clsx'
 import Link from 'next/link'
 import LabelProgress from '@/components/progress/label-progress'
+import { mutate } from 'swr'
+import { useRouter } from 'next/router'
 
 export default function CourseCard({ course }) {
   const {
@@ -40,6 +42,7 @@ export default function CourseCard({ course }) {
   const styles = useStyles()
 
   const { enqueueSnackbar } = useSnackbar()
+  const router = useRouter()
 
   const { user } = useAuth()
   const { data: library = [] } = useGET(() =>
@@ -48,14 +51,17 @@ export default function CourseCard({ course }) {
   const { data: watchlist = [] } = useGET(() =>
     user ? resources.watchlist.get(user.id) : undefined
   )
-  const [watchlisted, setWatchlisted] = useState(false)
-  const [inUserLibrary, setInUserLibrary] = useState(false)
+  const [watchlisted, setWatchlisted] = useState(undefined)
+  const [inUserLibrary, setInUserLibrary] = useState(undefined)
 
   useEffect(() => {
-    setInUserLibrary(library.includes(id))
+    const found = library.find((e) => e.courseId === id)
+    setInUserLibrary(found)
   }, [library])
+
   useEffect(() => {
-    setInUserLibrary(watchlist.includes(id))
+    const found = watchlist.find((e) => e.courseId === id)
+    setWatchlisted(found)
   }, [watchlist])
 
   function CourseRating() {
@@ -93,6 +99,50 @@ export default function CourseCard({ course }) {
     )
   }
 
+  function onWatchlistChange(value) {
+    return withAuthenticated({
+      router,
+      user,
+      action: () => {
+        const message = value ? 'Added to Watchlist' : 'Removed from Watchlist'
+        enqueueSnackbar(message, {
+          variant: 'info'
+        })
+        setWatchlisted(value)
+
+        const fetcher = () =>
+          value
+            ? fetchPOST(resources.watchlist.post, {
+                studentId: user.id,
+                courseId: id
+              })
+            : fetchPOST(resources.watchlist.remove(watchlisted.id), undefined, {
+                method: 'DELETE'
+              })
+        fetcher()
+          .catch((e) => enqueueSnackbar(e.message, { variant: 'error' }))
+          .finally(() => mutate(resources.watchlist.get(user.id)))
+      }
+    })
+  }
+
+  async function addToCart() {
+    return withAuthenticated({
+      user,
+      router,
+      action: () => {
+        enqueueSnackbar('Added to Cart', { variant: 'info' })
+
+        fetchPOST(resources.shop.post, {
+          studentId: user.id,
+          courseId: id
+        })
+          .catch((e) => enqueueSnackbar(e.message, { variant: 'error' }))
+          .finally(() => mutate(resources.shop.get(user.id)))
+      }
+    })
+  }
+
   return (
     <Card>
       <Box height={0} paddingTop="56.25%" position="relative">
@@ -108,14 +158,8 @@ export default function CourseCard({ course }) {
             title={watchlisted ? 'Remove from Watchlist' : 'Add to Watchlist'}
           >
             <FavoriteButton
-              value={watchlisted}
-              onClick={() => {
-                enqueueSnackbar(
-                  watchlisted ? 'Removed from Watchlist' : 'Added to Watchlist',
-                  { variant: 'success' }
-                )
-                setWatchlisted((prev) => !prev)
-              }}
+              value={Boolean(watchlisted)}
+              onClick={() => onWatchlistChange(!watchlisted)}
             />
           </Tooltip>
         </Box>
@@ -143,14 +187,12 @@ export default function CourseCard({ course }) {
         <Box position="relative">
           <Box position="absolute" bottom={0} right={0}>
             {inUserLibrary ? (
-              <Box color="info.light">
-                <Tooltip title="In your library">
-                  <VideoLibrary color="inherit" />
-                </Tooltip>
-              </Box>
+              <Tooltip title="In your library">
+                <VideoLibrary color="disabled" />
+              </Tooltip>
             ) : (
               <Tooltip title="Add to Cart">
-                <IconButton color="primary">
+                <IconButton color="primary" onClick={addToCart}>
                   <ShoppingCart />
                 </IconButton>
               </Tooltip>

@@ -12,10 +12,10 @@ export default makeStyles((theme) => ({
   textarea: {
     ...theme.typography.body1,
     resize: 'none',
+    fontFamily: 'Roboto Mono, monospace',
     border: 'none',
     outline: 'none',
     position: 'relative',
-    fontWeight: 'bold',
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
     paddingLeft: theme.spacing(7),
@@ -31,5 +31,8 @@ export default makeStyles((theme) => ({
     height: '100%',
     ozTabSize: 2
   },
-  text: theme.typography.body1
+  text: {
+    ...theme.typography.body1,
+    fontFamily: 'Roboto Mono, monospace'
+  }
 }))

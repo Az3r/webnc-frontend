@@ -84,20 +84,207 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-const tabs = [
-  { label: 'Thumbnail', icon: <ImageSearch /> },
-  { label: 'Info', icon: <LocalOffer /> },
-  { label: 'Description', icon: <Description /> },
-  { label: 'Lectures', icon: <ListAlt /> }
+const ALL_SECTIONS = [
+  { label: 'Info', icon: <LocalOffer />, component: InfoSection },
+  { label: 'Thumbnail', icon: <ImageSearch />, component: ThumbnailSection },
+  {
+    label: 'Description',
+    icon: <Description />,
+    component: DescriptionSection
+  },
+  { label: 'Lectures', icon: <ListAlt />, component: LectureSection },
+  {
+    label: 'Settings',
+    icon: <Settings />,
+    component: () => <Box>Setting section</Box>
+  }
 ]
 
-export default function CourseDialog({ onConfirm, onClose, course, ...props }) {
+const CREATE_SECTION = ALL_SECTIONS.slice(0, 4)
+const EDIT_SECTION = ALL_SECTIONS
+
+export default function CreateCourseDialog({ onConfirm, onClose, ...props }) {
   const styles = useStyles()
   const theme = useTheme()
 
   const downXS = useMediaQuery(theme.breakpoints.down('sm'))
   const [value, setValue] = useState(0)
-  const [status, setValidation] = useState(tabs.map(() => false))
+  const [status, setValidation] = useState(CREATE_SECTION.map(() => false))
+
+  const [thumbnail, setThumbnail] = useState('')
+  const [info, setInfo] = useState({})
+  const [detaildesc, setDetaildesc] = useState('')
+  const [lectures, setLectures] = useState([])
+
+  useEffect(() => {
+    setValidation((prev) => {
+      prev[0] = Boolean(thumbnail)
+      return prev.slice()
+    })
+  }, [thumbnail])
+
+  useEffect(() => {
+    setValidation((prev) => {
+      prev[1] =
+        !isNaN(info.price) &&
+        !isNaN(info.discount) &&
+        Boolean(info.title) &&
+        Boolean(info.shortdesc)
+      return prev.slice()
+    })
+  }, [info])
+
+  useEffect(() => {
+    setValidation((prev) => {
+      prev[2] = Boolean(detaildesc)
+      return prev.slice()
+    })
+  }, [detaildesc])
+
+  useEffect(() => {
+    setValidation((prev) => {
+      const length = lectures?.reduce(
+        (prev, current) => prev + (current ? 1 : 0),
+        0
+      )
+      prev[3] = Boolean(length)
+      return prev.slice()
+    })
+  }, [lectures])
+
+  async function onCreate() {
+    // call api
+    onConfirm?.({
+      thumbnail,
+      ...info,
+      detaildesc,
+      lectures
+    })
+
+    // reset to default state
+    setThumbnail('')
+    setInfo({})
+    setDetaildesc('')
+    setLectures([])
+  }
+
+  function onCloseDialog() {
+    // purging undefined elements
+    setLectures((prev) => prev.filter(Boolean))
+
+    onClose?.()
+  }
+
+  return (
+    <Dialog fullScreen TransitionComponent={Transition} {...props}>
+      <TabContext value={value}>
+        <AppBar position="fixed" className={styles.topAppBar}>
+          <Toolbar>
+            <ul className={styles.status}>
+              {CREATE_SECTION.map((item, index) => (
+                <li key={item.label}>
+                  {status[index] ? (
+                    <Check className={styles.complete} />
+                  ) : (
+                    <Close color="error" />
+                  )}
+                </li>
+              ))}
+            </ul>
+            <Box flexGrow={1} />
+            <Button
+              color="primary"
+              variant="contained"
+              disabled={!status.every((item) => item)}
+              onClick={onCreate}
+            >
+              Submit
+            </Button>
+            <Tooltip title="Close dialog">
+              <IconButton onClick={onCloseDialog}>
+                <Close />
+              </IconButton>
+            </Tooltip>
+          </Toolbar>
+        </AppBar>
+        <CreateCourseContext.Provider
+          value={{
+            thumbnail,
+            info,
+            longdesc: detaildesc,
+            lectures,
+            setThumbnail,
+            setInfo,
+            setLongdesc: setDetaildesc,
+            setLectures
+          }}
+        >
+          <Toolbar />
+          <Box paddingY={1} />
+          <Box display="flex" alignItems="center" justifyContent="center">
+            <IconButton
+              color="inherit"
+              onClick={() =>
+                setValue(value === 0 ? CREATE_SECTION.length - 1 : value - 1)
+              }
+            >
+              <NavigateBefore />
+            </IconButton>
+            <Box minWidth={320}>
+              <Typography align="center" variant="h5">
+                Create Course / <b>{CREATE_SECTION[value].label}</b>
+              </Typography>
+            </Box>
+            <IconButton
+              color="inherit"
+              onClick={() =>
+                setValue(value === CREATE_SECTION.length - 1 ? 0 : value + 1)
+              }
+            >
+              <NavigateNext />
+            </IconButton>
+          </Box>
+          {CREATE_SECTION.map((item, index) => (
+            <TabPanel className={styles.panel} key={item.label} value={index}>
+              <item.component />
+            </TabPanel>
+          ))}
+          <Box minHeight={48} />
+        </CreateCourseContext.Provider>
+        <AppBar position="fixed" className={styles.bottomAppBar}>
+          <Tabs
+            value={value}
+            onChange={(e, i) => setValue(i)}
+            variant={downXS ? 'fullWidth' : 'scrollable'}
+          >
+            {CREATE_SECTION.map((item, index) => (
+              <Tab
+                label={downXS ? undefined : item.label}
+                icon={downXS ? item.icon : undefined}
+                value={index}
+                key={item.label}
+              />
+            ))}
+          </Tabs>
+        </AppBar>
+      </TabContext>
+    </Dialog>
+  )
+}
+
+export function EditCourseDialog({
+  course,
+  index,
+  onConfirm,
+  onClose,
+  ...props
+}) {
+  const styles = useStyles()
+  const theme = useTheme()
+
+  const downXS = useMediaQuery(theme.breakpoints.down('sm'))
+  const [value, setValue] = useState(0)
+  const [status, setValidation] = useState(CREATE_SECTION.map(() => false))
 
   const [thumbnail, setThumbnail] = useState(undefined)
   const [info, setInfo] = useState({})
@@ -158,13 +345,37 @@ export default function CourseDialog({ onConfirm, onClose, course, ...props }) {
     })
   }, [lectures])
 
-  function onCreate() {
+  async function onSave() {
     // call api
+    onConfirm?.(
+      {
+        ...course,
+        thumbnail,
+        ...info,
+        detaildesc,
+        lectures
+      },
+      index
+    )
+  }
+
+  function onRestore() {
+    const {
+      thumbnail,
+      title,
+      price,
+      discount,
+      shortdesc,
+      detaildesc,
+      lectures
+    } = course
+    setThumbnail(thumbnail)
+    setInfo({ title, shortdesc, price, discount })
+    setDetaildesc(detaildesc)
+    setLectures(lectures || [])
   }
 
   function onCloseDialog() {
-    // purging undefined elements
-    setLectures((prev) => prev.filter(Boolean))
     onClose?.()
   }
 
@@ -172,14 +383,14 @@ export default function CourseDialog({ onConfirm, onClose, course, ...props }) {
     <Dialog
       fullScreen
       TransitionComponent={Transition}
-      open={Boolean(course)}
+      open={index != undefined}
       {...props}
     >
       <TabContext value={value}>
         <AppBar position="fixed" className={styles.topAppBar}>
           <Toolbar>
             <ul className={styles.status}>
-              {tabs.map((item, index) => (
+              {CREATE_SECTION.map((item, index) => (
                 <li key={item.label}>
                   {status[index] ? (
                     <Check className={styles.complete} />
@@ -190,31 +401,26 @@ export default function CourseDialog({ onConfirm, onClose, course, ...props }) {
               ))}
             </ul>
             <Box flexGrow={1} />
-            {course === {} ? (
+            <Hidden smUp implementation="css">
+              <IconButton onClick={onRestore}>
+                <Restore />
+              </IconButton>
+              <IconButton onClick={onSave} disabled={!status.every(Boolean)}>
+                <Save />
+              </IconButton>
+            </Hidden>
+            <Hidden xsDown implementation="css">
+              <Button color="primary" onClick={onRestore}>
+                Restore
+              </Button>
               <Button
                 color="primary"
-                variant="contained"
-                disabled={!status.every((item) => item)}
-                onClick={onCreate}
+                onClick={onSave}
+                disabled={!status.every(Boolean)}
               >
-                Submit
+                Save
               </Button>
-            ) : (
-              <>
-                <Hidden smUp implementation="css">
-                  <IconButton>
-                    <Restore />
-                  </IconButton>
-                  <IconButton>
-                    <Save />
-                  </IconButton>
-                </Hidden>
-                <Hidden xsDown implementation="css">
-                  <Button>Restore</Button>
-                  <Button>Save</Button>
-                </Hidden>
-              </>
-            )}
+            </Hidden>
             <Tooltip title="Close dialog">
               <IconButton onClick={onCloseDialog}>
                 <Close />
@@ -240,37 +446,30 @@ export default function CourseDialog({ onConfirm, onClose, course, ...props }) {
             <IconButton
               color="inherit"
               onClick={() =>
-                setValue(value === 0 ? tabs.length - 1 : value - 1)
+                setValue(value === 0 ? EDIT_SECTION.length - 1 : value - 1)
               }
             >
               <NavigateBefore />
             </IconButton>
             <Box minWidth={320}>
               <Typography align="center" variant="h5">
-                Create Course / <b>{tabs[value].label}</b>
+                Create Course / <b>{EDIT_SECTION[value].label}</b>
               </Typography>
             </Box>
             <IconButton
               color="inherit"
               onClick={() =>
-                setValue(value === tabs.length - 1 ? 0 : value + 1)
+                setValue(value === EDIT_SECTION.length - 1 ? 0 : value + 1)
               }
             >
               <NavigateNext />
             </IconButton>
           </Box>
-          <TabPanel className={styles.panel} value={0}>
-            <ThumbnailSection />
-          </TabPanel>
-          <TabPanel className={styles.panel} value={1}>
-            <InfoSection />
-          </TabPanel>
-          <TabPanel className={styles.panel} value={2}>
-            <DescriptionSection />
-          </TabPanel>
-          <TabPanel className={styles.panel} value={3}>
-            <LectureSection />
-          </TabPanel>
+          {EDIT_SECTION.map((item, index) => (
+            <TabPanel className={styles.panel} key={item.label} value={index}>
+              <item.component />
+            </TabPanel>
+          ))}
           <Box minHeight={48} />
         </CreateCourseContext.Provider>
         <AppBar position="fixed" className={styles.bottomAppBar}>
@@ -279,7 +478,7 @@ export default function CourseDialog({ onConfirm, onClose, course, ...props }) {
             onChange={(e, i) => setValue(i)}
             variant={downXS ? 'fullWidth' : 'scrollable'}
           >
-            {tabs.map((item, index) => (
+            {EDIT_SECTION.map((item, index) => (
               <Tab
                 label={downXS ? undefined : item.label}
                 icon={downXS ? item.icon : undefined}
@@ -287,14 +486,6 @@ export default function CourseDialog({ onConfirm, onClose, course, ...props }) {
                 key={item.label}
               />
             ))}
-            {course === 'update' && (
-              <Tab
-                label={downXS ? undefined : 'Settings'}
-                icon={downXS ? <Settings /> : undefined}
-                value={tabs.length}
-                key={'Settings'}
-              />
-            )}
           </Tabs>
         </AppBar>
       </TabContext>
@@ -302,12 +493,17 @@ export default function CourseDialog({ onConfirm, onClose, course, ...props }) {
   )
 }
 
-CourseDialog.propTypes = {
-  onConfirm: PropTypes.func,
-  onClose: PropTypes.func,
-  course: CourseDetailPropTypes
-}
-
 export function useCreateCourse() {
   return useContext(CreateCourseContext)
+}
+CreateCourseDialog.propTypes = {
+  onConfirm: PropTypes.func,
+  onClose: PropTypes.func
+}
+
+EditCourseDialog.propTypes = {
+  onConfirm: PropTypes.func,
+  onClose: PropTypes.func,
+  course: CourseDetailPropTypes,
+  index: PropTypes.number
 }

@@ -13,7 +13,6 @@ import {
 import Image from 'next/image'
 import { PasswordField } from '../inputs'
 import { fetchPOST, resources } from '@/utils/api'
-import { useAuth } from '../hooks/auth.provider'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -63,7 +62,7 @@ export default function LoginDialog({ user, onConfirm, onCancel, ...props }) {
   return (
     <Dialog {...props}>
       <DialogContent>
-        <Typography align="center">
+        <Typography align="center" component="div">
           <Image
             width={96}
             height={96}

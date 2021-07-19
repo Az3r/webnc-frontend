@@ -21,7 +21,9 @@ const useStyles = makeStyles((theme) => ({
 export default function WatchlistFeature() {
   const styles = useStyles()
   const { user } = useAuth()
-  const { data, loading } = useGET(() => resources.watchlist.get(user.id))
+  const { data, loading } = useGET(() =>
+    user ? resources.watchlist.get(user.id) : undefined
+  )
   return (
     <DefaultLayout>
       <Container className={styles.root}>

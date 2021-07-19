@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Tooltip,
   Box,
@@ -7,7 +7,8 @@ import {
   ListItemIcon,
   ListItemText,
   IconButton,
-  Button
+  Button,
+  CircularProgress
 } from '@material-ui/core'
 import useStyles from './info.style'
 import { currency, date } from '@/utils/tools'
@@ -22,21 +23,107 @@ import {
 } from '@material-ui/icons'
 import LongParagraph from '@/components/paragraph'
 import { CourseDetailPropTypes } from '@/utils/typing'
+import { useAuth } from '@/components/hooks/auth.provider'
+import { fetchPOST, resources, useGET } from '@/utils/api'
+import { useRouter } from 'next/router'
+import { routes, withAuthenticated } from '@/utils/app'
+import { useSnackbar } from 'notistack'
+import { mutate } from 'swr'
 
 export default function CourseInfo({ course }) {
   const styles = useStyles()
+  const router = useRouter()
+  const { enqueueSnackbar } = useSnackbar()
+
   const {
+    id,
     title,
     rating,
     reviewers,
     bought,
-    lastModifed,
+    lastModified,
     price,
     discount,
     shortdesc
   } = course
 
-  const [favorited, setFavorited] = useState(false)
+  const { user } = useAuth()
+  const { data: library = [] } = useGET(() =>
+    user ? resources.library.get(user.id) : undefined
+  )
+  const { data: watchlist = [] } = useGET(() =>
+    user ? resources.watchlist.get(user.id) : undefined
+  )
+
+  const [processing, setProcessing] = useState(false)
+  const [watchlisted, setWatchlisted] = useState(undefined)
+  const [inUserLibrary, setInUserLibrary] = useState(undefined)
+
+  useEffect(() => {
+    const found = library.find((e) => e.courseId === id)
+    setInUserLibrary(found)
+  }, [library])
+
+  useEffect(() => {
+    const found = watchlist.find((e) => e.courseId === id)
+    setWatchlisted(found)
+  }, [watchlist])
+
+  function onWatchlistChange(value) {
+    return withAuthenticated({
+      router,
+      user,
+      action: () => {
+        const message = value ? 'Added to Watchlist' : 'Removed from Watchlist'
+        enqueueSnackbar(message, {
+          variant: 'info'
+        })
+        setWatchlisted(value)
+
+        const fetcher = () =>
+          value
+            ? fetchPOST(resources.watchlist.post, {
+                studentId: user.id,
+                courseId: id
+              })
+            : fetchPOST(resources.watchlist.remove(watchlisted.id), undefined, {
+                method: 'DELETE'
+              })
+        fetcher()
+          .catch((e) => enqueueSnackbar(e.message, { variant: 'error' }))
+          .finally(() => mutate(resources.watchlist.get(user.id)))
+      }
+    })
+  }
+
+  async function addToCart() {
+    return withAuthenticated({
+      user,
+      router,
+      action: async () => {
+        setProcessing(true)
+        try {
+          await fetchPOST(resources.shop.post, {
+            studentId: user.id,
+            courseId: id
+          })
+          enqueueSnackbar('Added to Cart', { variant: 'info' })
+          router.push(routes.u.shop)
+        } catch (error) {
+          enqueueSnackbar(error.message, { variant: 'error' })
+        } finally {
+          setTimeout(() => {
+            mutate(resources.shop.get(user.id))
+            setProcessing(false)
+          }, 2000)
+        }
+      }
+    })
+  }
+
+  function watchCourse() {
+    router.push(routes.u.watch(id))
+  }
 
   return (
     <>
@@ -78,7 +165,7 @@ export default function CourseInfo({ course }) {
         </ListItemIcon>
         <ListItemText>
           <Typography>
-            Last modified <b>{date(lastModifed)}</b>
+            Last modified <b>{date(lastModified)}</b>
           </Typography>
         </ListItemText>
       </ListItem>
@@ -109,13 +196,13 @@ export default function CourseInfo({ course }) {
               )}
             </Box>
             <Tooltip
-              title={favorited ? 'Remove from Watchlist' : 'Add to Watchlist'}
+              title={watchlisted ? 'Remove from Watchlist' : 'Add to Watchlist'}
             >
               <IconButton
                 className={styles.favorite}
-                onClick={() => setFavorited((prev) => !prev)}
+                onClick={() => onWatchlistChange(!watchlisted)}
               >
-                {favorited ? <Favorite /> : <FavoriteBorder />}
+                {watchlisted ? <Favorite /> : <FavoriteBorder />}
               </IconButton>
             </Tooltip>
           </Box>
@@ -124,8 +211,20 @@ export default function CourseInfo({ course }) {
       <ListItem disableGutters>
         <LongParagraph line={5}>{shortdesc}</LongParagraph>
       </ListItem>
-      <Button fullWidth variant="contained" color="primary">
-        add to cart
+      <Button
+        fullWidth
+        disabled={processing}
+        variant="contained"
+        color={inUserLibrary ? 'secondary' : 'primary'}
+        onClick={inUserLibrary ? watchCourse : addToCart}
+      >
+        {processing ? (
+          <CircularProgress />
+        ) : inUserLibrary ? (
+          'Watch this course'
+        ) : (
+          'add to cart'
+        )}
       </Button>
     </>
   )

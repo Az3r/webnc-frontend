@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-
 import { useAuth } from '@/components/hooks/auth.provider'
 import {
   Tooltip,
@@ -11,19 +9,22 @@ import {
   Box,
   Typography,
   Button,
-  IconButton
+  IconButton,
+  Dialog,
+  DialogContent,
+  CircularProgress
 } from '@material-ui/core'
 import CourseRow, { CourseRowSkeleton } from '@/components/course/course-row'
 import { currency } from '@/utils/tools'
 import { Skeleton } from '@material-ui/lab'
-import { resources, useGET } from '@/utils/api'
+import { fetchPOST, resources, useGET } from '@/utils/api'
 import { Delete, ShoppingCart } from '@material-ui/icons'
-import { useSnackbar } from 'notistack'
-import { animated, useTransition } from 'react-spring'
-import { CoursePropTypes } from '@/utils/typing'
 import DefaultLayout from '@/components/layout'
 import Head from 'next/head'
 import { appname } from '@/utils/app'
+import { toCoursePropTypesV2 } from '@/utils/conversion'
+import { useSnackbar } from 'notistack'
+import ConfirmDialog from '@/components/dialog/confirm.dialog'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,97 +50,87 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ShopFeature() {
   const styles = useStyles()
+  const { enqueueSnackbar } = useSnackbar()
+
   const { user } = useAuth()
-  const { data: courses, loading } = useGET(() =>
+  const { data, loading, mutate } = useGET(() =>
     user ? resources.shop.get(user.id) : undefined
   )
 
-  return (
-    <>
-      <Head>
-        <title>My Shopping Cart | {appname}</title>
-      </Head>
-      <DefaultLayout>
-        <Container className={styles.root}>
-          {loading && <Loading />}
-          {courses && <DataAvailable courses={courses} />}
-        </Container>
-      </DefaultLayout>
-    </>
-  )
-}
+  const courses = data?.map(toCoursePropTypesV2) || []
+  const [itemToRemove, setItemToRemove] = useState(undefined)
+  const [purchasing, setPurchasing] = useState(false)
 
-const AnimatedBox = animated(Box)
-function DataAvailable({ courses }) {
-  const [list, setList] = useState(courses)
-  const classes = useStyles()
-  const transitions = useTransition(list, {
-    keys: (item) => item.id,
-    enter: {
-      opacity: 1,
-      x: 0,
-      from: {
-        x: -720,
-        opacity: 0
-      }
-    },
-    trail: 200
-  })
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
-
-  const price = list.reduce((total, item) => {
+  const price = courses.reduce((total, item) => {
     const { price, discount } = item
     return total + price * (1 - discount)
   }, 0)
 
+  function onItemRemove(index) {
+    enqueueSnackbar('Remove from Cart', {
+      variant: 'info'
+    })
+    mutate([...data.slice(0, index), ...data.slice(index + 1)], false)
+
+    fetchPOST(resources.shop.remove, {
+      studentId: user.id,
+      courseId: courses[index].id
+    })
+      .catch((error) => {
+        enqueueSnackbar(error.message, { variant: 'error' })
+      })
+      .finally(() => mutate())
+  }
+
+  async function onPurchase() {
+    setPurchasing(true)
+    try {
+      // purchase courses
+      await fetchPOST(
+        resources.library.post,
+        courses.map((item) => ({ studentId: user.id, courseId: item.id }))
+      )
+
+      // remove courses from cart
+      const tasks = courses.map((item) => {
+        return fetchPOST(resources.shop.remove, {
+          studentId: user.id,
+          courseId: item.id
+        })
+      })
+      await Promise.all(tasks)
+      mutate()
+
+      enqueueSnackbar('Purchase successfully', { variant: 'success' })
+    } catch (error) {
+      enqueueSnackbar(error.message, { variant: 'error' })
+    } finally {
+      setPurchasing(false)
+    }
+  }
+
   return (
-    <>
-      {list.length ? (
-        <>
-          <ul className={classes.ul}>
-            {transitions((styles, item, t, index) => (
-              <AnimatedBox
-                display="flex"
-                component="li"
-                key={item.id}
-                style={styles}
-              >
-                <CourseRow course={item} />
-                <Box marginY="auto">
-                  <Tooltip title="Remove from cart">
-                    <IconButton
-                      onClick={() => {
-                        setList((prev) =>
-                          prev.filter((value) => value.id !== item.id)
-                        )
-                        enqueueSnackbar('Item Removed', {
-                          variant: 'info',
-                          action: (key) => (
-                            <>
-                              <Button
-                                onClick={() => {
-                                  setList((prev) =>
-                                    prev
-                                      .slice(0, index)
-                                      .concat([item], prev.slice(index))
-                                  )
-                                  closeSnackbar(key)
-                                }}
-                              >
-                                undo
-                              </Button>
-                            </>
-                          )
-                        })
-                      }}
-                    >
-                      <Delete />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-              </AnimatedBox>
-            ))}
-          </ul>
+    <DefaultLayout>
+      <Head>
+        <title>My Shopping Cart | {appname}</title>
+      </Head>
+      <Container className={styles.root}>
+        {loading && <Loading />}
+        <ul className={styles.ul}>
+          {courses.map((item, index) => (
+            <Box display="flex" component="li" key={item.id}>
+              <CourseRow course={item} />
+              <Box marginY="auto">
+                <Tooltip title="Remove from cart">
+                  <IconButton onClick={() => setItemToRemove(index)}>
+                    <Delete />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </Box>
+          ))}
+        </ul>
+        {courses.length > 0 && (
           <>
             <Box paddingY={2}>
               <Divider />
@@ -147,7 +138,7 @@ function DataAvailable({ courses }) {
             <Typography variant="h5" color="textSecondary">
               Total Items:{' '}
               <Typography color="textPrimary" variant="h5" component="span">
-                {list.length}
+                {courses.length}
               </Typography>
             </Typography>
             <Typography variant="h5" align="right" color="textSecondary">
@@ -163,16 +154,40 @@ function DataAvailable({ courses }) {
               paddingY={1}
               maxWidth={360}
             >
-              <Button variant="contained" color="primary" fullWidth>
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={onPurchase}
+              >
                 purchase
               </Button>
             </Box>
           </>
-        </>
-      ) : (
-        <EmptyList />
-      )}
-    </>
+        )}
+        {!courses.length && <EmptyList />}
+      </Container>
+      <ConfirmDialog
+        open={itemToRemove != undefined}
+        title="Remove from Cart"
+        message="You are about to remove an item from Cart, please confirm your action?"
+        onClose={() => setItemToRemove(undefined)}
+        onConfirm={() => onItemRemove(itemToRemove)}
+      />
+      <Dialog maxWidth="sm" open={purchasing}>
+        <DialogContent>
+          <Box paddingY={4}>
+            <Typography align="center" component="div">
+              <CircularProgress />
+              <Box paddingY={2} />
+              <Typography variant="h5">
+                Processing your request, please wait...
+              </Typography>
+            </Typography>
+          </Box>
+        </DialogContent>
+      </Dialog>
+    </DefaultLayout>
   )
 }
 
@@ -180,7 +195,7 @@ function Loading() {
   return (
     <>
       <Grid container spacing={2} component="ul">
-        {[0, 1, 2, 3, 4].map((index) => (
+        {[0, 1, 2, 3, 4, 5].map((index) => (
           <Grid item key={index} component="li" xs={12}>
             <CourseRowSkeleton />
           </Grid>
@@ -213,8 +228,4 @@ function EmptyList() {
       </Typography>
     </Container>
   )
-}
-
-DataAvailable.propTypes = {
-  courses: PropTypes.arrayOf(CoursePropTypes.isRequired).isRequired
 }

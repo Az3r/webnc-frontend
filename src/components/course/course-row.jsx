@@ -22,17 +22,20 @@ import clsx from 'clsx'
 import { currency } from '@/utils/tools'
 import NextLink from '../nextlink'
 import NextImage from 'next/image'
-import { routes } from '@/utils/app'
+import { routes, withAuthenticated } from '@/utils/app'
 import { Skeleton } from '@material-ui/lab'
 import { useSnackbar } from 'notistack'
 import FavoriteButton from '../button/favorite.button'
 import { useAuth } from '../hooks/auth.provider'
-import { resources, useGET } from '@/utils/api'
+import { fetchPOST, resources, useGET } from '@/utils/api'
+import { useRouter } from 'next/router'
+import { mutate } from 'swr'
 
 export default function CourseRow({ course }) {
-  const { id, tag, title, thumbnail, rating, bought, price, discount } = course
   const styles = useStyles()
   const theme = useTheme()
+  const router = useRouter()
+  const { id, tag, title, thumbnail, rating, bought, price, discount } = course
   const downSM = useMediaQuery(theme.breakpoints.down('sm'))
   const { enqueueSnackbar } = useSnackbar()
 
@@ -47,21 +50,57 @@ export default function CourseRow({ course }) {
   const [inUserLibrary, setInUserLibrary] = useState(false)
 
   useEffect(() => {
-    setInUserLibrary(library.includes(id))
+    const found = library.find((e) => e.courseId === id)
+    setInUserLibrary(found)
   }, [library])
+
   useEffect(() => {
-    setInUserLibrary(watchlist.includes(id))
+    const found = watchlist.find((e) => e.courseId === id)
+    setWatchlisted(found)
   }, [watchlist])
 
-  async function onWatchList() {
-    // TODO: Add course to user watchlist
-    setWatchlisted((prev) => !prev)
-    enqueueSnackbar(
-      !watchlisted ? 'Add to Watchlist' : 'Remove from Watchlist',
-      {
-        variant: 'success'
+  function onWatchlistChange(value) {
+    return withAuthenticated({
+      router,
+      user,
+      action: () => {
+        const message = value ? 'Added to Watchlist' : 'Removed from Watchlist'
+        enqueueSnackbar(message, {
+          variant: 'info'
+        })
+        setWatchlisted(value)
+
+        const fetcher = () =>
+          value
+            ? fetchPOST(resources.watchlist.post, {
+                studentId: user.id,
+                courseId: id
+              })
+            : fetchPOST(resources.watchlist.remove(watchlisted.id), undefined, {
+                method: 'DELETE'
+              })
+        fetcher()
+          .catch((e) => enqueueSnackbar(e.message, { variant: 'error' }))
+          .finally(() => mutate(resources.watchlist.get(user.id)))
       }
-    )
+    })
+  }
+
+  async function addToCart() {
+    return withAuthenticated({
+      user,
+      router,
+      action: () => {
+        enqueueSnackbar('Added to Cart', { variant: 'info' })
+
+        fetchPOST(resources.shop.post, {
+          studentId: user.id,
+          courseId: id
+        })
+          .catch((e) => enqueueSnackbar(e.message, { variant: 'error' }))
+          .finally(() => mutate(resources.shop.get(user.id)))
+      }
+    })
   }
 
   return (
@@ -116,7 +155,7 @@ export default function CourseRow({ course }) {
             )}
             {!inUserLibrary && (
               <Tooltip title="Add to Cart">
-                <IconButton>
+                <IconButton onClick={addToCart}>
                   <ShoppingCart />
                 </IconButton>
               </Tooltip>
@@ -160,9 +199,9 @@ export default function CourseRow({ course }) {
               justifyContent="center"
             >
               <FavoriteButton
-                onClick={onWatchList}
+                onClick={() => onWatchlistChange(!watchlisted)}
                 size={downSM ? 'small' : 'medium'}
-                value={watchlisted}
+                value={Boolean(watchlisted)}
               />
             </Box>
           </Grid>

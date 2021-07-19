@@ -13,13 +13,11 @@ export default function CourseLectures({ course }) {
       <Typography color="textPrimary" className={styles.header}>
         This Course Contains
       </Typography>
-      <ul className={styles.ul}>
+      <Paper component="ul" className={styles.ul}>
         {lectures.map((item) => (
-          <Paper component="li" key={item.section}>
-            <LectureItem lecture={item} />
-          </Paper>
+          <LectureItem lecture={item} key={item.title} />
         ))}
-      </ul>
+      </Paper>
     </>
   )
 }

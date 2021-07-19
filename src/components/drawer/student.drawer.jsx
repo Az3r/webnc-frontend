@@ -26,7 +26,6 @@ import Link from 'next/link'
 import { routes } from '@/utils/app'
 import { useApp } from '@/app.theme'
 import { useRouter } from 'next/router'
-import { StudentPropTypes } from '@/utils/typing'
 import NextImage from 'next/image'
 import dynamic from 'next/dynamic'
 import useStyles from './student.style'
@@ -42,7 +41,7 @@ const destinations = [
 ]
 
 const SignoutDialog = dynamic(() =>
-  import('@/components/dialog/signout.dialog')
+  import('@/components/dialog/confirm.dialog')
 )
 const PasswordDialog = dynamic(() =>
   import('@/components/dialog/password.dialog')
@@ -166,9 +165,7 @@ export default function StudentDrawer({ children, ...props }) {
         onConfirm={() => {
           revalidate()
           enqueueSnackbar('Account Updated', { variant: 'success' })
-          setProfileDialog(false)
         }}
-        onCancel={() => setProfileDialog(false)}
       />
     </Drawer>
   )

@@ -19,13 +19,13 @@ export async function getStaticProps({ params }) {
     return {
       props: {
         category: {
-          id: categoryType.id.toString(),
+          id: categoryType.id,
           name: params.category,
           label: categoryType.name,
           topics: categoryType.categories.map((item, index) => {
             const { id, name: label, label: name, imageUrl } = item
             return {
-              id: id.toString(),
+              id: id,
               name: name || label.toLowerCase(),
               avatar: imageUrl,
               label,

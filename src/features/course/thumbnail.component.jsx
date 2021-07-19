@@ -32,7 +32,7 @@ export default function CourseThumbnail({ course }) {
             }}
             height="100%"
             width="100%"
-            url={`https://www.youtube.com/embed/${lecture.url}`}
+            url={lecture && `https://www.youtube.com/embed/${lecture.url}`}
             light={thumbnail}
           />
         </Box>

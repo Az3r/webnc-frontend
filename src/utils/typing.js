@@ -15,27 +15,8 @@ export const LecturePropTypes = PropTypes.shape({
   url: PropTypes.string.isRequired
 })
 
-export const CourseDetailPropTypes = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  thumbnail: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  lecturer: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    avatar: PropTypes.string.isRequired
-  }).isRequired,
-  rating: PropTypes.number.isRequired,
-  reviewers: PropTypes.number.isRequired,
-  price: PropTypes.number.isRequired,
-  discount: PropTypes.number.isRequired,
-  tag: PropTypes.string,
-  lastModified: PropTypes.number.isRequired,
-  bought: PropTypes.number.isRequired,
-  feedbacks: PropTypes.arrayOf(FeedbackPropTypes.isRequired).isRequired,
-  lectures: PropTypes.arrayOf(LecturePropTypes.isRequired).isRequired
-})
-
 export const CoursePropTypes = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   thumbnail: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   lecturer: PropTypes.shape({
@@ -50,8 +31,40 @@ export const CoursePropTypes = PropTypes.shape({
   bought: PropTypes.number.isRequired
 })
 
+export const CourseDetailPropTypes = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  thumbnail: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  topic: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired
+  }).isRequired,
+  category: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired
+  }).isRequired,
+  lecturer: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired
+  }).isRequired,
+  rating: PropTypes.number.isRequired,
+  reviewers: PropTypes.number.isRequired,
+  price: PropTypes.number.isRequired,
+  discount: PropTypes.number.isRequired,
+  lastModified: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    .isRequired,
+  bought: PropTypes.number.isRequired,
+  feedbacks: PropTypes.arrayOf(FeedbackPropTypes.isRequired).isRequired,
+  lectures: PropTypes.arrayOf(LecturePropTypes.isRequired).isRequired,
+  shortdesc: PropTypes.string.isRequired,
+  detaildesc: PropTypes.string.isRequired,
+  populars: PropTypes.arrayOf(CoursePropTypes).isRequired
+})
+
 export const CourseLibraryPropTypes = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   thumbnail: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   lecturer: PropTypes.shape({
@@ -65,11 +78,11 @@ export const CourseLibraryPropTypes = PropTypes.shape({
 })
 
 export const TopicPropTypes = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
   category: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired
   }),
@@ -77,7 +90,7 @@ export const TopicPropTypes = PropTypes.shape({
   courses: PropTypes.arrayOf(CoursePropTypes.isRequired),
   others: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
       avatar: PropTypes.string.isRequired
@@ -86,7 +99,7 @@ export const TopicPropTypes = PropTypes.shape({
 })
 
 export const CategoryPropTypes = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   topics: PropTypes.arrayOf(TopicPropTypes.isRequired).isRequired,
@@ -94,13 +107,13 @@ export const CategoryPropTypes = PropTypes.shape({
 })
 
 export const StudentPropTypes = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   username: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired
 })
 
 export const LecturerCoursePropTypes = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   thumbnail: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,

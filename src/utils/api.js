@@ -50,7 +50,7 @@ export function create(name, type, value) {
 export function ApiError(error = {}) {
   const { code, value = undefined, email = undefined } = error
   // use regex to catch multiple code at once
-  if (code.match(/PasswordRequires/))
+  if (code?.match(/PasswordRequires/))
     return create('AuthError', 'weak-password', value)
 
   // switch
@@ -70,7 +70,7 @@ export function ApiError(error = {}) {
     case 'InvalidOTPCode!':
       return create('AuthError', 'invalid-otp', value)
     default:
-      return create('UnknownError', code, value)
+      return create(error.name || 'UnknownError', code, value)
   }
 }
 
@@ -93,7 +93,7 @@ export const resources = {
     logout: resource('/Auth/Logout', undefined),
     verify: resource('/Auth/VerifyTwoStepVerification', '/auth/verify'),
     register: resource('/Auth/Register', '/auth/register'),
-    resend: resource('/Auth/ResendOTP', '/auth/resend'),
+    resend: resource('/Auth/ResendOTP', '/nothing'),
     changePassword: resource('/Auth/ChangePassword', '/auth/user/1')
   },
   courses: {
@@ -104,6 +104,11 @@ export const resources = {
         `/Feedbacks/GetFeedbackListByCourseId?courseId=${id}`,
         undefined
       ),
+    bestSellerOfSameTopic: (courseId, topicId) =>
+      resource(
+        `/Courses/BestSellerCoursesByCategoryId?courseId=${courseId}&categoryId=${topicId}`,
+        undefined
+      ),
     trending: resource('/Courses/OutstandingCourses', '/courses/trending'),
     mostviews: resource('/Courses/MostViewedCourses', '/courses/mostviews'),
     newest: resource('/Courses/NewestCourses', '/courses/newest'),
@@ -111,7 +116,7 @@ export const resources = {
   },
   categoryType: {
     all: resource('/CategoryTypes', undefined),
-    get: (id) => resource(`/CategoryTypes/${id}`, `/category-type/${id}`),
+    get: (id) => resource(`/CategoryTypes/${id}`, `/category-type`),
     detail: (id) =>
       resource(`/CategoryTypes/GetFormattedCategoryTypeById?id=${id}`),
     bestseller: (id) =>
@@ -135,17 +140,27 @@ export const resources = {
     session: resource('/Auth/IsLoggedIn', '/auth/user/1')
   },
   shop: {
-    get: (id) => resource(`/Carts/GetByStudentId?studentId=${id}`, '/courses')
+    get: (id) =>
+      resource(`/Carts/GetCourseListByStudentId?studentId=${id}`, '/courses'),
+    post: resource('/Carts/AddCourseToCart', '/nothing'),
+    remove: resource('/Carts/RemoveCourseFromCart', '/nothing')
   },
   watchlist: {
-    get: (id) => resource(`/WatchLists/GetAllByStudentId/${id}`, '/courses')
+    get: (id) =>
+      resource(
+        `/WatchLists/GetWatchListListByStudentId?studentId=${id}`,
+        '/courses'
+      ),
+    post: resource('/WatchLists', '/nothing'),
+    remove: (id) => resource(`/WatchLists/${id}`, '/nothing')
   },
   library: {
     get: (id) =>
       resource(
-        `/StudentCourses/GetAllByStudentId?studentId=${id}`,
-        `/library/${id}`
-      )
+        `/StudentCourses/GetStudentCourseListByStudentId?studentId=${id}`,
+        `/library`
+      ),
+    post: resource('/StudentCourses/AddWithMultipleCourses', '/nothing')
   },
   lecturer: {
     course: (id) =>
@@ -180,17 +195,15 @@ export async function fetchGET(url) {
 }
 
 export async function fetchPOST(url, payload, config) {
-  const transformer = config?.transformer ?? JSON.stringify
-  const headers = config?.headers ?? {}
   const response = await fetch(url, {
     credentials: 'include',
     method: 'POST',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json',
-      ...headers
+      'Content-Type': 'application/json'
     },
-    body: transformer(payload)
+    body: JSON.stringify(payload),
+    ...config
   })
   const data = await response.json()
   if (response.ok) return data.results

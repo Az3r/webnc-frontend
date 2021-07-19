@@ -7,13 +7,13 @@ export default function DescriptionSection() {
   const { longdesc, setLongdesc } = useCreateCourse()
   return (
     <Box display="flex" height="100vh" width="100%">
-      <Box flexGrow={1}>
+      <Box width="50vw">
         <Editor
           value={longdesc}
           onChange={(s) => setLongdesc(s.target.value)}
         />
       </Box>
-      <Box flexGrow={1}>
+      <Box width="50vw">
         <Presenter>{longdesc}</Presenter>
       </Box>
     </Box>

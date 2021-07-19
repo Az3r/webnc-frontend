@@ -7,7 +7,7 @@ import qs from 'qs'
 export function toCoursePropTypes(course) {
   if (process.env.NEXT_PUBLIC_MOCK_API) return course
   return {
-    id: course.Id.toString(),
+    id: course.Id,
     thumbnail: course.ImageUrl.match(/https/)
       ? course.ImageUrl
       : '/images/logo.webp',
@@ -29,7 +29,7 @@ export function toCoursePropTypes(course) {
 export function toCoursePropTypesV2(course) {
   if (process.env.NEXT_PUBLIC_MOCK_API) return course
   return {
-    id: course.id.toString(),
+    id: course.id,
     thumbnail: course.imageUrl.match(/https/)
       ? course.imageUrl
       : '/images/logo.webp',
@@ -53,36 +53,42 @@ export function toCourseDetailPropTypes(course) {
     id: course.id,
     thumbnail: course.imageUrl,
     title: course.name,
+    category: {
+      id: course.categoryTypeId,
+      label: course.categoryTypeName,
+      name: course.categoryTypeId === 1 ? 'web' : 'mobile'
+    },
+    topic: {
+      id: course.categoryId,
+      label: course.categoryName,
+      name: course.categoryName.toLowerCase()
+    },
     lecturer: {
       name: course.lecturer.userName,
-      avatar: course.lecturer.avatarUrl
+      avatar: course.lecturer.avatarUrl,
+      description: course.lecturer.discription || ''
     },
     rating: course.rating,
     reviewers: course.reviewerNumber,
     price: course.price,
     discount: course.discount,
-    tag: course?.tag?.toLowerCase() || null,
-    lastModified: course.lastUpdated,
+    lastModified: new Date(course.lastUpdated).getTime(),
     bought: course.registeredNumber,
-    lectures: course.lectures?.map(toLecturePropTypes) || []
+    lectures: course.lectures?.map(toLecturePropTypes) || [],
+    shortdesc: course.shortDiscription,
+    detaildesc: course.detailDiscription
   }
 }
 
 export function toLecturePropTypes(lecture) {
   if (process.env.NEXT_PUBLIC_MOCK_API) return lecture
-  const { duration, videoUrl } = lecture
-  const hour = Math.floor(duration / 3600)
-  const minute = Math.floor((duration % 3600) / 60)
-  const second = duration % 60
+  const { name, duration, videoUrl, section, isPreview } = lecture
   const { v: url } = qs.parse(videoUrl.split('?', 2)[1])
   return {
-    section: lecture.section,
-    preview: lecture.preview || false,
-    hour,
-    second,
-    minute,
-    title: lecture.name,
-    desc: lecture.discription,
+    section: section,
+    preview: isPreview,
+    duration,
+    title: name,
     url
   }
 }

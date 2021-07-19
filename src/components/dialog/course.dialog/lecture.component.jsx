@@ -16,7 +16,7 @@ import { Delete, Reorder, VideoCall } from '@material-ui/icons'
 import { formatDuration } from '@/utils/tools'
 import { animated, useSprings } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
-import CreateLectureDialog from '../lecture.dialog'
+import CreateLectureDialog, { EditLectureDialog } from '../lecture.dialog'
 import { useCreateCourse } from '.'
 import { LecturePropTypes } from '@/utils/typing'
 
@@ -63,7 +63,8 @@ export default function LectureSection() {
   useCreateCourse()
 
   const orders = useRef(lectures.map((_, index) => index))
-  const [dialog, setDialog] = useState(undefined)
+  const [createDialog, setCreateDialog] = useState(false)
+  const [editDialog, setEditDialog] = useState(undefined)
 
   const [springs, animation] = useSprings(
     lectures.length,
@@ -147,7 +148,7 @@ export default function LectureSection() {
       <Box display="flex" alignItems="center">
         <Typography>Total Lectures: {length}</Typography>
         <Box marginLeft="auto">
-          <Button color="primary" onClick={() => setDialog({ index: -1 })}>
+          <Button color="primary" onClick={() => setCreateDialog(true)}>
             Add Lecture
           </Button>
         </Box>
@@ -177,7 +178,9 @@ export default function LectureSection() {
                 />
                 <LectureItem
                   lecture={lectures[index]}
-                  onClick={() => setDialog({ lecture: lectures[index], index })}
+                  onClick={() =>
+                    setEditDialog({ lecture: lectures[index], index })
+                  }
                   onPreviewChange={(checked) =>
                     setLectures((prev) => [
                       ...prev.slice(0, index),
@@ -204,14 +207,16 @@ export default function LectureSection() {
       </ul>
       <CreateLectureDialog
         maxWidth="sm"
-        lecture={dialog?.lecture}
-        index={dialog?.index}
-        onClose={() => setDialog(undefined)}
-        onConfirm={(lecture) => {
-          dialog.index === -1
-            ? onAddLecture(lecture)
-            : onEditLecture(lecture, dialog.index)
-        }}
+        open={createDialog}
+        onClose={() => setCreateDialog(false)}
+        onConfirm={onAddLecture}
+      />
+      <EditLectureDialog
+        maxWidth="sm"
+        lecture={editDialog?.lecture}
+        index={editDialog?.index}
+        onClose={() => setEditDialog(undefined)}
+        onConfirm={onEditLecture}
       />
     </Container>
   )

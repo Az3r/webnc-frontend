@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { fetchGET, resources } from '@/utils/api'
+import { ApiError, resources } from '@/utils/api'
 import { useRouter } from 'next/router'
 
 const AuthContext = createContext({
@@ -19,7 +19,7 @@ const AuthProvider = ({ children }) => {
   const [mutate, setMutate] = useState(false)
 
   useEffect(() => {
-    fetchGET(resources.user.session)
+    fetchUserSession()
       .then((data) => setState({ data, loading: false, error: undefined }))
       .catch((error) => setState({ data: undefined, loading: false, error }))
   }, [mutate])
@@ -56,6 +56,15 @@ export function useAuth(validate, redirect = '/') {
     }
   }, [context.user])
   return context
+}
+
+async function fetchUserSession() {
+  const response = await fetch(resources.user.session, {
+    credentials: 'include'
+  })
+  const data = await response.json()
+  if (response.ok) return { ...data.results, role: data.role.value }
+  throw ApiError(data.errors)
 }
 
 AuthProvider.propTypes = {

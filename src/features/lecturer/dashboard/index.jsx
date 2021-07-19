@@ -18,7 +18,9 @@ import { resources, useGET } from '@/utils/api'
 import { useAuth } from '@/components/hooks/auth.provider'
 import NextImage from 'next/image'
 import { Add } from '@material-ui/icons'
-import CourseDialog from '@/components/dialog/course.dialog'
+import CreateCourseDialog, {
+  EditCourseDialog
+} from '@/components/dialog/course.dialog'
 import { formatDateDifference } from '@/utils/tools'
 import { LecturerCoursePropTypes } from '@/utils/typing'
 
@@ -80,13 +82,32 @@ function LoadingContent() {
 
 function DisplayContent({ data }) {
   const styles = useStyles()
-  const [dialog, setDialog] = useState(undefined)
+  const [editDialog, setEditDialog] = useState(undefined)
+  const [createDialog, setCreateDialog] = useState(false)
+
+  const [courses, setCourses] = useState(data)
+
+  function onCreate(value) {
+    setCourses((prev) => [value, ...prev])
+  }
+
+  function onUpdate(value, index) {
+    setCourses((prev) => [
+      ...prev.slice(0, index),
+      value,
+      ...prev.slice(index + 1)
+    ])
+  }
+
   return (
     <>
       <ul className={styles.ul}>
-        {data.map((item) => (
+        {courses.map((item, index) => (
           <li key={item.id}>
-            <CourseItem course={item} onClick={() => setDialog(item)} />
+            <CourseItem
+              course={item}
+              onClick={() => setEditDialog({ index, course: item })}
+            />
           </li>
         ))}
       </ul>
@@ -94,12 +115,22 @@ function DisplayContent({ data }) {
         <Fab
           color="primary"
           className={styles.fab}
-          onClick={() => setDialog({})}
+          onClick={() => setCreateDialog(true)}
         >
           <Add />
         </Fab>
       </Tooltip>
-      <CourseDialog onClose={() => setDialog(undefined)} course={dialog} />
+      <CreateCourseDialog
+        open={createDialog}
+        onConfirm={onCreate}
+        onClose={() => setCreateDialog(false)}
+      />
+      <EditCourseDialog
+        onClose={() => setEditDialog(undefined)}
+        course={editDialog?.course}
+        index={editDialog?.index}
+        onConfirm={onUpdate}
+      />
     </>
   )
 }
