@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import {
   Box,
@@ -10,11 +10,16 @@ import {
   RadioGroup,
   Radio,
   FormControl,
-  FormControlLabel
+  FormControlLabel,
+  Container
 } from '@material-ui/core'
 import { FilterList } from '@material-ui/icons'
 import { FilterButton } from './search.style'
 import GridCourses from '@/components/list/course.grid'
+import DefaultLayout from '@/components/layout'
+import { useRouter } from 'next/router'
+import { fetchGET, resources } from '@/utils/api'
+import { useSnackbar } from 'notistack'
 
 const filters = [
   {
@@ -52,33 +57,72 @@ const sort = [
 ]
 
 export default function SearchPage() {
+  const router = useRouter()
   const [filter, toggle] = useState(false)
+  const [courses, setCourses] = useState([])
+  const [searching, setSearching] = useState(false)
+  const { enqueueSnackbar } = useSnackbar()
+  const [q, setQ] = useState(undefined)
+
+  async function search(q) {
+    setSearching(true)
+    try {
+      const results = await fetchGET(resources.courses.search(q))
+      setCourses(results)
+    } catch (error) {
+      enqueueSnackbar(error.message, { variant: 'error' })
+    } finally {
+      setSearching(false)
+    }
+  }
+
+  useEffect(() => {
+    if (q) search(q)
+  }, [q])
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const q = params.get('q')
+    setQ(q)
+  }, [router])
+
   return (
-    <>
-      <Box display="flex" alignItems="center">
-        <Typography variant="h5">Search results (15)</Typography>
-        <Tooltip title="Filter results" placement="top">
-          <IconButton onClick={() => toggle((prev) => !prev)}>
-            <FilterList />
-          </IconButton>
-        </Tooltip>
-      </Box>
-      <Collapse in={filter}>
-        <Box paddingY={2}>
-          <Grid container spacing={4} justify="center">
-            {filters.map((e) => (
-              <Grid item key={e.title}>
-                <FilterGroup title={e.title} options={e.options} />
-              </Grid>
-            ))}
-            <Grid item>
-              <FilterGroup title="sort" options={sort} selected={0} />
-            </Grid>
-          </Grid>
+    <DefaultLayout>
+      <Container>
+        <Box display="flex" alignItems="center">
+          {searching ? (
+            <Typography variant="h5">Searching for &quot;${q}&quot;</Typography>
+          ) : (
+            <Typography variant="h5">
+              {courses.length || 'No search'} results for &quot;{q}&quot;
+            </Typography>
+          )}
+          <Tooltip title="Filter results">
+            <IconButton onClick={() => toggle((prev) => !prev)}>
+              <FilterList />
+            </IconButton>
+          </Tooltip>
         </Box>
-      </Collapse>
-      <GridCourses courses={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} skeleton />
-    </>
+        <Collapse in={filter}>
+          <Box paddingY={2}>
+            <Grid container spacing={4} justify="center">
+              {filters.map((e) => (
+                <Grid item key={e.title}>
+                  <FilterGroup title={e.title} options={e.options} />
+                </Grid>
+              ))}
+              <Grid item>
+                <FilterGroup title="sort" options={sort} selected={0} />
+              </Grid>
+            </Grid>
+          </Box>
+        </Collapse>
+        <GridCourses
+          courses={searching ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] : courses}
+          skeleton={searching}
+        />
+      </Container>
+    </DefaultLayout>
   )
 }
 

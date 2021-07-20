@@ -17,11 +17,12 @@ import ReactPlayer from 'react-player'
 import { formatDuration } from '@/utils/tools'
 import DefaultLayout from '@/components/layout'
 import Head from 'next/head'
-import { appname } from '@/utils/app'
+import { appname, routes } from '@/utils/app'
 import GridCourses from '@/components/list/course.grid'
 import { RateReview } from '@material-ui/icons'
 import RatingDialog from '@/components/dialog/rating.dialog'
 import { useSnackbar } from 'notistack'
+import { useAuth } from '@/components/hooks/auth.provider'
 
 const useStyles = makeStyles((theme) => ({
   lessons: {
@@ -40,8 +41,10 @@ export default function WatchFeature({ course }) {
   const { lectures, title } = course
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 
+  const { user } = useAuth((user) => Boolean(user), routes.course(course.id))
+
   const [playing, setPlaying] = useState(0)
-  const [dialog, setDialog] = useState(true)
+  const [dialog, setDialog] = useState(false)
 
   const key = useRef(undefined)
 

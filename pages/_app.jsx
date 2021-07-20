@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import AppProvider from '@/app.theme'
 import dynamic from 'next/dynamic'
-import SearchProvider from '@/components/hooks/search.provider'
 import AuthProvider from '@/components/hooks/auth.provider'
 import { SnackbarProvider } from 'notistack'
 import { Slide } from '@material-ui/core'
@@ -15,18 +14,16 @@ export default function MainApp({ Component, pageProps }) {
     <AppProvider>
       <AuthProvider>
         <PageLoading />
-        <SearchProvider>
-          <SnackbarProvider
-            maxSnack={5}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right'
-            }}
-            TransitionComponent={Slide}
-          >
-            <Component {...pageProps} />
-          </SnackbarProvider>
-        </SearchProvider>
+        <SnackbarProvider
+          maxSnack={5}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          TransitionComponent={Slide}
+        >
+          <Component {...pageProps} />
+        </SnackbarProvider>
       </AuthProvider>
     </AppProvider>
   )

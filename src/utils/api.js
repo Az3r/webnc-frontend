@@ -97,7 +97,6 @@ export const resources = {
     changePassword: resource('/Auth/ChangePassword', '/auth/user/1')
   },
   courses: {
-    all: resource('/Courses/GetCourseIdList', undefined),
     get: (id) => resource(`/Courses/${id}`, undefined),
     feedback: (id) =>
       resource(
@@ -108,6 +107,11 @@ export const resources = {
       resource(
         `/Courses/BestSellerCoursesByCategoryId?courseId=${courseId}&categoryId=${topicId}`,
         undefined
+      ),
+    search: (q) =>
+      resource(
+        `/Courses/GetCourseListByFilterAndPaginationParameters?Search=${q}`,
+        '/courses'
       ),
     trending: resource('/Courses/OutstandingCourses', '/courses/trending'),
     mostviews: resource('/Courses/MostViewedCourses', '/courses/mostviews'),
