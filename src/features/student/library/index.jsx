@@ -10,8 +10,9 @@ import { CourseCardLibrary } from '@/components/course/course-card'
 
 export default function LibraryFeature() {
   const { user } = useAuth()
-
-  const { data } = useGET(() => resources.library.get(user.id))
+  const { data } = useGET(() =>
+    user ? resources.library.get(user.id) : undefined
+  )
 
   return (
     <>

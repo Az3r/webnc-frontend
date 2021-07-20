@@ -108,14 +108,12 @@ export default function CourseInfo({ course }) {
             courseId: id
           })
           enqueueSnackbar('Added to Cart', { variant: 'info' })
-          router.push(routes.u.shop)
         } catch (error) {
           enqueueSnackbar(error.message, { variant: 'error' })
         } finally {
-          setTimeout(() => {
-            mutate(resources.shop.get(user.id))
-            setProcessing(false)
-          }, 2000)
+          mutate(resources.shop.get(user.id))
+          setProcessing(false)
+          router.push(routes.u.shop)
         }
       }
     })
