@@ -233,3 +233,19 @@ export function useGET(url) {
   const loading = !data && !error
   return { mutate, data, error, loading }
 }
+
+export function useGetCategory(id) {
+  const { data, ...props } = useGET(() => id && resources.categoryType.get(id))
+
+  const topics =
+    data?.categories.map((item) => {
+      const { name: label, label: name, imageUrl: avatar, id } = item
+      return {
+        id,
+        name,
+        label,
+        avatar
+      }
+    }) || []
+  return { data: topics, ...props }
+}

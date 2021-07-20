@@ -7,7 +7,11 @@ export default function GridCourses({
   courses,
   skeleton,
   children,
-  Item = CourseCard
+  Item = CourseCard,
+  xs = 12,
+  sm = 6,
+  md = 4,
+  lg = 3
 }) {
   return (
     <Grid container spacing={2} component="ul">
@@ -16,10 +20,10 @@ export default function GridCourses({
           item
           key={skeleton ? index : item.id}
           component="li"
-          lg={3}
-          md={4}
-          sm={6}
-          xs={12}
+          lg={lg}
+          md={md}
+          sm={sm}
+          xs={xs}
         >
           {skeleton ? <CourseCardSkeleton /> : <Item course={item} />}
         </Grid>
@@ -33,7 +37,11 @@ GridCourses.propTypes = {
   courses: PropTypes.array,
   skeleton: PropTypes.bool,
   children: PropTypes.node,
-  Item: PropTypes.func
+  Item: PropTypes.func,
+  xs: PropTypes.number,
+  sm: PropTypes.number,
+  md: PropTypes.number,
+  lg: PropTypes.number
 }
 
 GridCourses.defaultProps = {

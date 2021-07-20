@@ -1,21 +1,30 @@
 import React, { useState } from 'react'
 import { Editor, Presenter } from '@/components/markdown'
-import { Box } from '@material-ui/core'
+import { Grid, makeStyles } from '@material-ui/core'
 import { useCreateCourse } from '.'
+
+const useStyles = makeStyles({
+  root: {
+    height: '100%'
+  }
+})
 
 export default function DescriptionSection() {
   const { longdesc, setLongdesc } = useCreateCourse()
+  const [text] = useState(longdesc)
+  const styles = useStyles()
   return (
-    <Box display="flex" height="100vh" width="100%">
-      <Box width="50vw">
+    <Grid container spacing={2} className={styles.root}>
+      <Grid item lg={6} xs={12}>
         <Editor
-          value={longdesc}
-          onChange={(s) => setLongdesc(s.target.value)}
+          height={730}
+          defaultValue={text}
+          onChange={(text) => setLongdesc(text)}
         />
-      </Box>
-      <Box width="50vw">
-        <Presenter>{longdesc}</Presenter>
-      </Box>
-    </Box>
+      </Grid>
+      <Grid item lg={6} xs={12}>
+        <Presenter value={longdesc} height={730} overflow="scroll" />
+      </Grid>
+    </Grid>
   )
 }

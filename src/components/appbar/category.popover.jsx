@@ -10,7 +10,7 @@ import {
 import React, { useState } from 'react'
 import NextImage from 'next/image'
 import useStyles from './category.style'
-import { resources, useGET } from '@/utils/api'
+import { useGET, useGetCategory } from '@/utils/api'
 import NextLink from 'next/link'
 import { routes } from '@/utils/app'
 
@@ -19,15 +19,7 @@ export default function CategoryPopover() {
   const [category, setCategory] = useState(null)
 
   const id = category ? (category === 'web' ? 1 : 2) : null
-  const { data } = useGET(() => (id ? resources.categoryType.get(id) : null))
-  const categories = data?.categories?.map((item) => {
-    const { name: label, label: name, imageUrl: avatar } = item
-    return {
-      name,
-      label,
-      avatar
-    }
-  })
+  const { data: topics } = useGetCategory(id)
 
   return (
     <Paper className={styles.root}>
@@ -84,9 +76,9 @@ export default function CategoryPopover() {
         width={category ? 320 : 0}
         minHeight="80vh"
       >
-        {categories ? (
+        {topics ? (
           <Grid container component="nav">
-            {categories.map((item) => {
+            {topics.map((item) => {
               const { name, label, avatar } = item
               const href = routes.topic(category, name || label.toLowerCase())
 

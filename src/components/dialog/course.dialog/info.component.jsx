@@ -3,10 +3,15 @@ import {
   Box,
   Container,
   InputAdornment,
+  ListItemIcon,
   makeStyles,
-  TextField
+  MenuItem,
+  TextField,
+  Typography
 } from '@material-ui/core'
+import NextImage from 'next/image'
 import { useCreateCourse } from '.'
+import { useGetCategory } from '@/utils/api'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,15 +23,61 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
+const categories = [
+  { id: 1, label: 'Web Development', icon: '/images/category/web.webp' },
+  { id: 2, label: 'Mobile Development', icon: '/images/category/mobile.webp' }
+]
 export default function InfoSection() {
   const styles = useStyles()
   const { info, setInfo } = useCreateCourse()
-  const { title, price, discount, shortdesc } = info
+  const { title, price, discount, shortdesc, category, topic } = info
+
+  const { data: topics } = useGetCategory(category)
 
   const formatter = new Intl.NumberFormat()
   const formattedPrice = formatter.format(price)
   return (
     <Container className={styles.root} maxWidth="md">
+      <TextField
+        type="range"
+        label="Select Category"
+        required
+        select
+        value={category}
+        name="category"
+        onChange={(e) =>
+          setInfo((prev) => ({ ...prev, category: e.target.value }))
+        }
+      >
+        {categories.map((item) => (
+          <MenuItem key={item.label} value={item.id}>
+            <ListItemIcon>
+              <NextImage src={item.icon} width={32} height={32} />
+            </ListItemIcon>
+            <Typography variant="inherit">{item.label}</Typography>
+          </MenuItem>
+        ))}
+      </TextField>
+      <TextField
+        type="range"
+        label="Select Topic"
+        required
+        select
+        value={topic}
+        name="topic"
+        onChange={(e) =>
+          setInfo((prev) => ({ ...prev, topic: e.target.value }))
+        }
+      >
+        {topics.map((item) => (
+          <MenuItem key={item.name} value={item.id}>
+            <ListItemIcon>
+              <NextImage src={item.avatar} width={32} height={32} />
+            </ListItemIcon>
+            <Typography variant="inherit">{item.label}</Typography>
+          </MenuItem>
+        ))}
+      </TextField>
       <TextField
         label="Enter your Course's title"
         placeholder="My awesome course"

@@ -1,4 +1,10 @@
-import React, { useState, createContext, useContext, useEffect } from 'react'
+import React, {
+  memo,
+  useState,
+  createContext,
+  useContext,
+  useEffect
+} from 'react'
 import PropTypes from 'prop-types'
 import {
   AppBar,
@@ -36,6 +42,7 @@ import InfoSection from './info.component'
 import DescriptionSection from './description.component'
 import LectureSection from './lecture.component'
 import { CourseDetailPropTypes } from '@/utils/typing'
+import SettingSection from './setting.component'
 
 const useStyles = makeStyles((theme) => ({
   bottomAppBar: {
@@ -58,13 +65,16 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   panel: {
-    position: 'relative'
+    position: 'relative',
+    flexGrow: 1
   }
 }))
 
 const CreateCourseContext = createContext({
   thumbnail: '',
   info: {
+    category: 0,
+    topic: 0,
     price: 0,
     discount: 0,
     title: '',
@@ -77,7 +87,9 @@ const CreateCourseContext = createContext({
   setLongdesc: () => {},
   setLectures: () => {},
   lectureDialog: undefined,
-  setLectureDialog: () => {}
+  setLectureDialog: () => {},
+  onRemoveCourse: () => {},
+  onStatusChange: () => {}
 })
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -90,13 +102,13 @@ const ALL_SECTIONS = [
   {
     label: 'Description',
     icon: <Description />,
-    component: DescriptionSection
+    component: memo(DescriptionSection, () => true)
   },
   { label: 'Lectures', icon: <ListAlt />, component: LectureSection },
   {
     label: 'Settings',
     icon: <Settings />,
-    component: () => <Box>Setting section</Box>
+    component: SettingSection
   }
 ]
 
@@ -109,48 +121,13 @@ export default function CreateCourseDialog({ onConfirm, onClose, ...props }) {
 
   const downXS = useMediaQuery(theme.breakpoints.down('sm'))
   const [value, setValue] = useState(0)
-  const [status, setValidation] = useState(CREATE_SECTION.map(() => false))
 
   const [thumbnail, setThumbnail] = useState('')
   const [info, setInfo] = useState({})
   const [detaildesc, setDetaildesc] = useState('')
   const [lectures, setLectures] = useState([])
 
-  useEffect(() => {
-    setValidation((prev) => {
-      prev[0] = Boolean(thumbnail)
-      return prev.slice()
-    })
-  }, [thumbnail])
-
-  useEffect(() => {
-    setValidation((prev) => {
-      prev[1] =
-        !isNaN(info.price) &&
-        !isNaN(info.discount) &&
-        Boolean(info.title) &&
-        Boolean(info.shortdesc)
-      return prev.slice()
-    })
-  }, [info])
-
-  useEffect(() => {
-    setValidation((prev) => {
-      prev[2] = Boolean(detaildesc)
-      return prev.slice()
-    })
-  }, [detaildesc])
-
-  useEffect(() => {
-    setValidation((prev) => {
-      const length = lectures?.reduce(
-        (prev, current) => prev + (current ? 1 : 0),
-        0
-      )
-      prev[3] = Boolean(length)
-      return prev.slice()
-    })
-  }, [lectures])
+  const status = useValidation({ thumbnail, info, detaildesc, lectures })
 
   async function onCreate() {
     // call api
@@ -219,37 +196,43 @@ export default function CreateCourseDialog({ onConfirm, onClose, ...props }) {
             setLectures
           }}
         >
-          <Toolbar />
-          <Box paddingY={1} />
-          <Box display="flex" alignItems="center" justifyContent="center">
-            <IconButton
-              color="inherit"
-              onClick={() =>
-                setValue(value === 0 ? CREATE_SECTION.length - 1 : value - 1)
-              }
-            >
-              <NavigateBefore />
-            </IconButton>
-            <Box minWidth={320}>
-              <Typography align="center" variant="h5">
-                Create Course / <b>{CREATE_SECTION[value].label}</b>
-              </Typography>
+          <Box
+            display="flex"
+            flexDirection="column"
+            width="100%"
+            minHeight="100%"
+          >
+            <Toolbar />
+            <Box display="flex" alignItems="center" justifyContent="center">
+              <IconButton
+                color="inherit"
+                onClick={() =>
+                  setValue(value === 0 ? CREATE_SECTION.length - 1 : value - 1)
+                }
+              >
+                <NavigateBefore />
+              </IconButton>
+              <Box minWidth={320}>
+                <Typography align="center" variant="h5">
+                  Create Course / <b>{CREATE_SECTION[value].label}</b>
+                </Typography>
+              </Box>
+              <IconButton
+                color="inherit"
+                onClick={() =>
+                  setValue(value === CREATE_SECTION.length - 1 ? 0 : value + 1)
+                }
+              >
+                <NavigateNext />
+              </IconButton>
             </Box>
-            <IconButton
-              color="inherit"
-              onClick={() =>
-                setValue(value === CREATE_SECTION.length - 1 ? 0 : value + 1)
-              }
-            >
-              <NavigateNext />
-            </IconButton>
+            {CREATE_SECTION.map((item, index) => (
+              <TabPanel className={styles.panel} key={item.label} value={index}>
+                <item.component />
+              </TabPanel>
+            ))}
+            <Box minHeight={48} />
           </Box>
-          {CREATE_SECTION.map((item, index) => (
-            <TabPanel className={styles.panel} key={item.label} value={index}>
-              <item.component />
-            </TabPanel>
-          ))}
-          <Box minHeight={48} />
         </CreateCourseContext.Provider>
         <AppBar position="fixed" className={styles.bottomAppBar}>
           <Tabs
@@ -284,12 +267,13 @@ export function EditCourseDialog({
 
   const downXS = useMediaQuery(theme.breakpoints.down('sm'))
   const [value, setValue] = useState(0)
-  const [status, setValidation] = useState(CREATE_SECTION.map(() => false))
 
   const [thumbnail, setThumbnail] = useState(undefined)
   const [info, setInfo] = useState({})
   const [detaildesc, setDetaildesc] = useState(undefined)
   const [lectures, setLectures] = useState(undefined)
+
+  const status = useValidation({ thumbnail, info, detaildesc, lectures })
 
   useEffect(() => {
     if (course) {
@@ -308,42 +292,6 @@ export function EditCourseDialog({
       setLectures(lectures || [])
     }
   }, [course])
-
-  useEffect(() => {
-    setValidation((prev) => {
-      prev[0] = Boolean(thumbnail)
-      return prev.slice()
-    })
-  }, [thumbnail])
-
-  useEffect(() => {
-    setValidation((prev) => {
-      prev[1] =
-        !isNaN(info.price) &&
-        !isNaN(info.discount) &&
-        Boolean(info.title) &&
-        Boolean(info.shortdesc)
-      return prev.slice()
-    })
-  }, [info])
-
-  useEffect(() => {
-    setValidation((prev) => {
-      prev[2] = Boolean(detaildesc)
-      return prev.slice()
-    })
-  }, [detaildesc])
-
-  useEffect(() => {
-    setValidation((prev) => {
-      const length = lectures?.reduce(
-        (prev, current) => prev + (current ? 1 : 0),
-        0
-      )
-      prev[3] = Boolean(length)
-      return prev.slice()
-    })
-  }, [lectures])
 
   async function onSave() {
     // call api
@@ -378,6 +326,9 @@ export function EditCourseDialog({
   function onCloseDialog() {
     onClose?.()
   }
+
+  function onStatusChange(value) {}
+  function onRemoveCourse() {}
 
   return (
     <Dialog
@@ -437,11 +388,12 @@ export function EditCourseDialog({
             setThumbnail,
             setInfo,
             setLongdesc: setDetaildesc,
-            setLectures
+            setLectures,
+            onRemoveCourse,
+            onStatusChange
           }}
         >
           <Toolbar />
-          <Box paddingY={1} />
           <Box display="flex" alignItems="center" justifyContent="center">
             <IconButton
               color="inherit"
@@ -491,6 +443,49 @@ export function EditCourseDialog({
       </TabContext>
     </Dialog>
   )
+}
+
+function useValidation({ thumbnail, info, detaildesc, lectures }) {
+  const [status, setValidation] = useState(CREATE_SECTION.map(() => false))
+
+  useEffect(() => {
+    setValidation((prev) => {
+      prev[0] =
+        !isNaN(info.price) &&
+        !isNaN(info.discount) &&
+        Boolean(info.title) &&
+        Boolean(info.category) &&
+        Boolean(info.topic) &&
+        Boolean(info.shortdesc)
+      return prev.slice()
+    })
+  }, [info])
+
+  useEffect(() => {
+    setValidation((prev) => {
+      prev[1] = Boolean(thumbnail)
+      return prev.slice()
+    })
+  }, [thumbnail])
+
+  useEffect(() => {
+    setValidation((prev) => {
+      prev[2] = Boolean(detaildesc)
+      return prev.slice()
+    })
+  }, [detaildesc])
+
+  useEffect(() => {
+    setValidation((prev) => {
+      const length = lectures?.reduce(
+        (prev, current) => prev + (current ? 1 : 0),
+        0
+      )
+      prev[3] = Boolean(length)
+      return prev.slice()
+    })
+  }, [lectures])
+  return status
 }
 
 export function useCreateCourse() {

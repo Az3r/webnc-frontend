@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { resources, useGET } from '@/utils/api'
+import { useGetCategory } from '@/utils/api'
 import {
   Drawer,
   List,
@@ -23,25 +23,18 @@ const useStyles = makeStyles({
 
 export default function CategoryDrawer({ category, children, ...props }) {
   const styles = useStyles()
+
   const id = category ? (category === 'web' ? 1 : 2) : null
-  const { data } = useGET(() => (id ? resources.categoryType.get(id) : null))
-  const categories = data?.categories?.map((item) => {
-    const { name: label, label: name, imageUrl: avatar } = item
-    return {
-      name,
-      label,
-      avatar
-    }
-  })
+  const { data: topics } = useGetCategory(id)
 
   return (
     <Drawer {...props}>
       {children}
       <List component="nav">
-        {!categories &&
+        {!topics &&
           [1, 2, 3, 4, 5, 6, 7].map((item) => <TopicSkeleton key={item} />)}
 
-        {categories?.map((item) => {
+        {topics?.map((item) => {
           const { label, avatar, name } = item
           return (
             <NextLink href={routes.topic(category, name)} passHref key={name}>

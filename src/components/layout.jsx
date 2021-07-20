@@ -7,7 +7,7 @@ export default function DefaultLayout({ children = <></> }) {
   return (
     <>
       <MainAppBar />
-      <Box component="main" minHeight="100vh">
+      <Box component="main" minHeight="100vh" position="relative">
         {children}
       </Box>
       <Box paddingY={2}>
