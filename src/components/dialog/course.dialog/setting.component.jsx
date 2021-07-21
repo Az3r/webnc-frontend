@@ -1,18 +1,20 @@
 import React, { useState } from 'react'
 import { Box, Button, Checkbox, Container, Typography } from '@material-ui/core'
-import { Check } from '@material-ui/icons'
 import { useCreateCourse } from '.'
 import ConfirmDialog from '../confirm.dialog'
 
 export default function SettingSection() {
-  const { onRemoveCourse, onStatusChange } = useCreateCourse()
+  const { onRemoveCourse, statusId, setStatusId } = useCreateCourse()
   const [dialog, setDialog] = useState(false)
 
   return (
     <Container maxWidth="sm">
       <Typography>
         Mark this lecture as completed{' '}
-        <Checkbox onChange={(e) => onStatusChange(e.target.checked)} />
+        <Checkbox
+          checked={statusId === 1}
+          onChange={(e) => setStatusId(e.target.checked ? 1 : 2)}
+        />
       </Typography>
 
       <Box color="error.main">

@@ -23,6 +23,7 @@ import CreateCourseDialog, {
 } from '@/components/dialog/course.dialog'
 import { formatDateDifference } from '@/utils/tools'
 import { LecturerCoursePropTypes } from '@/utils/typing'
+import { toLecturePropTypes } from '@/utils/conversion'
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -49,10 +50,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 export default function LecturerDashboard() {
-  const { user } = useAuth((u) => u.role === 'Lecturer')
+  const { user } = useAuth((u) => u?.role === 'Lecturer')
   const { data, loading } = useGET(() =>
     user?.role === 'Lecturer' ? resources.lecturer.course(user.id) : undefined
   )
+
+  const courses = data?.map(toLecturerCoursePropTypes) || []
 
   return (
     <DefaultLayout>
@@ -61,7 +64,7 @@ export default function LecturerDashboard() {
       </Head>
       <Container>
         {loading && <LoadingContent />}
-        {data && <DisplayContent data={data} />}
+        {data && <DisplayContent data={courses} />}
       </Container>
     </DefaultLayout>
   )
@@ -99,6 +102,10 @@ function DisplayContent({ data }) {
     ])
   }
 
+  function onRemove(index) {
+    setCourses((prev) => [...prev.slice(0, index), ...prev.slice(index + 1)])
+  }
+
   return (
     <>
       <ul className={styles.ul}>
@@ -130,6 +137,7 @@ function DisplayContent({ data }) {
         course={editDialog?.course}
         index={editDialog?.index}
         onConfirm={onUpdate}
+        onRemove={onRemove}
       />
     </>
   )
@@ -137,7 +145,7 @@ function DisplayContent({ data }) {
 
 function CourseItem({ course, onClick }) {
   const styles = useStyles()
-  const { title, thumbnail, status, lastModified, lectures } = course
+  const { title, thumbnail, statusId, lastModified, lectures } = course
   const totalLectures = lectures.length
 
   const message = formatDateDifference(new Date(lastModified))
@@ -157,9 +165,9 @@ function CourseItem({ course, onClick }) {
         </Box>
       </Grid>
       <Grid item xs={8} sm={9} md={10}>
-        <Box color={status ? 'success.main' : 'info.main'}>
+        <Box color={statusId === 1 ? 'success.main' : 'info.main'}>
           <Typography color="inherit">
-            Status: {status ? 'Complete' : 'In progress'}
+            Status: {statusId === 1 ? 'Complete' : 'In progress'}
           </Typography>
         </Box>
         <Typography className={styles.title}>{title}</Typography>
@@ -179,4 +187,35 @@ DisplayContent.propTypes = {
 CourseItem.propTypes = {
   course: LecturerCoursePropTypes.isRequired,
   onClick: PropTypes.func
+}
+
+function toLecturerCoursePropTypes(course) {
+  const {
+    lectures,
+    id,
+    name,
+    imageUrl,
+    price,
+    discount,
+    shortDiscription,
+    detailDiscription,
+    lastUpdated,
+    statusId,
+    categoryId,
+    categoryTypeId
+  } = course
+  return {
+    id,
+    thumbnail: imageUrl,
+    title: name,
+    price,
+    discount,
+    lastModified: lastUpdated,
+    shortdesc: shortDiscription,
+    detaildesc: detailDiscription,
+    statusId,
+    categoryId: categoryTypeId,
+    topicId: categoryId,
+    lectures: lectures?.map(toLecturePropTypes) || []
+  }
 }

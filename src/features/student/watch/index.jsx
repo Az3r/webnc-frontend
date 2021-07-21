@@ -23,6 +23,9 @@ import { RateReview } from '@material-ui/icons'
 import RatingDialog from '@/components/dialog/rating.dialog'
 import { useSnackbar } from 'notistack'
 import { useAuth } from '@/components/hooks/auth.provider'
+import { fetchPOST, resources, useGET } from '@/utils/api'
+import { toLibraryCoursePropTypes } from '@/utils/conversion'
+import { CourseCardLibrary } from '@/components/course/course-card'
 
 const useStyles = makeStyles((theme) => ({
   lessons: {
@@ -43,27 +46,37 @@ export default function WatchFeature({ course }) {
 
   const { user } = useAuth((user) => Boolean(user), routes.course(course.id))
 
+  const { data: courseProcess, mutate } = useGET(() =>
+    user ? resources.courseProcess.get(user.id, course.id) : undefined
+  )
+
+  const { data } = useGET(() =>
+    user ? resources.library.get(user.id) : undefined
+  )
+  const library = data?.map(toLibraryCoursePropTypes) || []
+
   const [playing, setPlaying] = useState(0)
   const [dialog, setDialog] = useState(false)
 
   const key = useRef(undefined)
 
-  function onReviewSubmitted() {
-    enqueueSnackbar('Thank you for reviewing this course', {
-      variant: 'success'
-    })
-  }
-
   useEffect(() => {
-    if (key.current) closeSnackbar(key.current)
-    key.current = enqueueSnackbar(`Now playing: ${lectures[playing].title}`, {
-      variant: 'info',
-      onClick: closeSnackbar(key),
-      anchorOrigin: { horizontal: 'center', vertical: 'bottom' }
-    })
+    if (lectures) {
+      if (key.current) closeSnackbar(key.current)
+      key.current = enqueueSnackbar(`Now playing: ${lectures[playing].title}`, {
+        variant: 'info',
+        onClick: closeSnackbar(key),
+        anchorOrigin: { horizontal: 'center', vertical: 'bottom' }
+      })
+    }
   }, [playing])
 
   function onLectureEnded() {
+    fetchPOST(resources.courseProcess.post, {
+      studentId: user.id,
+      courseId: course.id,
+      lectureId: lectures[playing].id
+    }).then(() => mutate())
     if (playing < lectures.length) setPlaying(playing + 1)
   }
 
@@ -97,14 +110,26 @@ export default function WatchFeature({ course }) {
               onEnded={onLectureEnded}
               height={720}
               width="100%"
-              url={`https://www.youtube.com/embed/${lectures[playing].url}`}
+              url={
+                lectures[playing] &&
+                `https://www.youtube.com/embed/${lectures[playing].url}`
+              }
             />
             <Box paddingY={1}>
-              <Typography variant="h5">{lectures[playing].title}</Typography>
+              <Typography variant="h5">
+                {course.title} - {lectures[playing]?.title}
+              </Typography>
             </Box>
           </Box>
           <Box padding={2} />
-          <Paper style={{ overflow: 'scroll', height: 720, maxWidth: 600 }}>
+          <Paper
+            style={{
+              overflow: 'scroll',
+              overflowX: 'hidden',
+              height: 720,
+              maxWidth: 600
+            }}
+          >
             <Typography align="center" variant="h6">
               {lectures.length} Lectures
             </Typography>
@@ -134,7 +159,11 @@ export default function WatchFeature({ course }) {
         <Box padding={2} />
         <Typography variant="h4">Courses you are also learning</Typography>
         <Box padding={1} />
-        <GridCourses skeleton courses={[1, 2, 3, 4, 5, 6, 7, 8]} />
+        <GridCourses
+          skeleton={!library}
+          courses={library || [1, 2, 3, 4, 5, 6, 7, 8]}
+          Item={CourseCardLibrary}
+        />
       </Container>
       <RatingDialog
         open={dialog}
@@ -142,7 +171,6 @@ export default function WatchFeature({ course }) {
         maxWidth="sm"
         course={course}
         onClose={() => setDialog(undefined)}
-        onConfirm={onReviewSubmitted}
       />
     </DefaultLayout>
   )

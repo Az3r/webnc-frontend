@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { ApiError, resources } from '@/utils/api'
 import { useRouter } from 'next/router'
+import { routes } from '@/utils/app'
 
 const AuthContext = createContext({
   error: undefined,
@@ -47,15 +48,19 @@ const AuthProvider = ({ children }) => {
 export default AuthProvider
 
 /** redirect to given destination if an user doesn't meet condition */
-export function useAuth(validate, redirect = '/') {
+export function useAuth(validate, redirect = routes.login) {
   const router = useRouter()
-  const context = useContext(AuthContext)
+  const { loading, user, ...props } = useContext(AuthContext)
   useEffect(() => {
-    if (!context.loading && validate) {
-      if (!validate(context.user)) router.replace(redirect)
+    if (!loading && validate) {
+      if (!validate(user))
+        router.replace({
+          pathname: redirect,
+          query: { redirect: router.asPath }
+        })
     }
-  }, [context.user])
-  return context
+  }, [user])
+  return { user, loading, ...props }
 }
 
 async function fetchUserSession() {

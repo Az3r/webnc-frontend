@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Container,
   Box,
@@ -14,12 +14,18 @@ import NextLink from '@/components/nextlink'
 import { NavigateNext } from '@material-ui/icons'
 import { routes } from '@/utils/app'
 import DefaultLayout from '@/components/layout'
+import { fetchPOST, resources } from '@/utils/api'
 
 const CourseLectures = dynamic(() => import('./content.component'))
 const CourseContent = dynamic(() => import('./detail.component'))
 
 export default function CourseDetail({ course }) {
   const { category, topic } = course
+
+  useEffect(() => {
+    fetchPOST(resources.view.post, { courseId: course.id })
+  }, [])
+
   return (
     <DefaultLayout>
       <CourseThumbnail course={course} />

@@ -43,6 +43,11 @@ import DescriptionSection from './description.component'
 import LectureSection from './lecture.component'
 import { CourseDetailPropTypes } from '@/utils/typing'
 import SettingSection from './setting.component'
+import { useSnackbar } from 'notistack'
+import { fetchPOST, resources } from '@/utils/api'
+import { useAuth } from '@/components/hooks/auth.provider'
+import WaitingDialog from '../waiting.dialog'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles((theme) => ({
   bottomAppBar: {
@@ -82,6 +87,7 @@ const CreateCourseContext = createContext({
   },
   longdesc: '',
   lectures: [],
+  statusId: 0,
   setThumbnail: () => {},
   setInfo: () => {},
   setLongdesc: () => {},
@@ -89,7 +95,7 @@ const CreateCourseContext = createContext({
   lectureDialog: undefined,
   setLectureDialog: () => {},
   onRemoveCourse: () => {},
-  onStatusChange: () => {}
+  setStatusId: () => {}
 })
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -118,31 +124,63 @@ const EDIT_SECTION = ALL_SECTIONS
 export default function CreateCourseDialog({ onConfirm, onClose, ...props }) {
   const styles = useStyles()
   const theme = useTheme()
+  const { enqueueSnackbar } = useSnackbar()
+  const { user } = useAuth((user) => user.role === 'Lecturer')
 
   const downXS = useMediaQuery(theme.breakpoints.down('sm'))
   const [value, setValue] = useState(0)
 
   const [thumbnail, setThumbnail] = useState('')
   const [info, setInfo] = useState({})
-  const [detaildesc, setDetaildesc] = useState('')
+  const [detaildesc, setDetaildesc] = useState(markdowndemo)
   const [lectures, setLectures] = useState([])
+  const [submitting, setSubmitting] = useState(false)
 
-  const status = useValidation({ thumbnail, info, detaildesc, lectures })
+  const isValid = useValidation({ thumbnail, info, detaildesc, lectures })
 
   async function onCreate() {
     // call api
-    onConfirm?.({
-      thumbnail,
-      ...info,
-      detaildesc,
-      lectures
-    })
+    setSubmitting(true)
+    try {
+      await fetchPOST(resources.courses.post, {
+        courseViewModel: {
+          name: info.title,
+          categoryId: info.topic,
+          lecturerId: user.id,
+          imageUrl: thumbnail,
+          price: info.price,
+          discount: info.discount,
+          shortDiscription: info.shortdesc,
+          detailDiscription: detaildesc,
+          statusId: 2
+        },
+        lectureViewModels: lectures.map((item, index) => ({
+          id: 0,
+          section: index + 1,
+          name: item.title,
+          videoUrl: item.url,
+          duration: item.duration,
+          isPreview: item.preview
+        }))
+      })
+      enqueueSnackbar('Create course successfully', { variant: 'success' })
+      onConfirm?.({
+        thumbnail,
+        ...info,
+        detaildesc,
+        lectures
+      })
 
-    // reset to default state
-    setThumbnail('')
-    setInfo({})
-    setDetaildesc('')
-    setLectures([])
+      // reset to default state
+      setThumbnail('')
+      setInfo({})
+      setDetaildesc('')
+      setLectures([])
+    } catch (error) {
+      enqueueSnackbar(error.message, { variant: 'error' })
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   function onCloseDialog() {
@@ -160,7 +198,7 @@ export default function CreateCourseDialog({ onConfirm, onClose, ...props }) {
             <ul className={styles.status}>
               {CREATE_SECTION.map((item, index) => (
                 <li key={item.label}>
-                  {status[index] ? (
+                  {isValid[index] ? (
                     <Check className={styles.complete} />
                   ) : (
                     <Close color="error" />
@@ -172,7 +210,7 @@ export default function CreateCourseDialog({ onConfirm, onClose, ...props }) {
             <Button
               color="primary"
               variant="contained"
-              disabled={!status.every((item) => item)}
+              disabled={!isValid.every((item) => item)}
               onClick={onCreate}
             >
               Submit
@@ -251,6 +289,7 @@ export default function CreateCourseDialog({ onConfirm, onClose, ...props }) {
           </Tabs>
         </AppBar>
       </TabContext>
+      <WaitingDialog open={submitting} />
     </Dialog>
   )
 }
@@ -259,21 +298,26 @@ export function EditCourseDialog({
   course,
   index,
   onConfirm,
+  onRemove,
   onClose,
   ...props
 }) {
   const styles = useStyles()
   const theme = useTheme()
+  const { enqueueSnackbar } = useSnackbar()
+  const { user } = useAuth()
 
   const downXS = useMediaQuery(theme.breakpoints.down('sm'))
   const [value, setValue] = useState(0)
 
-  const [thumbnail, setThumbnail] = useState(undefined)
+  const [thumbnail, setThumbnail] = useState('')
   const [info, setInfo] = useState({})
-  const [detaildesc, setDetaildesc] = useState(undefined)
-  const [lectures, setLectures] = useState(undefined)
+  const [detaildesc, setDetaildesc] = useState('')
+  const [lectures, setLectures] = useState([])
+  const [statusId, setStatusId] = useState(0)
+  const [submitting, setSubmitting] = useState(false)
 
-  const status = useValidation({ thumbnail, info, detaildesc, lectures })
+  const isValid = useValidation({ thumbnail, info, detaildesc, lectures })
 
   useEffect(() => {
     if (course) {
@@ -284,27 +328,73 @@ export function EditCourseDialog({
         discount,
         shortdesc,
         detaildesc,
+        categoryId,
+        topicId,
         lectures
       } = course
       setThumbnail(thumbnail)
-      setInfo({ title, shortdesc, price, discount })
+      setInfo({
+        title,
+        shortdesc,
+        price,
+        discount,
+        category: categoryId,
+        topic: topicId
+      })
       setDetaildesc(detaildesc)
       setLectures(lectures || [])
+      setStatusId(course.statusId)
     }
   }, [course])
 
   async function onSave() {
     // call api
-    onConfirm?.(
-      {
-        ...course,
-        thumbnail,
-        ...info,
-        detaildesc,
-        lectures
-      },
-      index
-    )
+    setSubmitting(true)
+    try {
+      await fetchPOST(
+        resources.courses.post,
+        {
+          courseViewModel: {
+            id: course.id,
+            name: info.title,
+            categoryId: info.topic,
+            lecturerId: user.id,
+            imageUrl: thumbnail,
+            price: info.price,
+            discount: info.discount,
+            shortDiscription: info.shortdesc,
+            detailDiscription: detaildesc,
+            statusId
+          },
+          lectureViewModels: lectures.map((item, index) => ({
+            id: 0,
+            section: index + 1,
+            name: item.title,
+            videoUrl: item.url,
+            duration: item.duration,
+            isPreview: item.preview
+          }))
+        },
+        { method: 'PUT' }
+      )
+
+      enqueueSnackbar('Update course successfully', { variant: 'success' })
+      onConfirm?.(
+        {
+          ...course,
+          thumbnail,
+          ...info,
+          detaildesc,
+          lectures,
+          statusId
+        },
+        index
+      )
+    } catch (error) {
+      enqueueSnackbar(error.message, { variant: 'error' })
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   function onRestore() {
@@ -315,20 +405,43 @@ export function EditCourseDialog({
       discount,
       shortdesc,
       detaildesc,
+      categoryId,
+      topicId,
       lectures
     } = course
     setThumbnail(thumbnail)
-    setInfo({ title, shortdesc, price, discount })
+    setInfo({
+      title,
+      shortdesc,
+      price,
+      discount,
+      category: categoryId,
+      topic: topicId
+    })
     setDetaildesc(detaildesc)
     setLectures(lectures || [])
+    setStatusId(course.statusId)
   }
 
   function onCloseDialog() {
     onClose?.()
   }
 
-  function onStatusChange(value) {}
-  function onRemoveCourse() {}
+  async function onRemoveCourse() {
+    setSubmitting(true)
+    try {
+      await fetchPOST(resources.courses.get(course.id), undefined, {
+        method: 'DELETE'
+      })
+      enqueueSnackbar('Delete course successfully', { variant: 'error' })
+      onRemove?.(index)
+      onClose?.()
+    } catch (error) {
+      enqueueSnackbar(error.message, { variant: 'error' })
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
     <Dialog
@@ -343,7 +456,7 @@ export function EditCourseDialog({
             <ul className={styles.status}>
               {CREATE_SECTION.map((item, index) => (
                 <li key={item.label}>
-                  {status[index] ? (
+                  {isValid[index] ? (
                     <Check className={styles.complete} />
                   ) : (
                     <Close color="error" />
@@ -356,7 +469,7 @@ export function EditCourseDialog({
               <IconButton onClick={onRestore}>
                 <Restore />
               </IconButton>
-              <IconButton onClick={onSave} disabled={!status.every(Boolean)}>
+              <IconButton onClick={onSave} disabled={!isValid.every(Boolean)}>
                 <Save />
               </IconButton>
             </Hidden>
@@ -367,7 +480,7 @@ export function EditCourseDialog({
               <Button
                 color="primary"
                 onClick={onSave}
-                disabled={!status.every(Boolean)}
+                disabled={!isValid.every(Boolean)}
               >
                 Save
               </Button>
@@ -385,12 +498,13 @@ export function EditCourseDialog({
             info,
             longdesc: detaildesc,
             lectures,
+            statusId,
             setThumbnail,
             setInfo,
             setLongdesc: setDetaildesc,
             setLectures,
             onRemoveCourse,
-            onStatusChange
+            setStatusId
           }}
         >
           <Toolbar />
@@ -441,6 +555,7 @@ export function EditCourseDialog({
           </Tabs>
         </AppBar>
       </TabContext>
+      <WaitingDialog open={submitting} />
     </Dialog>
   )
 }
@@ -499,6 +614,167 @@ CreateCourseDialog.propTypes = {
 EditCourseDialog.propTypes = {
   onConfirm: PropTypes.func,
   onClose: PropTypes.func,
+  onRemove: PropTypes.func,
   course: CourseDetailPropTypes,
   index: PropTypes.number
 }
+
+const markdowndemo = `
+An h1 header
+============
+
+Paragraphs are separated by a blank line.
+
+2nd paragraph. *Italic*, **bold**, and \`monospace\`. Itemized lists
+look like:
+
+  * this one
+  * that one
+  * the other one
+
+Note that --- not considering the asterisk --- the actual text
+content starts at 4-columns in.
+
+> Block quotes are
+> written like so.
+>
+> They can span multiple paragraphs,
+> if you like.
+
+Use 3 dashes for an em-dash. Use 2 dashes for ranges (ex., "it's all
+in chapters 12--14"). Three dots ... will be converted to an ellipsis.
+Unicode is supported. ☺
+
+
+
+An h2 header
+------------
+
+Here's a numbered list:
+
+ 1. first item
+ 2. second item
+ 3. third item
+
+Note again how the actual text starts at 4 columns in (4 characters
+from the left side). Here's a code sample:
+
+    # Let me re-iterate ...
+    for i in 1 .. 10 { do-something(i) }
+
+As you probably guessed, indented 4 spaces. By the way, instead of
+indenting the block, you can use delimited blocks, if you like:
+
+~~~
+define foobar() {
+    print "Welcome to flavor country!";
+}
+~~~
+
+(which makes copying & pasting easier). You can optionally mark the
+delimited block for Pandoc to syntax highlight it:
+
+~~~python
+import time
+# Quick, count to ten!
+for i in range(10):
+    # (but not *too* quick)
+    time.sleep(0.5)
+    print i
+~~~
+
+
+
+### An h3 header ###
+
+Now a nested list:
+
+ 1. First, get these ingredients:
+
+      * carrots
+      * celery
+      * lentils
+
+ 2. Boil some water.
+
+ 3. Dump everything in the pot and follow
+    this algorithm:
+
+        find wooden spoon
+        uncover pot
+        stir
+        cover pot
+        balance wooden spoon precariously on pot handle
+        wait 10 minutes
+        goto first step (or shut off burner when done)
+
+    Do not bump wooden spoon or it will fall.
+
+Notice again how text always lines up on 4-space indents (including
+that last line which continues item 3 above).
+
+Here's a link to [a website](http://foo.bar), to a [local
+doc](local-doc.html), and to a [section heading in the current
+doc](#an-h2-header). Here's a footnote [^1].
+
+[^1]: Footnote text goes here.
+
+Tables can look like this:
+
+size  material      color
+----  ------------  ------------
+9     leather       brown
+10    hemp canvas   natural
+11    glass         transparent
+
+Table: Shoes, their sizes, and what they're made of
+
+(The above is the caption for the table.) Pandoc also supports
+multi-line tables:
+
+--------  -----------------------
+keyword   text
+--------  -----------------------
+red       Sunsets, apples, and
+          other red or reddish
+          things.
+
+green     Leaves, grass, frogs
+          and other things it's
+          not easy being.
+--------  -----------------------
+
+A horizontal rule follows.
+
+***
+
+Here's a definition list:
+
+apples
+  : Good for making applesauce.
+oranges
+  : Citrus!
+tomatoes
+  : There's no "e" in tomatoe.
+
+Again, text is indented 4 spaces. (Put a blank line between each
+term/definition pair to spread things out more.)
+
+Here's a "line block":
+
+| Line one
+|   Line too
+| Line tree
+
+and images can be specified like so:
+
+![example image](example-image.jpg "An exemplary image")
+
+Inline math equations go in like so: $omega = dphi / dt$. Display
+math should get its own line and be put in in double-dollarsigns:
+
+$$I = int rho R^{2} dV$$
+
+And note that you can backslash-escape any punctuation characters
+which you wish to be displayed literally, ex.: \`foo\`, \\*bar\\*, etc.
+`

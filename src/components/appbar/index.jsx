@@ -220,7 +220,7 @@ function LecturerAction() {
   return (
     <>
       <NextLink href={routes.l.dashboard} passHref>
-        <Tooltip title="Go to Own Courses">
+        <Tooltip title="Go to your Courses">
           <IconButton>
             <AccountBalance />
           </IconButton>

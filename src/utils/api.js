@@ -97,6 +97,7 @@ export const resources = {
     changePassword: resource('/Auth/ChangePassword', '/auth/user/1')
   },
   courses: {
+    all: resource('/Courses/GetCourseIdList'),
     get: (id) => resource(`/Courses/${id}`, undefined),
     feedback: (id) =>
       resource(
@@ -110,9 +111,10 @@ export const resources = {
       ),
     search: (q) =>
       resource(
-        `/Courses/GetCourseListByFilterAndPaginationParameters?Search=${q}`,
+        `/Courses/GetCourseListByFilterAndPaginationParameters?${q}`,
         '/courses'
       ),
+    post: resource('/Courses', '/nothing'),
     trending: resource('/Courses/OutstandingCourses', '/courses/trending'),
     mostviews: resource('/Courses/MostViewedCourses', '/courses/mostviews'),
     newest: resource('/Courses/NewestCourses', '/courses/newest'),
@@ -172,6 +174,19 @@ export const resources = {
         `/Courses/GetCourseListByLecturerId?lecturerId=${id}`,
         '/lecturer/courses'
       )
+  },
+  feedback: {
+    post: resource('/Feedbacks', '/nothing')
+  },
+  view: {
+    post: resource('/Views', '/nothing')
+  },
+  courseProcess: {
+    get: (studentId, courseId) =>
+      resource(
+        `/CourseProcesses/GetByStudentIdAndCourseId?studentId=${studentId}&courseId=${courseId}`
+      ),
+    post: resource('/CourseProcess', '/nothing')
   }
 }
 

@@ -183,7 +183,7 @@ export function EditLectureDialog({
   }
 
   return (
-    <Dialog open={Boolean(index)} {...props}>
+    <Dialog open={index != undefined} {...props}>
       <DialogTitle>Add new Lecture</DialogTitle>
       <form onSubmit={onSubmit}>
         <DialogContent className={styles.form}>
@@ -191,7 +191,7 @@ export function EditLectureDialog({
             fullWidth
             required
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value.trim())}
             onFocus={(e) => e.target.select()}
             label="Lecture's title"
             placeholder="A title should be short and expressive."
@@ -202,7 +202,7 @@ export function EditLectureDialog({
             required
             type="url"
             value={video}
-            onChange={(e) => setVideo(e.target.value)}
+            onChange={(e) => setVideo(e.target.value.trim())}
             onFocus={(e) => e.target.select()}
             label="Video's url"
             placeholder="https://www.youtube.com/watch?v=zrAUfgESlcI"

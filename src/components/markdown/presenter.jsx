@@ -148,6 +148,6 @@ export default function Markdown({ width, height, value, ...props }) {
 
 Markdown.propTypes = {
   value: PropTypes.string,
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }

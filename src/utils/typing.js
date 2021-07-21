@@ -73,7 +73,6 @@ export const CourseLibraryPropTypes = PropTypes.shape({
   }).isRequired,
   lastModified: PropTypes.number.isRequired,
   finished: PropTypes.bool.isRequired,
-  progress: PropTypes.number.isRequired,
   lastWatched: PropTypes.number.isRequired
 })
 
@@ -118,6 +117,12 @@ export const LecturerCoursePropTypes = PropTypes.shape({
   title: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   discount: PropTypes.number.isRequired,
-  lastModified: PropTypes.number.isRequired,
+  lastModified: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    .isRequired,
+  shortdesc: PropTypes.string.isRequired,
+  detaildesc: PropTypes.string.isRequired,
+  statusId: PropTypes.number.isRequired,
+  categoryId: PropTypes.number.isRequired,
+  topicId: PropTypes.number.isRequired,
   lectures: PropTypes.arrayOf(LecturePropTypes.isRequired).isRequired
 })

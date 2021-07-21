@@ -5,25 +5,32 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Chip,
   IconButton,
   Tooltip,
   Typography
 } from '@material-ui/core'
 import NextImage from 'next/image'
-import { currency } from '@/utils/tools'
+import { currency, formatDateDifference } from '@/utils/tools'
 import useStyles from './course-card.style'
 import { Rating, Skeleton } from '@material-ui/lab'
 import NextLink from '../nextlink'
 import { routes, withAuthenticated } from '@/utils/app'
 import { CourseLibraryPropTypes, CoursePropTypes } from '@/utils/typing'
-import { PlayArrow, Shop, ShoppingCart, VideoLibrary } from '@material-ui/icons'
+import {
+  Flare,
+  MonetizationOn,
+  PlayArrow,
+  Shop,
+  ShoppingCart,
+  VideoLibrary
+} from '@material-ui/icons'
 import { useSnackbar } from 'notistack'
 import FavoriteButton from '../button/favorite.button'
 import { useAuth } from '../hooks/auth.provider'
 import { fetchPOST, resources, useGET } from '@/utils/api'
 import clsx from 'clsx'
 import Link from 'next/link'
-import LabelProgress from '@/components/progress/label-progress'
 import { mutate } from 'swr'
 import { useRouter } from 'next/router'
 
@@ -37,7 +44,8 @@ export default function CourseCard({ course }) {
     reviewers,
     price,
     discount,
-    bought
+    bought,
+    tag
   } = course
   const styles = useStyles()
 
@@ -153,16 +161,20 @@ export default function CourseCard({ course }) {
           title={title}
           className={styles.thumbnail}
         />
-        <Box position="absolute" top={0} right={0} zIndex={1}>
-          <Tooltip
-            title={watchlisted ? 'Remove from Watchlist' : 'Add to Watchlist'}
-          >
-            <FavoriteButton
-              value={Boolean(watchlisted)}
-              onClick={() => onWatchlistChange(!watchlisted)}
+        {tag && (
+          <Box position="absolute" top={8} right={8} zIndex={1}>
+            <Chip
+              className={clsx({
+                [styles.chip_bestseller]: tag === 'bestseller'
+              })}
+              color="secondary"
+              icon={tag === 'bestseller' ? <MonetizationOn /> : <Flare />}
+              size="small"
+              label={tag}
             />
-          </Tooltip>
-        </Box>
+            <Box paddingX={0.5} />
+          </Box>
+        )}
       </Box>
       <CardHeader
         avatar={<Avatar src={lecturer.avatar} />}
@@ -185,10 +197,26 @@ export default function CourseCard({ course }) {
         <CourseRating />
         <Price />
         <Box position="relative">
-          <Box position="absolute" bottom={0} right={0}>
+          <Box
+            position="absolute"
+            bottom={0}
+            right={0}
+            display="flex"
+            flexDirection="column"
+            top="auto"
+            alignItems="center"
+          >
+            <Tooltip
+              title={watchlisted ? 'Remove from Watchlist' : 'Add to Watchlist'}
+            >
+              <FavoriteButton
+                value={Boolean(watchlisted)}
+                onClick={() => onWatchlistChange(!watchlisted)}
+              />
+            </Tooltip>
             {inUserLibrary ? (
               <Tooltip title="In your library">
-                <VideoLibrary color="disabled" />
+                <VideoLibrary color="primary" />
               </Tooltip>
             ) : (
               <Tooltip title="Add to Cart">
@@ -247,8 +275,9 @@ export function CourseCardSkeleton() {
 
 export function CourseCardLibrary({ course }) {
   const styles = useStyles()
-  const { thumbnail, title, lecturer, id, progress } = course
+  const { thumbnail, title, lecturer, id, lastModified, finished } = course
   const [hover, setHover] = useState(false)
+
   return (
     <Card>
       <Box
@@ -300,9 +329,13 @@ export function CourseCardLibrary({ course }) {
         classes={{ title: styles.title, subheader: styles.lecturer }}
       />
       <CardContent>
-        <Box display="flex" alignItems="center" justifyContent="flex-end">
-          <LabelProgress value={progress} />
+        <Box color={finished ? 'success.main' : 'info.main'}>
+          <Typography>{finished ? 'Completed' : 'In progress'}</Typography>
         </Box>
+        <Typography>
+          Updated {formatDateDifference(new Date(lastModified))}
+        </Typography>
+        <Typography>Watched {formatDateDifference(new Date())}</Typography>
       </CardContent>
     </Card>
   )

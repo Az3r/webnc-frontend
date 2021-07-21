@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useGetCategory } from '@/utils/api'
+import { useGetCategory, useGetCategoryV2 } from '@/utils/api'
 import {
   Drawer,
   List,
@@ -24,8 +24,8 @@ const useStyles = makeStyles({
 export default function CategoryDrawer({ category, children, ...props }) {
   const styles = useStyles()
 
-  const id = category ? (category === 'web' ? 1 : 2) : null
-  const { data: topics } = useGetCategory(id)
+  const { data: categories } = useGetCategoryV2()
+  const topics = categories.find((item) => item.name === category)?.topics || []
 
   return (
     <Drawer {...props}>

@@ -82,10 +82,11 @@ export function toCourseDetailPropTypes(course) {
 
 export function toLecturePropTypes(lecture) {
   if (process.env.NEXT_PUBLIC_MOCK_API) return lecture
-  const { name, duration, videoUrl, section, isPreview } = lecture
+  const { id, name, duration, videoUrl, section, isPreview } = lecture
   const { v: url } = qs.parse(videoUrl.split('?', 2)[1])
   return {
-    section: section,
+    id,
+    section,
     preview: isPreview,
     duration,
     title: name,
@@ -100,5 +101,19 @@ export function toFeedbackPropTypes(feedback) {
     content: feedback.review,
     name: feedback.user.userName,
     avatar: feedback.user.avatarUrl
+  }
+}
+
+export function toLibraryCoursePropTypes(course) {
+  return {
+    id: course.id,
+    thumbnail: course.imageUrl || '/images/logo.webp',
+    title: course.courseName,
+    lecturer: {
+      name: course.lecturerName,
+      avatar: course.lecturerAvatar
+    },
+    lastModified: course.lastUpdated,
+    finished: course.statusId === 1
   }
 }

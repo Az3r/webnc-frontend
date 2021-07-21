@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import {
   Typography,
   Tooltip,
-  RadioGroup,
-  Radio,
-  FormControl,
-  FormControlLabel,
   Container,
   makeStyles,
   Fab
@@ -18,8 +13,9 @@ import { useRouter } from 'next/router'
 import { fetchGET, resources } from '@/utils/api'
 import { useSnackbar } from 'notistack'
 import { Pagination } from '@material-ui/lab'
-import { FilterButton } from './search.style'
 import FilterDialog from '@/components/dialog/filter.dialog'
+import { toCoursePropTypesV2 } from '@/utils/conversion'
+import qs from 'qs'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,55 +33,61 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const filters = [
-  {
-    title: 'difficulty',
-    options: [
-      { value: 1, label: 'beginner' },
-      { value: 2, label: 'advanced' },
-      { value: 3, label: 'expert' }
-    ]
-  },
-  {
-    title: 'rating',
-    options: [
-      { value: 4, label: '> 4 stars' },
-      { value: 3, label: '> 3 stars' },
-      { value: 2, label: '> 2 stars' },
-      { value: 1, label: '> 1 star' },
-      { value: 0, label: '< 1 star' }
-    ]
-  },
-  {
-    title: 'upload',
-    options: [
-      { value: 3600 * 24 * 7, label: 'last week' },
-      { value: 3600 * 24 * 30, label: 'last month' },
-      { value: 3600 * 24 * 30 * 6, label: 'last 6 months' },
-      { value: 3600 * 24 * 30 * 12, label: 'last year' }
-    ]
-  }
-]
-
-const sort = [
-  { value: 'view', label: 'views' },
-  { value: 'rating', label: 'ratings' }
-]
-
 export default function SearchPage() {
   const styles = useStyles()
   const router = useRouter()
-  const [filter, toggleFilter] = useState(false)
+  const { enqueueSnackbar } = useSnackbar()
+
+  const [paginationInfo, setPaginationInfo] = useState({
+    totalpages: 1,
+    pageNumber: 1,
+    totalitems: 0,
+    pageSize: 10
+  })
+  const [filterDialog, setFilterDialog] = useState(false)
   const [courses, setCourses] = useState([])
   const [searching, setSearching] = useState(false)
-  const { enqueueSnackbar } = useSnackbar()
-  const [q, setQ] = useState(undefined)
+  const [query, setQuery] = useState({})
 
-  async function search(q) {
+  async function search(query) {
+    const {
+      q,
+      categoryId,
+      topicId,
+      minPrice,
+      maxPrice,
+      minRating,
+      maxRating,
+      pageNumber
+    } = query
     setSearching(true)
+    setQuery(query)
+
     try {
-      const results = await fetchGET(resources.courses.search(q))
-      setCourses(results)
+      const results = await fetchGET(
+        resources.courses.search(
+          qs.stringify(
+            {
+              Search: q,
+              CategoryId: topicId,
+              CategoryTypeId: categoryId,
+              MinPrice: minPrice,
+              MaxPrice: maxPrice,
+              MinRating: minRating,
+              MaxRating: maxRating,
+              PageNumber: pageNumber
+            },
+            { skipNulls: true }
+          )
+        )
+      )
+      setCourses(results.courses.map(toCoursePropTypesV2))
+      setPaginationInfo({
+        totalpages: results.paginationStatus.totalPages,
+        pageNumber: results.paginationStatus.pageNumber,
+        totalitems: results.paginationStatus.totalItems,
+        pageSize: results.paginationStatus.pageSize
+      })
     } catch (error) {
       enqueueSnackbar(error.message, { variant: 'error' })
     } finally {
@@ -94,36 +96,38 @@ export default function SearchPage() {
   }
 
   useEffect(() => {
-    if (q) search(q)
-  }, [q])
-
-  useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const q = params.get('q')
-    setQ(q)
+    if (q) search({ q })
   }, [router])
 
-  function changePage(e, value) {}
+  function changePage(e, value) {
+    search({ ...query, pageNumber: value })
+  }
 
+  const { q } = query
   return (
     <DefaultLayout>
       <Tooltip title="Sort and Filter">
         <Fab
           className={styles.fab}
           color="secondary"
-          onClick={() => toggleFilter(true)}
+          onClick={() => setFilterDialog(true)}
         >
           <FilterList color="inherit" />
         </Fab>
       </Tooltip>
       <Container className={styles.root}>
         {searching ? (
-          <Typography variant="h4">
-            Searching for &quot;${q}&quot;...
-          </Typography>
+          <Typography variant="h4">Searching for &quot;{q}&quot;...</Typography>
         ) : (
           <Typography variant="h4">
-            {courses.length || 'No search'} results for &quot;{q}&quot;
+            {paginationInfo.totalitems || 'No search'} results for &quot;{q}
+            &quot; (
+            {paginationInfo.totalitems &&
+              courses.length +
+                (paginationInfo.pageNumber - 1) * paginationInfo.pageSize}
+            /{paginationInfo.totalitems})
           </Typography>
         )}
         <GridCourses
@@ -132,66 +136,19 @@ export default function SearchPage() {
         />
         <Pagination
           size="large"
-          count={10}
+          count={paginationInfo.totalpages}
           color="standard"
           onChange={changePage}
-          page={1}
           classes={{ ul: styles.pagination }}
         />
       </Container>
       <FilterDialog
         fullWidth
         maxWidth="xs"
-        open={filter}
-        onClose={() => toggleFilter(false)}
+        open={filterDialog}
+        onClose={() => setFilterDialog(false)}
+        onConfirm={(params) => search({ ...params, q })}
       />
     </DefaultLayout>
   )
-}
-
-function FilterGroup({ toggled, onToggled, title, options, selected }) {
-  return (
-    <FormControl component="fieldset" disabled={!toggled}>
-      <FilterButton
-        selected={toggled}
-        onClick={(e) => onToggled(e.target.checked)}
-      >
-        {title}
-      </FilterButton>
-      <RadioGroup
-        aria-label={title}
-        name={title}
-        defaultValue={options[selected]?.value}
-      >
-        {options.map((item, index) => (
-          <FormControlLabel
-            key={index}
-            value={item.value}
-            control={<Radio />}
-            label={item.label}
-          />
-        ))}
-      </RadioGroup>
-    </FormControl>
-  )
-}
-
-FilterGroup.propTypes = {
-  toggled: PropTypes.bool,
-  onToggled: PropTypes.func,
-  title: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.any.isRequired,
-      label: PropTypes.string.isRequired
-    })
-  ),
-  selected: PropTypes.number
-}
-
-FilterGroup.defaultProps = {
-  toggled: false,
-  onToggled: () => {},
-  options: [],
-  selected: 9999
 }

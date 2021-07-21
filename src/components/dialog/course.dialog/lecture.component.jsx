@@ -60,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
 export default function LectureSection() {
   const styles = useStyles()
   const { lectures, setLectures } = useCreateCourse()
-  useCreateCourse()
 
   const orders = useRef(lectures.map((_, index) => index))
   const [createDialog, setCreateDialog] = useState(false)
@@ -105,7 +104,7 @@ export default function LectureSection() {
 
     // move item to new position
     let newOrders = orders.current
-    if (orders.current[newRow]) {
+    if (orders.current[newRow] != undefined) {
       newOrders = move(orders.current, row, newRow)
       if (!active) orders.current = newOrders
     }

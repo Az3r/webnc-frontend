@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import {
   Dialog,
   DialogTitle,
@@ -45,13 +46,28 @@ export default function FilterDialog({ onConfirm, onClose, ...props }) {
   const [minRating, setMinRating] = useState(0)
   const [maxRating, setMaxRating] = useState(5)
   const [minPrice, setMinPrice] = useState(0)
-  const [maxPrice, setMaxPrice] = useState(Number.MAX_SAFE_INTEGER)
+  const [maxPrice, setMaxPrice] = useState(2000000000)
 
   const { data: categories } = useGetCategoryV2()
   const topics = categories.find((item) => item.id === categoryId)?.topics || []
 
+  function composeQuery() {
+    // TODO wait for backend to add sortBy into query
+    const query = {
+      categoryId,
+      topicId,
+      minPrice,
+      maxPrice,
+      minRating,
+      maxRating
+    }
+
+    onConfirm?.(query)
+    onClose?.()
+  }
+
   return (
-    <Dialog {...props}>
+    <Dialog onClose={onClose} {...props}>
       <DialogTitle>Sort and Filter</DialogTitle>
       <DialogContent className={styles.content}>
         <TextField
@@ -194,7 +210,7 @@ export default function FilterDialog({ onConfirm, onClose, ...props }) {
             label="Highest price"
             name="max-price"
             onChange={(e, number) =>
-              setMaxPrice(number > 0 ? number : Number.MAX_SAFE_INTEGER)
+              setMaxPrice(number > 0 ? number : 2000000000)
             }
           />
         </Box>
@@ -203,8 +219,15 @@ export default function FilterDialog({ onConfirm, onClose, ...props }) {
         <Button autoFocus onClick={onClose}>
           Cancel
         </Button>
-        <Button color="primary">Confirm</Button>
+        <Button color="primary" onClick={composeQuery}>
+          Confirm
+        </Button>
       </DialogActions>
     </Dialog>
   )
+}
+
+FilterDialog.propTypes = {
+  onConfirm: PropTypes.func,
+  onClose: PropTypes.func
 }

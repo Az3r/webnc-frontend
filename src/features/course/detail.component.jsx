@@ -13,7 +13,7 @@ import {
   Collapse
 } from '@material-ui/core'
 import { CourseRow } from '@/components/course'
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import useStyles from './detail.style'
 import { routes } from '@/utils/app'
 import NextLink from '@/components/nextlink'
@@ -26,7 +26,6 @@ export default function CourseContent({ course }) {
   const { detaildesc, lecturer, topic, populars, category } = course
   const [loading, setLoading] = React.useState(false)
   const [feedbacks, setFeedbacks] = useState(course.feedbacks.slice(0, 10))
-  const tracker = useRef({ offset: 0, size: 10 })
 
   async function onLoadFeedbacks() {
     setLoading(true)
@@ -40,7 +39,7 @@ export default function CourseContent({ course }) {
     <>
       <Typography className={styles.header}>What you will learn</Typography>
       <Box paddingY={1} />
-      <Presenter>{detaildesc}</Presenter>
+      <Presenter value={detaildesc}></Presenter>
       <Box paddingY={2} />
       <Typography className={styles.header}>
         Most popular courses in{' '}
@@ -59,6 +58,7 @@ export default function CourseContent({ course }) {
       <Box paddingY={1}>
         <Divider />
       </Box>
+      <Typography className={styles.header}>Lecturer of this Course</Typography>
       <ListItem component="div" disableGutters dense>
         <ListItemAvatar>
           <Avatar src={lecturer.avatar} alt={lecturer.name}>
@@ -69,7 +69,7 @@ export default function CourseContent({ course }) {
       </ListItem>
       <Box paddingY={1} />
       <Presenter>{lecturer.description}</Presenter>
-      <Box paddingY={2} />
+      <Box paddingY={1} />
       <Typography className={styles.header}>course rating</Typography>
       <ul>
         {feedbacks.map((item) => (
@@ -100,7 +100,7 @@ export default function CourseContent({ course }) {
         ))}
       </ul>
       <Collapse in={loading}>
-        <Typography align="center">
+        <Typography align="center" component="div">
           <CircularProgress />
         </Typography>
         <Box paddingY={0.5} />

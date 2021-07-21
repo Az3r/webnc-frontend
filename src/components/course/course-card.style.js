@@ -29,5 +29,9 @@ export default makeStyles((theme) => ({
   },
   watchHover: {
     opacity: 1
+  },
+  chip_bestseller: {
+    color: theme.palette.getContrastText(theme.palette.success.dark),
+    backgroundColor: theme.palette.success.dark
   }
 }))

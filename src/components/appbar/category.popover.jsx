@@ -10,64 +10,46 @@ import {
 import React, { useState } from 'react'
 import NextImage from 'next/image'
 import useStyles from './category.style'
-import { useGET, useGetCategory } from '@/utils/api'
+import { useGetCategoryV2 } from '@/utils/api'
 import NextLink from 'next/link'
 import { routes } from '@/utils/app'
 
 export default function CategoryPopover() {
   const styles = useStyles()
-  const [category, setCategory] = useState(null)
+  const [category, setCategory] = useState(undefined)
 
-  const id = category ? (category === 'web' ? 1 : 2) : null
-  const { data: topics } = useGetCategory(id)
+  const { data: categories } = useGetCategoryV2()
+  const topics =
+    categories.find((item) => item.id === category?.id)?.topics || []
 
   return (
     <Paper className={styles.root}>
       <Box width={320} minHeight="80vh">
         <Grid container direction="column" component="nav">
           <Grid item>
-            <NextLink href={routes.category('web')} passHref>
-              <ListItem
-                button
-                component="a"
-                selected={category === 'web'}
-                onMouseEnter={() => setCategory('web')}
-              >
-                <ListItemAvatar>
-                  <NextImage
-                    src="/images/category/web.webp"
-                    width={40}
-                    height={40}
-                    alt="Web Developtment"
-                    title="Web Developtment"
-                    className={styles.avatar}
-                  />
-                </ListItemAvatar>
-                <ListItemText primary="Web Development" />
-              </ListItem>
-            </NextLink>
-          </Grid>
-          <Grid item>
-            <NextLink href={routes.category('mobile')} passHref>
-              <ListItem
-                button
-                component="a"
-                selected={category === 'mobile'}
-                onMouseEnter={() => setCategory('mobile')}
-              >
-                <ListItemAvatar>
-                  <NextImage
-                    src="/images/category/mobile.webp"
-                    width={40}
-                    height={40}
-                    alt="Mobile Developtment"
-                    title="Mobile Developtment"
-                    className={styles.avatar}
-                  />
-                </ListItemAvatar>
-                <ListItemText primary="Mobile Development" />
-              </ListItem>
-            </NextLink>
+            {categories.map((item) => (
+              <Grid item key={item.name}>
+                <NextLink href={routes.category(item.name)} passHref>
+                  <ListItem
+                    button
+                    component="a"
+                    selected={category?.id === item.id}
+                    onMouseEnter={() => setCategory(item)}
+                  >
+                    <ListItemAvatar>
+                      <NextImage
+                        src={item.avatar}
+                        width={40}
+                        height={40}
+                        alt={item.label}
+                        className={styles.avatar}
+                      />
+                    </ListItemAvatar>
+                    <ListItemText primary={item.label} />
+                  </ListItem>
+                </NextLink>
+              </Grid>
+            ))}
           </Grid>
         </Grid>
       </Box>
@@ -80,7 +62,10 @@ export default function CategoryPopover() {
           <Grid container component="nav">
             {topics.map((item) => {
               const { name, label, avatar } = item
-              const href = routes.topic(category, name || label.toLowerCase())
+              const href = routes.topic(
+                category.name,
+                name || label.toLowerCase()
+              )
 
               return (
                 <Grid item key={name} xs={12}>
@@ -92,7 +77,6 @@ export default function CategoryPopover() {
                           width={40}
                           height={40}
                           alt={label}
-                          title={label}
                           className={styles.avatar}
                         />
                       </ListItemAvatar>

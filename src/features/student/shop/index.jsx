@@ -9,10 +9,7 @@ import {
   Box,
   Typography,
   Button,
-  IconButton,
-  Dialog,
-  DialogContent,
-  CircularProgress
+  IconButton
 } from '@material-ui/core'
 import CourseRow, { CourseRowSkeleton } from '@/components/course/course-row'
 import { currency } from '@/utils/tools'
@@ -25,6 +22,7 @@ import { appname } from '@/utils/app'
 import { toCoursePropTypesV2 } from '@/utils/conversion'
 import { useSnackbar } from 'notistack'
 import ConfirmDialog from '@/components/dialog/confirm.dialog'
+import WaitingDialog from '@/components/dialog/waiting.dialog'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -174,19 +172,7 @@ export default function ShopFeature() {
         onClose={() => setItemToRemove(undefined)}
         onConfirm={() => onItemRemove(itemToRemove)}
       />
-      <Dialog maxWidth="sm" open={purchasing}>
-        <DialogContent>
-          <Box paddingY={4}>
-            <Typography align="center" component="div">
-              <CircularProgress />
-              <Box paddingY={2} />
-              <Typography variant="h5">
-                Processing your request, please wait...
-              </Typography>
-            </Typography>
-          </Box>
-        </DialogContent>
-      </Dialog>
+      <WaitingDialog maxWidth="sm" open={purchasing} />
     </DefaultLayout>
   )
 }

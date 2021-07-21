@@ -3,15 +3,16 @@ import {
   Box,
   Container,
   InputAdornment,
+  ListItem,
   ListItemIcon,
+  ListItemText,
   makeStyles,
   MenuItem,
-  TextField,
-  Typography
+  TextField
 } from '@material-ui/core'
 import NextImage from 'next/image'
 import { useCreateCourse } from '.'
-import { useGetCategory } from '@/utils/api'
+import { useGetCategoryV2 } from '@/utils/api'
 import PriceTextField from '@/components/inputs/price.input'
 
 const useStyles = makeStyles((theme) => ({
@@ -24,16 +25,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const categories = [
-  { id: 1, label: 'Web Development', icon: '/images/category/web.webp' },
-  { id: 2, label: 'Mobile Development', icon: '/images/category/mobile.webp' }
-]
 export default function InfoSection() {
   const styles = useStyles()
   const { info, setInfo } = useCreateCourse()
   const { title, price, discount, shortdesc, category, topic } = info
 
-  const { data: topics } = useGetCategory(category)
+  const { data: categories } = useGetCategoryV2()
+  const topics = categories.find((item) => item.id === category)?.topics || []
 
   return (
     <Container className={styles.root} maxWidth="md">
@@ -50,10 +48,12 @@ export default function InfoSection() {
       >
         {categories.map((item) => (
           <MenuItem key={item.label} value={item.id}>
-            <ListItemIcon>
-              <NextImage src={item.icon} width={32} height={32} />
-            </ListItemIcon>
-            <Typography variant="inherit">{item.label}</Typography>
+            <ListItem dense disableGutters>
+              <ListItemIcon>
+                <NextImage src={item.avatar} width={32} height={32} />
+              </ListItemIcon>
+              <ListItemText primary={item.label} />
+            </ListItem>
           </MenuItem>
         ))}
       </TextField>
@@ -70,10 +70,12 @@ export default function InfoSection() {
       >
         {topics.map((item) => (
           <MenuItem key={item.name} value={item.id}>
-            <ListItemIcon>
-              <NextImage src={item.avatar} width={32} height={32} />
-            </ListItemIcon>
-            <Typography variant="inherit">{item.label}</Typography>
+            <ListItem dense disableGutters>
+              <ListItemIcon>
+                <NextImage src={item.avatar} width={32} height={32} />
+              </ListItemIcon>
+              <ListItemText primary={item.label} />
+            </ListItem>
           </MenuItem>
         ))}
       </TextField>
@@ -82,7 +84,7 @@ export default function InfoSection() {
         placeholder="My awesome course"
         value={title}
         onChange={(e) =>
-          setInfo((prev) => ({ ...prev, title: e.target.value }))
+          setInfo((prev) => ({ ...prev, title: e.target.value.trim() }))
         }
       />
       <Box display="flex">
@@ -104,6 +106,7 @@ export default function InfoSection() {
             const value = Math.min(100, Math.max(0, e.target.valueAsNumber))
             setInfo((prev) => ({ ...prev, discount: value }))
           }}
+          inputProps={{ min: 0, max: 100 }}
           label="Discount"
           InputProps={{
             startAdornment: <InputAdornment position="start">%</InputAdornment>
@@ -113,7 +116,7 @@ export default function InfoSection() {
       <TextField
         value={shortdesc}
         onChange={(e) =>
-          setInfo((prev) => ({ ...prev, shortdesc: e.target.value }))
+          setInfo((prev) => ({ ...prev, shortdesc: e.target.value.trim() }))
         }
         multiline
         rows={5}

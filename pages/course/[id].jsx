@@ -3,7 +3,6 @@ import mock from '@/mocks/course.json'
 import { fetchGET, resources } from '@/utils/api'
 import {
   toCourseDetailPropTypes,
-  toCoursePropTypes,
   toCoursePropTypesV2,
   toFeedbackPropTypes
 } from '@/utils/conversion'
@@ -25,13 +24,13 @@ export async function getStaticProps({ params }) {
     const bestSellerResponse = await fetchGET(
       resources.courses.bestSellerOfSameTopic(id, course.topic.id)
     )
-    course.populars = bestSellerResponse.map(toCoursePropTypes)
+    course.populars = bestSellerResponse.map(toCoursePropTypesV2)
 
     return {
       props: {
         course
       },
-      revalidate: 3600
+      revalidate: 300
     }
   } catch (error) {
     return {
@@ -49,7 +48,7 @@ export async function getStaticPaths() {
 
   const ids = await fetchGET(resources.courses.all)
   return {
-    paths: ids.map((item) => ({ params: { id: item.toString() } })),
+    paths: ids.map((id) => ({ params: { id: `${id}` } })),
     fallback: 'blocking'
   }
 }

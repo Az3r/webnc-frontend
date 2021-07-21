@@ -12,7 +12,7 @@ export default function InlineSearch(props) {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
-    setQ(params.get('q'))
+    setQ(params.get('q') || '')
   }, [])
 
   function search(e) {

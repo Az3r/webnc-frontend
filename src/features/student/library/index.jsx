@@ -7,12 +7,15 @@ import Head from 'next/head'
 import { appname } from '@/utils/app'
 import GridCourses from '@/components/list/course.grid'
 import { CourseCardLibrary } from '@/components/course/course-card'
+import { toLibraryCoursePropTypes } from '@/utils/conversion'
 
 export default function LibraryFeature() {
-  const { user } = useAuth()
+  const { user } = useAuth((u) => Boolean(u))
   const { data } = useGET(() =>
     user ? resources.library.get(user.id) : undefined
   )
+
+  const courses = data?.map(toLibraryCoursePropTypes) || []
 
   return (
     <>
@@ -23,7 +26,7 @@ export default function LibraryFeature() {
         <Container>
           <Box paddingY={2} position="relative">
             {!data && <LoadingList />}
-            {data && <GridCourses courses={data} Item={CourseCardLibrary} />}
+            {data && <GridCourses courses={courses} Item={CourseCardLibrary} />}
           </Box>
         </Container>
       </DefaultLayout>

@@ -14,17 +14,38 @@ import {
   Typography
 } from '@material-ui/core'
 import { Rating } from '@material-ui/lab'
+import { fetchPOST, resources } from '@/utils/api'
+import { useSnackbar } from 'notistack'
+import { useAuth } from '../hooks/auth.provider'
 
-export default function RatingDialog({ course, onClose, onConfirm, ...props }) {
+export default function RatingDialog({ course, onClose, ...props }) {
+  const { user } = useAuth()
+  const { enqueueSnackbar } = useSnackbar()
+
   const [rating, setRating] = useState(5)
   const [review, setReview] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
   async function submitReview() {
     setSubmitting(true)
-    setTimeout(() => setSubmitting(false), 2000)
-    onConfirm?.(rating, review)
-    onClose?.()
+    try {
+      await fetchPOST(resources.feedback.post, {
+        rate: rating,
+        review,
+        courseId: course.id,
+        userId: user.id
+      })
+      enqueueSnackbar('Thank you for reviewing this course', {
+        variant: 'success'
+      })
+      onClose?.()
+    } catch (error) {
+      enqueueSnackbar(error.message, {
+        variant: 'error'
+      })
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -42,16 +63,16 @@ export default function RatingDialog({ course, onClose, onConfirm, ...props }) {
         <Typography align="center" component="div">
           <Rating
             value={rating}
-            precision={0.5}
             readOnly={submitting}
             size="large"
+            disabled={submitting}
             onChange={(_, value) => setRating(value)}
           />
         </Typography>
         <TextField
           disabled={submitting}
           value={review}
-          onChange={(e) => setReview(e.target.value)}
+          onChange={(e) => setReview(e.target.value.trim())}
           variant="outlined"
           multiline
           rows={5}
@@ -61,10 +82,10 @@ export default function RatingDialog({ course, onClose, onConfirm, ...props }) {
       </DialogContent>
       <DialogActions>
         {submitting && <CircularProgress />}
-        <Button autoFocus onClick={onClose}>
+        <Button autoFocus onClick={onClose} disabled={submitting}>
           Cancel
         </Button>
-        <Button color="primary" onClick={submitReview}>
+        <Button color="primary" onClick={submitReview} disabled={submitting}>
           Submit
         </Button>
       </DialogActions>

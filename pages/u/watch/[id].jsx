@@ -1,21 +1,42 @@
 export { default } from '@/features/student/watch'
-import course from '@/mocks/course.json'
+import mock from '@/mocks/course.json'
+import { fetchGET, resources } from '@/utils/api'
+import { toCourseDetailPropTypes } from '@/utils/conversion'
 
 export async function getStaticProps({ params }) {
-  // const { category } = params
-  if (course)
+  if (process.env.NEXT_PUBLIC_MOCK_API)
     return {
-      props: { course },
-      revalidate: 3600
+      props: { course: mock }
     }
-  return {
-    notFound: true
+
+  const { id } = params
+  try {
+    const courseResponse = await fetchGET(resources.courses.get(id))
+    const course = toCourseDetailPropTypes(courseResponse)
+
+    return {
+      props: {
+        course
+      },
+      revalidate: 300
+    }
+  } catch (error) {
+    return {
+      notFound: true
+    }
   }
 }
 
 export async function getStaticPaths() {
+  if (process.env.NEXT_PUBLIC_MOCK_API)
+    return {
+      paths: [],
+      fallback: 'blocking'
+    }
+
+  const ids = await fetchGET(resources.courses.all)
   return {
-    paths: [],
+    paths: ids.map((id) => ({ params: { id: `${id}` } })),
     fallback: 'blocking'
   }
 }

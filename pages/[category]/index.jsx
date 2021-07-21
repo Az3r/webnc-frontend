@@ -1,7 +1,7 @@
 export { default } from '@/features/category'
 import data from '@/mocks/category.json'
 import { fetchGET, resources } from '@/utils/api'
-import { toCoursePropTypes, toCoursePropTypesV2 } from '@/utils/conversion'
+import { toCoursePropTypesV2 } from '@/utils/conversion'
 
 export async function getStaticProps({ params }) {
   if (process.env.NEXT_PUBLIC_MOCK_API)
@@ -32,7 +32,7 @@ export async function getStaticProps({ params }) {
               courses: dynamicCategoryList[index].map(toCoursePropTypesV2)
             }
           }),
-          bestsellers: bestsellers.map(toCoursePropTypes)
+          bestsellers: bestsellers.map(toCoursePropTypesV2)
         }
       },
       revalidate: 300
