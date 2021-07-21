@@ -1,25 +1,41 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import {
-  Box,
   Typography,
-  Grid,
   Tooltip,
-  IconButton,
-  Collapse,
   RadioGroup,
   Radio,
   FormControl,
   FormControlLabel,
-  Container
+  Container,
+  makeStyles,
+  Fab
 } from '@material-ui/core'
 import { FilterList } from '@material-ui/icons'
-import { FilterButton } from './search.style'
 import GridCourses from '@/components/list/course.grid'
 import DefaultLayout from '@/components/layout'
 import { useRouter } from 'next/router'
 import { fetchGET, resources } from '@/utils/api'
 import { useSnackbar } from 'notistack'
+import { Pagination } from '@material-ui/lab'
+import { FilterButton } from './search.style'
+import FilterDialog from '@/components/dialog/filter.dialog'
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    ['& > *']: {
+      margin: theme.spacing(1, 0)
+    }
+  },
+  pagination: {
+    justifyContent: 'center'
+  },
+  fab: {
+    position: 'fixed',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2)
+  }
+}))
 
 const filters = [
   {
@@ -57,8 +73,9 @@ const sort = [
 ]
 
 export default function SearchPage() {
+  const styles = useStyles()
   const router = useRouter()
-  const [filter, toggle] = useState(false)
+  const [filter, toggleFilter] = useState(false)
   const [courses, setCourses] = useState([])
   const [searching, setSearching] = useState(false)
   const { enqueueSnackbar } = useSnackbar()
@@ -86,42 +103,48 @@ export default function SearchPage() {
     setQ(q)
   }, [router])
 
+  function changePage(e, value) {}
+
   return (
     <DefaultLayout>
-      <Container>
-        <Box display="flex" alignItems="center">
-          {searching ? (
-            <Typography variant="h5">Searching for &quot;${q}&quot;</Typography>
-          ) : (
-            <Typography variant="h5">
-              {courses.length || 'No search'} results for &quot;{q}&quot;
-            </Typography>
-          )}
-          <Tooltip title="Filter results">
-            <IconButton onClick={() => toggle((prev) => !prev)}>
-              <FilterList />
-            </IconButton>
-          </Tooltip>
-        </Box>
-        <Collapse in={filter}>
-          <Box paddingY={2}>
-            <Grid container spacing={4} justify="center">
-              {filters.map((e) => (
-                <Grid item key={e.title}>
-                  <FilterGroup title={e.title} options={e.options} />
-                </Grid>
-              ))}
-              <Grid item>
-                <FilterGroup title="sort" options={sort} selected={0} />
-              </Grid>
-            </Grid>
-          </Box>
-        </Collapse>
+      <Tooltip title="Sort and Filter">
+        <Fab
+          className={styles.fab}
+          color="secondary"
+          onClick={() => toggleFilter(true)}
+        >
+          <FilterList color="inherit" />
+        </Fab>
+      </Tooltip>
+      <Container className={styles.root}>
+        {searching ? (
+          <Typography variant="h4">
+            Searching for &quot;${q}&quot;...
+          </Typography>
+        ) : (
+          <Typography variant="h4">
+            {courses.length || 'No search'} results for &quot;{q}&quot;
+          </Typography>
+        )}
         <GridCourses
-          courses={searching ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] : courses}
+          courses={searching ? [1, 2, 3, 4, 5, 6, 7, 8] : courses}
           skeleton={searching}
         />
+        <Pagination
+          size="large"
+          count={10}
+          color="standard"
+          onChange={changePage}
+          page={1}
+          classes={{ ul: styles.pagination }}
+        />
       </Container>
+      <FilterDialog
+        fullWidth
+        maxWidth="xs"
+        open={filter}
+        onClose={() => toggleFilter(false)}
+      />
     </DefaultLayout>
   )
 }

@@ -253,3 +253,30 @@ export function useGetCategory(id) {
     }) || []
   return { data: topics, ...props }
 }
+
+export function useGetCategoryV2() {
+  const { data, ...props } = useGET(resources.categoryType.all)
+  if (!data) return { data: [], ...props }
+
+  const categories = data.map((category) => {
+    const { id, name, categories } = category
+    return {
+      id,
+      label: name,
+      name: id === 1 ? 'web' : id === 2 ? 'mobile' : null,
+      avatar:
+        id === 1
+          ? '/images/category/web.webp'
+          : id === 2
+          ? '/images/category/mobile.webp'
+          : null,
+      topics: categories.map((topic) => ({
+        id: topic.id,
+        label: topic.name,
+        name: topic.label,
+        avatar: topic.imageUrl
+      }))
+    }
+  })
+  return { data: categories, ...props }
+}

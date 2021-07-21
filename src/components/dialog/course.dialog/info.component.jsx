@@ -12,6 +12,7 @@ import {
 import NextImage from 'next/image'
 import { useCreateCourse } from '.'
 import { useGetCategory } from '@/utils/api'
+import PriceTextField from '@/components/inputs/price.input'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,8 +35,6 @@ export default function InfoSection() {
 
   const { data: topics } = useGetCategory(category)
 
-  const formatter = new Intl.NumberFormat()
-  const formattedPrice = formatter.format(price)
   return (
     <Container className={styles.root} maxWidth="md">
       <TextField
@@ -87,18 +86,14 @@ export default function InfoSection() {
         }
       />
       <Box display="flex">
-        <TextField
+        <PriceTextField
           required
           name="price"
-          value={formattedPrice === 'NaN' ? 0 : formattedPrice}
-          onChange={(e) => {
-            const number = Number(e.target.value.replace(/[.,-]/, ''))
+          value={price}
+          onChange={(e, number) =>
             setInfo((prev) => ({ ...prev, price: number }))
-          }}
+          }
           label="Price"
-          InputProps={{
-            startAdornment: <InputAdornment position="start">$</InputAdornment>
-          }}
         />
         <TextField
           required
