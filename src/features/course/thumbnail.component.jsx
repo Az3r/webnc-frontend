@@ -12,14 +12,13 @@ export default function CourseThumbnail({ course }) {
   play = setPlayingLecture
 
   return (
-    <Box bgcolor="#000">
-      <Container>
-        <Box position="relative" height={0} paddingTop="56.25%">
+    <Container>
+      <Box position="relative" height={0} paddingTop="56.25%">
+        {previews.length ? (
           <ReactPlayer
             config={{
               youtube: {
                 playerVars: {
-                  autoplay: 1,
                   controls: 1,
                   playlist: previews.map((item) => item.url).join(',')
                 }
@@ -35,9 +34,21 @@ export default function CourseThumbnail({ course }) {
             url={lecture?.url}
             light={thumbnail}
           />
-        </Box>
-      </Container>
-    </Box>
+        ) : (
+          <img
+            src={thumbnail}
+            alt={course.title}
+            width="100%"
+            height="100%"
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: 0
+            }}
+          />
+        )}
+      </Box>
+    </Container>
   )
 }
 

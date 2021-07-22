@@ -54,25 +54,25 @@ export default function HomePage({
       <Container style={{ maxWidth: 1600 }}>
         <div className={styles.root}>
           <div className={styles.section}>
-            <Typography align={mobile ? 'center' : 'default'} variant="h4">
+            <Typography align={mobile ? 'center' : 'left'} variant="h4">
               Top Trending
             </Typography>
             <List courses={trending} />
           </div>
           <div className={styles.section}>
-            <Typography align={mobile ? 'center' : 'default'} variant="h4">
+            <Typography align={mobile ? 'center' : 'left'} variant="h4">
               Most Viewed Courses
             </Typography>
             <List courses={mostViewed} />
           </div>
           <div className={styles.section}>
-            <Typography align={mobile ? 'center' : 'default'} variant="h4">
+            <Typography align={mobile ? 'center' : 'left'} variant="h4">
               Latest Courses
             </Typography>
             <List courses={newest} />
           </div>
           <div className={styles.section}>
-            <Typography align={mobile ? 'center' : 'default'} variant="h4">
+            <Typography align={mobile ? 'center' : 'left'} variant="h4">
               Most Registered Topics
             </Typography>
             <Grid container spacing={2} component="ul">
