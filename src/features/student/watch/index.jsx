@@ -12,7 +12,6 @@ import {
   Fab,
   Tooltip
 } from '@material-ui/core'
-import { LecturePropTypes } from '@/utils/typing'
 import ReactPlayer from 'react-player'
 import { formatDuration } from '@/utils/tools'
 import DefaultLayout from '@/components/layout'
@@ -24,8 +23,13 @@ import RatingDialog from '@/components/dialog/rating.dialog'
 import { useSnackbar } from 'notistack'
 import { useAuth } from '@/components/hooks/auth.provider'
 import { fetchPOST, resources, useGET } from '@/utils/api'
-import { toLibraryCoursePropTypes } from '@/utils/conversion'
+import {
+  toLibraryCoursePropTypes,
+  toWatchCoursePropTypes
+} from '@/utils/conversion'
 import { CourseCardLibrary } from '@/components/course/course-card'
+import { useRouter } from 'next/router'
+import { CourseLibraryPropTypes, LecturePropTypes } from '@/utils/typing'
 
 const useStyles = makeStyles((theme) => ({
   lessons: {
@@ -39,23 +43,63 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export default function WatchFeature({ course }) {
+export default function WatchFeature() {
+  const router = useRouter()
+
+  const { user } = useAuth((u) => Boolean(u))
+  const [courseId, setCourseId] = useState(undefined)
+  const [lectureId, setLectureId] = useState(undefined)
+  const [playing, setPlaying] = useState(undefined)
+  const [isValid, setIsValid] = useState(false)
+
+  const { data: course, loading: courseLoading } = useGetCourse(courseId)
+  const { data: library, loading: libraryLoading } = useGetLibrary(user?.id)
+
+  useEffect(() => {
+    if (!libraryLoading) {
+      // check whether user has a course in his library
+      const params = new URLSearchParams(window.location.search)
+      params.courseId = params.get('courseId')
+      params.lectureId = params.get('lectureId')
+      if (!params.courseId) router.replace(routes.u.library)
+      else if (!library.find((item) => item.id == params.courseId)) {
+        router.replace(routes.course(params.courseId))
+      } else {
+        setIsValid(true)
+      }
+
+      setCourseId(params.courseId)
+      setLectureId(params.lectureId)
+    }
+  }, [libraryLoading])
+
+  useEffect(() => {
+    if (!courseLoading) {
+      const found = course.lectures.findIndex((item) => item.id == lectureId)
+      setPlaying(Math.max(0, found))
+    }
+  }, [courseLoading])
+
+  return (
+    <DefaultLayout>
+      <Head>
+        <title>Watch Course | {appname}</title>
+      </Head>
+      {isValid && !courseLoading && !libraryLoading && playing != undefined && (
+        <Content course={course} library={library} startIndex={playing} />
+      )}
+    </DefaultLayout>
+  )
+}
+
+function Content({ course, library, startIndex }) {
   const styles = useStyles()
-  const { lectures, title } = course
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 
-  const { user } = useAuth((user) => Boolean(user), routes.course(course.id))
+  const { title, lectures } = course
 
-  const { data: courseProcess, mutate } = useGET(() =>
-    user ? resources.courseProcess.get(user.id, course.id) : undefined
-  )
-
-  const { data } = useGET(() =>
-    user ? resources.library.get(user.id) : undefined
-  )
-  const library = data?.map(toLibraryCoursePropTypes) || []
-
-  const [playing, setPlaying] = useState(0)
+  const { user } = useAuth((user) => Boolean(user))
+  const [playing, setPlaying] = useState(startIndex)
   const [dialog, setDialog] = useState(false)
 
   const key = useRef(undefined)
@@ -76,12 +120,12 @@ export default function WatchFeature({ course }) {
       studentId: user.id,
       courseId: course.id,
       lectureId: lectures[playing].id
-    }).then(() => mutate())
+    })
     if (playing < lectures.length) setPlaying(playing + 1)
   }
 
   return (
-    <DefaultLayout>
+    <>
       <Head>
         <title>
           Watch &quot;{title}&quot; | {appname}
@@ -112,11 +156,11 @@ export default function WatchFeature({ course }) {
               onEnded={onLectureEnded}
               height={720}
               width="100%"
-              url={lectures[playing]?.url}
+              url={lectures[playing].url}
             />
             <Box paddingY={1}>
               <Typography variant="h5">
-                {course.title} - {lectures[playing]?.title}
+                {title} - {lectures[playing].title}
               </Typography>
             </Box>
           </Box>
@@ -139,7 +183,7 @@ export default function WatchFeature({ course }) {
                   divider
                   button
                   component="li"
-                  key={item.section}
+                  key={item.id}
                   onClick={() => setPlaying(index)}
                 >
                   <Typography variant="subtitle1">{index + 1}</Typography>
@@ -171,15 +215,36 @@ export default function WatchFeature({ course }) {
         course={course}
         onClose={() => setDialog(undefined)}
       />
-    </DefaultLayout>
+    </>
   )
 }
 
-WatchFeature.propTypes = {
+function useGetCourse(id) {
+  const { data, ...props } = useGET(() =>
+    id ? resources.courses.get(id) : undefined
+  )
+  if (!data) return { data, ...props }
+
+  const course = toWatchCoursePropTypes(data)
+  return { data: course, ...props }
+}
+
+function useGetLibrary(userId) {
+  const { data, ...props } = useGET(() =>
+    userId ? resources.library.get(userId) : undefined
+  )
+  if (!data) return { data: [], ...props }
+  const library = data.map(toLibraryCoursePropTypes)
+  return { data: library, ...props }
+}
+
+Content.propTypes = {
   course: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    thumbnail: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    lectures: PropTypes.arrayOf(LecturePropTypes).isRequired
-  }).isRequired
+    thumbnail: PropTypes.string.isRequired,
+    lectures: PropTypes.arrayOf(LecturePropTypes.isRequired)
+  }).isRequired,
+  library: PropTypes.arrayOf(CourseLibraryPropTypes).isRequired,
+  startIndex: PropTypes.number.isRequired
 }

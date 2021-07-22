@@ -191,7 +191,7 @@ export const resources = {
       resource(
         `/CourseProcesses/GetByStudentIdAndCourseId?studentId=${studentId}&courseId=${courseId}`
       ),
-    post: resource('​​/CourseProcesses', '/nothing')
+    post: resource('/CourseProcesses', '/nothing')
   }
 }
 
@@ -288,4 +288,19 @@ export function useGetCategoryV2() {
     }
   })
   return { data: categories, ...props }
+}
+
+export function useGetCourseProcesses(userId, courseId) {
+  const key =
+    userId && courseId && resources.courseProcess.get(userId, courseId)
+  const { data, ...props } = useGET(() => key)
+  if (!data) return { data: null, ...props }
+
+  return {
+    data: {
+      lectureId: data.courseProcess.lectureId,
+      lastWatched: data.courseProcess.lastUpdated
+    },
+    ...props
+  }
 }

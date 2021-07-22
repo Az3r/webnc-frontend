@@ -40,11 +40,16 @@ export default function LibraryFeature() {
       <DefaultLayout>
         <Container>
           <Box paddingY={2} position="relative">
-            {loading && <LoadingList />}
-            {!loading && data?.length ? (
-              <GridCourses courses={courses} Item={CourseCardLibrary} />
+            {loading ? (
+              <LoadingList />
             ) : (
-              <EmptyList />
+              <>
+                {data?.length ? (
+                  <GridCourses courses={courses} Item={CourseCardLibrary} />
+                ) : (
+                  <EmptyList />
+                )}
+              </>
             )}
           </Box>
         </Container>

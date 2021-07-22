@@ -146,7 +146,10 @@ export default function LecturerDrawer({ children, ...props }) {
         onClose={() => setSignoutDialog(false)}
         onConfirm={() => {
           setSignoutDialog(false)
-          router.push(routes.login)
+          router.push({
+            pathname: routes.login,
+            query: { redirect: router.asPath }
+          })
           fetch(resources.auth.logout, { credentials: 'include' })
         }}
         onCancel={() => setSignoutDialog(false)}

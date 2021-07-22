@@ -31,6 +31,7 @@ import InlineSearch from './search.component'
 import { useAuth } from '../hooks/auth.provider'
 import LecturerDrawer from '../drawer/lecturer.drawer'
 import { resources, useGET } from '@/utils/api'
+import { useRouter } from 'next/router'
 
 const GuestDrawer = dynamic(() => import('@/components/drawer/guest.drawer'))
 const StudentDrawer = dynamic(() =>
@@ -172,18 +173,33 @@ export default function GuestAppBar() {
 }
 
 function GuestAction() {
+  const router = useRouter()
   return (
     <>
-      <NextLink href={routes.login} passHref>
-        <Button variant="text" color="inherit">
-          sign in
-        </Button>
-      </NextLink>
-      <NextLink href={routes.register} passHref>
-        <Button variant="text" color="inherit">
-          register
-        </Button>
-      </NextLink>
+      <Button
+        variant="text"
+        color="inherit"
+        onClick={() => {
+          router.push({
+            pathname: routes.login,
+            query: { redirect: router.asPath }
+          })
+        }}
+      >
+        sign in
+      </Button>
+      <Button
+        variant="text"
+        color="inherit"
+        onClick={() => {
+          router.push({
+            pathname: routes.register,
+            query: { redirect: router.asPath }
+          })
+        }}
+      >
+        register
+      </Button>
     </>
   )
 }

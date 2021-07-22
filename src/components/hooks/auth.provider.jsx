@@ -59,7 +59,7 @@ export function useAuth(validate, redirect = routes.login) {
           query: { redirect: router.asPath }
         })
     }
-  }, [user])
+  }, [user, loading])
   return { user, loading, ...props }
 }
 

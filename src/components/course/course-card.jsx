@@ -28,7 +28,12 @@ import {
 import { useSnackbar } from 'notistack'
 import FavoriteButton from '../button/favorite.button'
 import { useAuth } from '../hooks/auth.provider'
-import { fetchPOST, resources, useGET } from '@/utils/api'
+import {
+  fetchPOST,
+  resources,
+  useGET,
+  useGetCourseProcesses
+} from '@/utils/api'
 import clsx from 'clsx'
 import Link from 'next/link'
 import { mutate } from 'swr'
@@ -275,8 +280,20 @@ export function CourseCardSkeleton() {
 
 export function CourseCardLibrary({ course }) {
   const styles = useStyles()
+  const router = useRouter()
+
   const { thumbnail, title, lecturer, id, lastModified, finished } = course
+  const { user } = useAuth()
+  const { data: courseProcess } = useGetCourseProcesses(user?.id, course.id)
+
   const [hover, setHover] = useState(false)
+
+  function watchCourse() {
+    router.push({
+      pathname: routes.u.watch,
+      query: { courseId: course.id, lectureId: courseProcess.lectureId }
+    })
+  }
 
   return (
     <Card>
@@ -284,6 +301,7 @@ export function CourseCardLibrary({ course }) {
         height={0}
         paddingTop="56.25%"
         position="relative"
+        onClick={watchCourse}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
@@ -296,27 +314,25 @@ export function CourseCardLibrary({ course }) {
             [styles.thumbnailHover]: hover
           })}
         />
-        <Link href={routes.u.watch(id)} passHref>
-          <Box
-            component="a"
-            position="absolute"
-            top={0}
-            left={0}
-            right={0}
-            fontSize="4em"
-            bottom={0}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            zIndex={1}
-            color="white"
-            className={clsx(styles.transition, styles.watch, {
-              [styles.watchHover]: hover
-            })}
-          >
-            <PlayArrow color="inherit" fontSize="inherit" />
-          </Box>
-        </Link>
+        <Box
+          component="a"
+          position="absolute"
+          top={0}
+          left={0}
+          right={0}
+          fontSize="4em"
+          bottom={0}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          zIndex={1}
+          color="white"
+          className={clsx(styles.transition, styles.watch, {
+            [styles.watchHover]: hover
+          })}
+        >
+          <PlayArrow color="inherit" fontSize="inherit" />
+        </Box>
       </Box>
       <CardHeader
         avatar={<Avatar src={lecturer.avatar} />}
@@ -335,7 +351,11 @@ export function CourseCardLibrary({ course }) {
         <Typography>
           Updated {formatDateDifference(new Date(lastModified))}
         </Typography>
-        <Typography>Watched {formatDateDifference(new Date())}</Typography>
+        {courseProcess && (
+          <Typography>
+            Watched {formatDateDifference(new Date(courseProcess.lastWatched))}
+          </Typography>
+        )}
       </CardContent>
     </Card>
   )

@@ -1,4 +1,3 @@
-import qs from 'qs'
 //
 // see utils/typing.js
 //
@@ -118,7 +117,6 @@ export function toLibraryCoursePropTypes(course) {
 }
 
 export function toWatchCoursePropTypes(course) {
-  console.log(course)
   if (process.env.NEXT_PUBLIC_MOCK_API) return course
   return {
     id: course.id,
