@@ -98,11 +98,19 @@ export function MobileList({ courses = [] }) {
   const [active, setActive] = useState(0)
 
   useEffect(() => {
+    const timeout = setInterval(
+      () => setActive((active + 1) % courses.length),
+      5000
+    )
+    return () => clearTimeout(timeout)
+  }, [])
+
+  useEffect(() => {
     animation.start({ x: -active * widths.xs })
   }, [active])
 
   return (
-    <>
+    <div>
       <div
         style={{
           overflow: 'hidden',
@@ -131,7 +139,6 @@ export function MobileList({ courses = [] }) {
             onClick={() => setActive(active + 1)}
             disabled={active >= courses.length - 1}
           >
-            Next
             <KeyboardArrowRight />
           </Button>
         }
@@ -142,11 +149,10 @@ export function MobileList({ courses = [] }) {
             disabled={active <= 0}
           >
             <KeyboardArrowLeft />
-            Back
           </Button>
         }
       />
-    </>
+    </div>
   )
 }
 CourseList.propTypes = {

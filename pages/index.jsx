@@ -15,7 +15,7 @@ export async function getStaticProps() {
       newest: newestResponse.map(toCoursePropTypesV2),
       mostRegistered: mostRegisteredResponse.map((item) => ({
         id: item.categoryId,
-        categoryId: item.categoryTypeId,
+        categoryId: item.categoryTypeId || null,
         label: item.categoryName,
         avatar: item.imageUrl,
         name: item.label

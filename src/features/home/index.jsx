@@ -9,9 +9,11 @@ import {
   ListItemAvatar,
   ListItemText,
   makeStyles,
-  Typography
+  Typography,
+  useMediaQuery,
+  useTheme
 } from '@material-ui/core'
-import CourseList from './course.list'
+import CourseList, { MobileList } from './course.list'
 import Link from '@/components/nextlink'
 import { routes } from '@/utils/app'
 import NextImage from 'next/image'
@@ -39,6 +41,11 @@ export default function HomePage({
   mostRegistered
 }) {
   const styles = useStyles()
+  const theme = useTheme()
+  const mobile = useMediaQuery(theme.breakpoints.down('xs'))
+
+  const List = mobile ? MobileList : CourseList
+
   return (
     <DefaultLayout>
       <Head>
@@ -47,19 +54,27 @@ export default function HomePage({
       <Container style={{ maxWidth: 1600 }}>
         <div className={styles.root}>
           <div className={styles.section}>
-            <Typography variant="h4">Top Trending</Typography>
-            <CourseList courses={trending} />
+            <Typography align={mobile ? 'center' : 'default'} variant="h4">
+              Top Trending
+            </Typography>
+            <List courses={trending} />
           </div>
           <div className={styles.section}>
-            <Typography variant="h4">Most Viewed Courses</Typography>
-            <CourseList courses={mostViewed} />
+            <Typography align={mobile ? 'center' : 'default'} variant="h4">
+              Most Viewed Courses
+            </Typography>
+            <List courses={mostViewed} />
           </div>
           <div className={styles.section}>
-            <Typography variant="h4">Latest Courses</Typography>
-            <CourseList courses={newest} />
+            <Typography align={mobile ? 'center' : 'default'} variant="h4">
+              Latest Courses
+            </Typography>
+            <List courses={newest} />
           </div>
           <div className={styles.section}>
-            <Typography variant="h4">Most Registered Topics</Typography>
+            <Typography align={mobile ? 'center' : 'default'} variant="h4">
+              Most Registered Topics
+            </Typography>
             <Grid container spacing={2} component="ul">
               {mostRegistered.map((item) => (
                 <Grid item key={item.name} component="li">
