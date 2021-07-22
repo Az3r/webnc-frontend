@@ -116,10 +116,9 @@ export const resources = {
         '/courses'
       ),
     post: resource('/Courses', '/nothing'),
-    trending: resource('/Courses/OutstandingCourses', '/courses/trending'),
-    mostviews: resource('/Courses/MostViewedCourses', '/courses/mostviews'),
-    newest: resource('/Courses/NewestCourses', '/courses/newest'),
-    bestseller: resource('/Courses/BestSellerCourses', '/courses/bestseller')
+    trending: resource('/Courses/OutstandingCourses', '/courses'),
+    mostviews: resource('/Courses/MostViewedCourses', '/courses'),
+    newest: resource('/Courses/NewestCourses', '/courses')
   },
   categoryType: {
     all: resource('/CategoryTypes', undefined),
@@ -139,7 +138,8 @@ export const resources = {
       resource(
         `/Courses/GetCourseListByFilterAndPaginationParameters?CategoryId=${id}&PageNumber=${offset}&PageSize=${size}`,
         '/courses'
-      )
+      ),
+    mostRegistered: resource('/Categories/MostRegisteredCategories')
   },
   user: {
     get: (id) => resource(`/Users/${id}`, `/auth/user/${id}`),
@@ -184,7 +184,7 @@ export const resources = {
     post: resource('/Feedbacks', '/nothing')
   },
   view: {
-    post: resource('/Views', '/nothing')
+    put: resource('/Views/UpdateView', '/nothing')
   },
   courseProcess: {
     get: (studentId, courseId) =>

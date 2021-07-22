@@ -23,7 +23,7 @@ export default function CourseDetail({ course }) {
   const { category, topic } = course
 
   useEffect(() => {
-    fetchPOST(resources.view.post, { courseId: course.id })
+    fetchPOST(resources.view.put, { courseId: course.id }, { method: 'PUT' })
   }, [])
 
   return (

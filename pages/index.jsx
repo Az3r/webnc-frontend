@@ -1,11 +1,26 @@
+import { fetchGET, resources } from '@/utils/api'
+import { toCoursePropTypesV2 } from '@/utils/conversion'
+
 export { default } from '@/features/home'
-import courses from '@/mocks/courses.json'
 
 export async function getStaticProps() {
+  const trendingResponse = await fetchGET(resources.courses.trending)
+  const mostViewedResponse = await fetchGET(resources.courses.mostviews)
+  const newestResponse = await fetchGET(resources.courses.newest)
+  const mostRegisteredResponse = await fetchGET(resources.topic.mostRegistered)
   return {
     props: {
-      courses: courses.slice(0, 10)
+      trending: trendingResponse.map(toCoursePropTypesV2),
+      mostViewed: mostViewedResponse.map(toCoursePropTypesV2),
+      newest: newestResponse.map(toCoursePropTypesV2),
+      mostRegistered: mostRegisteredResponse.map((item) => ({
+        id: item.categoryId,
+        categoryId: item.categoryTypeId,
+        label: item.categoryName,
+        avatar: item.imageUrl,
+        name: item.label
+      }))
     },
-    revalidate: 3600
+    revalidate: 300
   }
 }

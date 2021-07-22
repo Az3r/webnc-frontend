@@ -163,7 +163,7 @@ export default function CourseCard({ course }) {
           src={thumbnail}
           layout="fill"
           objectFit="cover"
-          title={title}
+          alt={title}
           className={styles.thumbnail}
         />
         {tag && (
