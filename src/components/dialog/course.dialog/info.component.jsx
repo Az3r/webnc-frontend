@@ -84,7 +84,7 @@ export default function InfoSection() {
         placeholder="My awesome course"
         value={title}
         onChange={(e) =>
-          setInfo((prev) => ({ ...prev, title: e.target.value.trim() }))
+          setInfo((prev) => ({ ...prev, title: e.target.value }))
         }
       />
       <Box display="flex">
@@ -116,7 +116,7 @@ export default function InfoSection() {
       <TextField
         value={shortdesc}
         onChange={(e) =>
-          setInfo((prev) => ({ ...prev, shortdesc: e.target.value.trim() }))
+          setInfo((prev) => ({ ...prev, shortdesc: e.target.value }))
         }
         multiline
         rows={5}

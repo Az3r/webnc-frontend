@@ -12,7 +12,7 @@ import {
   CircularProgress
 } from '@material-ui/core'
 import dynamic from 'next/dynamic'
-import { fetchPUT, resources } from '@/utils/api'
+import { fetchPOST, resources } from '@/utils/api'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -45,13 +45,17 @@ export default function ProfileDialog({ user, onConfirm, onClose, ...props }) {
     setSubmitting(true)
 
     try {
-      await fetchPUT(resources.user.put, {
-        userId: user.id,
-        newUserName: username,
-        newEmail: email,
-        newAvatarUrl: user.avatar,
-        description: 'LÀM ƠN FIX DÙM CON ĐI BỐ, CON LẠY BỐ'
-      })
+      await fetchPOST(
+        resources.user.put,
+        {
+          userId: user.id,
+          newUserName: username,
+          newEmail: email,
+          newAvatarUrl: user.avatar,
+          description: 'LÀM ƠN FIX DÙM CON ĐI BỐ, CON LẠY BỐ'
+        },
+        { method: 'PUT' }
+      )
       onConfirm?.()
     } catch (error) {
       setError(error.message)

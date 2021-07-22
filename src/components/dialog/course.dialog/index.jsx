@@ -144,21 +144,21 @@ export default function CreateCourseDialog({ onConfirm, onClose, ...props }) {
     try {
       await fetchPOST(resources.courses.post, {
         courseViewModel: {
-          name: info.title,
+          name: info.title.trim(),
           categoryId: info.topic,
           lecturerId: user.id,
           imageUrl: thumbnail,
           price: info.price,
           discount: info.discount,
-          shortDiscription: info.shortdesc,
-          detailDiscription: detaildesc,
+          shortDiscription: info.shortdesc.trim(),
+          detailDiscription: detaildesc.trim(),
           statusId: 2
         },
         lectureViewModels: lectures.map((item, index) => ({
           id: 0,
           section: index + 1,
-          name: item.title,
-          videoUrl: item.url,
+          name: item.title.trim(),
+          videoUrl: item.url.trim(),
           duration: item.duration,
           isPreview: item.preview
         }))

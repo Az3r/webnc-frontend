@@ -50,7 +50,7 @@ export default function ShopFeature() {
   const styles = useStyles()
   const { enqueueSnackbar } = useSnackbar()
 
-  const { user } = useAuth()
+  const { user } = useAuth((u) => Boolean(u))
   const { data, loading, mutate } = useGET(() =>
     user ? resources.shop.get(user.id) : undefined
   )
@@ -163,7 +163,7 @@ export default function ShopFeature() {
             </Box>
           </>
         )}
-        {!courses.length && <EmptyList />}
+        {!loading && !courses.length && <EmptyList />}
       </Container>
       <ConfirmDialog
         open={itemToRemove != undefined}

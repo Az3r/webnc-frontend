@@ -38,6 +38,14 @@ export default function CourseContent({ course }) {
   return (
     <>
       <Typography className={styles.header}>What you will learn</Typography>
+      <ListItem component="div" disableGutters dense>
+        <ListItemAvatar>
+          <Avatar src={lecturer.avatar} alt={lecturer.name}>
+            {lecturer.name[0]}
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary={lecturer.name} />
+      </ListItem>
       <Box paddingY={1} />
       <Presenter value={detaildesc}></Presenter>
       <Box paddingY={2} />
@@ -58,18 +66,6 @@ export default function CourseContent({ course }) {
       <Box paddingY={1}>
         <Divider />
       </Box>
-      <Typography className={styles.header}>Lecturer of this Course</Typography>
-      <ListItem component="div" disableGutters dense>
-        <ListItemAvatar>
-          <Avatar src={lecturer.avatar} alt={lecturer.name}>
-            {lecturer.name[0]}
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary={lecturer.name} />
-      </ListItem>
-      <Box paddingY={1} />
-      <Presenter>{lecturer.description}</Presenter>
-      <Box paddingY={1} />
       <Typography className={styles.header}>course rating</Typography>
       <ul>
         {feedbacks.map((item) => (

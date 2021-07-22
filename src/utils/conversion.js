@@ -8,7 +8,7 @@ export function toCoursePropTypes(course) {
   if (process.env.NEXT_PUBLIC_MOCK_API) return course
   return {
     id: course.Id,
-    thumbnail: course.ImageUrl.match(/https/)
+    thumbnail: course.ImageUrl.match(/https?/)
       ? course.ImageUrl
       : '/images/logo.webp',
     title: course.Name,
@@ -30,7 +30,7 @@ export function toCoursePropTypesV2(course) {
   if (process.env.NEXT_PUBLIC_MOCK_API) return course
   return {
     id: course.id,
-    thumbnail: course.imageUrl.match(/https/)
+    thumbnail: course.imageUrl.match(/https?/)
       ? course.imageUrl
       : '/images/logo.webp',
     title: course.name,
@@ -83,14 +83,13 @@ export function toCourseDetailPropTypes(course) {
 export function toLecturePropTypes(lecture) {
   if (process.env.NEXT_PUBLIC_MOCK_API) return lecture
   const { id, name, duration, videoUrl, section, isPreview } = lecture
-  const { v: url } = qs.parse(videoUrl.split('?', 2)[1])
   return {
     id,
     section,
     preview: isPreview,
     duration,
     title: name,
-    url
+    url: videoUrl
   }
 }
 
@@ -115,5 +114,16 @@ export function toLibraryCoursePropTypes(course) {
     },
     lastModified: course.lastUpdated,
     finished: course.statusId === 1
+  }
+}
+
+export function toWatchCoursePropTypes(course) {
+  console.log(course)
+  if (process.env.NEXT_PUBLIC_MOCK_API) return course
+  return {
+    id: course.id,
+    thumbnail: course.imageUrl,
+    title: course.name,
+    lectures: course.lectures?.map(toLecturePropTypes) || []
   }
 }

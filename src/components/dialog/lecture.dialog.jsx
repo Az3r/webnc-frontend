@@ -39,8 +39,8 @@ const useStyles = makeStyles((theme) => ({
 export default function CreateLectureDialog({ onConfirm, onClose, ...props }) {
   const styles = useStyles()
 
-  const [title, setTitle] = useState(null)
-  const [video, setVideo] = useState(null)
+  const [title, setTitle] = useState('')
+  const [video, setVideo] = useState('')
   const [minute, setMinute] = useState(0)
   const [second, setSecond] = useState(0)
 
@@ -48,14 +48,14 @@ export default function CreateLectureDialog({ onConfirm, onClose, ...props }) {
     e.preventDefault()
 
     onConfirm?.({
-      title,
+      title: title,
       duration: minute * 60 + second,
       url: video
     })
 
     // reset to default state
-    setTitle(null)
-    setVideo(null)
+    setTitle('')
+    setVideo('')
     setMinute(0)
     setSecond(0)
 
@@ -172,7 +172,7 @@ export function EditLectureDialog({
     onConfirm?.(
       {
         ...lecture,
-        title,
+        title: title,
         duration: minute * 60 + second,
         url: video
       },
@@ -191,7 +191,7 @@ export function EditLectureDialog({
             fullWidth
             required
             value={title}
-            onChange={(e) => setTitle(e.target.value.trim())}
+            onChange={(e) => setTitle(e.target.value)}
             onFocus={(e) => e.target.select()}
             label="Lecture's title"
             placeholder="A title should be short and expressive."
@@ -202,7 +202,7 @@ export function EditLectureDialog({
             required
             type="url"
             value={video}
-            onChange={(e) => setVideo(e.target.value.trim())}
+            onChange={(e) => setVideo(e.target.value)}
             onFocus={(e) => e.target.select()}
             label="Video's url"
             placeholder="https://www.youtube.com/watch?v=zrAUfgESlcI"

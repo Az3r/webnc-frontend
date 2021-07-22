@@ -1,7 +1,7 @@
 export { default } from '@/features/student/watch'
 import mock from '@/mocks/course.json'
 import { fetchGET, resources } from '@/utils/api'
-import { toCourseDetailPropTypes } from '@/utils/conversion'
+import { toWatchCoursePropTypes } from '@/utils/conversion'
 
 export async function getStaticProps({ params }) {
   if (process.env.NEXT_PUBLIC_MOCK_API)
@@ -12,7 +12,7 @@ export async function getStaticProps({ params }) {
   const { id } = params
   try {
     const courseResponse = await fetchGET(resources.courses.get(id))
-    const course = toCourseDetailPropTypes(courseResponse)
+    const course = toWatchCoursePropTypes(courseResponse)
 
     return {
       props: {

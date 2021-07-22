@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import PropTypes from 'prop-types'
 import {
   ListItemText,
   ListItem,
@@ -8,11 +9,10 @@ import {
   makeStyles,
   Paper,
   Typography,
-  IconButton,
   Fab,
   Tooltip
 } from '@material-ui/core'
-import { CourseDetailPropTypes } from '@/utils/typing'
+import { LecturePropTypes } from '@/utils/typing'
 import ReactPlayer from 'react-player'
 import { formatDuration } from '@/utils/tools'
 import DefaultLayout from '@/components/layout'
@@ -88,10 +88,12 @@ export default function WatchFeature({ course }) {
         </title>
       </Head>
       <Tooltip title="Review this course">
-        <Fab color="secondary" className={styles.fab}>
-          <IconButton color="inherit" onClick={() => setDialog(course)}>
-            <RateReview />
-          </IconButton>
+        <Fab
+          color="secondary"
+          className={styles.fab}
+          onClick={() => setDialog(true)}
+        >
+          <RateReview />
         </Fab>
       </Tooltip>
       <Container maxWidth="xl">
@@ -110,10 +112,7 @@ export default function WatchFeature({ course }) {
               onEnded={onLectureEnded}
               height={720}
               width="100%"
-              url={
-                lectures[playing] &&
-                `https://www.youtube.com/embed/${lectures[playing].url}`
-              }
+              url={lectures[playing]?.url}
             />
             <Box paddingY={1}>
               <Typography variant="h5">
@@ -177,5 +176,10 @@ export default function WatchFeature({ course }) {
 }
 
 WatchFeature.propTypes = {
-  course: CourseDetailPropTypes.isRequired
+  course: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    thumbnail: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    lectures: PropTypes.arrayOf(LecturePropTypes).isRequired
+  }).isRequired
 }

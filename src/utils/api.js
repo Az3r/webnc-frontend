@@ -1,4 +1,5 @@
 import useSWR from 'swr'
+import { performance } from './firebase'
 
 /**
  * @typedef {'UnknownError' |
@@ -176,6 +177,10 @@ export const resources = {
       )
   },
   feedback: {
+    get: (userId, courseId) =>
+      resource(
+        `/Feedbacks/FeedbackByStudentIdAndCourseId?studentId=${userId}&courseId=${courseId}`
+      ),
     post: resource('/Feedbacks', '/nothing')
   },
   view: {
@@ -186,7 +191,7 @@ export const resources = {
       resource(
         `/CourseProcesses/GetByStudentIdAndCourseId?studentId=${studentId}&courseId=${courseId}`
       ),
-    post: resource('/CourseProcess', '/nothing')
+    post: resource('​​/CourseProcesses', '/nothing')
   }
 }
 
@@ -207,7 +212,12 @@ export function withMockApi(handler) {
 }
 
 export async function fetchGET(url) {
-  const response = await fetch(url, { credentials: 'include' })
+  const response = await fetch(url, {
+    credentials: 'include',
+    headers: {
+      Accept: 'application/json'
+    }
+  })
   const data = await response.json()
   if (response.ok) return data.results
   throw ApiError(data.errors)
@@ -223,24 +233,6 @@ export async function fetchPOST(url, payload, config) {
     },
     body: JSON.stringify(payload),
     ...config
-  })
-  const data = await response.json()
-  if (response.ok) return data.results
-  throw ApiError(data.errors)
-}
-
-export async function fetchPUT(url, payload, config) {
-  const transformer = config?.transformer ?? JSON.stringify
-  const headers = config?.headers ?? {}
-  const response = await fetch(url, {
-    credentials: 'include',
-    method: 'PUT',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      ...headers
-    },
-    body: transformer(payload)
   })
   const data = await response.json()
   if (response.ok) return data.results
@@ -289,7 +281,9 @@ export function useGetCategoryV2() {
         id: topic.id,
         label: topic.name,
         name: topic.label,
-        avatar: topic.imageUrl
+        avatar: topic.imageUrl?.match(/https?/)
+          ? topic.imageUrl
+          : '/images/logo.webp'
       }))
     }
   })

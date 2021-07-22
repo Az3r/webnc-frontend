@@ -56,7 +56,7 @@ export const CourseDetailPropTypes = PropTypes.shape({
   lastModified: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
     .isRequired,
   bought: PropTypes.number.isRequired,
-  feedbacks: PropTypes.arrayOf(FeedbackPropTypes.isRequired).isRequired,
+  feedbacks: PropTypes.arrayOf(FeedbackPropTypes.isRequired),
   lectures: PropTypes.arrayOf(LecturePropTypes.isRequired).isRequired,
   shortdesc: PropTypes.string.isRequired,
   detaildesc: PropTypes.string.isRequired,
@@ -71,7 +71,8 @@ export const CourseLibraryPropTypes = PropTypes.shape({
     name: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired
   }).isRequired,
-  lastModified: PropTypes.number.isRequired,
+  lastModified: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    .isRequired,
   finished: PropTypes.bool.isRequired,
   lastWatched: PropTypes.number.isRequired
 })
