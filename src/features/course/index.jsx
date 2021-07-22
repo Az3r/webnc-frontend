@@ -12,9 +12,10 @@ import dynamic from 'next/dynamic'
 import { CourseDetailPropTypes } from '@/utils/typing'
 import NextLink from '@/components/nextlink'
 import { NavigateNext } from '@material-ui/icons'
-import { routes } from '@/utils/app'
+import { appname, routes } from '@/utils/app'
 import DefaultLayout from '@/components/layout'
 import { fetchPOST, resources } from '@/utils/api'
+import Head from 'next/head'
 
 const CourseLectures = dynamic(() => import('./content.component'))
 const CourseContent = dynamic(() => import('./detail.component'))
@@ -28,6 +29,11 @@ export default function CourseDetail({ course }) {
 
   return (
     <DefaultLayout>
+      <Head>
+        <title>
+          {course.title} | {appname}
+        </title>
+      </Head>
       <CourseThumbnail course={course} />
       <Container maxWidth="md">
         <Box paddingY={1}>
