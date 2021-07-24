@@ -366,8 +366,9 @@ export function EditCourseDialog({
             detailDiscription: detaildesc,
             statusId
           },
-          lectureViewModels: lectures.map((item, index) => ({
-            id: 0,
+          lectureViewModels: lectures.filter(Boolean).map((item, index) => ({
+            id: item.id,
+            courseId: course.id,
             section: index + 1,
             name: item.title,
             videoUrl: item.url,
