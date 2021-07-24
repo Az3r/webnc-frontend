@@ -353,7 +353,11 @@ export function CourseCardLibrary({ course }) {
         </Typography>
         {courseProcess && (
           <Typography>
-            Watched {formatDateDifference(new Date(courseProcess.lastWatched))}
+            {courseProcess?.lastWatched
+              ? `Watched ${formatDateDifference(
+                  new Date(courseProcess.lastWatched)
+                )}`
+              : 'Never watch'}
           </Typography>
         )}
       </CardContent>

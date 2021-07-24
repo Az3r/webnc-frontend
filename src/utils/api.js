@@ -298,8 +298,8 @@ export function useGetCourseProcesses(userId, courseId) {
 
   return {
     data: {
-      lectureId: data.courseProcess.lectureId,
-      lastWatched: data.courseProcess.lastUpdated
+      lectureId: data.courseProcess?.lectureId || null,
+      lastWatched: data.courseProcess?.lastUpdated || null
     },
     ...props
   }
