@@ -6,6 +6,7 @@ import { CoursePropTypes } from '@/utils/typing'
 import { Box, Container, makeStyles } from '@material-ui/core'
 import React from 'react'
 import DefaultLayout from '@/components/layout'
+import { toWatchlistCoursePropTypes } from '@/utils/conversion'
 
 const useStyles = makeStyles((theme) => ({
   ul: {
@@ -20,16 +21,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function WatchlistFeature() {
   const styles = useStyles()
-  const { user } = useAuth()
+  const { user } = useAuth(Boolean)
   const { data, loading } = useGET(() =>
     user ? resources.watchlist.get(user.id) : undefined
   )
+  const courses = data?.map(toWatchlistCoursePropTypes) || []
+
   return (
     <DefaultLayout>
       <Container className={styles.root}>
         <Box paddingY={2}>
           {loading && <LoadingList />}
-          {data && <DataAvailable courses={data} />}
+          {data && <DataAvailable courses={courses} />}
         </Box>
       </Container>
     </DefaultLayout>

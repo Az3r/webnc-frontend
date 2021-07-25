@@ -6,7 +6,12 @@ module.exports = withBundleAnalyzer({
     webpack5: true
   },
   images: {
-    domains: ['picsum.photos', 'img.youtube.com', 'i3.ytimg.com']
+    domains: [
+      'picsum.photos',
+      'img.youtube.com',
+      'i3.ytimg.com',
+      'res.cloudinary.com'
+    ]
   },
   async redirects() {
     return [

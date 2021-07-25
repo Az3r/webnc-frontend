@@ -104,7 +104,7 @@ export function toFeedbackPropTypes(feedback) {
 
 export function toLibraryCoursePropTypes(course) {
   return {
-    id: course.id,
+    id: course.courseId,
     thumbnail: course.imageUrl || '/images/logo.webp',
     title: course.courseName,
     lecturer: {
@@ -123,5 +123,26 @@ export function toWatchCoursePropTypes(course) {
     thumbnail: course.imageUrl,
     title: course.name,
     lectures: course.lectures?.map(toLecturePropTypes) || []
+  }
+}
+
+export function toWatchlistCoursePropTypes(course) {
+  if (process.env.NEXT_PUBLIC_MOCK_API) return course
+  return {
+    id: course.courseId,
+    thumbnail: course.imageUrl.match(/https?/)
+      ? course.imageUrl
+      : '/images/logo.webp',
+    title: course.courseName,
+    lecturer: {
+      name: course.lectureName,
+      avatar: course.lecturerAvatar || '/images/logo_webp'
+    },
+    rating: course.rating,
+    reviewers: course.reviewerNumber,
+    price: course.price,
+    discount: course.discount,
+    bought: course.registeredUserNumber,
+    tag: course.tag?.toLowerCase() || null
   }
 }
