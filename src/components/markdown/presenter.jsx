@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
@@ -19,50 +20,48 @@ import {
   useTheme
 } from '@material-ui/core'
 import { CheckCircle, Cancel, FiberManualRecord } from '@material-ui/icons'
-import gfm from 'remark-gfm'
 import ReactMarkdown from 'react-markdown'
-import clsx from 'clsx'
-import SyntaxHighlighter from 'react-syntax-highlighter/dist/cjs/prism-async-light'
-import light from 'react-syntax-highlighter/dist/cjs/styles/prism/prism'
-import dark from 'react-syntax-highlighter/dist/cjs/styles/prism/atom-dark'
+import gfm from 'remark-gfm'
+import { PrismAsyncLight as SyntaxHighlighter } from 'react-syntax-highlighter'
+import light, {
+  vscDarkPlus as dark
+} from 'react-syntax-highlighter/dist/cjs/styles/prism/'
 import useStyles from './presenter.style'
+import clsx from 'clsx'
 
-// Did you know you can use tildes instead of backticks for code in markdown? ✨
-export default function Markdown({ children = <></> }) {
+export default function Markdown({ width, height, value, ...props }) {
   const styles = useStyles()
   return (
-    <Box>
+    <Box width={width} height={height} {...props}>
       <ReactMarkdown
         remarkPlugins={[gfm]}
         skipHtml
         components={{
           h1: ({ children }) => (
-            <Typography align="center" variant="h1">
+            <Typography align="center" variant="h2" component="h1">
               {children}
             </Typography>
           ),
           h2: ({ children }) => (
-            <Typography align="center" variant="h2">
-              {children}
-            </Typography>
+            <Typography variant="h3">{children}</Typography>
           ),
           h3: ({ children }) => (
-            <Typography align="center" variant="h3">
-              {children}
-            </Typography>
-          ),
-          h4: ({ children }) => (
             <Typography variant="h4">{children}</Typography>
           ),
-          h5: ({ children }) => (
+          h4: ({ children }) => (
             <Typography variant="h5">{children}</Typography>
           ),
-          h6: ({ children }) => (
+          h5: ({ children }) => (
             <Typography variant="h6">{children}</Typography>
+          ),
+          h6: ({ children }) => (
+            <Typography variant="subtitle1">{children}</Typography>
           ),
           a: ({ href, children }) => <Link href={href}>{children}</Link>,
           p: ({ children }) => (
-            <Typography component="p">{children}</Typography>
+            <Typography component="p" className={styles.p}>
+              {children}
+            </Typography>
           ),
           span: ({ children }) => <Typography>{children}</Typography>,
           strong: ({ children }) => <b className={styles.strong}>{children}</b>,
@@ -89,8 +88,8 @@ export default function Markdown({ children = <></> }) {
             let start
             if (ordered)
               start = (
-                <Typography className={styles.list_index}>
-                  {index + 1}.
+                <Typography color="inherit">
+                  <b>{index + 1}.</b>
                 </Typography>
               )
             else if (checked == true)
@@ -108,20 +107,14 @@ export default function Markdown({ children = <></> }) {
             else start = <FiberManualRecord classes={{ root: styles.icon }} />
             return (
               <ListItem dense>
-                <ListItemIcon
-                  classes={{
-                    root: clsx(styles.list_icon, {
-                      [styles.shift4px]: ordered
-                    })
-                  }}
-                >
+                <ListItemIcon className={styles.list_icon}>
                   {start}
                 </ListItemIcon>
                 <ListItemText primary={children} />
               </ListItem>
             )
           },
-          input: () => <></>,
+          input: () => undefined,
           blockquote: ({ children }) => {
             return (
               <Box className={styles.quote_box} component="blockquote">
@@ -130,39 +123,31 @@ export default function Markdown({ children = <></> }) {
             )
           },
           code: ({ children, className }) => {
-            const theme = useTheme()
             const match = /language-(\w+)/.exec(className || '')
             const language = match ? match[1] : 'text'
             return (
               <SyntaxHighlighter
                 showLineNumbers
-                style={theme.palette.type === 'dark' ? dark : light}
+                style={dark}
                 language={language}
-                customStyle={{ padding: 16, margin: 0 }}
               >
                 {String(children).replace(/\n$/, '')}
               </SyntaxHighlighter>
             )
           },
           img: ({ src, title }) => {
-            return (
-              <Typography align="center">
-                <img src={src} alt={title} />
-              </Typography>
-            )
+            return <img src={src} alt={title} />
           }
         }}
       >
-        {children}
+        {value}
       </ReactMarkdown>
     </Box>
   )
 }
 
 Markdown.propTypes = {
-  children: PropTypes.node
-}
-
-Markdown.defaultProps = {
-  children: <></>
+  value: PropTypes.string,
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }

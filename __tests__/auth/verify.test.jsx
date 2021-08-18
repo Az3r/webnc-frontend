@@ -4,7 +4,8 @@ import event from '@testing-library/user-event'
 import VerifyEmail from '@/features/auth/verify.component'
 import AuthContext from '@/features/auth/auth.context'
 import { ThemeProvider } from '@material-ui/styles'
-import { createMuiTheme } from '@material-ui/core'
+import { createMuiTheme, Slide } from '@material-ui/core'
+import { SnackbarProvider } from 'notistack'
 
 test('should input field be not modifiable', () => {
   const { getByLabelText } = render(<TestComponent />)
@@ -25,7 +26,16 @@ function TestComponent() {
           form
         }}
       >
-        <VerifyEmail />
+        <SnackbarProvider
+          maxSnack={5}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          TransitionComponent={Slide}
+        >
+          <VerifyEmail />
+        </SnackbarProvider>
       </AuthContext.Provider>
     </ThemeProvider>
   )

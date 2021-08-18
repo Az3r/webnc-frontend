@@ -1,29 +1,121 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Banner from './banner.component'
-import TopTrending from './trending.component'
 import Head from 'next/head'
-import dynamic from 'next/dynamic'
-import DrawerProvider from '@/features/home/drawer.component'
+import DefaultLayout from '@/components/layout'
+import {
+  Container,
+  Grid,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  makeStyles,
+  Typography,
+  useMediaQuery,
+  useTheme
+} from '@material-ui/core'
+import CourseList, { MobileList } from './course.list'
+import Link from '@/components/nextlink'
+import { routes } from '@/utils/app'
+import NextImage from 'next/image'
 
-const AppBarProvider = dynamic(() => import('./appbar.component'))
-export default function HomePage({ courses }) {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+    ['&>*']: {
+      margin: theme.spacing(2)
+    }
+  },
+  section: {
+    ['& > *']: {
+      margin: theme.spacing(1)
+    }
+  },
+  avatar: {
+    borderRadius: '50%'
+  }
+}))
+export default function HomePage({
+  trending,
+  mostViewed,
+  newest,
+  mostRegistered
+}) {
+  const styles = useStyles()
+  const theme = useTheme()
+  const mobile = useMediaQuery(theme.breakpoints.down('xs'))
+
+  const List = mobile ? MobileList : CourseList
+
   return (
-    <main>
-      <DrawerProvider>
-        <Head>
-          <title>Urskyll - Online Courses, Catch Up To Modern Technology</title>
-        </Head>
-        <Banner target="target" />
-        <AppBarProvider />
-        <TopTrending courses={courses} />
-      </DrawerProvider>
-    </main>
+    <DefaultLayout>
+      <Head>
+        <title>Urskyll - Online Courses, Catch Up To Modern Technology</title>
+      </Head>
+      <Container style={{ maxWidth: 1600 }}>
+        <div className={styles.root}>
+          <div className={styles.section}>
+            <Typography align={mobile ? 'center' : 'left'} variant="h4">
+              Top Trending
+            </Typography>
+            <List courses={trending} />
+          </div>
+          <div className={styles.section}>
+            <Typography align={mobile ? 'center' : 'left'} variant="h4">
+              Most Viewed Courses
+            </Typography>
+            <List courses={mostViewed} />
+          </div>
+          <div className={styles.section}>
+            <Typography align={mobile ? 'center' : 'left'} variant="h4">
+              Latest Courses
+            </Typography>
+            <List courses={newest} />
+          </div>
+          <div className={styles.section}>
+            <Typography align={mobile ? 'center' : 'left'} variant="h4">
+              Most Registered Topics
+            </Typography>
+            <Grid container spacing={2} component="ul">
+              {mostRegistered.map((item) => (
+                <Grid item key={item.name} component="li">
+                  <Link
+                    href={routes.topic(
+                      item.categoryTypeId === 1 ? 'web' : 'mobile',
+                      item.name
+                    )}
+                    passHref
+                  >
+                    <ListItem button component="a">
+                      <ListItemAvatar>
+                        <NextImage
+                          width={40}
+                          height={40}
+                          src={item.avatar}
+                          alt={item.label}
+                          className={styles.avatar}
+                        />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={item.label}
+                        primaryTypographyProps={{ variant: 'body1' }}
+                      />
+                    </ListItem>
+                  </Link>
+                </Grid>
+              ))}
+            </Grid>
+          </div>
+        </div>
+      </Container>
+    </DefaultLayout>
   )
 }
 
 HomePage.propTypes = {
-  courses: PropTypes.array
+  trending: PropTypes.array.isRequired,
+  mostViewed: PropTypes.array.isRequired,
+  newest: PropTypes.array.isRequired,
+  mostRegistered: PropTypes.array.isRequired
 }
 
 HomePage.defaultProps = {

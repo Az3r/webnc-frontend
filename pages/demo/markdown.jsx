@@ -1,8 +1,8 @@
 import React from 'react'
-import { Editor, Presenter } from '@/components/markdown'
-import StudentLayout from '@/components/layout/student'
-import { Box } from '@material-ui/core'
+import MonacoEditor from '@monaco-editor/react'
+import { Box, CircularProgress, Typography } from '@material-ui/core'
 import { useState } from 'react'
+import Markdown from '@/components/markdown/presenter'
 
 export default function MarkdownDemo() {
   const [markdown, update] = useState(`
@@ -13,15 +13,23 @@ export default function MarkdownDemo() {
 ### h3
 `)
   return (
-    <StudentLayout>
-      <Box display="flex" height="100vh" width="100%">
-        <Box flexGrow={1}>
-          <Editor value={markdown} onChange={(s) => update(s.target.value)} />
-        </Box>
-        <Box flexGrow={1.5}>
-          <Presenter>{markdown}</Presenter>
-        </Box>
-      </Box>
-    </StudentLayout>
+    <Box display="flex">
+      <MonacoEditor
+        width={800}
+        height={600}
+        defaultValue={markdown}
+        value={markdown}
+        theme="vs-dark"
+        defaultLanguage="markdown"
+        onChange={(text) => update(text)}
+        loading={
+          <Typography align="center" component="div">
+            <CircularProgress />
+            <Typography variant="h4">Initialize Edtior...</Typography>
+          </Typography>
+        }
+      />
+      <Markdown width={800} height={600} value={markdown} />
+    </Box>
   )
 }

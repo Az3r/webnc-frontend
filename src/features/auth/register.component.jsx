@@ -1,13 +1,33 @@
 import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Button, CircularProgress, Typography } from '@material-ui/core'
+import {
+  Button,
+  CircularProgress,
+  makeStyles,
+  TextField,
+  Typography
+} from '@material-ui/core'
 import AuthContext from './auth.context'
-import { EmailField, PasswordField, UserField } from '@/components/inputs'
-import { useSnackBar } from '@/components/snackbar.provider'
-import { parse } from '@/utils/errors'
+import { PasswordField } from '@/components/inputs'
+import { useSnackbar } from 'notistack'
 
-export default function Register({ classes }) {
-  const { show } = useSnackBar()
+const useStyles = makeStyles((theme) => ({
+  form: {
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  field: {
+    margin: theme.spacing(2, 0)
+  },
+  submit: {
+    margin: theme.spacing(4, 0),
+    height: 40
+  }
+}))
+export default function Register() {
+  const classes = useStyles()
+  const { enqueueSnackbar } = useSnackbar()
   const { form, update, next } = useContext(AuthContext)
   const [processing, process] = useState(false)
 
@@ -16,21 +36,16 @@ export default function Register({ classes }) {
     process(true)
     try {
       const api = await import('./auth.api')
-      await api.regsiter(form)
+      await api.register({
+        username: form.username.trim(),
+        email: form.email.trim(),
+        password: form.password
+      })
       next()
 
-      show({
-        open: true,
-        severity: 'success',
-        message: 'Register successfully'
-      })
+      enqueueSnackbar('Register successfully', { variant: 'success' })
     } catch (e) {
-      const error = parse(e)
-      show({
-        open: true,
-        severity: 'error',
-        message: error.code
-      })
+      enqueueSnackbar(e.message, { variant: 'error' })
     } finally {
       process(false)
     }
@@ -41,19 +56,29 @@ export default function Register({ classes }) {
       <Typography align="center" variant="h4">
         Register
       </Typography>
-      <UserField
+      <TextField
+        name="register-username"
+        label="Username"
+        required
         className={classes.field}
         onChange={(e) =>
           update((prev) => ({ ...prev, username: e.target.value }))
         }
         value={form.username}
       />
-      <EmailField
+      <TextField
+        name="register-email"
+        label="Email"
+        type="email"
+        required
         className={classes.field}
         onChange={(e) => update((prev) => ({ ...prev, email: e.target.value }))}
         value={form.email}
       />
       <PasswordField
+        required
+        label="Password"
+        name="register-password"
         className={classes.field}
         value={form.password}
         onChange={(e) =>

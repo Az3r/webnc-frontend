@@ -2,21 +2,29 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import AppProvider from '@/app.theme'
 import dynamic from 'next/dynamic'
-import SnackBarProvider from '@/components/snackbar.provider'
-import SearchProvider from '@/components/search.provider'
-import 'typeface-dancing-script'
+import AuthProvider from '@/components/hooks/auth.provider'
+import { SnackbarProvider } from 'notistack'
+import { Slide } from '@material-ui/core'
+import { analytics } from '@/utils/firebase'
 import '@/app.css'
 
-const DynamicPageLoading = dynamic(() => import('@/components/page-loading'))
+const PageLoading = dynamic(() => import('@/components/page-loading'))
 export default function MainApp({ Component, pageProps }) {
   return (
     <AppProvider>
-      <DynamicPageLoading />
-      <SnackBarProvider>
-        <SearchProvider>
+      <AuthProvider>
+        <PageLoading />
+        <SnackbarProvider
+          maxSnack={5}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          TransitionComponent={Slide}
+        >
           <Component {...pageProps} />
-        </SearchProvider>
-      </SnackBarProvider>
+        </SnackbarProvider>
+      </AuthProvider>
     </AppProvider>
   )
 }
@@ -29,4 +37,9 @@ MainApp.propTypes = {
 MainApp.defaultProps = {
   Component: <div />,
   pageProps: {}
+}
+
+export function reportWebVitals(metric) {
+  const { name, ...props } = metric
+  analytics.logEvent(name, props)
 }

@@ -10,28 +10,25 @@ export default function LongParagraph({ children = <></>, line }) {
   const [more, expand] = useState(false)
   const [show, setShow] = useState(false)
   const paragraph = useRef(null)
+  const checker = useRef(null)
 
   useEffect(() => {
-    // 24 is the height of 1 line of body1 text
-    setShow(
-      paragraph.current?.offsetHeight &&
-        paragraph.current.offsetHeight / 24 >= line
-    )
+    setShow(paragraph.current?.offsetHeight < checker.current?.offsetHeight)
   }, [line, children])
 
   useEffect(() => {
     function resize() {
-      setShow(
-        paragraph.current?.offsetHeight &&
-          paragraph.current.offsetHeight / 24 >= line
-      )
+      setShow(paragraph.current?.offsetHeight < checker.current?.offsetHeight)
     }
     window.addEventListener('resize', resize)
     return () => window.removeEventListener('resize', resize)
   }, [])
 
   return (
-    <div>
+    <Box position="relative">
+      <Typography innerRef={checker} className={styles.checker}>
+        {children}
+      </Typography>
       <Typography
         innerRef={paragraph}
         className={clsx(styles.text, {
@@ -56,7 +53,7 @@ export default function LongParagraph({ children = <></>, line }) {
           {more ? 'Shrink' : 'Expand'}
         </Button>
       </Box>
-    </div>
+    </Box>
   )
 }
 LongParagraph.propTypes = {

@@ -1,17 +1,39 @@
 import React, { useContext, useState } from 'react'
-import PropTypes from 'prop-types'
-
-import { Box, Button, CircularProgress, Typography } from '@material-ui/core'
+import {
+  Box,
+  Button,
+  CircularProgress,
+  makeStyles,
+  TextField,
+  Typography
+} from '@material-ui/core'
 import AuthContext from './auth.context'
-import { PasswordField, UserField } from '@/components/inputs'
-import { useSnackBar } from '@/components/snackbar.provider'
+import { PasswordField } from '@/components/inputs'
 import { useRouter } from 'next/router'
-import { routes } from '@/utils/app'
-import { parse } from '@/utils/errors'
+import { useAuth } from '@/components/hooks/auth.provider'
+import { useSnackbar } from 'notistack'
+import qs from 'qs'
 
-export default function Login({ classes }) {
+const useStyles = makeStyles((theme) => ({
+  form: {
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  field: {
+    margin: theme.spacing(2, 0)
+  },
+  submit: {
+    margin: theme.spacing(4, 0),
+    height: 40
+  }
+}))
+
+export default function Login() {
   const router = useRouter()
-  const { show } = useSnackBar()
+  const classes = useStyles()
+  const { enqueueSnackbar } = useSnackbar()
+  const { revalidate } = useAuth()
   const { form, update, next } = useContext(AuthContext)
   const [processing, process] = useState(false)
 
@@ -20,23 +42,28 @@ export default function Login({ classes }) {
     process(true)
     const api = await import('./auth.api')
     try {
-      const user = await api.login(form)
-      show({ open: true, severity: 'success', message: 'Login successfully' })
-      router.push(
-        {
-          pathname: '/',
-          query: user
-        },
-        '/'
-      )
-    } catch (e) {
-      const error = parse(e)
-      if (error.code === 'auth/account-not-verified') {
-        api.resend(form.email)
+      await api.login({
+        username: form.username.trim(),
+        password: form.password
+      })
+      enqueueSnackbar('Login successfully', { variant: 'success' })
+
+      revalidate()
+
+      const { redirect } = router.query
+      router.push(redirect ?? '/')
+    } catch (error) {
+      // account must be verified before using services
+      if (error.code === 'AuthError/account-not-verified') {
         update((prev) => ({ ...prev, email: error.value }))
+        api.resend(error.value)
         next(2)
+        return enqueueSnackbar('Please verify your Account', {
+          variant: 'info'
+        })
       }
-      show({ open: true, severity: 'error', message: error.code })
+
+      enqueueSnackbar(error.message, { variant: 'error' })
     } finally {
       process(false)
     }
@@ -52,7 +79,11 @@ export default function Login({ classes }) {
       <Typography align="center" variant="h4">
         Sign in
       </Typography>
-      <UserField
+      <TextField
+        name="login-username"
+        label="Username"
+        type="text"
+        required
         className={classes.field}
         onChange={(e) =>
           update((prev) => ({ ...prev, username: e.target.value }))
@@ -60,6 +91,8 @@ export default function Login({ classes }) {
         value={form.username}
       />
       <PasswordField
+        label="Password"
+        name="login-password"
         className={classes.field}
         value={form.password}
         onChange={(e) =>
@@ -95,12 +128,4 @@ export default function Login({ classes }) {
       </Box>
     </form>
   )
-}
-
-Login.propTypes = {
-  classes: PropTypes.object
-}
-
-Login.defaultProps = {
-  classes: {}
 }

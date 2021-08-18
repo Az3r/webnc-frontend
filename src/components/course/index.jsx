@@ -1,4 +1,4 @@
-import Course from './course'
-import CourseSkeleton from './course-skeleton'
+import CourseCard from './course-card'
+import CourseRow from './course-row'
 
-export { Course, CourseSkeleton }
+export { CourseCard, CourseRow }

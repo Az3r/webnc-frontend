@@ -1,68 +1,15 @@
-import { resources } from '@/utils/api'
-import qs from 'qs'
-import { create } from '@/utils/errors'
-import { parse } from '@/utils/api'
+import { resources, fetchPOST } from '@/utils/api'
 
-export async function login({ username = '', password = '' }) {
-  const response = await fetch(resources.auth.login, {
-    method: 'POST',
-    body: qs.stringify({ username, password, email: username }),
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-  })
-  if (response.status >= 400) {
-    const data = await response.json()
-    const error = parse(data.error)
-    throw create(error.scope, error.type, error.value)
-  }
-  return response.json()
-}
+export const login = async ({ username = '', password = '' }) =>
+  fetchPOST(resources.auth.login, { username, password, email: username })
 
-export async function regsiter({ username = '', email = '', password = '' }) {
-  const response = await fetch(resources.auth.register, {
-    method: 'POST',
-    body: qs.stringify({ username, password, email }),
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-  })
-  if (response.status >= 400) {
-    const data = await response.json()
-    const error = parse(data.error)
-    throw create(error.scope, error.type, error.value)
-  }
-  return response.json()
-}
+export const register = async ({ username = '', email = '', password = '' }) =>
+  fetchPOST(resources.auth.register, { username, email, password })
 
-export async function verify({ email = '', code = -1 }) {
-  const response = await fetch(resources.auth.verify, {
-    method: 'POST',
-    body: qs.stringify({ email, OTPCode: code }),
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-  })
-  if (response.status >= 400) {
-    const data = await response.json()
-    const error = parse(data.error)
-    throw create(error.scope, error.type, error.value)
-  }
-  return true
-}
+export const verify = async ({ email = '', code = -1 }) =>
+  fetchPOST(resources.auth.verify, { email, otpCode: code })
 
-/** send an otp code to specific email */
-export async function resend(email) {
-  fetch(resources.auth.resend, {
-    method: 'POST',
-    body: qs.stringify({ email }),
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-  })
+export const resend = async (email) => {
+  fetchPOST(resources.auth.resend, { email })
   return true
 }

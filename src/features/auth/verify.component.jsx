@@ -2,25 +2,63 @@ import React, { useContext, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import AuthContext from './auth.context'
 import {
+  Box,
   Button,
   CircularProgress,
   IconButton,
   InputAdornment,
+  makeStyles,
   TextField,
-  Tooltip
+  Tooltip,
+  Typography
 } from '@material-ui/core'
 import { CancelScheduleSend, Send } from '@material-ui/icons'
-import { parse } from '@/utils/errors'
-import { useSnackBar } from '@/components/snackbar.provider'
 import { useRouter } from 'next/router'
-import { routes } from '@/utils/app'
+import { useSnackbar } from 'notistack'
+import qs from 'qs'
 
-const WELCOME =
-  "An OPT code has been sent to your email address, if you don't recieve one, you can click on the send button to the right"
+const useStyles = makeStyles((theme) => ({
+  opt_section: {
+    display: 'flex',
+    flexGrow: 1,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    margin: theme.spacing(4, 2)
+  },
+  opt: {
+    width: 36,
+    textAlign: 'center',
+    fontSize: theme.typography.h3.fontSize
+  },
+  opt_input: {
+    textAlign: 'center',
+    MozAppearance: 'textfield',
+    '&::-webkit-outer-spin-button': {
+      WebkitAppearance: 'none',
+      margin: 0
+    },
+    '&::-webkit-inner-spin-button': {
+      WebkitAppearance: 'none',
+      margin: 0
+    }
+  },
+  form: {
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  submit: {
+    margin: theme.spacing(4, 0),
+    height: 40
+  }
+}))
+
 const INPUTS = [0, 1, 2, 3, 4, 5]
-export default function VerifyEmail({ classes }) {
+
+export default function VerifyEmail() {
+  const classes = useStyles()
   const { form } = useContext(AuthContext)
-  const { show } = useSnackBar()
+  const { enqueueSnackbar } = useSnackbar()
 
   const router = useRouter()
   const [cooldown, setCooldown] = useState(0)
@@ -47,7 +85,7 @@ export default function VerifyEmail({ classes }) {
   async function send() {
     if (ready) {
       if (first) setFirst(false)
-      setCooldown(5)
+      setCooldown(30)
       resend(false)
 
       const api = await import('./auth.api')
@@ -79,21 +117,12 @@ export default function VerifyEmail({ classes }) {
         code: otp.join('')
       })
 
-      router.push(
-        {
-          pathname: '/',
-          query: form
-        },
-        '/'
-      )
-      show({
-        open: true,
-        severity: 'success',
-        message: 'Account verified'
-      })
+      const query = window.location.href.split('?', 2)[1]
+      const { redirect } = qs.parse(query)
+      router.push(redirect ?? '/')
+      enqueueSnackbar('Account verified', { variant: 'success' })
     } catch (e) {
-      const error = parse(e)
-      show({ open: true, severity: 'error', message: error.code })
+      enqueueSnackbar(e.message, { variant: 'error' })
     } finally {
       process(false)
     }
@@ -101,18 +130,17 @@ export default function VerifyEmail({ classes }) {
 
   const wait =
     cooldown > 0
-      ? `Please wait for ${cooldown} seconds before you can resend another one, you should also check in spam or junk mail folder`
+      ? `Please wait for ${cooldown} seconds before you can resend another one`
       : undefined
 
   return (
     <div className={classes.form}>
       <TextField
-        style={{ height: 128 }}
         tabIndex="-1"
         name="email"
         type="email"
         aria-label="email"
-        helperText={first ? WELCOME : wait}
+        helperText={wait}
         error={!ready}
         InputLabelProps={{ shrink: true }}
         InputProps={{
@@ -138,6 +166,13 @@ export default function VerifyEmail({ classes }) {
         label="Email"
         value={form.email || ''}
       />
+      <Box paddingY={2}>
+        <Typography color="textSecondary" variant="caption">
+          An OPT code has been sent to your email address, you should also check
+          in spam or junk mail folder if you don&apos;t recieve one, you can
+          click on the send button to the right
+        </Typography>
+      </Box>
       <div className={classes.opt_section}>
         {INPUTS.map((start) => (
           <TextField

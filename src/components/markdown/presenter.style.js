@@ -14,12 +14,9 @@ export default makeStyles((theme) => ({
     height: 1,
     margin: theme.spacing(1, 0)
   },
-  icon: { fontSize: 20 },
+  icon: { fontSize: '1rem' },
   list_icon: {
-    minWidth: 36
-  },
-  list_index: {
-    ...theme.typography.body1,
+    minWidth: 36,
     color: theme.palette.text.primary
   },
   todo_cancel: {
@@ -39,5 +36,8 @@ export default makeStyles((theme) => ({
   },
   table: {
     margin: theme.spacing(2, 0)
+  },
+  p: {
+    marginBottom: '16px'
   }
 }))

@@ -1,0 +1,225 @@
+{
+  "id": "60ed107a7685a82d7dae5ad2",
+  "name": "est",
+  "label": "ipsum esse do esse adipisicing",
+  "avatar": "https://picsum.photos/64.webp",
+  "others": [
+    {
+      "id": "60ed107a45842b154b10825e",
+      "name": "eiusmod",
+      "label": "incididunt esse"
+    },
+    {
+      "id": "60ed107a62f5b91320115dd0",
+      "name": "eu",
+      "label": "ex eu"
+    },
+    {
+      "id": "60ed107a67262f5ecf0dfb8b",
+      "name": "et",
+      "label": "dolor fugiat"
+    },
+    {
+      "id": "60ed107a1cc20f9ff752973e",
+      "name": "consequat",
+      "label": "non deserunt reprehenderit adipisicing"
+    },
+    {
+      "id": "60ed107a8ce87b953dfd6b49",
+      "name": "amet",
+      "label": "reprehenderit sit reprehenderit aute nostrud"
+    },
+    {
+      "id": "60ed107a1b5321e42656981b",
+      "name": "esse",
+      "label": "esse eu sunt enim"
+    },
+    {
+      "id": "60ed107a4b5c489c6a49e6fd",
+      "name": "mollit",
+      "label": "reprehenderit exercitation consequat pariatur veniam"
+    },
+    {
+      "id": "60ed107aca9c0e6105bb99cc",
+      "name": "exercitation",
+      "label": "aute"
+    },
+    {
+      "id": "60ed107a4116c454c9b72ed0",
+      "name": "dolore",
+      "label": "veniam"
+    },
+    {
+      "id": "60ed107a6792aa6cd5507de7",
+      "name": "ut",
+      "label": "pariatur magna quis enim"
+    }
+  ],
+  "courses": [
+    {
+      "id": "60ed107ac9718275649a8b81",
+      "tag": "",
+      "price": 212.71,
+      "title": "Culpa velit excepteur ullamco cillum.",
+      "bought": 3876555,
+      "rating": 3.65,
+      "discount": 0.04,
+      "lecturer": {
+        "name": "Juliet Patton",
+        "avatar": "https://picsum.photos/48.webp?random=180"
+      },
+      "reviewers": 266,
+      "thumbnail": "https://picsum.photos/400/150.webp?random=838",
+      "lastModified": 1449845751178
+    },
+    {
+      "id": "60ed107a20e02c30e52cec5d",
+      "tag": "new",
+      "price": 237.69,
+      "title": "Voluptate Lorem ad quis pariatur cupidatat dolor velit do ex.",
+      "bought": 2163033,
+      "rating": 1.82,
+      "discount": 0.89,
+      "lecturer": {
+        "name": "Guzman Buck",
+        "avatar": "https://picsum.photos/48.webp?random=191"
+      },
+      "reviewers": 321,
+      "thumbnail": "https://picsum.photos/400/150.webp?random=364",
+      "lastModified": 1605704494267
+    },
+    {
+      "id": "60ed107acb620b51cab41380",
+      "tag": "",
+      "price": 17.46,
+      "title": "Non esse est nisi eu Lorem.",
+      "bought": 2255217,
+      "rating": 4.26,
+      "discount": 0.17,
+      "lecturer": {
+        "name": "Mandy Hill",
+        "avatar": "https://picsum.photos/48.webp?random=36"
+      },
+      "reviewers": 98,
+      "thumbnail": "https://picsum.photos/400/150.webp?random=659",
+      "lastModified": 1485666297274
+    },
+    {
+      "id": "60ed107ac08038b90b10ccd1",
+      "tag": "",
+      "price": 889.64,
+      "title": "Excepteur esse cupidatat proident esse nisi sit exercitation Lorem.",
+      "bought": 259188,
+      "rating": 3.21,
+      "discount": 0.82,
+      "lecturer": {
+        "name": "Hall Graham",
+        "avatar": "https://picsum.photos/48.webp?random=757"
+      },
+      "reviewers": 363,
+      "thumbnail": "https://picsum.photos/400/150.webp?random=785",
+      "lastModified": 1466851058429
+    },
+    {
+      "id": "60ed107aabba61a469eda967",
+      "tag": "new",
+      "price": 14.81,
+      "title": "Irure magna dolor culpa in laborum ut irure esse aliquip eu nulla.",
+      "bought": 3086774,
+      "rating": 4.04,
+      "discount": 0.72,
+      "lecturer": {
+        "name": "Reynolds Cohen",
+        "avatar": "https://picsum.photos/48.webp?random=550"
+      },
+      "reviewers": 263,
+      "thumbnail": "https://picsum.photos/400/150.webp?random=664",
+      "lastModified": 1178025314662
+    },
+    {
+      "id": "60ed107ad00b6f949217798d",
+      "tag": "new",
+      "price": 678.52,
+      "title": "Culpa exercitation consectetur occaecat sunt.",
+      "bought": 1767110,
+      "rating": 4.73,
+      "discount": 0.88,
+      "lecturer": {
+        "name": "Miriam Ingram",
+        "avatar": "https://picsum.photos/48.webp?random=2"
+      },
+      "reviewers": 133,
+      "thumbnail": "https://picsum.photos/400/150.webp?random=264",
+      "lastModified": 1208284462397
+    },
+    {
+      "id": "60ed107a886bccc433460be2",
+      "tag": "bestseller",
+      "price": 247.69,
+      "title": "Et culpa nisi nisi esse consequat officia.",
+      "bought": 3239562,
+      "rating": 1.38,
+      "discount": 0.17,
+      "lecturer": {
+        "name": "Jewell Vasquez",
+        "avatar": "https://picsum.photos/48.webp?random=469"
+      },
+      "reviewers": 317,
+      "thumbnail": "https://picsum.photos/400/150.webp?random=624",
+      "lastModified": 1502159843310
+    },
+    {
+      "id": "60ed107a0a82394a15371747",
+      "tag": "",
+      "price": 490.14,
+      "title": "Aliqua officia quis excepteur veniam ipsum veniam et enim irure tempor excepteur et.",
+      "bought": 3008826,
+      "rating": 2.87,
+      "discount": 0.65,
+      "lecturer": {
+        "name": "Patrice William",
+        "avatar": "https://picsum.photos/48.webp?random=994"
+      },
+      "reviewers": 444,
+      "thumbnail": "https://picsum.photos/400/150.webp?random=591",
+      "lastModified": 1401347453614
+    },
+    {
+      "id": "60ed107acd652cd9619bb85e",
+      "tag": "new",
+      "price": 289.09,
+      "title": "Quis cupidatat occaecat consectetur enim adipisicing enim irure minim aliqua enim ex qui.",
+      "bought": 2856082,
+      "rating": 1.35,
+      "discount": 0.38,
+      "lecturer": {
+        "name": "Mcneil Day",
+        "avatar": "https://picsum.photos/48.webp?random=508"
+      },
+      "reviewers": 406,
+      "thumbnail": "https://picsum.photos/400/150.webp?random=132",
+      "lastModified": 1498267632571
+    },
+    {
+      "id": "60ed107a243cd3fe747dcd02",
+      "tag": "new",
+      "price": 566.46,
+      "title": "Esse est voluptate pariatur ullamco duis cillum magna exercitation proident aliquip Lorem laboris.",
+      "bought": 2032775,
+      "rating": 1.31,
+      "discount": 0.03,
+      "lecturer": {
+        "name": "Dickson Mcguire",
+        "avatar": "https://picsum.photos/48.webp?random=856"
+      },
+      "reviewers": 130,
+      "thumbnail": "https://picsum.photos/400/150.webp?random=608",
+      "lastModified": 1374879199181
+    }
+  ],
+  "category": {
+    "id": "60ed107ad6b3793522543a76",
+    "name": "est",
+    "label": "ut"
+  }
+}
