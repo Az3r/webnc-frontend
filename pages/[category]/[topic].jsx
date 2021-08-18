@@ -1,7 +1,6 @@
 export { default } from '@/features/topic'
 import mock from '@/mocks/topic.json'
 import { fetchGET, resources } from '@/utils/api'
-import { routes } from '@/utils/app'
 import { toCoursePropTypesV2 } from '@/utils/conversion'
 
 export async function getStaticProps({ params }) {
@@ -56,12 +55,8 @@ export async function getStaticProps({ params }) {
       revalidate: 3600
     }
   } catch (error) {
-    // redirect to current category for unknown topic
     return {
-      redirect: {
-        destination: routes.category(category),
-        permanent: true
-      }
+      notFound: true
     }
   }
 }
